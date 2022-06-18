@@ -17,6 +17,13 @@
       "options": {
         "lintFilePatterns": ["apps/react/src/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react/**/*.css"]
+      }
     }
   },
   "tags": []
