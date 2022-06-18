@@ -1,0 +1,65 @@
+{
+  "extends": [
+    "../../.eslintrc.json",
+    "plugin:react/jsx-runtime"
+  ],
+  "ignorePatterns": ["!**/*"],
+  "parserOptions": {
+    "project": ["apps/react/tsconfig.*?.json"]
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/member-ordering": 0,
+    "@typescript-eslint/naming-convention": 0,
+    "import/prefer-default-export": 0,
+    "class-methods-use-this": 0,
+    "max-classes-per-file": 0,
+    "react/prop-types": 0,
+    "max-len": ["warn", 120],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": ["state"]
+      }
+    ],
+    "arrow-parens": ["error", "as-needed"],
+    "react/function-component-definition": ["warn", {
+      "namedComponents": "arrow-function"
+    }],
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "jsdoc/require-param": [
+      "error",
+      {
+        "checkDestructuredRoots": false
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.tsx"],
+      "rules": {
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "TSInterfaceDeclaration[id.name=/Props$/] TSPropertySignature[readonly=undefined]",
+            "message": "Missing readonly modifier."
+          },
+          {
+            "selector": "TSInterfaceDeclaration[id.name=/Props$/] TSPropertySignature TSTypeAnnotation[typeAnnotation.type=TSArrayType]",
+            "message": "Missing readonly type modifier for array."
+          },
+          {
+            "selector": "TSTypeReference[typeName.name='FC'] TSTypeReference[typeName.name!='Props']",
+            "message": "Prefer `Props` name for the component's props interface"
+          }
+        ]
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

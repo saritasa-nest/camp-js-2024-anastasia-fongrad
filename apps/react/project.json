@@ -1,0 +1,23 @@
+{
+  "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
+  "sourceRoot": "apps/react/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@wanews/nx-vite:build",
+      "options": {}
+    },
+    "serve": {
+      "executor": "@wanews/nx-vite:serve",
+      "options": {}
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/react/src/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": []
+}
