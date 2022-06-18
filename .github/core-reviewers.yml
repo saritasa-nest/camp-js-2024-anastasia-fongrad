@@ -1,0 +1,8 @@
+reviewers:
+  # The default core reviewers.
+  # Reviews may only be requested from collaborators.
+  # TODO (Sakhno V): Add core reviewers usernames.
+  defaults:
+    - core_reviewer_1
+    - core_reviewer_2
+    - core_reviewer_3
