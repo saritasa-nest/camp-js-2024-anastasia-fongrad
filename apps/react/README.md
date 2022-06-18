@@ -5,13 +5,13 @@
 ```text
 src
 ├── api
-│   ├── dtos
 │   ├── mappers
-│   └── services
+│   ├── services
+│   ├── config.ts
+│   └── index.ts
 ├── assets
 ├── components
 ├── features
-├── models
 ├── routes
 │   └── guards
 ├── store
