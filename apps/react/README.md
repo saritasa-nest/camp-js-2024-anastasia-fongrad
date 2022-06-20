@@ -37,7 +37,6 @@ To add a new script or change the existing ones, read the corresponding [Nx docs
 ```text
 src
 ├── api
-│   ├── mappers
 │   ├── services
 │   ├── config.ts
 │   └── index.ts
