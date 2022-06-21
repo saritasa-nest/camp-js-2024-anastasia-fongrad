@@ -8,9 +8,9 @@ export namespace GenreMapper {
    * @param dto Genre dto.
    */
   export function fromDto(dto: GenreDto): Genre {
-    return {
+    return new Genre({
       id: dto.id,
       name: dto.name,
-    };
+    });
   }
 }

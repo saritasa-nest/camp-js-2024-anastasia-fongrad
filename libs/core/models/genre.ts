@@ -1,9 +1,19 @@
-/** Anime genre. */
-export interface Genre {
+import { Immerable, OmitImmerable } from './immerable';
+
+/** Genre. */
+export class Genre extends Immerable {
 
   /** Id. */
-  readonly id: number;
+  public readonly id: number;
 
   /** Name. */
-  readonly name: string;
+  public readonly name: string;
+
+  public constructor(data: PostInitArgs) {
+    super();
+    this.id = data.id;
+    this.name = data.name;
+  }
 }
+
+type PostInitArgs = OmitImmerable<Genre>;
