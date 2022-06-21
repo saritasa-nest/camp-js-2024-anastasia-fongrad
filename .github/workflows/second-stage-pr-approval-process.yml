@@ -1,0 +1,35 @@
+# Check if lead reviewers should be added to PR.
+name: 2 Stage of Approval PR process
+on:
+  pull_request_review:
+    types: [submitted]
+
+env:
+  APPROVALS_TO_CALL_LEADS: 2
+
+jobs:
+  onSubmit:
+    if: github.event.review.state == 'approved'
+    runs-on: ubuntu-latest
+    steps:
+      # Analyze approvals data.
+      - name: Analyze approvals data
+        # TODO (Sakhno V): Fork it to saritasa-nest profile,
+        # if it is going to work, and we are going to use it for the next camp.
+        uses: sakhnovict/multi-approved-event-action@1.0.9
+        id: approved
+        with:
+          approvalsCount: ${{ env.APPROVALS_TO_CALL_LEADS }}
+          # True when approvals count equals to
+          # APPROVALS_TO_CALL_LEADS, not >=, to be triggered only once.
+          onlyEqual: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Add leads to Pull Request review, if reached the required number of approvals.
+      - name: Request lead reviewers.
+        uses: necojackarc/auto-request-review@v0.7.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config: .github/lead-reviewers.yml
+        if: steps.approved.outputs.isApproved == 'true'
