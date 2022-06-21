@@ -6,7 +6,7 @@ React project boilerplate for JS camp. Contains examples of how features, compon
 
 For this project you can run the following scripts:
 
-### `nx run react:serve`
+### `npm run react:serve`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -14,7 +14,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
-### `nx run react:build`
+### `npm run react:build`
 
 Builds the app for production to the `dist` folder at the workspace root.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -22,11 +22,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-### `nx run react:lint`
+### `npm run react:lint`
 
 Runs `ESLint` for the project.
 
-### `nx run react:stylelint`
+### `npm run react:stylelint`
 
 Runs `Stylelint` for the project.
 

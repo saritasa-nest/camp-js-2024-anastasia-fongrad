@@ -1,9 +1,13 @@
 {
-  "name": "saritasa",
+  "name": "saritasa-frontend-boilerplate-camp",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "postinstall": "ngcc --properties es2020 browser module main"
+    "postinstall": "ngcc --properties es2020 browser module main",
+    "react:build": "nx run react:build",
+    "react:serve": "nx run react:serve",
+    "react:lint": "nx run react:lint",
+    "react:stylelint": "nx run react:stylelint"
   },
   "private": true,
   "dependencies": {
@@ -18,7 +22,7 @@
     "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
-    "react": "18.1.0",
+    "react": "18.0.0",
     "react-dom": "18.1.0",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
