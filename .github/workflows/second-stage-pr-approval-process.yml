@@ -14,6 +14,8 @@ jobs:
     steps:
       # Analyze approvals data.
       - name: Analyze approvals data
+        # TODO (Sakhno V): Fork it to saritasa-nest profile,
+        # if it is going to work, and we are going to use it for the next camp.
         uses: sakhnovict/multi-approved-event-action@1.0.9
         id: approved
         with:
