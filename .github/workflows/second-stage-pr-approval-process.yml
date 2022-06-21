@@ -1,4 +1,4 @@
-# Check should add lead reviewers to PR.
+# Check if lead reviewers should be added to PR.
 name: 2 Stage of Approval PR process
 on:
   pull_request_review:
@@ -18,13 +18,13 @@ jobs:
         id: approved
         with:
           approvalsCount: ${{ env.APPROVALS_TO_CALL_LEADS }}
-          # Then isApproved will be true only when approvals count equal 
-          # APPROVALS_TO_CALL_LEADS, not >=, for only once trigger.
-          onlyEqual: 'true'
+          # True when approvals count equals to
+          # APPROVALS_TO_CALL_LEADS, not >=, to be triggered only once.
+          onlyEqual: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      # Add Leads to Pull Request review, if reached the required number of approvals.
+
+      # Add leads to Pull Request review, if reached the required number of approvals.
       - name: Request lead reviewers.
         uses: necojackarc/auto-request-review@v0.7.0
         with:
