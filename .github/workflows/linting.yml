@@ -1,0 +1,21 @@
+name: Linting the code
+
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Install nodejs
+      - uses: nrwl/nx-set-shas@v2
+      - run: npm ci
+
+      - name: Lint typescript
+      - run: npx nx affected --target=lint
+      - name: Lint styles
+        run: npx nx affected --target=stylelint
