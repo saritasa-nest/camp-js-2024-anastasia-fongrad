@@ -1,7 +1,7 @@
 import { memo, FC } from 'react';
 import { Genre } from '@js-camp/core/models/genre';
 
-interface Props{
+interface Props {
 
   /** Genre. */
   readonly genre: Genre;
