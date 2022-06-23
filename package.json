@@ -7,7 +7,12 @@
     "react:build": "nx run react:build",
     "react:serve": "nx run react:serve",
     "react:lint": "nx run react:lint",
-    "react:stylelint": "nx run react:stylelint"
+    "react:stylelint": "nx run react:stylelint",
+    "angular:build": "nx run angular:build",
+    "angular:development": "nx run angular:build:development",
+    "angular:serve": "nx run angular:serve",
+    "angular:lint": "nx run angular:lint",
+    "angular:stylelint": "nx run angular:stylelint"
   },
   "private": true,
   "dependencies": {
@@ -70,6 +75,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
+    "eslint-plugin-rxjs": "^5.0.2",
     "jest": "27.5.1",
     "jest-preset-angular": "~11.1.2",
     "nx": "14.3.5",

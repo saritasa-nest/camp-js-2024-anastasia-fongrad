@@ -2,10 +2,10 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "plugins": ["@nrwl/nx"],
-  "extends": ["@saritasa/eslint-config-saritasa"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "extends": ["@saritasa/eslint-config-saritasa"],
       "rules": {
         "@nrwl/nx/enforce-module-boundaries": [
           "error",
