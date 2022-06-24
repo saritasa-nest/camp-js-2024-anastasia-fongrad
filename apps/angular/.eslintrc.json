@@ -66,7 +66,10 @@
       "files": ["*.html"],
       "extends": [
         "plugin:@nrwl/nx/angular-template"
-      ]
+      ],
+      "rules": {
+        "@angular-eslint/template/button-has-type": "error"
+      }
     },
     {
       "files": ["*.component.ts"],
