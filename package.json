@@ -9,7 +9,7 @@
     "react:lint": "nx run react:lint",
     "react:stylelint": "nx run react:stylelint",
     "angular:build": "nx run angular:build",
-    "angular:development": "nx run angular:build:development",
+    "angular:build:development": "nx run angular:build:development",
     "angular:serve": "nx run angular:serve",
     "angular:lint": "nx run angular:lint",
     "angular:stylelint": "nx run angular:stylelint"
