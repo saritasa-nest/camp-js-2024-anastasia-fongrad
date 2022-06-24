@@ -7,7 +7,7 @@
 Just run and visit <http://localhost:3000>
 
 ```bash
-npm run dev
+npm run vanilla:serve
 ```
 
 ### Build
@@ -15,15 +15,10 @@ npm run dev
 To build the App, run
 
 ```bash
-npm run build
+npm run vanilla:build
 ```
 
 You will see the generated files in dist that ready to be served.
-To serve builded project run command bellow.
-
-```bash
-npm run preview
-```
 
 ## Add new page
 
@@ -74,28 +69,18 @@ You can remove/rename example routes. `index.html` in `src` folder is root file.
 
 Boilerplate uses `eslint` to lint and fix your typescript. To see suggestions in your text editor, install extension.
 
-- [ESlint for VSCode](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- WebStorm has built in support by default.
-
 To manually run `eslint` over your code, you can perform command in the terminal.
 
 ```bash
-npm run eslint
+npm run vanilla:lint
 ```
 
 ## Stylelint
 
 Boilerplate uses `stylelint` to lint css. To see all errors and warnings in `css` files, install `stylelint` extension in your code editor.
 
-- [Stylelint for VSCode](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint)
-- WebStorm has built in support by default.
-
 To manually run `stylelint` over your code, you can perform command in the terminal.
 
 ```bash
-npm run stylelint
+npm run vanilla:stylelint
 ```
-
-## Editor config
-
-Consider installing [EditorConfig for VS Code](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) extension if you're using `VSCode`.
