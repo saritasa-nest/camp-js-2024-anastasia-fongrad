@@ -1,26 +1,17 @@
 a,
 :link,
 .link {
-  --color-primary: orange;
-  --color-primary-light: lightsalmon;
-  --color-primary-dark: orangered;
-  --color-link: var(--color-primary);
+  --link-color: var(--primary-color);
 
-  color: var(--color-link);
+  color: var(--link-color);
   text-decoration: none;
-  border-bottom: 1px solid var(--color-link);
+  border-bottom: 1px solid var(--link-color);
 }
 
 a:hover,
 :link:hover,
 .link:hover {
-  --color-link: var(--color-primary-dark);
-}
-
-a:visited,
-:link:visited,
-.link:visited {
-  --color-link: var(--color-primary-light);
+  --link-color: var(--primary-light-color);
 }
 
 .links {
