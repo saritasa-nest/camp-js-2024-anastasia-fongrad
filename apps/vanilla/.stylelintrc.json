@@ -1,3 +1,10 @@
 {
-  "extends": "stylelint-config-standard"
+  "extends": ["../../.stylelintrc.json"],
+  "ignoreFiles": ["!**/*"],
+  "overrides": [
+    {
+      "files": ["**/*.css", "**/*.scss"],
+      "rules": {}
+    }
+  ]
 }
