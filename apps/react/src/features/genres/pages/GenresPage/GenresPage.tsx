@@ -1,8 +1,8 @@
 import { memo, useEffect, FC } from 'react';
+import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 
-import { fetchGenres } from '../../../../store/genre/dispatchers';
-import { selectGenres, selectAreGenresLoading } from '../../../../store/genre/selectors';
-import { useAppDispatch, useAppSelector } from '../../../../store';
 import { GenreCard } from '../../components/GenreCard';
 
 /** Genres page component. */
