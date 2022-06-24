@@ -1,7 +1,7 @@
 {
   "projectType": "application",
   "sourceRoot": "apps/angular/src",
-  "prefix": "saritasa",
+  "prefix": "camp",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
