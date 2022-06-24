@@ -4,6 +4,7 @@
   "projects": {
     "angular": "apps/angular",
     "core": "libs/core",
-    "react": "apps/react"
+    "react": "apps/react",
+    "theme": "libs/theme"
   }
 }
