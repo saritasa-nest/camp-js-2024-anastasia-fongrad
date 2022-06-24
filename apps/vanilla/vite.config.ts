@@ -5,8 +5,6 @@ import { defineConfig } from 'vite';
 const root = resolve(__dirname, 'src/pages');
 const outDir = resolve(__dirname, '../../dist/apps/vanilla');
 
-console.log(outDir)
-
 // https://vitejs.dev/config/
 export default defineConfig({
   root,
