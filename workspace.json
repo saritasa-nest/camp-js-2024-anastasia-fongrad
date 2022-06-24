@@ -5,6 +5,7 @@
     "angular": "apps/angular",
     "core": "libs/core",
     "react": "apps/react",
-    "theme": "libs/theme"
+    "theme": "libs/theme",
+    "vanilla": "apps/vanilla"
   }
 }

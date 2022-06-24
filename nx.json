@@ -56,7 +56,18 @@
         "style": "css",
         "linter": "eslint"
       }
+    },
+    "@nxext/vite": {
+      "application": {
+        "linter": "eslint"
+      },
+      "library": {
+        "linter": "eslint"
+      }
     }
   },
-  "defaultProject": "react"
+  "defaultProject": "react",
+  "cli": {
+    "defaultCollection": "@nxext/vite"
+  }
 }

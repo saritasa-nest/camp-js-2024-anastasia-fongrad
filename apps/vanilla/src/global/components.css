@@ -1,0 +1,37 @@
+a,
+:link,
+.link {
+  --color-primary: orange;
+  --color-primary-light: lightsalmon;
+  --color-primary-dark: orangered;
+  --color-link: var(--color-primary);
+
+  color: var(--color-link);
+  text-decoration: none;
+  border-bottom: 1px solid var(--color-link);
+}
+
+a:hover,
+:link:hover,
+.link:hover {
+  --color-link: var(--color-primary-dark);
+}
+
+a:visited,
+:link:visited,
+.link:visited {
+  --color-link: var(--color-primary-light);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.default-layout {
+  --default-layout-width: 600px;
+
+  margin: 80px auto 0;
+  max-width: var(--default-layout-width);
+}
