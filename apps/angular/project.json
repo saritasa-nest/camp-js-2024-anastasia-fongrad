@@ -14,8 +14,7 @@
         "tsConfig": "apps/angular/tsconfig.app.json",
         "assets": ["apps/angular/src/favicon.ico", "apps/angular/src/assets"],
         "styles": [
-          "apps/angular/src/theme/styles.css",
-          "apps/angular/src/theme/material-custom-theme.scss"
+          "apps/angular/src/theme/styles.css"
         ],
         "scripts": []
       },
