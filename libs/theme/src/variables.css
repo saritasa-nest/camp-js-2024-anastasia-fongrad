@@ -1,0 +1,24 @@
+:root {
+  /*
+    Please use the following template to add new variables, dark/light valuations are optional.
+    --<name>-color: <color>;
+    --<name>-contrast-color: <contrast-color>;
+    --<name>-dark-color: <dark-color>;
+    --<name>-dark-contrast-color: <dark-contrast-color>;
+    --<name>-light-color: <light-color>;
+    --<name>-light-contrast-color: <light-contrast-color>;
+  */
+
+  /** Prevalent color in the application */
+  --primary-color: #808080;
+  --primary-contrast-color: white;
+  --primary-dark-color: #505050;
+  --primary-dark-contrast-color: white;
+  --primary-light-color: #a0a0a0;
+  --primary-light-contrast-color: black;
+
+  --background-color: white;
+  --background-contrast-color: black;
+
+  --error-color: red;
+}
