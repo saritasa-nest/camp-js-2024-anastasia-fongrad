@@ -18,10 +18,7 @@
     "module": "es2020",
     "lib": ["es2019", "dom"],
     "paths": {
-      "@js-camp/core": ["libs/core/"],
-      "@js-camp/core/*": ["libs/core/*"],
-      "@js-camp/react/store": ["apps/react/src/store/"],
-      "@js-camp/react/store/*": ["apps/react/src/store/*"]
+      "@js-camp/*": ["libs/*"]
     }
   },
   "exclude": ["node_modules", "tmp"],

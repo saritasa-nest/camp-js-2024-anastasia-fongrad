@@ -7,7 +7,8 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   resolve: {
     alias: {
-      '@js-camp/react/store/': `${path.resolve(__dirname, 'src/store')}/`,
+      '@js-camp/react/store': path.resolve(__dirname, 'src/store'),
+      '@js-camp': path.resolve(__dirname, '../../libs'),
     },
   },
 });

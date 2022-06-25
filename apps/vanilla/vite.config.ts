@@ -9,6 +9,11 @@ const outDir = resolve(__dirname, '../../dist/apps/vanilla');
 export default defineConfig({
   root,
   plugins: [],
+  resolve: {
+    alias: {
+      '@js-camp': resolve(__dirname, '../../libs'),
+    },
+  },
   build: {
     outDir,
     emptyOutDir: true,

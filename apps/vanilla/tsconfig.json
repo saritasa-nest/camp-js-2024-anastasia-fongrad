@@ -16,10 +16,13 @@
     "noImplicitReturns": true
   },
   "files": [],
-  "include": [],
+  "include": ["*/**.ts", "../../libs/core"],
   "references": [
     {
       "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.editor.json"
     }
   ]
 }
