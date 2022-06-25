@@ -1,5 +1,5 @@
 @import url("../global/index.css");
 
 .title {
-  color: gold;
+  color: var(--heading-color-1);
 }

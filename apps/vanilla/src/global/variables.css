@@ -1,0 +1,7 @@
+:root {
+  /* Using html color names here only for showcase,
+   * you shouldn't be using color names in real projects. */
+  --heading-color-1: gold;
+  --heading-color-2: darksalmon;
+  --heading-color-3: powderblue;
+}
