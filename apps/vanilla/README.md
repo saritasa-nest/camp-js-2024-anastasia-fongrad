@@ -18,7 +18,7 @@ To build the App, run
 npm run vanilla:build
 ```
 
-You will see the generated files in dist that ready to be served.
+You will see the generated files in dist folder that ready to be served.
 
 ## Add new page
 
@@ -65,9 +65,11 @@ export default defineConfig({
 
 You can remove/rename example routes. `index.html` in `src` folder is root file. It means, that your `localhost:3000` will be represented by `index.html` file.
 
-## ESlint
+## Linting
 
-Boilerplate uses `eslint` to lint and fix your typescript. To see suggestions in your text editor, install extension.
+You can read about linting on the [wiki](https://wiki.saritasa.rocks/frontend/tools/linting/).
+
+### ESlint
 
 To manually run `eslint` over your code, you can perform command in the terminal.
 
@@ -75,9 +77,7 @@ To manually run `eslint` over your code, you can perform command in the terminal
 npm run vanilla:lint
 ```
 
-## Stylelint
-
-Boilerplate uses `stylelint` to lint css. To see all errors and warnings in `css` files, install `stylelint` extension in your code editor.
+### Stylelint
 
 To manually run `stylelint` over your code, you can perform command in the terminal.
 
