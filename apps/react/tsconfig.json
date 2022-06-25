@@ -12,6 +12,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
+      "@js-camp/*": ["libs/*"],
       "@js-camp/react/store": ["apps/react/src/store/"],
       "@js-camp/react/store/*": ["apps/react/src/store/*"]
     }

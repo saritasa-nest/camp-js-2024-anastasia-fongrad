@@ -16,7 +16,7 @@
     "noImplicitReturns": true
   },
   "files": [],
-  "include": ["*/**.ts", "../../libs/core"],
+  "include": [],
   "references": [
     {
       "path": "./tsconfig.app.json"
