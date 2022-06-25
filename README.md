@@ -19,3 +19,4 @@ Workspace consists of applications and libraries. A lib contains the actual logi
 ### Libraries
 
 - [Core](libs/core/README.md)
+- [Theme](libs/theme/README.md)
