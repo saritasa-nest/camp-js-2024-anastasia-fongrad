@@ -2,7 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@js-camp/react/store": ["apps/react/src/store/"],
+      "@js-camp/react/store/*": ["apps/react/src/store/*"]
+    }
   },
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
