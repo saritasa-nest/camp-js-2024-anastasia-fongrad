@@ -12,10 +12,11 @@ Workspace consists of applications and libraries. A lib contains the actual logi
 
 ### Applications
 
-<!-- TODO (Panov A.): Add other apps. -->
+- [Vanilla](apps/vanilla/README.md)
 - [React](apps/react/README.md)
 - [Angular](apps/angular/README.md)
 
 ### Libraries
 
 - [Core](libs/core/README.md)
+- [Theme](libs/theme/README.md)
