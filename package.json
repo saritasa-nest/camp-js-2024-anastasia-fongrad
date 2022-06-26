@@ -12,7 +12,11 @@
     "angular:build:development": "nx run angular:build:development",
     "angular:serve": "nx run angular:serve",
     "angular:lint": "nx run angular:lint",
-    "angular:stylelint": "nx run angular:stylelint"
+    "angular:stylelint": "nx run angular:stylelint",
+    "vanilla:build": "nx run vanilla:build",
+    "vanilla:serve": "nx run vanilla:serve",
+    "vanilla:lint": "nx run vanilla:lint",
+    "vanilla:stylelint": "nx run vanilla:stylelint"
   },
   "private": true,
   "dependencies": {
@@ -56,7 +60,7 @@
     "@nrwl/web": "14.3.5",
     "@nrwl/workspace": "14.3.5",
     "@nxext/react": "^14.0.0",
-    "@nxext/vite": "^14.0.0",
+    "@nxext/vite": "^14.0.1",
     "@saritasa/eslint-config-saritasa": "^2.1.2",
     "@testing-library/react": "13.3.0",
     "@types/jest": "27.4.1",
@@ -86,6 +90,8 @@
     "stylelint-config-standard": "^25.0.0",
     "ts-jest": "27.1.4",
     "ts-node": "~10.8.0",
-    "typescript": "~4.7.2"
+    "typescript": "~4.7.2",
+    "vite": "^2.9.9",
+    "vite-plugin-eslint": "1.3.0"
   }
 }

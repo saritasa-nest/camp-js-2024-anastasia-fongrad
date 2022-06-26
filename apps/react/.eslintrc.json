@@ -55,6 +55,24 @@
           }
         ]
       }
+    },
+    {
+      "files": ["**/*.tsx", "**/*.ts"],
+      "rules": {
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": ["@js-camp/react/store", "@js-camp/react/store/*"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ]
+      }
     }
   ],
   "settings": {
