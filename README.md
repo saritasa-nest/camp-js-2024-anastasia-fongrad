@@ -31,7 +31,7 @@ You can read about linting on the [wiki](https://wiki.saritasa.rocks/frontend/to
 To manually run `eslint` over your code, you can perform command in the terminal.
 
 ```bash
-npm run [project]:eslint
+npm run [project]:lint
 ```
 
 To manually run `stylelint` over your code, you can perform command in the terminal.
