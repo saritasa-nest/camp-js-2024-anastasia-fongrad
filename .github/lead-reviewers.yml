@@ -1,7 +1,9 @@
 reviewers:
   # The default lead reviewers.
   # Reviews may only be requested from collaborators.
-  # TODO (Sakhno V): Add lead reviewers usernames.
   defaults:
-    - lead_reviewer_1
-    - lead_reviewer_2
+    - danilkukryakov
+    - dbitkovski
+    - pavel-romanov8
+    - chernodub
+    - pavelzadorin-saritasa
