@@ -1,35 +1,102 @@
 # Check if lead reviewers should be added to PR.
 name: 2 Stage of Approval PR process
 on:
+  pull_request:
+    types: [review_requested]
   pull_request_review:
     types: [submitted]
 
-env:
-  APPROVALS_TO_CALL_LEADS: 2
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
   onSubmit:
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
-      # Analyze approvals data.
-      - name: Analyze approvals data
-        # TODO (Sakhno V): Fork it to saritasa-nest profile,
-        # if it is going to work, and we are going to use it for the next camp.
-        uses: sakhnovict/multi-approved-event-action@1.0.9
-        id: approved
+      - name: Install nodejs
+        uses: actions/setup-node@v3
         with:
-          approvalsCount: ${{ env.APPROVALS_TO_CALL_LEADS }}
-          # True when approvals count equals to
-          # APPROVALS_TO_CALL_LEADS, not >=, to be triggered only once.
-          onlyEqual: "true"
+          node-version: 16.15.0
+
+      - name: Install `yaml` package
+        run: npm install yaml
+
+      - name: Checks whether the lead reviewers are invited
+        uses: actions/github-script@v6
+        id: leadsCheck
+        with:
+          result-encoding: string
+          config: .github/lead-reviewers.yml
+          script: |
+            const yaml = require('yaml');
+
+            const configPath = core.getInput('config');
+            const defaultRequestConfig = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            };
+
+            const { data: leadReviewersConfig } = await github.rest.repos.getContent({
+              ...defaultRequestConfig,
+              path: configPath,
+              ref: context.ref,
+            });
+
+            const decodedLeadReviewersConfig = Buffer.from(leadReviewersConfig.content, leadReviewersConfig.encoding).toString();
+            const leadReviewers = yaml.parse(decodedLeadReviewersConfig).reviewers.defaults;
+            const requestedReviewers = new Set();
+
+            const reviewersWithPendingReview = await github.rest.pulls.listRequestedReviewers(defaultRequestConfig);
+            const postedReviews = await github.rest.pulls.listReviews(defaultRequestConfig);
+
+            postedReviews.data.forEach(review => {
+              if (review.user?.login != null) {
+                requestedReviewers.add(review.user.login);
+              }
+            });
+
+            reviewersWithPendingReview.data.users.forEach(reviewer => requestedReviewers.add(reviewer.login));
+
+            let areLeadReviewersInvited = true;
+            for (const reviewer of leadReviewers) {
+              if (Array.from(requestedReviewers).find(requestedReviewer => requestedReviewer === reviewer) == null) {
+                areLeadReviewersInvited = false;
+                break;
+              }
+            }
+
+            if (areLeadReviewersInvited) {
+              core.setOutput('areLeadReviewersInvited', 'true');
+            } else {
+              core.setOutput('areLeadReviewersInvited', 'false');
+            }
+
+            console.group('Results:');
+            console.group('Lead reviewers:');
+            leadReviewers.forEach(reviewer => console.log(reviewer));
+            console.groupEnd();
+            console.group('All requested reviewers:');
+            requestedReviewers.forEach(reviewer => console.log(reviewer));
+            console.groupEnd();
+            console.log('Are the lead reviewers invited?', areLeadReviewersInvited);
+            console.groupEnd();
+
+      - uses: actions/checkout@v2
+
+      - name: Analyze approvals data
+        if: steps.leadsCheck.outputs.areLeadReviewersInvited == 'false'
+        uses: 'panov-aleksey-saritasa/PR-approved-check@1.0.0'
+        id: approvesCheck
+        with:
+          requiredApprovesAmount: 2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Add leads to Pull Request review, if reached the required number of approvals.
       - name: Request lead reviewers.
         uses: necojackarc/auto-request-review@v0.7.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/lead-reviewers.yml
-        if: steps.approved.outputs.isApproved == 'true'
+        if: steps.approvesCheck.outputs.isApproved == 'true'
