@@ -22,7 +22,7 @@ jobs:
       - name: Install `yaml` package
         run: npm install yaml
 
-      - name: Checks whether the lead reviewers are invited
+      - name: Check whether the lead reviewers are invited
         uses: actions/github-script@v6
         id: leadsCheck
         with:
@@ -85,8 +85,9 @@ jobs:
 
       - uses: actions/checkout@v2
 
-      - name: Analyze approvals data
+      - name: Check if the PR is approved
         if: steps.leadsCheck.outputs.areLeadReviewersInvited == 'false'
+        # https://github.com/panov-aleksey-saritasa/PR-approved-check
         uses: 'panov-aleksey-saritasa/PR-approved-check@1.0.0'
         id: approvesCheck
         with:
