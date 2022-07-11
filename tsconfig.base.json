@@ -16,7 +16,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "es2020",
-    "lib": ["es2019", "dom"],
+    "lib": ["es2019", "dom", "DOM.Iterable"],
     "paths": {
       "@js-camp/*": ["libs/*"],
       "@js-camp/react/store": ["apps/react/src/store/"],
