@@ -10,94 +10,31 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 jobs:
   onSubmit:
     runs-on: ubuntu-latest
     steps:
-      - name: Install nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.15.0
-
-      - name: Install `yaml` package
-        run: npm install yaml
-
-      - name: Check whether the lead reviewers are invited
-        uses: actions/github-script@v6
+      - name: Checks whether the lead reviewers are invited
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/leads-check
+        uses: saritasa-nest/saritasa-pr-approved-action@leads-check
         id: leadsCheck
         with:
-          result-encoding: string
           config: .github/lead-reviewers.yml
-          script: |
-            const yaml = require('yaml');
 
-            const configPath = core.getInput('config');
-            const defaultRequestConfig = {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
-            };
-
-            const { data: leadReviewersConfig } = await github.rest.repos.getContent({
-              ...defaultRequestConfig,
-              path: configPath,
-              ref: context.ref,
-            });
-
-            const decodedLeadReviewersConfig = Buffer.from(leadReviewersConfig.content, leadReviewersConfig.encoding).toString();
-            const leadReviewers = yaml.parse(decodedLeadReviewersConfig).reviewers.defaults;
-            const requestedReviewers = new Set();
-
-            const reviewersWithPendingReview = await github.rest.pulls.listRequestedReviewers(defaultRequestConfig);
-            const postedReviews = await github.rest.pulls.listReviews(defaultRequestConfig);
-
-            postedReviews.data.forEach(review => {
-              if (review.user?.login != null) {
-                requestedReviewers.add(review.user.login);
-              }
-            });
-
-            reviewersWithPendingReview.data.users.forEach(reviewer => requestedReviewers.add(reviewer.login));
-
-            let areLeadReviewersInvited = true;
-            for (const reviewer of leadReviewers) {
-              if (Array.from(requestedReviewers).find(requestedReviewer => requestedReviewer === reviewer) == null) {
-                areLeadReviewersInvited = false;
-                break;
-              }
-            }
-
-            if (areLeadReviewersInvited) {
-              core.setOutput('areLeadReviewersInvited', 'true');
-            } else {
-              core.setOutput('areLeadReviewersInvited', 'false');
-            }
-
-            console.group('Results:');
-            console.group('Lead reviewers:');
-            leadReviewers.forEach(reviewer => console.log(reviewer));
-            console.groupEnd();
-            console.group('All requested reviewers:');
-            requestedReviewers.forEach(reviewer => console.log(reviewer));
-            console.groupEnd();
-            console.log('Are the lead reviewers invited?', areLeadReviewersInvited);
-            console.groupEnd();
-
-      - uses: actions/checkout@v2
-
-      - name: Check if the PR is approved
+      - name: Checks if the PR is approved
         if: steps.leadsCheck.outputs.areLeadReviewersInvited == 'false'
-        # https://github.com/panov-aleksey-saritasa/PR-approved-check
-        uses: 'panov-aleksey-saritasa/PR-approved-check@1.0.0'
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/approves-check
+        uses: saritasa-nest/saritasa-pr-approved-action@approves-check
         id: approvesCheck
         with:
           requiredApprovesAmount: 2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Request lead reviewers.
+        if: steps.approvesCheck.outputs.isApproved == 'true'
         uses: necojackarc/auto-request-review@v0.7.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/lead-reviewers.yml
-        if: steps.approvesCheck.outputs.isApproved == 'true'
