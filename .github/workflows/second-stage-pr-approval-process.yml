@@ -1,35 +1,40 @@
 # Check if lead reviewers should be added to PR.
 name: 2 Stage of Approval PR process
 on:
+  pull_request:
+    types: [review_requested]
   pull_request_review:
     types: [submitted]
 
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 env:
-  APPROVALS_TO_CALL_LEADS: 2
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   onSubmit:
-    if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
     steps:
-      # Analyze approvals data.
-      - name: Analyze approvals data
-        # TODO (Sakhno V): Fork it to saritasa-nest profile,
-        # if it is going to work, and we are going to use it for the next camp.
-        uses: sakhnovict/multi-approved-event-action@1.0.9
-        id: approved
+      - name: Checks whether the lead reviewers are invited
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/leads-check
+        uses: saritasa-nest/saritasa-pr-approved-action@leads-check
+        id: leadsCheck
         with:
-          approvalsCount: ${{ env.APPROVALS_TO_CALL_LEADS }}
-          # True when approvals count equals to
-          # APPROVALS_TO_CALL_LEADS, not >=, to be triggered only once.
-          onlyEqual: "true"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          config: .github/lead-reviewers.yml
 
-      # Add leads to Pull Request review, if reached the required number of approvals.
+      - name: Checks if the PR is approved
+        if: steps.leadsCheck.outputs.areLeadReviewersInvited == 'false'
+        # https://github.com/saritasa-nest/saritasa-pr-approved-action/tree/approves-check
+        uses: saritasa-nest/saritasa-pr-approved-action@approves-check
+        id: approvesCheck
+        with:
+          requiredApprovesAmount: 2
+
       - name: Request lead reviewers.
+        if: steps.approvesCheck.outputs.isApproved == 'true'
         uses: necojackarc/auto-request-review@v0.7.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config: .github/lead-reviewers.yml
-        if: steps.approved.outputs.isApproved == 'true'
