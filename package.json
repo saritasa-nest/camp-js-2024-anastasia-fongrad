@@ -6,6 +6,9 @@
     "node": "^16.15.0",
     "npm": "^8.0.0"
   },
+  "volta": {
+    "node": "16.15.0"
+  },
   "scripts": {
     "postinstall": "ngcc --properties es2020 browser module main",
     "react:build": "nx run react:build",
