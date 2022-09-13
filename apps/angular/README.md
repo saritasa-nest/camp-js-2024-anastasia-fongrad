@@ -50,3 +50,24 @@ src
 └── theme
     └── elements
 ```
+
+## How to generate angular entities
+Open angular folder in terminal and use command: 
+```
+nx generate {entity-type} {entity-name}
+```
+or
+```
+nx g {entity-type} {entity-name}
+```
+### Entity types
+- Component:   `component` or `c`
+- Directive:   `directive` or `d`
+- Guard:       `guard` or `g`
+- Interceptor: `interceptor` or `i`
+- Pipe:        `pipe` or `p`
+- Service:     `service` or `s`
+
+## How to install @angular/material
+1. Install package `npm install @angular/material`
+2. Add @angular/material to project with nx cli `nx g @angular/material:ng-add`
