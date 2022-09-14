@@ -83,7 +83,7 @@
       }
     }
   },
-  "defaultProject": "react",
+  "defaultProject": "angular",
   "cli": {
     "defaultCollection": "@nrwl/angular"
   }
