@@ -67,7 +67,7 @@ nx g {entity-type} {entity-name}
 ```
 See entity types and details about angular generator [here](https://angular.io/cli/generate#ng-generate)
 
-## How to add angular libraries in project
+## How to add angular libraries to the project
 1. Install package `npm install {library}`
 2. Add library to project with nx cli `nx g {library}:ng-add`
 
