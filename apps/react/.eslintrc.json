@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "../../.eslintrc.json",
-    "plugin:react/jsx-runtime"
-  ],
+  "extends": ["../../.eslintrc.json", "plugin:react/jsx-runtime"],
   "ignorePatterns": ["!**/*"],
   "parserOptions": {
     "project": ["apps/react/tsconfig.*?.json"]
@@ -24,10 +21,16 @@
       }
     ],
     "arrow-parens": ["error", "as-needed"],
-    "react/function-component-definition": ["warn", {
-      "namedComponents": "arrow-function"
-    }],
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "react/function-component-definition": [
+      "warn",
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ],
     "jsdoc/require-param": [
       "error",
       {
@@ -59,7 +62,7 @@
     {
       "files": ["**/*.tsx", "**/*.ts"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
