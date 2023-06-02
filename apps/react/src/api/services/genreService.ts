@@ -9,9 +9,9 @@ const url = 'anime/genres/';
 
 export namespace GenresService {
 
-  /** Fetches a list of genres. */
-  export async function fetchGenres(): Promise<Genre[]> {
-    const { data } = await http.get<PaginationDto<GenreDto>>(url);
-    return data.results.map(dto => GenreMapper.fromDto(dto));
-  }
+	/** Fetches a list of genres. */
+	export async function fetchGenres(): Promise<Genre[]> {
+		const { data } = await http.get<PaginationDto<GenreDto>>(url);
+		return data.results.map(dto => GenreMapper.fromDto(dto));
+	}
 }

@@ -6,13 +6,13 @@ import { RootRouter } from './routes/RootRouter';
 import { store } from './store';
 
 export const App: FC = () => (
-  <Provider store={store}>
-    <BrowserRouter>
-      <div>
-        <Suspense fallback={<div>Brrr... here should be your loader component</div>}>
-          <RootRouter />
-        </Suspense>
-      </div>
-    </BrowserRouter>
-  </Provider>
+	<Provider store={store}>
+		<BrowserRouter>
+			<div>
+				<Suspense fallback={<div>Brrr... here should be your loader component</div>}>
+					<RootRouter />
+				</Suspense>
+			</div>
+		</BrowserRouter>
+	</Provider>
 );

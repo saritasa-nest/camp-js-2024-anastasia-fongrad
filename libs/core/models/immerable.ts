@@ -5,8 +5,8 @@ import { immerable } from 'immer';
  * @see Immer classes {@link https://immerjs.github.io/immer/complex-objects}.
  */
 export abstract class Immerable {
-  /** @inheritdoc */
-  private readonly [immerable] = true;
+	/** @inheritdoc */
+	private readonly [immerable] = true;
 }
 
 export type OmitImmerable<T> = Omit<T, '[immerable]'>;
