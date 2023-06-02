@@ -22,9 +22,7 @@
     "vanilla:build": "nx run vanilla:build",
     "vanilla:serve": "nx run vanilla:serve",
     "vanilla:lint": "nx run vanilla:lint",
-    "vanilla:stylelint": "nx run vanilla:stylelint",
-    "libs:lint": "nx run core:lint --fix",
-    "libs:stylelint": "nx run theme:stylelint"
+    "vanilla:stylelint": "nx run vanilla:stylelint"
   },
   "private": true,
   "dependencies": {
