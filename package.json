@@ -22,8 +22,8 @@
     "vanilla:serve": "nx run vanilla:serve",
     "vanilla:lint": "nx run vanilla:lint",
     "vanilla:stylelint": "nx run vanilla:stylelint",
-		"core:lint": "nx run core:lint",
-		"theme:stylelint": "nx run theme:stylelint"
+    "core:lint": "nx run core:lint",
+    "theme:stylelint": "nx run theme:stylelint"
   },
   "private": true,
   "dependencies": {
@@ -92,7 +92,7 @@
     "stylelint": "^14.9.1",
     "stylelint-config-standard": "^25.0.0",
     "ts-node": "10.9.1",
-    "typescript": "^4.9.5",
+    "typescript": "~5.0.2",
     "vite": "^3.1.8"
   }
 }
