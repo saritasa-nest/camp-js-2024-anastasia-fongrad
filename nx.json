@@ -42,7 +42,7 @@
     "@nx/angular:component": {
       "style": "css"
     },
-    "@nxext/vite": {
+    "@nx/vite": {
       "application": {
         "linter": "eslint"
       },
@@ -67,7 +67,7 @@
   },
   "defaultProject": "react",
   "cli": {
-    "defaultCollection": "@nxext/vite"
+    "defaultCollection": "@nx/vite"
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
