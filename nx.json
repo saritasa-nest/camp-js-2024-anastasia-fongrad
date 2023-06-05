@@ -8,7 +8,7 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e", "stylelint"]
+        "cacheableOperations": ["build", "lint", "e2e", "stylelint"]
       }
     }
   },
@@ -19,9 +19,6 @@
     },
     "lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
-    },
-    "test": {
-      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     }
   },
   "workspaceLayout": {
@@ -32,12 +29,10 @@
     "@nx/angular:application": {
       "style": "css",
       "linter": "eslint",
-      "unitTestRunner": "jest",
       "e2eTestRunner": "none"
     },
     "@nx/angular:library": {
-      "linter": "eslint",
-      "unitTestRunner": "jest"
+      "linter": "eslint"
     },
     "@nx/angular:component": {
       "style": "css"
@@ -72,15 +67,11 @@
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [
-      "{workspaceRoot}/.stylelintrc.json",
-      "{workspaceRoot}/babel.config.json"
+      "{workspaceRoot}/.stylelintrc.json"
     ],
     "production": [
       "default",
-      "!{projectRoot}/.eslintrc.json",
-      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
-      "!{projectRoot}/tsconfig.spec.json",
-      "!{projectRoot}/jest.config.[jt]s"
+      "!{projectRoot}/.eslintrc.json"
     ]
   }
 }

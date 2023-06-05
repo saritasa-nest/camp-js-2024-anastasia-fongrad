@@ -78,14 +78,6 @@
         "lintFilePatterns": ["apps/angular/**/*.ts", "apps/angular/**/*.html"]
       }
     },
-    "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/apps/angular"],
-      "options": {
-        "jestConfig": "apps/angular/jest.config.ts",
-        "passWithNoTests": true
-      }
-    },
     "stylelint": {
       "executor": "nx-stylelint:lint",
       "outputs": ["{options.outputFile}"],
