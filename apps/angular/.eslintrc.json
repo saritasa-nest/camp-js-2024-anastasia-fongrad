@@ -1,7 +1,5 @@
 {
-  "extends": [
-    "../../.eslintrc.json"
-  ],
+  "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
   "overrides": [
     {
@@ -10,15 +8,23 @@
         "project": ["apps/angular/tsconfig.*?.json"],
         "createDefaultProgram": true
       },
-      "extends": [
-        "plugin:@angular-eslint/recommended"
-      ],
+      "extends": ["plugin:@angular-eslint/recommended"],
       "plugins": ["rxjs"],
       "rules": {
-        "rxjs/no-exposed-subjects": [
+        "@nrwl/nx/enforce-module-boundaries": [
           "error",
-          { "allowProtected": true }
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": ["@js-camp/angular/", "@js-camp/angular/*"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
         ],
+        "rxjs/no-exposed-subjects": ["error", { "allowProtected": true }],
         "rxjs/finnish": [
           "error",
           {
@@ -57,16 +63,14 @@
         "rxjs/no-unsafe-takeuntil": [
           "error",
           {
-              "alias": ["takeUntilDestroy"]
+            "alias": ["takeUntilDestroy"]
           }
         ]
       }
     },
     {
       "files": ["*.html"],
-      "extends": [
-        "plugin:@nrwl/nx/angular-template"
-      ],
+      "extends": ["plugin:@nrwl/nx/angular-template"],
       "rules": {
         "@angular-eslint/template/button-has-type": "error"
       }

@@ -91,7 +91,7 @@
       "executor": "nx-stylelint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/react/**/*.css"]
+        "lintFilePatterns": ["apps/angular/**/*.css"]
       }
     }
   },
