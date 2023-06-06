@@ -11,6 +11,19 @@
       "extends": ["plugin:@angular-eslint/recommended"],
       "plugins": ["rxjs"],
       "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": ["@js-camp/angular/", "@js-camp/angular/*"],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ]
+          }
+        ],
         "rxjs/no-exposed-subjects": ["error", { "allowProtected": true }],
         "rxjs/finnish": [
           "error",

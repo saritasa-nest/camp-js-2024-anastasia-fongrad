@@ -11,7 +11,7 @@ interface Props {
 
 /** Card with genre data. */
 const GenreCardComponent: FC<Props> = ({ genre }) => (
-	<div className={styles['card']}>
+	<div className={styles.card}>
 		<h2>{genre.name}</h2>
 		<span>Id - {genre.id}</span>
 	</div>

@@ -19,8 +19,9 @@
     "lib": ["es2019", "dom", "DOM.Iterable"],
     "paths": {
       "@js-camp/*": ["libs/*"],
-      "@js-camp/react/store": ["apps/react/src/store/"],
-      "@js-camp/react/store/*": ["apps/react/src/store/*"]
+      "@js-camp/angular/*": ["apps/angular/src/*"],
+      "@js-camp/react/*": ["apps/react/src/*"],
+      "@js-camp/vanilla/*": ["apps/vanilla/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"],

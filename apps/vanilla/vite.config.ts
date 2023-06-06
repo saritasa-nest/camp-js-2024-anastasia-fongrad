@@ -11,6 +11,7 @@ export default defineConfig({
   plugins: [],
   resolve: {
     alias: {
+      '@js-camp/vanilla': resolve(__dirname, 'src'),
       '@js-camp': resolve(__dirname, '../../libs'),
     },
   },
