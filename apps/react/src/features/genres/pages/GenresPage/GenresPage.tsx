@@ -7,24 +7,24 @@ import { GenreCard } from '../../components/GenreCard';
 
 /** Genres page component. */
 const GenresPageComponent: FC = () => {
-  const dispatch = useAppDispatch();
-  const genres = useAppSelector(selectGenres);
-  const isLoading = useAppSelector(selectAreGenresLoading);
+	const dispatch = useAppDispatch();
+	const genres = useAppSelector(selectGenres);
+	const isLoading = useAppSelector(selectAreGenresLoading);
 
-  useEffect(() => {
-    dispatch(fetchGenres());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(fetchGenres());
+	}, [dispatch]);
 
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
+	if (isLoading) {
+		return <div>Loading</div>;
+	}
 
-  return (
-    <>
-      <h1>Genres</h1>
-      {genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
-    </>
-  );
+	return (
+		<>
+			<h1>Genres</h1>
+			{genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
+		</>
+	);
 };
 
 export const GenresPage = memo(GenresPageComponent);

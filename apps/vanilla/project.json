@@ -1,4 +1,5 @@
 {
+  "name": "vanilla",
   "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "apps/vanilla/src",
   "projectType": "application",
@@ -15,9 +16,8 @@
         "command": "cd apps/vanilla && npx vite build"
       }
     },
-
     "lint": {
-      "executor": "@nrwl/linter:eslint",
+      "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": ["apps/vanilla/src/**/*.{ts,tsx,js,jsx}"]

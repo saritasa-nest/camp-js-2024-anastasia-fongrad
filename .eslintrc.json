@@ -1,13 +1,15 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nx"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
       "extends": ["@saritasa/eslint-config-saritasa"],
       "rules": {
-        "@nrwl/nx/enforce-module-boundaries": [
+				"no-tabs": "off",
+				"@typescript-eslint/indent": ["error", "tab"],
+        "@nx/enforce-module-boundaries": [
           "error",
           {
             "enforceBuildableLibDependency": true,
