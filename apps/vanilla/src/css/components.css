@@ -1,28 +1,36 @@
-a,
-:link,
-.link {
-  --link-color: var(--primary-color);
+@import url("./variables.css");
 
-  color: var(--link-color);
-  text-decoration: none;
-  border-bottom: 1px solid var(--link-color);
-}
-
-a:hover,
-:link:hover,
-.link:hover {
-  --link-color: var(--primary-light-color);
-}
-
-.links {
+.catalog__list {
   display: flex;
-  flex-wrap: wrap;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
-.default-layout {
-  --default-layout-width: 600px;
+.filters__search,
+.filters__select {
+  display: block;
+  max-width: 100%;
+}
 
-  margin: 80px auto 0;
-  max-width: var(--default-layout-width);
+.catalog__h2 {
+  font-size: var(--subtitle);
+  font-weight: 600;
+  line-height: 24px; /* 133.333% */
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.book {
+  max-width: 167px;
+}
+
+.book__title {
+  font-size: var(--body-small);
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.book__cover {
+  border-radius: 24px;
+  border: 1px solid var(--border);
 }

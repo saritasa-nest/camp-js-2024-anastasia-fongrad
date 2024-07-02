@@ -1,5 +1,13 @@
 :root {
-  --heading-color-1: #ffd700;
-  --heading-color-2: #e9967a;
-  --heading-color-3: #b0e0e6;
+  --surface: rgb(255 255 255 / 100%);
+  --surface-overlay: rgb(255 255 255 / 5%);
+  --on-surface: rgb(0 0 0 / 100%);
+  --on-surface-dim: rgb(0 0 0 / 50%);
+  --primary: rgb(241 89 36 / 100%);
+  --on-primary: rgb(255 255 255);
+  --border: rgb(0 0 0 / 15%);
+  --subtitle: 18px;
+  --body: 20px;
+  --body-small: 16px;
+  --logo: 20px;
 }

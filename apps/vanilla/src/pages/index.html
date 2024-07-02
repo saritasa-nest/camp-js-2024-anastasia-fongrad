@@ -3,7 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./index.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="./index.css" />
     <title>Book Catalog</title>
   </head>
   <body class="default-layout">
@@ -14,44 +17,84 @@
 				</h1>
 			</a>
 		</header>
-		<main>
+		<main class="main">
 			<section class="catalog">
 				<article class="catalog__section">
-					<h2>2020 YEAR</h2>
+					<h2 class="catalog__h2">2020 YEAR</h2>
 					<div class="catalog__list">
 						<div class="catalog__book book">
-							<img src="" alt="" class="book__cover">
-							<h3 class="book__title">Book 1</h3>
+							<img src="../img/05.png" alt="Refactoring UI cover" class="book__cover">
+							<h3 class="book__title">Refactoring UI</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/09.png" alt="Master the Skill of Debugging CSS cover" class="book__cover">
+							<h3 class="book__title">Master the Skill of Debugging CSS</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/03.png" alt="Blue Period cover" class="book__cover">
+							<h3 class="book__title">Blue Period</h3>
 						</div>
 					</div>
 				</article>
 				<article class="catalog__section">
-					<h2>2020 YEAR</h2>
+					<h2 class="catalog__h2">1980 YEAR</h2>
 					<div class="catalog__list">
 						<div class="catalog__book book">
-							<img src="" alt="" class="book__cover">
-							<h3 class="book__title">Book 2</h3>
+							<img src="../img/02.png" alt="Yokohama Kaidashi Kikou cover" class="book__cover">
+							<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/08.png" alt="Learning JavaScript Design Patterns cover" class="book__cover">
+							<h3 class="book__title">Learning JavaScript Design Patterns</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/01.png" alt="Yotsuba to! cover" class="book__cover">
+							<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/07.png" alt="Domain-Driven Design cover" class="book__cover">
+							<h3 class="book__title">Domain-Driven Design</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/06.png" alt="Implementing Domain-Driven Design cover" class="book__cover">
+							<h3 class="book__title">Implementing Domain-Driven Design</h3>
+						</div>
+						<div class="catalog__book book">
+							<img src="../img/04.png" alt="7 Навыков высокэффективных... cover" class="book__cover">
+							<h3 class="book__title">7 Навыков высокэффективных...</h3>
 						</div>
 					</div>
 				</article>
 			</section>
-			<aside>
-				<h2>FILTERS</h2>
-				<form action="" class="filters">
-					<input type="text" class="search">
-					<select name="" id="">
-						<option value="1">1</option>
-						<option value="2">2</option>
+			<aside class="filters">
+				<h2 class="catalog__h2">FILTERS</h2>
+				<form action="" class="filters__form">
+					<label for="search"></label>
+					<input type="text" class="filters__search" name="search" placeholder="e.g. “Refactoring”">
+					<select class="filters__select" name="filter">
+						<option selected disabled value="">Choose sort field</option>
+						<option value="1">Year of Publication</option>
+						<option value="2">Authors</option>
+						<option value="2">Rating</option>
 					</select>
-					<label class="container">One
+					<label class="container">
 						<input type="checkbox" checked="checked">
+						Show comics
 						<span class="checkmark"></span>
 					</label>
 				</form>
 			</aside>
 		</main>
-		<footer>
-
+		<footer class="footer">
+			<a href="/" class="footer__logo">
+				Books app
+			</a>
+			<div class="footer__copyrigth">
+				© 2023
+			</div>
+			<button class="footer__button">
+				Go to top
+			</button>
 		</footer>
     <script type="module" src="./index.ts"></script>
   </body>
