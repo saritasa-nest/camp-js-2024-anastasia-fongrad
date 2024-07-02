@@ -4,13 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./index.css" />
-    <title>Vite App</title>
+    <title>Book Catalog</title>
   </head>
   <body class="default-layout">
-    <h1 class="title">Main page ⚡</h1>
-    <div class="links">
-      <a href="example/">Go to example page</a>
-    </div>
+		<header>
+			<a href="/" class="header__logo">
+				<h1>
+					📚 Books app
+				</h1>
+			</a>
+		</header>
+		<main>
+			<section class="catalog">
+				<article class="catalog__section">
+					<h2>2020 YEAR</h2>
+					<div class="catalog__list">
+						<div class="catalog__book book">
+							<img src="" alt="" class="book__cover">
+							<h3 class="book__title">Book 1</h3>
+						</div>
+					</div>
+				</article>
+				<article class="catalog__section">
+					<h2>2020 YEAR</h2>
+					<div class="catalog__list">
+						<div class="catalog__book book">
+							<img src="" alt="" class="book__cover">
+							<h3 class="book__title">Book 2</h3>
+						</div>
+					</div>
+				</article>
+			</section>
+			<aside>
+				<h2>FILTERS</h2>
+				<form action="" class="filters">
+					<input type="text" class="search">
+					<select name="" id="">
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+					<label class="container">One
+						<input type="checkbox" checked="checked">
+						<span class="checkmark"></span>
+					</label>
+				</form>
+			</aside>
+		</main>
+		<footer>
+
+		</footer>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>
