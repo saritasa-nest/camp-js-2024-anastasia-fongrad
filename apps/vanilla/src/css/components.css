@@ -65,11 +65,14 @@ main {
 }
 
 .book {
-  max-width: 167px;
+  max-width: calc(20% - (16px *  2));
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 306px;
+}
+
+.book img {
+  width: 100%;
 }
 
 .book__title {
@@ -92,6 +95,7 @@ main {
   top: 88px;
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .filters__form {
@@ -99,6 +103,7 @@ main {
   flex-direction: column;
   min-width: 320px;
   gap: 24px;
+  position: relative;
 }
 
 .filters__search,
@@ -106,12 +111,36 @@ main {
   display: block;
   border-radius: 16px;
   background-color: var(--surface-overlay);
-  color: var(--on-surface-dim);
   border: 0;
   padding: 8px 16px;
   line-height: 32px;
   font-size: var(--body);
-  max-width: 100%;
+  width: 100%;
+}
+
+.filters__search {
+  padding: 8px 16px 8px 48px;
+}
+
+.filters__search::placeholder {
+  color: var(--on-surface-dim);
+}
+
+.filters__select-wrapper {
+  width: 100%;
+}
+
+.filters__search-wrapper::before {
+  content: url("../../assets/img/icons/magnifying-glass.png");
+  position: absolute;
+  left: 16px;
+  top: 12px;
+}
+
+.filters__select {
+  height: 48px;
+  appearance: none;
+  cursor: pointer;
 }
 
 .filters__select:focus,
@@ -131,11 +160,10 @@ main {
 }
 
 .filters__select-wrapper::after {
-  content: "";
+  content: url("../../assets/img/icons/heroicons_chevron-down.svg");
   position: absolute;
   right: 10px;
   top: 50%;
-  background: url("../../assets/img/icons/heroicons_chevron-down.svg") no-repeat center center / contain;
 }
 
 .filters__checkbox-container {
@@ -177,8 +205,8 @@ main {
   content: "";
   position: absolute;
   display: none;
-  left: 5px;
-  top: 5px;
+  left: 3px;
+  top: 3px;
   width: 10px;
   height: 10px;
   border-radius: 2px;
@@ -226,6 +254,16 @@ main {
 
 /* Media */
 
+@media screen and (max-width: 1280px) {
+  .aside__filters {
+    position: static;
+  }
+
+  .container {
+    margin: 0 40px;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .aside__filters {
     position: static;
@@ -243,11 +281,21 @@ main {
     flex-direction: column-reverse;
     gap: 24px;
   }
+
+  .book {
+    max-width: calc(25% - (16px * 3 / 4));
+    width: calc(25% - (16px * 2 / 3));
+  }
+
+  .container {
+    margin: 0 24px;
+  }
 }
 
 @media screen and (max-width: 360px) {
   .filters__form {
     flex-direction: column;
+    min-width: 100%;
   }
 
   .footer {
@@ -263,6 +311,7 @@ main {
   }
 
   .book {
-    flex: 0 1 50%;
+    flex: 0 0 50%;
+    max-width: calc(50% - 8px);
   }
 }

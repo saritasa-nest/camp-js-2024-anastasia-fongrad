@@ -7,6 +7,10 @@ html {
   color: var(--on-surface);
 }
 
+* {
+  box-sizing: border-box;
+}
+
 .container {
   margin: 0 auto;
   max-width: 1244px;
@@ -17,6 +21,7 @@ html {
   display: flex;
   flex-direction: column;
   gap: 24px;
+
 }
 
 h1,
