@@ -1,9 +1,50 @@
 @import url("./variables.css");
 
+/* Header */
+
+.header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.header__container {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.header__logo,
+.footer__logo {
+  font-size: var(--logo);
+  font-weight: bold;
+  line-height: 24px;
+}
+
+.header__link,
+.footer__logo {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Catalog */
+
+.catalog {
+  max-width: 900px;
+}
+
 .catalog__list {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.catalog__section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .filters__search,
@@ -15,22 +56,59 @@
 .catalog__h2 {
   font-size: var(--subtitle);
   font-weight: 600;
-  line-height: 24px; /* 133.333% */
+  line-height: 24px;
   letter-spacing: 0.9px;
   text-transform: uppercase;
 }
 
 .book {
   max-width: 167px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 306px;
 }
 
 .book__title {
   font-size: var(--body-small);
   font-weight: 500;
   line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .book__cover {
   border-radius: 24px;
   border: 1px solid var(--border);
+}
+
+/* Aside */
+
+.aside__filters {
+  position: fixed;
+  top: 88px;
+}
+
+/* Footer */
+
+.footer {
+  display: flex;
+  padding: 24px 0 72px;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  justify-content: space-between;
+}
+
+.footer__nav {
+  display: flex;
+  gap: 32px;
+}
+
+.footer__main {
+  display: flex;
+  gap: 8px;
+}
+
+.footer__link {
+  color: inherit;
 }

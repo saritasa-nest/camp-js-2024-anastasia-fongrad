@@ -1,8 +1,30 @@
+@import url("./variables.css");
+
 html {
   font-size: 20px;
   font-family: Inter, sans-serif;
+  background-color: var(--surface);
+  color: var(--on-surface);
 }
 
 main {
   display: flex;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1244px;
+  width: 100%;
+}
+
+.default-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
 }
