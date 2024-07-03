@@ -32,8 +32,15 @@
 
 /* Catalog */
 
+main {
+  display: flex;
+}
+
 .catalog {
   max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .catalog__list {
@@ -215,4 +222,47 @@
 .footer__logo:hover,
 .footer__link:hover {
   color: var(--on-surface-dim);
+}
+
+/* Media */
+
+@media screen and (max-width: 768px) {
+  .aside__filters {
+    position: static;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    gap: 24px;
+  }
+
+  .filters__form {
+    flex-flow: row wrap;
+    gap: 32px;
+  }
+
+  main {
+    flex-direction: column-reverse;
+    gap: 24px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filters__form {
+    flex-direction: column;
+  }
+
+  .footer {
+    padding: 24px 0 52px;
+    flex-direction: column;
+    gap: 40px;
+    align-items: flex-end;
+  }
+
+  .footer__nav {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .book {
+    flex: 0 1 50%;
+  }
 }

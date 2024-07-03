@@ -7,10 +7,6 @@ html {
   color: var(--on-surface);
 }
 
-main {
-  display: flex;
-}
-
 .container {
   margin: 0 auto;
   max-width: 1244px;
