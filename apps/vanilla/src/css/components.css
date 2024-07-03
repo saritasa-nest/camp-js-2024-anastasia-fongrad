@@ -21,6 +21,7 @@
   font-size: var(--logo);
   font-weight: bold;
   line-height: 24px;
+  cursor: pointer;
 }
 
 .header__link,
@@ -130,6 +131,57 @@
   background: url("../../assets/img/icons/heroicons_chevron-down.svg") no-repeat center center / contain;
 }
 
+.filters__checkbox-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+  padding-left: 35px;
+}
+
+.filters__checkbox-container > input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.filters__checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--surface);
+  border-radius: 4px;
+  border: 2px solid var(--border);
+}
+
+.filters__checkbox-container:hover input ~ .filters__checkmark {
+  background-color: var(--surface-overlay);
+}
+
+.filters__checkbox-container input:checked ~ .filters__checkmark {
+  border: 2px solid var(--primary);
+}
+
+.filters__checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: var(--primary);
+}
+
+.filters__checkbox-container input:checked ~ .filters__checkmark::after {
+  display: block;
+}
+
 /* Footer */
 
 .footer {
@@ -152,4 +204,15 @@
 
 .footer__link {
   color: inherit;
+}
+
+.footer__button-top {
+  all: unset;
+  cursor: pointer;
+}
+
+.footer__button-top:hover,
+.footer__logo:hover,
+.footer__link:hover {
+  color: var(--on-surface-dim);
 }
