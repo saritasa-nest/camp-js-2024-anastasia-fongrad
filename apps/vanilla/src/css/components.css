@@ -11,7 +11,7 @@
 }
 
 .header__container {
-  padding: 20px 0;
+  padding: var(--space-5) 0;
   border-bottom: 1px solid var(--border);
   background: var(--surface);
 }
@@ -37,22 +37,22 @@ main {
 }
 
 .catalog {
-  max-width: 900px;
+  max-width: var(--space-225);
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: var(--space-10);
 }
 
 .catalog__list {
   display: flex;
-  gap: 16px;
+  gap: var(--space-4);
   flex-wrap: wrap;
 }
 
 .catalog__section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-6);
 }
 
 .catalog__h2,
@@ -65,10 +65,10 @@ main {
 }
 
 .book {
-  max-width: calc(20% - (16px *  2));
+  max-width: calc(20% - (var(--space-4) *  2));
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .book img {
@@ -84,7 +84,7 @@ main {
 }
 
 .book__cover {
-  border-radius: 24px;
+  border-radius: var(--space-6);
   border: 1px solid var(--border);
 }
 
@@ -92,34 +92,34 @@ main {
 
 .aside__filters {
   position: fixed;
-  top: 88px;
+  top: var(--space-22);
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: var(--space-6);
 }
 
 .filters__form {
   display: flex;
   flex-direction: column;
-  min-width: 320px;
-  gap: 24px;
+  min-width: var(--space-80);
+  gap: var(--space-6);
   position: relative;
 }
 
 .filters__search,
 .filters__select {
   display: block;
-  border-radius: 16px;
+  border-radius: var(--space-4);
   background-color: var(--surface-overlay);
   border: 0;
-  padding: 8px 16px;
+  padding: var(--space-2) var(--space-4);
   line-height: 32px;
   font-size: var(--body);
   width: 100%;
 }
 
 .filters__search {
-  padding: 8px 16px 8px 48px;
+  padding: var(--space-2) var(--space-4) var(--space-2) var(--space-12);
 }
 
 .filters__search::placeholder {
@@ -133,12 +133,12 @@ main {
 .filters__search-wrapper::before {
   content: url("../../assets/img/icons/magnifying-glass.png");
   position: absolute;
-  left: 16px;
-  top: 12px;
+  left: var(--space-4);
+  top: var(--space-3);
 }
 
 .filters__select {
-  height: 48px;
+  height: var(--space-12);
   appearance: none;
   cursor: pointer;
 }
@@ -150,7 +150,7 @@ main {
 }
 
 .filters__select > option {
-  line-height: 32px;
+  line-height: var(--space-8);
   font-size: var(--body);
   color: var(--on-surface);
 }
@@ -162,7 +162,7 @@ main {
 .filters__select-wrapper::after {
   content: url("../../assets/img/icons/heroicons_chevron-down.svg");
   position: absolute;
-  right: 10px;
+  right: var(--space-4);
   top: 50%;
 }
 
@@ -171,7 +171,7 @@ main {
   position: relative;
   cursor: pointer;
   user-select: none;
-  padding-left: 35px;
+  padding-left: var(--space-9);
 }
 
 .filters__checkbox-container > input {
@@ -184,12 +184,12 @@ main {
 
 .filters__checkmark {
   position: absolute;
-  top: 0;
+  top: var(--space-1);
   left: 0;
-  height: 20px;
-  width: 20px;
+  height: var(--space-5);
+  width: var(--space-5);
   background-color: var(--surface);
-  border-radius: 4px;
+  border-radius: var(--space-1);
   border: 2px solid var(--border);
 }
 
@@ -221,7 +221,7 @@ main {
 
 .footer {
   display: flex;
-  padding: 24px 0 72px;
+  padding: var(--space-6) 0 var(--space-18);
   border-top: 1px solid var(--border);
   background: var(--surface);
   justify-content: space-between;
@@ -229,12 +229,12 @@ main {
 
 .footer__nav {
   display: flex;
-  gap: 32px;
+  gap: var(--space-8);
 }
 
 .footer__main {
   display: flex;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .footer__link {
@@ -267,28 +267,28 @@ main {
 @media screen and (max-width: 768px) {
   .aside__filters {
     position: static;
-    padding-bottom: 24px;
+    padding-bottom: var(--space-6);
     border-bottom: 1px solid var(--border);
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   .filters__form {
     flex-flow: row wrap;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
   main {
     flex-direction: column-reverse;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   .book {
-    max-width: calc(25% - (16px * 3 / 4));
-    width: calc(25% - (16px * 2 / 3));
+    max-width: calc(25% - (var(--space-4) * 3 / 4));
+    width: calc(25% - (var(--space-4) * 2 / 3));
   }
 
   .container {
-    margin: 0 24px;
+    margin: 0 var(--space-6);
   }
 }
 
@@ -299,9 +299,9 @@ main {
   }
 
   .footer {
-    padding: 24px 0 52px;
+    padding: var(--space-6) 0 var(--space-13);
     flex-direction: column;
-    gap: 40px;
+    gap: var(--space-10);
     align-items: flex-end;
   }
 
@@ -312,6 +312,6 @@ main {
 
   .book {
     flex: 0 0 50%;
-    max-width: calc(50% - 8px);
+    max-width: calc(50% - var(--space-4) / 2);
   }
 }
