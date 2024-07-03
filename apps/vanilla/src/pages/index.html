@@ -70,20 +70,22 @@
 			</section>
 			<aside class="aside">
 				<div class="aside__filters">
-					<h2 class="catalog__h2">FILTERS</h2>
+					<h2 class="filters__h2">FILTERS</h2>
 					<form action="" class="filters__form">
 						<label for="search"></label>
 						<input type="text" class="filters__search" name="search" placeholder="e.g. “Refactoring”">
-						<select class="filters__select" name="filter">
-							<option selected disabled value="">Choose sort field</option>
-							<option value="1">Year of Publication</option>
-							<option value="2">Authors</option>
-							<option value="2">Rating</option>
-						</select>
-						<label class="container">
-							<input type="checkbox" checked="checked">
+						<div class="filters__select-wrapper">
+							<select class="filters__select" name="filter">
+								<option selected disabled value="">Choose sort field</option>
+								<option value="1">Year of Publication</option>
+								<option value="2">Authors</option>
+								<option value="2">Rating</option>
+							</select>
+						</div>
+						<label class="filters__checkbox-container">
+							<input class="filters__checkbox"type="checkbox" checked="checked">
 							Show comics
-							<span class="checkmark"></span>
+							<span class="filters__checkmark"></span>
 						</label>
 					</form>
 				</div>

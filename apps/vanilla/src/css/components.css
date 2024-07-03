@@ -47,13 +47,8 @@
   gap: 24px;
 }
 
-.filters__search,
-.filters__select {
-  display: block;
-  max-width: 100%;
-}
-
-.catalog__h2 {
+.catalog__h2,
+.filters__h2 {
   font-size: var(--subtitle);
   font-weight: 600;
   line-height: 24px;
@@ -87,6 +82,52 @@
 .aside__filters {
   position: fixed;
   top: 88px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filters__form {
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  gap: 24px;
+}
+
+.filters__search,
+.filters__select {
+  display: block;
+  border-radius: 16px;
+  background-color: var(--surface-overlay);
+  color: var(--on-surface-dim);
+  border: 0;
+  padding: 8px 16px;
+  line-height: 32px;
+  font-size: var(--body);
+  max-width: 100%;
+}
+
+.filters__select:focus,
+.filters__search:focus {
+  outline: none;
+  border: 1px solid var(--border);
+}
+
+.filters__select > option {
+  line-height: 32px;
+  font-size: var(--body);
+  color: var(--on-surface);
+}
+
+.filters__select > option:disabled {
+  color: var(--on-surface-dim);
+}
+
+.filters__select-wrapper::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  background: url("../../assets/img/icons/heroicons_chevron-down.svg") no-repeat center center / contain;
 }
 
 /* Footer */
