@@ -13,7 +13,7 @@
 		<header class="header">
 			<div class="container header__container">
 				<h1 class="header__logo">
-					<a href="/" class="header__link"></a>
+					<a href="/" class="header__link">
 						📚 Books app
 					</a>
 				</h1>
@@ -24,49 +24,49 @@
 				<section class="catalog">
 					<article class="catalog__section">
 						<h2 class="catalog__heading">2020 year</h2>
-						<div class="catalog__list">
-							<div class="catalog__book book">
+						<ul class="catalog__list">
+							<li class="catalog__book book">
 								<img src="assets/img/05.png" alt="Refactoring UI cover" class="book__cover">
 								<h3 class="book__title">Refactoring UI</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/09.png" alt="Master the Skill of Debugging CSS cover" class="book__cover">
 								<h3 class="book__title">Master the Skill of Debugging CSS</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/03.png" alt="Blue Period cover" class="book__cover">
 								<h3 class="book__title">Blue Period</h3>
-							</div>
-						</div>
+							</li>
+						</ul>
 					</article>
 					<article class="catalog__section">
 						<h2 class="catalog__heading">1980 year</h2>
-						<div class="catalog__list">
-							<div class="catalog__book book">
+						<ul class="catalog__list">
+							<li class="catalog__book book">
 								<img src="assets/img/02.png" alt="Yokohama Kaidashi Kikou cover" class="book__cover">
 								<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/08.png" alt="Learning JavaScript Design Patterns cover" class="book__cover">
 								<h3 class="book__title">Learning JavaScript Design Patterns</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/01.png" alt="Yotsuba to! cover" class="book__cover">
 								<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/07.png" alt="Domain-Driven Design cover" class="book__cover">
 								<h3 class="book__title">Domain-Driven Design</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/06.png" alt="Implementing Domain-Driven Design cover" class="book__cover">
 								<h3 class="book__title">Implementing Domain-Driven Design</h3>
-							</div>
-							<div class="catalog__book book">
+							</li>
+							<li class="catalog__book book">
 								<img src="assets/img/04.png" alt="7 Навыков высокэффективных... cover" class="book__cover">
 								<h3 class="book__title">7 Навыков высокэффективных...</h3>
-							</div>
-						</div>
+							</li>
+						</ul>
 					</article>
 				</section>
 				<aside class="aside">
@@ -97,17 +97,21 @@
 		</main>
 		<footer class="footer">
 			<div class="container footer__container">
-				<div class="footer__nav">
-					<div class="footer__main">
-						<a href="/" class="footer__logo">
-							Books app
-						</a>
-						<div class="footer__copyright">
-							© 2023
-						</div>
-					</div>
+				<nav class="footer__nav">
+					<ul class="footer__main footer__list">
+						<li>
+							<a href="/" class="footer__logo">
+								Books app
+							</a>
+						</li>
+						<li>
+							<div class="footer__copyright">
+								© 2023
+							</div>
+						</li>
+					</ul>
 					<a href="/" class="footer__link">Github</a>
-				</div>
+				</nav>
 				<button type="button" class="footer__button-top">
 					Go to top ↑
 				</button>

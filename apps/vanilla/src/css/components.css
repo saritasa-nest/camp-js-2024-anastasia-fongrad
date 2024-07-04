@@ -14,12 +14,14 @@
   font-weight: var(--text-bold);
   line-height: var(--logo-line-height);
   cursor: pointer;
+  font-family: Inter, sans-serif;
 }
 
 .header__link,
 .footer__logo {
   color: inherit;
   text-decoration: none;
+  font-family: Inter, sans-serif;
 }
 
 /* Catalog */
@@ -109,6 +111,7 @@
   font-size: var(--body);
   font-weight: var(--text-regular);
   width: 100%;
+  font-family: Inter, sans-serif;
 }
 
 .filters__search {
@@ -117,6 +120,7 @@
 
 .filters__search::placeholder {
   color: var(--on-surface-dim);
+  font-family: Inter, sans-serif;
 }
 
 .filters__search-wrapper {
@@ -176,6 +180,7 @@
   cursor: pointer;
   height: 0;
   width: 0;
+  font-family: Inter, sans-serif;
 }
 
 .filters__check-mark {
@@ -235,11 +240,13 @@
 
 .footer__link {
   color: inherit;
+  font-family: Inter, sans-serif;
 }
 
 .footer__button-top {
   all: unset;
   cursor: pointer;
+  font-family: Inter, sans-serif;
 }
 
 .footer__button-top:hover,
