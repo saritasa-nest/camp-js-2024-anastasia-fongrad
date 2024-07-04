@@ -39,9 +39,8 @@
 .catalog__list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-	grid-column-gap: var(--space-4);
-	grid-row-gap: var(--space-4);
-	width: 100%;
+  grid-gap: var(--space-4);
+  width: 100%;
 }
 
 .catalog__heading {
@@ -265,8 +264,8 @@
   }
 
   .catalog__list {
-		grid-template-columns: repeat(4, 1fr);
-	}
+    grid-template-columns: repeat(4, 1fr);
+  }
 
   .aside__filters {
     position: sticky;
@@ -306,8 +305,8 @@
   }
 
   .catalog__list {
-		grid-template-columns: repeat(2, 1fr);
-	}
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .filters__search,
   .filters__select,
