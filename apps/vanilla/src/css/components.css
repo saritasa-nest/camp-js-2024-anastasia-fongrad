@@ -26,9 +26,13 @@
 
 /* Catalog */
 
+.main {
+  padding-bottom: var(--space-6);
+}
+
 .main__container {
   display: flex;
-  gap: var(--space-6);
+  gap: 0 var(--space-6);
 }
 
 .catalog {
@@ -40,9 +44,8 @@
 
 .catalog__list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   grid-gap: var(--space-4);
-  width: 100%;
 }
 
 .catalog__heading {
@@ -80,9 +83,14 @@
 .book__cover {
   border-radius: var(--space-6);
   border: 1px solid var(--border);
+  width: 100%;
 }
 
 /* Aside */
+
+.aside {
+  width: 320px;
+}
 
 .aside__filters {
   position: fixed;
@@ -96,7 +104,6 @@
 .filters__form {
   display: flex;
   flex-direction: column;
-  min-width: var(--space-80);
   gap: var(--space-6);
 }
 
@@ -112,6 +119,7 @@
   font-weight: var(--text-regular);
   width: 100%;
   font-family: Inter, sans-serif;
+  box-sizing: border-box;
 }
 
 .filters__search {
@@ -133,7 +141,7 @@
 }
 
 .filters__search-wrapper::before {
-  content: url("../../assets/img/icons/magnifying-glass.svg");
+  content: url("../pages/assets/img/icons/magnifying-glass.svg");
   position: absolute;
   left: var(--space-4);
   top: var(--space-3);
@@ -160,7 +168,7 @@
 }
 
 .filters__select-wrapper::after {
-  content: url("../../assets/img/icons/chevron-down.svg");
+  content: url("../pages/assets/img/icons/chevron-down.svg");
   position: absolute;
   right: var(--space-4);
   top: var(--space-3);
@@ -263,22 +271,32 @@
   .footer {
     padding: 0 var(--space-10);
   }
+
+  .catalog {
+    max-width: 100%;
+  }
+
+  .aside {
+    width: 276px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .aside {
     position: relative;
+    width: 100%;
   }
 
   .catalog__list {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .aside__filters {
-    position: sticky;
-    top: 0;
-    padding-bottom: var(--space-6);
+    position: fixed;
+    top: 72px;
+    padding: var(--space-6) 0;
     border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     gap: var(--space-6);
   }
 
@@ -293,7 +311,6 @@
   .footer {
     padding: 0 var(--space-6);
     flex-direction: column-reverse;
-    gap: var(--space-6);
   }
 
   .filters__search,
@@ -312,7 +329,7 @@
   }
 
   .catalog__list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .filters__search,
