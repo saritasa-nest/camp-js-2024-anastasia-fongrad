@@ -23,7 +23,7 @@
 			<div class="container main__container">
 				<section class="catalog">
 					<article class="catalog__section">
-						<h2 class="catalog__h2">2020 YEAR</h2>
+						<h2 class="catalog__h2">2020 year</h2>
 						<div class="catalog__list">
 							<div class="catalog__book book">
 								<img src="../../assets/img/05.png" alt="Refactoring UI cover" class="book__cover">
@@ -40,7 +40,7 @@
 						</div>
 					</article>
 					<article class="catalog__section">
-						<h2 class="catalog__h2">1980 YEAR</h2>
+						<h2 class="catalog__h2">1980 year</h2>
 						<div class="catalog__list">
 							<div class="catalog__book book">
 								<img src="../../assets/img/02.png" alt="Yokohama Kaidashi Kikou cover" class="book__cover">
@@ -71,14 +71,14 @@
 				</section>
 				<aside class="aside">
 					<div class="aside__filters">
-						<h2 class="filters__h2">FILTERS</h2>
+						<h2 class="filters__h2">filters</h2>
 						<form action="" class="filters__form">
 							<div class="filters__search-wrapper">
 								<label for="search"></label>
-								<input type="text" class="filters__search" name="search" placeholder="e.g. “Refactoring”">
+								<input type="text" class="filters__search" id=search name="search" placeholder="e.g. “Refactoring”">
 							</div>
 							<div class="filters__select-wrapper">
-								<select class="filters__select" name="filter">
+								<select id="filter" class="filters__select" name="filter">
 									<option selected disabled value="">Choose sort field</option>
 									<option value="1">Year of Publication</option>
 									<option value="2">Authors</option>
@@ -86,9 +86,9 @@
 								</select>
 							</div>
 							<label class="filters__checkbox-container">
-								<input class="filters__checkbox"type="checkbox" checked="checked">
+								<input id="checkbox" class="filters__checkbox"type="checkbox" checked="checked">
 								Show comics
-								<span class="filters__checkmark"></span>
+								<span class="filters__check-mark"></span>
 							</label>
 						</form>
 					</div>

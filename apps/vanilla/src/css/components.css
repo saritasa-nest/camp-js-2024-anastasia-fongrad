@@ -20,8 +20,8 @@
 .header__logo,
 .footer__logo {
   font-size: var(--logo);
-  font-weight: bold;
-  line-height: 24px;
+  font-weight: var(--text-bold);
+  line-height: var(--logo-line-height);
   cursor: pointer;
 }
 
@@ -60,8 +60,8 @@
 .catalog__h2,
 .filters__h2 {
   font-size: var(--subtitle);
-  font-weight: 600;
-  line-height: 24px;
+  font-weight: var(--text-semibold);
+  line-height: var(--subtitle-line-height);
   letter-spacing: 0.9px;
   text-transform: uppercase;
 }
@@ -76,8 +76,9 @@
 
 .book__title {
   font-size: var(--body-small);
-  font-weight: 500;
-  line-height: 24px;
+  font-weight: var(--text-medium);
+  line-height: var(--body-small-line-height);
+  max-height: 3em;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -111,8 +112,9 @@
   background-color: var(--surface-overlay);
   border: 0;
   padding: var(--space-2) var(--space-4);
-  line-height: 32px;
+  line-height: var(--body-line-height);
   font-size: var(--body);
+  font-weight: var(--text-regular);
   width: 100%;
 }
 
@@ -134,7 +136,7 @@
 }
 
 .filters__search-wrapper::before {
-  content: url("../../assets/img/icons/magnifying-glass.png");
+  content: url("../../assets/img/icons/magnifying-glass.svg");
   position: absolute;
   left: var(--space-4);
   top: var(--space-3);
@@ -153,8 +155,6 @@
 }
 
 .filters__select > option {
-  line-height: var(--space-8);
-  font-size: var(--body);
   color: var(--on-surface);
 }
 
@@ -163,7 +163,7 @@
 }
 
 .filters__select-wrapper::after {
-  content: url("../../assets/img/icons/heroicons_chevron-down.svg");
+  content: url("../../assets/img/icons/chevron-down.svg");
   position: absolute;
   right: var(--space-4);
   top: var(--space-3);
@@ -185,9 +185,9 @@
   width: 0;
 }
 
-.filters__checkmark {
+.filters__check-mark {
   position: absolute;
-  top: var(--space-1);
+  top: 6px;
   left: 0;
   height: var(--space-5);
   width: var(--space-5);
@@ -196,15 +196,15 @@
   border: 2px solid var(--border);
 }
 
-.filters__checkbox-container:hover input ~ .filters__checkmark {
+.filters__checkbox-container:hover input ~ .filters__check-mark {
   background-color: var(--surface-overlay);
 }
 
-.filters__checkbox-container input:checked ~ .filters__checkmark {
+.filters__checkbox-container input:checked ~ .filters__check-mark {
   border: 2px solid var(--primary);
 }
 
-.filters__checkmark::after {
+.filters__check-mark::after {
   content: "";
   position: absolute;
   display: none;
@@ -216,7 +216,7 @@
   background-color: var(--primary);
 }
 
-.filters__checkbox-container input:checked ~ .filters__checkmark::after {
+.filters__checkbox-container input:checked ~ .filters__check-mark::after {
   display: block;
 }
 
