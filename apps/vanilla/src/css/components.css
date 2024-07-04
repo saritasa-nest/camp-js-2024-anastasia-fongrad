@@ -8,6 +8,7 @@
   display: flex;
   justify-content: center;
   width: 100%;
+  z-index: 2; /* Place header on top of the content */
 }
 
 .header__container {
@@ -32,8 +33,9 @@
 
 /* Catalog */
 
-main {
+.main__container {
   display: flex;
+  gap: var(--space-6);
 }
 
 .catalog {
@@ -65,14 +67,11 @@ main {
 }
 
 .book {
-  max-width: calc(20% - (var(--space-4) *  2));
+  max-width: calc(20% - var(--space-4));
+  min-width: var(--space-25);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-}
-
-.book img {
-  width: 100%;
 }
 
 .book__title {
@@ -92,7 +91,7 @@ main {
 
 .aside__filters {
   position: fixed;
-  top: var(--space-22);
+  top: var(--space-25);
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
@@ -103,7 +102,6 @@ main {
   flex-direction: column;
   min-width: var(--space-80);
   gap: var(--space-6);
-  position: relative;
 }
 
 .filters__search,
@@ -126,7 +124,12 @@ main {
   color: var(--on-surface-dim);
 }
 
+.filters__search-wrapper {
+  position: relative;
+}
+
 .filters__select-wrapper {
+  position: relative;
   width: 100%;
 }
 
@@ -163,7 +166,7 @@ main {
   content: url("../../assets/img/icons/heroicons_chevron-down.svg");
   position: absolute;
   right: var(--space-4);
-  top: 50%;
+  top: var(--space-3);
 }
 
 .filters__checkbox-container {
@@ -219,7 +222,7 @@ main {
 
 /* Footer */
 
-.footer {
+.footer__container {
   display: flex;
   padding: var(--space-6) 0 var(--space-18);
   border-top: 1px solid var(--border);
@@ -259,8 +262,10 @@ main {
     position: static;
   }
 
-  .container {
-    margin: 0 40px;
+  .header,
+  .main .container,
+  .footer {
+    padding: 0 var(--space-10);
   }
 }
 
@@ -274,12 +279,8 @@ main {
 
   .filters__form {
     flex-flow: row wrap;
-    gap: var(--space-8);
-  }
-
-  main {
-    flex-direction: column-reverse;
-    gap: var(--space-6);
+    gap: var(--space-6) var(--space-8);
+    align-items: center;
   }
 
   .book {
@@ -287,8 +288,18 @@ main {
     width: calc(25% - (var(--space-4) * 2 / 3));
   }
 
-  .container {
-    margin: 0 var(--space-6);
+  .header,
+  .main .container,
+  .footer {
+    padding: 0 var(--space-6);
+    flex-direction: column-reverse;
+    gap: var(--space-6);
+  }
+
+  .filters__search,
+  .filters__select,
+  .filters__select-wrapper {
+    width: var(--space-64);
   }
 }
 
@@ -296,9 +307,17 @@ main {
   .filters__form {
     flex-direction: column;
     min-width: 100%;
+    align-items: flex-start;
+    gap: var(--space-6);
   }
 
-  .footer {
+  .filters__search,
+  .filters__select,
+  .filters__select-wrapper {
+    width: 100%;
+  }
+
+  .footer__container {
     padding: var(--space-6) 0 var(--space-13);
     flex-direction: column;
     gap: var(--space-10);
@@ -307,6 +326,8 @@ main {
 
   .footer__nav {
     justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-end;
     width: 100%;
   }
 
