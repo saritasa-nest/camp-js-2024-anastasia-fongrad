@@ -1,3 +1,5 @@
+@import url("./variables.css");
+
 .main {
   padding-bottom: var(--space-6);
 }
@@ -9,13 +11,13 @@
 
 .container {
   margin: 0 auto;
-  max-width: 1244px;
+  max-width: var(--container-desktop-width);
   width: 100%;
 }
 
 .header__container {
   padding: var(--space-5) 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: var(--default-border);
   background: var(--surface);
 }
 
@@ -28,7 +30,7 @@
 .footer__container {
   display: flex;
   padding: var(--space-6) 0 var(--space-18);
-  border-top: 1px solid var(--border);
+  border-top: var(--default-border);
   background: var(--surface);
   justify-content: space-between;
 }

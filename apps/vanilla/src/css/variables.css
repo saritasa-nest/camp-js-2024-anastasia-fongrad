@@ -1,5 +1,6 @@
 :root {
   /* Colors */
+
   --surface: rgb(255 255 255 / 100%);
   --surface-overlay: rgb(242 242 242 / 100%);
   --on-surface: rgb(0 0 0 / 100%);
@@ -8,25 +9,29 @@
   --on-primary: rgb(255 255 255);
   --border: rgb(0 0 0 / 15%);
 
-  /* Font sizes */
+  /* Font size variables */
+
   --subtitle: 0.9em;
   --body: 20px;
   --body-small: 0.8em;
   --logo: 1em;
 
-  /* Font line heights */
+  /* Font line height variables */
+
   --subtitle-line-height: 133.3%;
   --body-line-height: 160%;
   --body-small-line-height: 150%;
   --logo-line-height: 120%;
 
-  /* Font weight */
+  /* Font weight variables */
+
   --text-regular: 400;
   --text-medium: 500;
   --text-semibold: 600;
   --text-bold: 700;
 
-  /* Spaces */
+  /* Space variables */
+
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -41,10 +46,29 @@
   --space-13: 52px;
   --space-18: 72px;
   --space-22: 88px;
-  --space-23: 92px;
-  --space-25: 100px;
-  --space-64: 256px;
-  --space-69: 276px;
-  --space-80: 320px;
-  --space-225: 900px;
+
+  /* Size variables */
+
+  --aside-desktop-width: 320px;
+  --aside-tablet-width: 276px;
+  --aside-mobile-width: 100%;
+  --container-desktop-width: 1244px;
+  --select-height: 48px;
+  --input-width-desktop: 100%;
+  --input-width-tablet: 256px;
+  --input-width-mobile: 100%;
+  --checkbox-size-outside: 20px;
+  --checkbox-size-inside: 10px;
+
+  /* Borders */
+
+  --checkbox-border-unchecked: 2px solid var(--border);
+  --checkbox-border-checked: 2px solid var(--primary);
+  --default-border: 1px solid var(--border);
+
+  /* Border radius variables */
+
+  --border-radius-image: 24px;
+  --border-radius-checkbox: 4px;
+  --border-radius-input: 16px;
 }
