@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <title>Book Catalog</title>
-    <link rel="stylesheet" crossorigin href="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/index-CPpejHMm.css">
+    <link rel="stylesheet" crossorigin href="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/index-BnzyCwY3.css">
   </head>
   <body class="default-layout">
 		<header class="header">
@@ -27,15 +27,15 @@
 						<ul class="catalog__list">
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/05-NgbPmAQL.png" alt="Refactoring UI cover" class="book__cover">
-								<h3 class="book__title">Refactoring UI</h3>
+								<p class="book__title">Refactoring UI</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/09-CukTPkh_.png" alt="Master the Skill of Debugging CSS cover" class="book__cover">
-								<h3 class="book__title">Master the Skill of Debugging CSS</h3>
+								<p class="book__title">Master the Skill of Debugging CSS</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/03-D2clU_kX.png" alt="Blue Period cover" class="book__cover">
-								<h3 class="book__title">Blue Period</h3>
+								<p class="book__title">Blue Period</p>
 							</li>
 						</ul>
 					</article>
@@ -44,33 +44,33 @@
 						<ul class="catalog__list">
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/02-Bl0BMrGA.png" alt="Yokohama Kaidashi Kikou cover" class="book__cover">
-								<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
+								<p class="book__title">Yokohama Kaidashi Kikou</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/08-DuMbon7E.png" alt="Learning JavaScript Design Patterns cover" class="book__cover">
-								<h3 class="book__title">Learning JavaScript Design Patterns</h3>
+								<p class="book__title">Learning JavaScript Design Patterns</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/01-BqUiAK6q.png" alt="Yotsuba to! cover" class="book__cover">
-								<h3 class="book__title">Yokohama Kaidashi Kikou</h3>
+								<p class="book__title">Yokohama Kaidashi Kikou</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/07-BmWx-xTo.png" alt="Domain-Driven Design cover" class="book__cover">
-								<h3 class="book__title">Domain-Driven Design</h3>
+								<p class="book__title">Domain-Driven Design</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/06-D2jvdQgW.png" alt="Implementing Domain-Driven Design cover" class="book__cover">
-								<h3 class="book__title">Implementing Domain-Driven Design</h3>
+								<p class="book__title">Implementing Domain-Driven Design</p>
 							</li>
 							<li class="catalog__book book">
 								<img src="/camp-js-2024-anastasia-fongrad/pr-preview/pr-1/assets/04-CFDf0mCj.png" alt="7 Навыков высокэффективных... cover" class="book__cover">
-								<h3 class="book__title">7 Навыков высокэффективных...</h3>
+								<p class="book__title">7 Навыков высокэффективных...</p>
 							</li>
 						</ul>
 					</article>
 				</section>
 				<aside class="aside">
-					<div class="aside__filters">
+					<div class="aside__filters filters">
 						<h2 class="filters__heading">filters</h2>
 						<form action="" class="filters__form">
 							<div class="filters__search-wrapper">
@@ -79,10 +79,10 @@
 							</div>
 							<div class="filters__select-wrapper">
 								<select id="filter" class="filters__select" name="filter">
-									<option selected disabled value="">Choose sort field</option>
-									<option value="1">Year of Publication</option>
-									<option value="2">Authors</option>
-									<option value="2">Rating</option>
+									<option class="filters__option" selected disabled value="0">Choose sort field</option>
+									<option class="filters__option" value="1">Year of Publication</option>
+									<option class="filters__option" value="2">Authors</option>
+									<option class="filters__option" value="3">Rating</option>
 								</select>
 							</div>
 							<label class="filters__checkbox-container">
