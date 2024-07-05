@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  all: unset;
+}
+
+select {
+  text-transform: none;
+}
+
+a {
+  color: inherit;
+  font-family: inherit;
+}
+
+ul,
+ul li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: 0;
+}

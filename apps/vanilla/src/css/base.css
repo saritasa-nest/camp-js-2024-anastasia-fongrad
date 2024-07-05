@@ -8,30 +8,3 @@ html {
   background-color: var(--surface);
   color: var(--on-surface);
 }
-
-* {
-  box-sizing: border-box;
-}
-
-.container {
-  margin: 0 auto;
-  max-width: 1244px;
-  width: 100%;
-}
-
-.default-layout {
-  display: flex;
-  flex-direction: column;
-}
-
-h1,
-h2,
-h3 {
-  margin: 0;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}

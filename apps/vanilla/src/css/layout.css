@@ -1,0 +1,34 @@
+.main {
+  padding-bottom: var(--space-6);
+}
+
+.default-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1244px;
+  width: 100%;
+}
+
+.header__container {
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.main__container {
+  display: flex;
+  gap: 0 var(--space-6);
+  align-items: normal;
+}
+
+.footer__container {
+  display: flex;
+  padding: var(--space-6) 0 var(--space-18);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  justify-content: space-between;
+}
