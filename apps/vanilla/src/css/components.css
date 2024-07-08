@@ -2,38 +2,51 @@
 
 /* Header */
 
+.header__container {
+  padding: var(--space-5) 0;
+  border-bottom: var(--default-border);
+  background: var(--surface);
+}
+
 .header__logo,
 .footer__logo {
   font-size: var(--logo);
   font-weight: var(--text-bold);
   line-height: var(--logo-line-height);
   cursor: pointer;
-  font-family: Inter, sans-serif;
 }
 
 .header__link,
 .footer__logo {
   text-decoration: none;
-  font-family: Inter, sans-serif;
 }
 
 /* Catalog */
 
+.main__container {
+  display: flex;
+  gap: 0 var(--space-6);
+  align-items: normal;
+}
+
 .catalog {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: var(--space-10);
 }
 
 .catalog__list {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: var(--space-4);
 }
 
 .catalog__heading {
   position: sticky;
-  top: -1px; /* To fix visual bag on scrolling */
+
+  /* To fix visual bag on scrolling */
+  top: -1px;
   padding: calc(var(--space-6) + 1px) 0 var(--space-6) 0;
   width: 100%;
   background-color: var(--surface);
@@ -101,8 +114,7 @@
   line-height: var(--body-line-height);
   font-size: var(--body);
   font-weight: var(--text-regular);
-  width: 100%;
-  font-family: Inter, sans-serif;
+  width: var(--input-width-desktop);
   box-sizing: border-box;
 }
 
@@ -212,9 +224,21 @@
 
 /* Footer */
 
+.footer__container {
+  display: flex;
+  padding: var(--space-6) 0 var(--space-18);
+  border-top: var(--default-border);
+  background: var(--surface);
+  justify-content: space-between;
+}
+
 .footer__nav {
   display: flex;
   gap: var(--space-4) var(--space-8);
+}
+
+.footer__copyright {
+  font-size: 1em;
 }
 
 .footer__main {
@@ -223,18 +247,14 @@
   white-space: nowrap;
 }
 
-.footer__link {
-  color: inherit;
-  font-family: Inter, sans-serif;
-}
-
-.footer__button-top {
+.footer__link-top {
   cursor: pointer;
   font-family: Inter, sans-serif;
   white-space: nowrap;
+  text-decoration: none;
 }
 
-.footer__button-top:hover,
+.footer__link-top:hover,
 .footer__logo:hover,
 .footer__link:hover {
   color: var(--on-surface-dim);
@@ -255,6 +275,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .catalog__heading {
+    top: var(--header-top-tablet);
+  }
+
   .catalog__list {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -300,6 +324,12 @@
     flex-wrap: wrap;
     align-items: flex-end;
     width: 100%;
+  }
+}
+
+@media screen and (max-width: 510px) {
+  .catalog__heading {
+    top: var(--header-top-mobile);
   }
 }
 

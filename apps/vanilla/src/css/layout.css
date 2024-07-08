@@ -14,23 +14,3 @@
   max-width: var(--container-desktop-width);
   width: 100%;
 }
-
-.header__container {
-  padding: var(--space-5) 0;
-  border-bottom: var(--default-border);
-  background: var(--surface);
-}
-
-.main__container {
-  display: flex;
-  gap: 0 var(--space-6);
-  align-items: normal;
-}
-
-.footer__container {
-  display: flex;
-  padding: var(--space-6) 0 var(--space-18);
-  border-top: var(--default-border);
-  background: var(--surface);
-  justify-content: space-between;
-}

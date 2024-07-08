@@ -14,13 +14,18 @@ button {
   all: unset;
 }
 
-select {
+select,
+input {
   text-transform: none;
+  font-family: inherit;
 }
 
 a {
   color: inherit;
   font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
 }
 
 ul,

@@ -54,11 +54,13 @@
   --aside-mobile-width: 100%;
   --container-desktop-width: 1244px;
   --select-height: 48px;
-  --input-width-desktop: 100%;
+  --input-width-desktop: 320px;
   --input-width-tablet: 256px;
   --input-width-mobile: 100%;
   --checkbox-size-outside: 20px;
   --checkbox-size-inside: 10px;
+  --header-top-tablet: 200px;
+  --header-top-mobile: 270px;
 
   /* Borders */
 
