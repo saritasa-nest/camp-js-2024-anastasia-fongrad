@@ -1,0 +1,16 @@
+@import url("./variables.css");
+
+.main {
+  padding-bottom: var(--space-6);
+}
+
+.default-layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--container-desktop-width);
+  width: 100%;
+}

@@ -1,0 +1,10 @@
+@import url("./variables.css");
+
+html {
+  font-size: var(--body);
+  font-family: Inter, sans-serif;
+  line-height: var(--body-line-height);
+  font-weight: var(--text-regular);
+  background-color: var(--surface);
+  color: var(--on-surface);
+}
