@@ -21,6 +21,8 @@ export default defineConfig({
     rollupOptions: {
       input: [
         resolve(root, 'index.html'),
+				resolve(root, 'task1', 'index.html'),
+				resolve(root, 'task2', 'index.html'),
       ],
     },
   },
