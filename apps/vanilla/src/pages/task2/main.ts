@@ -1,20 +1,25 @@
-const PLAYERS_COUNT = 2;
-const SIDES_COUNT = 6;
+/** This is a description of the foo function. */
+export const PLAYERS_COUNT = 2;
 
-type TurnMessage = {
+/** This is a description of the foo function. */
+export const SIDES_COUNT = 6;
+
+/** This is a description of the foo function. */
+export type TurnMessage = {
 
 	/** This is a description of the foo function. */
 	readonly turn: number;
-}
+};
 
-type DiceMessage = {
+/** This is a description of the foo function. */
+export type DiceMessage = {
 
 	/** This is a description of the foo function. */
 	readonly diceValue: number;
-}
+};
 
-
-type Publisher <T> = {
+/** This is a description of the foo function. */
+export type Publisher <T> = {
 
 	/** This is a description of the foo function. */
 	readonly subscribe: (subject: Subscriber<T>) => void;
@@ -29,14 +34,15 @@ type Publisher <T> = {
 	readonly getSubscribersList: () => Subscriber<T>[];
 };
 
-type Subscriber<T> = {
+/** This is a description of the foo function. */
+export type Subscriber<T> = {
 
 	/** This is a description of the foo function. */
 	readonly update: (message: T) => void;
 };
 
 /** This is a description of the foo function. */
-class TurnGenerator<T> implements Publisher<T> {
+export class TurnGenerator<T> implements Publisher<T> {
 
 	private readonly subscribers: Subscriber<T>[];
 
@@ -88,7 +94,8 @@ class TurnGenerator<T> implements Publisher<T> {
 	}
 }
 
-class DiceGenerator<T> implements Publisher<T> {
+/** This is a description of the foo function. */
+export class DiceGenerator<T> implements Publisher<T> {
 
 	private readonly subscribers: Subscriber<T>[];
 
@@ -127,12 +134,13 @@ class DiceGenerator<T> implements Publisher<T> {
 	}
 
 	/** This is a description of the foo function. */
-	public generateTurn(): number {
+	public generateDiceNumber(): number {
 		return Math.floor(Math.random() * this.sidesCount) + 1;
 	}
 }
 
-class Player implements Subscriber<TurnMessage | DiceMessage> {
+/** This is a description of the foo function. */
+export class Player implements Subscriber<TurnMessage | DiceMessage> {
 	private readonly name: string;
 
 	public constructor(name: string) {
@@ -157,7 +165,8 @@ class Player implements Subscriber<TurnMessage | DiceMessage> {
 	}
 }
 
-class DiceCap implements Subscriber<TurnMessage | DiceMessage> {
+/** This is a description of the foo function. */
+export class DiceCap implements Subscriber<TurnMessage | DiceMessage> {
 	private readonly name: string;
 
 	public constructor(name: string) {

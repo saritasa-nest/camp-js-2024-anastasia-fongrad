@@ -6,3 +6,51 @@
   gap: var(--space-6);
   padding: var(--space-12) 0;
 }
+
+.main__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.main__button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  padding: var(--space-6) var(--space-8);
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: var(--text-semibold);
+  border-radius: var(--border-radius-input);
+  max-width: max-content;
+  cursor: pointer;
+}
+
+.player-field,
+.dice-cap {
+  background-color: var(--surface-overlay);
+  border-radius: var(--border-radius-input);
+  padding: var(--space-6) var(--space-8);
+}
+
+.main__button:hover {
+  background-color: rgb(248 101 48 / 100%);
+}
+
+.main__button:hover:active {
+  border: var(--default-border);
+}
+
+.dice-cap__values,
+.player-field__dice-values {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.player-field__header,
+.dice-cap__header {
+  font-size: var(--subtitle);
+  font-weight: var(--text-semibold);
+  line-height: var(--subtitle-line-height);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
