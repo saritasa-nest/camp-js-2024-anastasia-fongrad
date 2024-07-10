@@ -1,11 +1,19 @@
-import { PLAYERS_COUNT, Player } from './main.js';
+import { PLAYERS_COUNT, Player, TurnGenerator, DiceGenerator } from './main.js';
+
+const turnGenerator = new TurnGenerator();
 
 /** */
 function createPlayers(): Player[] {
+
+
 	const players: Player[] = [];
 	for (let id = 0; id < PLAYERS_COUNT; id++) {
 		const playerName = `Player ${id + 1}`;
-		players.push(new Player(playerName));
+		const player = new Player(playerName);
+		players.push(player);
+		const diceGenerator = new DiceGenerator(id);
+		turnGenerator.subscribe(diceGenerator);
+		diceGenerator.subscribe(player);
 	}
 	return players;
 }
@@ -45,3 +53,9 @@ const parentElement = <HTMLElement>document.querySelector('.main__fields');
 if (parentElement != null) {
 	addPlayerFields(players, parentElement);
 }
+
+const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
+
+rollButton.addEventListener('click', () => {
+	turnGenerator.getNextTurn();
+});

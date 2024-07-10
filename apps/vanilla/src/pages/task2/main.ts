@@ -12,10 +12,13 @@ export type TurnMessage = {
 };
 
 /** This is a description of the foo function. */
-export type DiceMessage = {
+export type PlayerTurnResult = {
 
 	/** This is a description of the foo function. */
-	readonly diceValue: number;
+	readonly playerIndex: number;
+
+	/** This is a description of the foo function. */
+	readonly diceResult: number;
 };
 
 /** This is a description of the foo function. */
@@ -42,9 +45,9 @@ export type Subscriber<T> = {
 };
 
 /** This is a description of the foo function. */
-export class TurnGenerator<T> implements Publisher<T> {
+export class TurnGenerator implements Publisher<TurnMessage> {
 
-	private readonly subscribers: Subscriber<T>[];
+	private readonly subscribers: Subscriber<TurnMessage>[];
 
 	private readonly playersCount: number;
 
@@ -57,17 +60,17 @@ export class TurnGenerator<T> implements Publisher<T> {
 	}
 
 	/** This is a description of the foo function. */
-	public getSubscribersList(): Subscriber<T>[] {
+	public getSubscribersList(): Subscriber<TurnMessage>[] {
 		return this.subscribers;
 	}
 
 	/** This is a description of the foo function. */
-	public subscribe(subject: Subscriber<T>): void {
+	public subscribe(subject: Subscriber<TurnMessage>): void {
 		this.subscribers.push(subject);
 	}
 
 	/** This is a description of the foo function. */
-	public unsubscribe(subject: Subscriber<T>): void {
+	public unsubscribe(subject: Subscriber<TurnMessage>): void {
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {
 			this.subscribers.splice(index, 1);
@@ -78,7 +81,7 @@ export class TurnGenerator<T> implements Publisher<T> {
 	 * 1.
 	 * @param message 1.
 	 */
-	public notify(message: T): void {
+	public notify(message: TurnMessage): void {
 		this.subscribers.forEach(subscriber => {
 			subscriber.update(message);
 		});
@@ -95,28 +98,46 @@ export class TurnGenerator<T> implements Publisher<T> {
 }
 
 /** This is a description of the foo function. */
-export class DiceGenerator<T> implements Publisher<T> {
+export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<TurnMessage> {
 
-	private readonly subscribers: Subscriber<T>[];
+	private readonly subscribers: Subscriber<PlayerTurnResult>[];
 
 	private readonly sidesCount: number;
 
-	public constructor() {
+	private readonly playerIndex: number;
+
+	public constructor(playerIndex: number) {
+		this.playerIndex = playerIndex;
 		this.sidesCount = SIDES_COUNT;
 		this.subscribers = [];
 	}
 
-	public getSubscribersList(): Subscriber<T>[] {
+	/**
+	 * 1.
+	 * @param message 1.
+	 */
+	public update(message: TurnMessage): void {
+		if (this.playerIndex === message.turn) {
+			const result: PlayerTurnResult = {
+				playerIndex: this.playerIndex,
+				diceResult: this.generateDiceNumber(),
+			};
+			this.notify(result);
+		}
+	}
+
+	/** This is a description of the foo function. */
+	public getSubscribersList(): Subscriber<PlayerTurnResult>[] {
 		return this.subscribers;
 	}
 
 	/** This is a description of the foo function. */
-	public subscribe(subject: Subscriber<T>): void {
+	public subscribe(subject: Subscriber<PlayerTurnResult>): void {
 		this.subscribers.push(subject);
 	}
 
 	/** This is a description of the foo function. */
-	public unsubscribe(subject: Subscriber<T>): void {
+	public unsubscribe(subject: Subscriber<PlayerTurnResult>): void {
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {
 			this.subscribers.splice(index, 1);
@@ -127,7 +148,7 @@ export class DiceGenerator<T> implements Publisher<T> {
 	 * 1.
 	 * @param message 1.
 	 */
-	public notify(message: T): void {
+	public notify(message: PlayerTurnResult): void {
 		this.subscribers.forEach(subscriber => {
 			subscriber.update(message);
 		});
@@ -140,33 +161,33 @@ export class DiceGenerator<T> implements Publisher<T> {
 }
 
 /** This is a description of the foo function. */
-export class Player implements Subscriber<TurnMessage | DiceMessage> {
-	private readonly name: string;
+export class Player implements Subscriber<PlayerTurnResult> {
+
+	/** This is a description of the foo function. */
+	public readonly name: string;
 
 	public constructor(name: string) {
 		this.name = name;
 	}
 
 	/** This is a description of the foo function. */
-	public update(message: TurnMessage | DiceMessage): void {
+	public update(message: PlayerTurnResult): void {
 		console.log(`${this.name} received update: ${message}`);
 	}
 
 	/** This is a description of the foo function. */
-	public subscribeToGenerators(turnGenerator: TurnGenerator<TurnMessage>, diceGenerator: DiceGenerator<DiceMessage>): void {
-		turnGenerator.subscribe(this);
+	public subscribeToGenerator(diceGenerator: DiceGenerator): void {
 		diceGenerator.subscribe(this);
 	}
 
 	/** This is a description of the foo function. */
-	public unsubscribeFromGenerators(turnGenerator: TurnGenerator<TurnMessage>, diceGenerator: DiceGenerator<DiceMessage>): void {
-		turnGenerator.unsubscribe(this);
+	public unsubscribeFromGenerator(diceGenerator: DiceGenerator): void {
 		diceGenerator.unsubscribe(this);
 	}
 }
 
 /** This is a description of the foo function. */
-export class DiceCap implements Subscriber<TurnMessage | DiceMessage> {
+export class DiceCap implements Subscriber<PlayerTurnResult> {
 	private readonly name: string;
 
 	public constructor(name: string) {
@@ -174,19 +195,17 @@ export class DiceCap implements Subscriber<TurnMessage | DiceMessage> {
 	}
 
 	/** This is a description of the foo function. */
-	public update(message: TurnMessage | DiceMessage): void {
+	public update(message: PlayerTurnResult): void {
 		console.log(`${this.name} received update: ${message}`);
 	}
 
 	/** This is a description of the foo function. */
-	public subscribeToGenerators(turnGenerator: TurnGenerator<TurnMessage>, diceGenerator: DiceGenerator<DiceMessage>): void {
-		turnGenerator.subscribe(this);
+	public subscribeToGenerator(diceGenerator: DiceGenerator): void {
 		diceGenerator.subscribe(this);
 	}
 
 	/** This is a description of the foo function. */
-	public unsubscribeFromGenerators(turnGenerator: TurnGenerator<TurnMessage>, diceGenerator: DiceGenerator<DiceMessage>): void {
-		turnGenerator.unsubscribe(this);
+	public unsubscribeFromGenerator(diceGenerator: DiceGenerator): void {
 		diceGenerator.unsubscribe(this);
 	}
 }
