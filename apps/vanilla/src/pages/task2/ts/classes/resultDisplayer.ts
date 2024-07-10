@@ -1,11 +1,13 @@
-import { PLAYERS_COUNT, Player, TurnGenerator, DiceGenerator } from './main.js';
+import { PLAYERS_COUNT } from '../constants';
+
+import { Player } from './player';
+import { TurnGenerator } from './turnGenerator';
+import { DiceGenerator } from './diceGenerator';
 
 const turnGenerator = new TurnGenerator();
 
 /** */
 function createPlayers(): Player[] {
-
-
 	const players: Player[] = [];
 	for (let id = 0; id < PLAYERS_COUNT; id++) {
 		const playerName = `Player ${id + 1}`;
@@ -59,3 +61,8 @@ const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
 rollButton.addEventListener('click', () => {
 	turnGenerator.getNextTurn();
 });
+
+class ResultDisplayer {
+	private readonly turnGenerator = new TurnGenerator();
+
+}
