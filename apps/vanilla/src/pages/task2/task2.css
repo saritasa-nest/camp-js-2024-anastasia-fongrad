@@ -54,3 +54,7 @@
   letter-spacing: 0.9px;
   text-transform: uppercase;
 }
+
+._winner {
+  background-color: var(--winner);
+}

@@ -27,20 +27,33 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	 * @param message 1.
 	 */
 	public update(message: PlayerDisplayResult): void {
+		// Update the dice cap
 		const diceCapElement = <HTMLElement>document.querySelector('.main__dice-cap');
-
-		// Update the header with the total score
 		const header = <HTMLElement>diceCapElement.querySelector('.dice-cap__header');
 		header.textContent = `Dice cap - ${message.playerScore}`;
 
-		// Create a new list item for the new dice result
 		const newDiceValueElement = document.createElement('li');
 		newDiceValueElement.className = 'dice-cap__value';
 		newDiceValueElement.textContent = `${message.newDiceResult}`;
 
-		// Add the new dice result to the list of dice values
 		const diceValuesList = <HTMLElement>diceCapElement.querySelector('.dice-cap__values');
 		diceValuesList.appendChild(newDiceValueElement);
+
+
+		const playerField = <HTMLElement>document.querySelector(`#Player${message.playerIndex}`);
+		const score = <HTMLElement>playerField.querySelector('.player-field__score');
+		score.textContent = `Player score: ${message.playerScore}`;
+
+		const newPlayerValueElement = document.createElement('li');
+		newPlayerValueElement.className = 'dice-cap__value';
+		newPlayerValueElement.textContent = `${message.newDiceResult}`;
+
+		const playerValuesList = <HTMLElement>playerField.querySelector('.player-field__dice-values');
+		playerValuesList.appendChild(newPlayerValueElement);
+
+		if (message.isWinner) {
+			playerField.classList.add('_winner');
+		}
 	}
 
 	/**
@@ -48,9 +61,10 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	 */
 	public addPlayerFields(): void {
 		const parentElement = <HTMLElement>document.querySelector('.main__fields');
-		this.players.forEach(player => {
+		this.players.forEach((player, index) => {
 			const playerField = document.createElement('div');
 			playerField.className = 'main__player-field player-field';
+			playerField.id = `Player${index}`;
 
 			const header = document.createElement('h2');
 			header.className = 'player-field__header';
@@ -77,6 +91,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 			const playerName = `Player ${id + 1}`;
 			const player = new Player(playerName);
 			this.players.push(player);
+			player.subscribe(this);
 			const diceGenerator = new DiceGenerator(id);
 			diceGenerator.subscribe(player);
 			this.turnGenerator.subscribe(diceGenerator);

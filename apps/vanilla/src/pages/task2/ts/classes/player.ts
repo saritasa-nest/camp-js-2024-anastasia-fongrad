@@ -67,6 +67,13 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		this.diceResults.push(message.diceResult);
 		this.winStatus = this.getScore() >= 21;
 		console.log(`${this.name} received update: ${message}`);
+		const newMessage: PlayerDisplayResult = {
+			playerIndex: message.playerIndex,
+			newDiceResult: message.diceResult,
+			playerScore: this.getScore(),
+			isWinner: this.winStatus,
+		};
+		this.notify(newMessage);
 	}
 
 	/** This is a description of the foo function. */
