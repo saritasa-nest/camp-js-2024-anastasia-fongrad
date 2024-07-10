@@ -28,9 +28,10 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	 */
 	public update(message: PlayerDisplayResult): void {
 		// Update the dice cap
+		const totalScore = this.players.reduce((sum, current) => sum + current.getScore(), 0);
 		const diceCapElement = <HTMLElement>document.querySelector('.main__dice-cap');
 		const header = <HTMLElement>diceCapElement.querySelector('.dice-cap__header');
-		header.textContent = `Dice cap - ${message.playerScore}`;
+		header.textContent = `Dice cap - ${totalScore}`;
 
 		const newDiceValueElement = document.createElement('li');
 		newDiceValueElement.className = 'dice-cap__value';
@@ -38,7 +39,6 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 		const diceValuesList = <HTMLElement>diceCapElement.querySelector('.dice-cap__values');
 		diceValuesList.appendChild(newDiceValueElement);
-
 
 		const playerField = <HTMLElement>document.querySelector(`#Player${message.playerIndex}`);
 		const score = <HTMLElement>playerField.querySelector('.player-field__score');

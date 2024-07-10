@@ -47,8 +47,6 @@ export class TurnGenerator implements Publisher<number> {
 	 */
 	public notify(message: number): void {
 		const subscriber = this.subscribers[this.currentPlayerIndex];
-		console.log(this.subscribers);
-		console.log(subscriber);
 		subscriber.update(message);
 	}
 
@@ -56,10 +54,9 @@ export class TurnGenerator implements Publisher<number> {
 	public getNextTurn(): void {
 		if (this.currentPlayerIndex >= this.playersCount - 1) {
 			this.currentPlayerIndex = 0;
-		}else {
+		} else {
 			this.currentPlayerIndex += 1;
 		}
-		console.log(this.currentPlayerIndex);
 		this.notify(this.currentPlayerIndex);
 	}
 }

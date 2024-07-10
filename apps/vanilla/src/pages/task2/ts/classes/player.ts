@@ -66,7 +66,6 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 	public update(message: PlayerTurnResult): void {
 		this.diceResults.push(message.diceResult);
 		this.winStatus = this.getScore() >= 21;
-		console.log(`${this.name} received update: ${message}`);
 		const newMessage: PlayerDisplayResult = {
 			playerIndex: message.playerIndex,
 			newDiceResult: message.diceResult,
