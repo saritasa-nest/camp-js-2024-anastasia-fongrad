@@ -1,5 +1,6 @@
 import { Publisher } from '../types/publisher';
 import { Subscriber } from '../types/subscriber';
+import { PLAYERS_COUNT } from '../constants';
 
 /** This is a description of the foo function. */
 export class TurnGenerator implements Publisher<number> {
@@ -13,7 +14,7 @@ export class TurnGenerator implements Publisher<number> {
 	public constructor() {
 		this.playersCount = PLAYERS_COUNT;
 		this.subscribers = [];
-		this.currentPlayerIndex = 0;
+		this.currentPlayerIndex = PLAYERS_COUNT;
 	}
 
 	/** This is a description of the foo function. */
@@ -21,12 +22,18 @@ export class TurnGenerator implements Publisher<number> {
 		return this.subscribers;
 	}
 
-	/** This is a description of the foo function. */
+	/**
+	 * 1.
+	 * @param subject 1.
+	 */
 	public subscribe(subject: Subscriber<number>): void {
 		this.subscribers.push(subject);
 	}
 
-	/** This is a description of the foo function. */
+	/**
+	 * 1.
+	 * @param subject 1.
+	 */
 	public unsubscribe(subject: Subscriber<number>): void {
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {
@@ -40,16 +47,19 @@ export class TurnGenerator implements Publisher<number> {
 	 */
 	public notify(message: number): void {
 		const subscriber = this.subscribers[this.currentPlayerIndex];
+		console.log(this.subscribers);
+		console.log(subscriber);
 		subscriber.update(message);
 	}
 
 	/** This is a description of the foo function. */
 	public getNextTurn(): void {
-		if (this.currentPlayerIndex >= this.playersCount) {
+		if (this.currentPlayerIndex >= this.playersCount - 1) {
 			this.currentPlayerIndex = 0;
-			return;
+		}else {
+			this.currentPlayerIndex += 1;
 		}
-		this.currentPlayerIndex += 1;
+		console.log(this.currentPlayerIndex);
 		this.notify(this.currentPlayerIndex);
 	}
 }

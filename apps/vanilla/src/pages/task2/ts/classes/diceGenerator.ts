@@ -37,12 +37,18 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 		return this.subscribers;
 	}
 
-	/** This is a description of the foo function. */
+	/**
+	 * 1.
+	 * @param subject 1.
+	 */
 	public subscribe(subject: Subscriber<PlayerTurnResult>): void {
 		this.subscribers.push(subject);
 	}
 
-	/** This is a description of the foo function. */
+	/**
+	 * 1.
+	 * @param subject 1.
+	 */
 	public unsubscribe(subject: Subscriber<PlayerTurnResult>): void {
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {

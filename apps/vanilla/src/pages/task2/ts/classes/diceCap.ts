@@ -9,18 +9,11 @@ export class DiceCap implements Subscriber<PlayerTurnResult> {
 		this.name = name;
 	}
 
-	/** This is a description of the foo function. */
+	/**
+	 * 1.
+	 * @param message 1.
+	 */
 	public update(message: PlayerTurnResult): void {
 		console.log(`${this.name} received update: ${message}`);
-	}
-
-	/** This is a description of the foo function. */
-	public subscribeToGenerator(diceGenerator: DiceGenerator): void {
-		diceGenerator.subscribe(this);
-	}
-
-	/** This is a description of the foo function. */
-	public unsubscribeFromGenerator(diceGenerator: DiceGenerator): void {
-		diceGenerator.unsubscribe(this);
 	}
 }
