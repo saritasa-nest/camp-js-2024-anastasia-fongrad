@@ -1,12 +1,12 @@
-/** This is a description of the foo function. */
+/** The result of a die roll for a specific player. */
 export type PlayerTurnResult = {
 
-	/** This is a description of the foo function. */
+	/** The index of the player throwing a dice. */
 	readonly playerIndex: number;
 
-	/** This is a description of the foo function. */
+	/** The number of the player in the game queue. */
 	readonly playerTurn: number;
 
-	/** This is a description of the foo function. */
+	/** The result of throwing a dice. */
 	readonly diceResult: number;
 };

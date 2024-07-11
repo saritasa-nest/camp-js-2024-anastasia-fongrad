@@ -5,7 +5,7 @@ import { SIDES_COUNT } from '../constants';
 
 import { TurnGenerator } from './turnGenerator';
 
-/** This is a description of the foo function. */
+/** Generator that determines the value of a dice for a player. */
 export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
 
 	private readonly subscribers: Subscriber<PlayerTurnResult>[];
@@ -25,8 +25,8 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Sends a player a message about their turn and the dice value.
+	 * @param message Received player number in queue.
 	 */
 	public update(message: number): void {
 		const result: PlayerTurnResult = {
@@ -37,22 +37,17 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 		this.notify(result);
 	}
 
-	/** This is a description of the foo function. */
-	public getSubscribersList(): Subscriber<PlayerTurnResult>[] {
-		return this.subscribers;
-	}
-
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Subscribes a player to receive notifications.
+	 * @param subject A player in blackjack by dice game.
 	 */
 	public subscribe(subject: Subscriber<PlayerTurnResult>): void {
 		this.subscribers.push(subject);
 	}
 
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Stops a game for the player.
+	 * @param subject A player who wants to leave the game.
 	 */
 	public unsubscribe(subject: Subscriber<PlayerTurnResult>): void {
 		const index = this.subscribers.indexOf(subject);
@@ -65,8 +60,8 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Notifies players with player turn result.
+	 * @param message Results for a player in a current round.
 	 */
 	public notify(message: PlayerTurnResult): void {
 		this.subscribers.forEach(subscriber => {
@@ -74,7 +69,7 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 		});
 	}
 
-	/** This is a description of the foo function. */
+	/** Generates a random dice number. */
 	public generateDiceNumber(): number {
 		return Math.floor(Math.random() * this.sidesCount) + 1;
 	}

@@ -2,7 +2,7 @@ import { Publisher } from '../types/publisher';
 import { Subscriber } from '../types/subscriber';
 import { PLAYERS_COUNT } from '../constants';
 
-/** This is a description of the foo function. */
+/** Generator that determines the player's turn order. */
 export class TurnGenerator implements Publisher<number> {
 
 	private readonly subscribers: Subscriber<number>[];
@@ -14,22 +14,17 @@ export class TurnGenerator implements Publisher<number> {
 		this.currentPlayerIndex = PLAYERS_COUNT;
 	}
 
-	/** This is a description of the foo function. */
-	public getSubscribersList(): Subscriber<number>[] {
-		return this.subscribers;
-	}
-
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Subscribes a subject to receive notifications.
+	 * @param subject Dice generator object.
 	 */
 	public subscribe(subject: Subscriber<number>): void {
 		this.subscribers.push(subject);
 	}
 
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Unsubscribes a subject from receiving notifications.
+	 * @param subject Dice generator object.
 	 */
 	public unsubscribe(subject: Subscriber<number>): void {
 		const index = this.subscribers.indexOf(subject);
@@ -39,15 +34,15 @@ export class TurnGenerator implements Publisher<number> {
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Sends a message to a subscriber with right id.
+	 * @param message Number of the player throwing the dice.
 	 */
 	public notify(message: number): void {
 		const subscriber = this.subscribers[this.currentPlayerIndex];
 		subscriber.update(message);
 	}
 
-	/** This is a description of the foo function. */
+	/** Determines the next player to roll the dice. */
 	public getNextTurn(): void {
 		if (this.subscribers.length === 0) {
 			return;

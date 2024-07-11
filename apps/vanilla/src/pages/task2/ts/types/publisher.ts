@@ -3,15 +3,12 @@ import { Subscriber } from './subscriber';
 /** Publisher type implementing the observer pattern. */
 export type Publisher <T> = {
 
-	/** This is a description of the foo function. */
+	/** Subscribes a subject to receive notifications. */
 	readonly subscribe: (subject: Subscriber<T>) => void;
 
-	/** This is a description of the foo function. */
+	/** Unsubscribes a subject from receiving notifications. */
 	readonly unsubscribe: (subject: Subscriber<T>) => void;
 
-	/** This is a description of the foo function. */
+	/** Sends a message to all subscribers. */
 	readonly notify: (message: T) => void;
-
-	/** This is a description of the foo function. */
-	readonly getSubscribersList: () => Subscriber<T>[];
 };

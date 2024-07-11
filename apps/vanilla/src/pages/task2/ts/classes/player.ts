@@ -32,11 +32,6 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		this.diceGenerator.subscribe(this);
 	}
 
-	/** This is a description of the foo function. */
-	public getSubscribersList(): Subscriber<PlayerDisplayResult>[] {
-		return this.subscribers;
-	}
-
 	/**
 	 * 1.
 	 * @param subject 1.

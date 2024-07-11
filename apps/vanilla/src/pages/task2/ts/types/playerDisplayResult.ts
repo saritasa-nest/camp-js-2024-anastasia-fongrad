@@ -1,15 +1,15 @@
 /** This is a description of the foo function. */
 export type PlayerDisplayResult = {
 
-	/** This is a description of the foo function. */
+	/** The index of the player throwing a dice. */
 	readonly playerIndex: number;
 
-	/** This is a description of the foo function. */
+	/** The result of throwing a dice. */
 	readonly newDiceResult: number;
 
-	/** This is a description of the foo function. */
+	/** New score of the player. */
 	readonly playerScore: number;
 
-	/** This is a description of the foo function. */
+	/** Whether the player won this round. */
 	readonly isWinner: boolean;
 };
