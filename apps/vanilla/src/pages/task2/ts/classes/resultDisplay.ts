@@ -17,16 +17,13 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	public constructor() {
 		this.players = [];
 		this.turnGenerator = new TurnGenerator();
-		this.createPlayers();
-		this.startGame();
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Updates page information accordingly to the dice results.
+	 * @param message Ready-for-display dice results.
 	 */
 	public update(message: PlayerDisplayResult): void {
-		// Update the dice cap
 		const totalScore = this.players.reduce((sum, current) => sum + current.getScore(), 0);
 		const diceCapElement = <HTMLElement>document.querySelector('.main__dice-cap');
 		const header = <HTMLElement>diceCapElement.querySelector('.dice-cap__header');
@@ -35,7 +32,6 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 		const newDiceValueElement = document.createElement('li');
 		newDiceValueElement.className = 'dice-cap__value';
 		newDiceValueElement.textContent = `${message.newDiceResult}`;
-
 		const diceValuesList = <HTMLElement>diceCapElement.querySelector('.dice-cap__values');
 		diceValuesList.appendChild(newDiceValueElement);
 
@@ -46,7 +42,6 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 		const newPlayerValueElement = document.createElement('li');
 		newPlayerValueElement.className = 'dice-cap__value';
 		newPlayerValueElement.textContent = `${message.newDiceResult}`;
-
 		const playerValuesList = <HTMLElement>playerField.querySelector('.player-field__dice-values');
 		playerValuesList.appendChild(newPlayerValueElement);
 
@@ -55,9 +50,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 		}
 	}
 
-	/**
-	 * 1.
-	 */
+	/** Creates HTML fields for e player. */
 	public addPlayerFields(): void {
 		const parentElement = <HTMLElement>document.querySelector('.main__fields');
 		this.players.forEach((player, index) => {
@@ -67,7 +60,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 			const header = document.createElement('h2');
 			header.className = 'player-field__header';
-			header.textContent = player.name;
+			header.textContent = player.getName();
 			playerField.appendChild(header);
 
 			const diceValues = document.createElement('ul');
@@ -97,6 +90,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 	/** This is a description of the foo function. */
 	public startGame(): void {
+		this.createPlayers();
 		const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
 		rollButton.addEventListener('click', () => {
 			this.turnGenerator.getNextTurn();

@@ -1,4 +1,4 @@
-/** This is a description of the foo function. */
+/** Ready-to-display data for a specific player. */
 export type PlayerDisplayResult = {
 
 	/** The index of the player throwing a dice. */

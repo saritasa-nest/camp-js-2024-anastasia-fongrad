@@ -7,16 +7,13 @@ import { Publisher } from '../types/publisher';
 import { DiceGenerator } from './diceGenerator';
 import { TurnGenerator } from './turnGenerator';
 
-/** This is a description of the foo function. */
+/** Blackjack by dice player.*/
 export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDisplayResult> {
 
-	/** This is a description of the foo function. */
-	public readonly name: string;
+	private readonly name: string;
 
-	/** This is a description of the foo function. */
-	public readonly diceResults: number[];
+	private readonly diceResults: number[];
 
-	/** This is a description of the foo function. */
 	private winStatus: boolean;
 
 	private readonly subscribers: Subscriber<PlayerDisplayResult>[];
@@ -33,16 +30,16 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 	}
 
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Subscribes a game display to receive notifications about the game.
+	 * @param subject Result display object.
 	 */
 	public subscribe(subject: Subscriber<PlayerDisplayResult>): void {
 		this.subscribers.push(subject);
 	}
 
 	/**
-	 * 1.
-	 * @param subject 1.
+	 * Unsubscribes a game display from receiving notifications about the game.
+	 * @param subject Result display object.
 	 */
 	public unsubscribe(subject: Subscriber<PlayerDisplayResult>): void {
 		const index = this.subscribers.indexOf(subject);
@@ -52,8 +49,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Notifies subscribers about new game events.
+	 * @param message Ready-to-display information about the turn result.
 	 */
 	public notify(message: PlayerDisplayResult): void {
 		this.subscribers.forEach(subscriber => {
@@ -62,8 +59,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Updates player information; if the player wins, eliminates them from the game.
+	 * @param message Players result for this turn.
 	 */
 	public update(message: PlayerTurnResult): void {
 		this.diceResults.push(message.diceResult);
@@ -80,12 +77,17 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		}
 	}
 
-	/** This is a description of the foo function. */
+	/** Returns total score for the current player. */
 	public getScore(): number {
 		return this.diceResults.reduce((sum, current) => sum + current, 0);
 	}
 
-	/** This is a description of the foo function. */
+	/** Returns current players name. */
+	public getName(): string {
+		return this.name;
+	}
+
+	/** Checks if the player has won the game. */
 	public isWinner(): boolean {
 		return this.winStatus;
 	}
