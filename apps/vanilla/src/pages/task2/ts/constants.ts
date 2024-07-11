@@ -1,5 +1,5 @@
-/** This is a description of the foo function. */
+/** The number of game participants. */
 export const PLAYERS_COUNT = 2;
 
-/** This is a description of the foo function. */
+/** Thу number of sides of a dice. */
 export const SIDES_COUNT = 6;

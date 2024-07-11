@@ -7,12 +7,9 @@ export class TurnGenerator implements Publisher<number> {
 
 	private readonly subscribers: Subscriber<number>[];
 
-	private readonly playersCount: number;
-
 	private currentPlayerIndex: number;
 
 	public constructor() {
-		this.playersCount = PLAYERS_COUNT;
 		this.subscribers = [];
 		this.currentPlayerIndex = PLAYERS_COUNT;
 	}
@@ -52,7 +49,10 @@ export class TurnGenerator implements Publisher<number> {
 
 	/** This is a description of the foo function. */
 	public getNextTurn(): void {
-		if (this.currentPlayerIndex >= this.playersCount - 1) {
+		if (this.subscribers.length === 0) {
+			return;
+		}
+		if (this.currentPlayerIndex >= this.subscribers.length - 1) {
 			this.currentPlayerIndex = 0;
 		} else {
 			this.currentPlayerIndex += 1;

@@ -3,20 +3,20 @@
 .main__container {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
   padding: var(--space-12) 0;
 }
 
 .main__fields {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .main__button {
   background-color: var(--primary);
   color: var(--on-primary);
-  padding: var(--space-6) var(--space-8);
+  padding: var(--space-5) var(--space-9);
   text-align: center;
   text-transform: uppercase;
   font-weight: var(--text-semibold);
@@ -30,6 +30,18 @@
   background-color: var(--surface-overlay);
   border-radius: var(--border-radius-input);
   padding: var(--space-6) var(--space-8);
+  border: var(--default-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .player-field,
+  .dice-cap {
+    padding: var(--space-6) var(--space-4);
+  }
 }
 
 .main__button:hover {
@@ -57,4 +69,5 @@
 
 ._winner {
   background-color: var(--winner);
+  border: 1px solid var(--winner-border);
 }

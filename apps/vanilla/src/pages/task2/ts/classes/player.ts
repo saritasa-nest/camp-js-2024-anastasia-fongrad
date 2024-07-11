@@ -4,6 +4,9 @@ import { PlayerDisplayResult } from '../types/playerDisplayResult';
 import { Subscriber } from '../types/subscriber';
 import { Publisher } from '../types/publisher';
 
+import { DiceGenerator } from './diceGenerator';
+import { TurnGenerator } from './turnGenerator';
+
 /** This is a description of the foo function. */
 export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDisplayResult> {
 
@@ -18,11 +21,15 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 
 	private readonly subscribers: Subscriber<PlayerDisplayResult>[];
 
-	public constructor(name: string) {
+	private readonly diceGenerator: DiceGenerator;
+
+	public constructor(name: string, playerIndex: number, turnGenerator: TurnGenerator) {
 		this.name = name;
 		this.diceResults = [];
 		this.subscribers = [];
 		this.winStatus = false;
+		this.diceGenerator = new DiceGenerator(playerIndex, turnGenerator);
+		this.diceGenerator.subscribe(this);
 	}
 
 	/** This is a description of the foo function. */
@@ -73,6 +80,9 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 			isWinner: this.winStatus,
 		};
 		this.notify(newMessage);
+		if (this.isWinner()) {
+			this.diceGenerator.unsubscribe(this);
+		}
 	}
 
 	/** This is a description of the foo function. */

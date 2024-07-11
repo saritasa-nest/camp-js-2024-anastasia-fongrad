@@ -4,7 +4,6 @@ import { Subscriber } from '../types/subscriber';
 import { PlayerDisplayResult } from '../types/playerDisplayResult';
 
 import { TurnGenerator } from './turnGenerator';
-import { DiceGenerator } from './diceGenerator';
 
 import { Player } from './player';
 
@@ -89,12 +88,9 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	public createPlayers(): void {
 		for (let id = 0; id < PLAYERS_COUNT; id++) {
 			const playerName = `Player ${id + 1}`;
-			const player = new Player(playerName);
+			const player = new Player(playerName, id, this.turnGenerator);
 			this.players.push(player);
 			player.subscribe(this);
-			const diceGenerator = new DiceGenerator(id);
-			diceGenerator.subscribe(player);
-			this.turnGenerator.subscribe(diceGenerator);
 		}
 		this.addPlayerFields();
 	}

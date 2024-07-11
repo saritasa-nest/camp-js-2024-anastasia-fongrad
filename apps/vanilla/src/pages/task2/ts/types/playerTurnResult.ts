@@ -5,5 +5,8 @@ export type PlayerTurnResult = {
 	readonly playerIndex: number;
 
 	/** This is a description of the foo function. */
+	readonly playerTurn: number;
+
+	/** This is a description of the foo function. */
 	readonly diceResult: number;
 };

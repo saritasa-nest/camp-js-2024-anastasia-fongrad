@@ -1,6 +1,6 @@
-/** This is a description of the foo function. */
+/** Subscriber type implementing the observer pattern. */
 export type Subscriber<T> = {
 
-	/** This is a description of the foo function. */
+	/** Receives a message from the publisher processes it. */
 	readonly update: (message: T) => void;
 };

@@ -3,6 +3,8 @@ import { PlayerTurnResult } from '../types/playerTurnResult';
 import { Subscriber } from '../types/subscriber';
 import { SIDES_COUNT } from '../constants';
 
+import { TurnGenerator } from './turnGenerator';
+
 /** This is a description of the foo function. */
 export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
 
@@ -12,10 +14,14 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 
 	private readonly playerIndex: number;
 
-	public constructor(playerIndex: number) {
+	private readonly turnGenerator: TurnGenerator;
+
+	public constructor(playerIndex: number, turnGenerator: TurnGenerator) {
 		this.playerIndex = playerIndex;
 		this.sidesCount = SIDES_COUNT;
 		this.subscribers = [];
+		this.turnGenerator = turnGenerator;
+		this.turnGenerator.subscribe(this);
 	}
 
 	/**
@@ -23,13 +29,12 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	 * @param message 1.
 	 */
 	public update(message: number): void {
-		if (this.playerIndex === message) {
-			const result: PlayerTurnResult = {
-				playerIndex: this.playerIndex,
-				diceResult: this.generateDiceNumber(),
-			};
-			this.notify(result);
-		}
+		const result: PlayerTurnResult = {
+			playerIndex: this.playerIndex,
+			playerTurn: message,
+			diceResult: this.generateDiceNumber(),
+		};
+		this.notify(result);
 	}
 
 	/** This is a description of the foo function. */
@@ -53,6 +58,9 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {
 			this.subscribers.splice(index, 1);
+		}
+		if (this.subscribers.length === 0) {
+			this.turnGenerator.unsubscribe(this);
 		}
 	}
 

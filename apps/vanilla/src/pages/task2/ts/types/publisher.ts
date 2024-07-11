@@ -1,6 +1,6 @@
 import { Subscriber } from './subscriber';
 
-/** This is a description of the foo function. */
+/** Publisher type implementing the observer pattern. */
 export type Publisher <T> = {
 
 	/** This is a description of the foo function. */
