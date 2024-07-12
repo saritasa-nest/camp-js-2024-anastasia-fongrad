@@ -31,7 +31,7 @@ export class TurnGenerator extends Publisher<number, DiceGenerator> {
 		}
 	}
 
-	/** Gets a class instance accordingly to the Singleton pattern */
+	/** Gets a class instance accordingly to the Singleton pattern. */
 	public static getInstance(): TurnGenerator {
 		if (!this.instance) {
 			this.instance = new TurnGenerator();

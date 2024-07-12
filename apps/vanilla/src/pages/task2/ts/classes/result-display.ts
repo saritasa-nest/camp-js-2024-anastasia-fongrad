@@ -1,5 +1,4 @@
 import { PLAYERS_COUNT } from '../constants';
-
 import { Subscriber } from '../types/subscriber';
 import { PlayerDisplayResult } from '../types/player-display-result';
 

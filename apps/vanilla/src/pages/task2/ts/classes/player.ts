@@ -3,7 +3,6 @@ import { PlayerDisplayResult } from '../types/player-display-result';
 import { Subscriber } from '../types/subscriber';
 
 import { Publisher } from './publisher';
-
 import { DiceGenerator } from './dice-generator';
 import { Application } from './result-display';
 

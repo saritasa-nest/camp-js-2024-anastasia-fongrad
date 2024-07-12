@@ -3,7 +3,6 @@ import { Subscriber } from '../types/subscriber';
 import { SIDES_COUNT } from '../constants';
 
 import { Publisher } from './publisher';
-
 import { TurnGenerator } from './turn-generator';
 import { Player } from './player';
 
@@ -50,7 +49,7 @@ export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implement
 		subscriber.update(message);
 	}
 
-	/** Gets a class instance accordingly to the Singleton pattern */
+	/** Gets a class instance accordingly to the Singleton pattern. */
 	public static getInstance(): DiceGenerator {
 		if (!this.instance) {
 			this.instance = new DiceGenerator();
