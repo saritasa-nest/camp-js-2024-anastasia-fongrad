@@ -4,10 +4,10 @@ import { Subscriber } from '../types/subscriber';
 export class Publisher<T, S extends Subscriber<T>> {
 
 	/** Generator that determines the value of a dice for a player. */
-	protected readonly subscribers: S[];
+	protected readonly subscribers: Set<S>;
 
 	protected constructor() {
-		this.subscribers = [];
+		this.subscribers = new Set<S>();
 	}
 
 	/**
@@ -15,7 +15,7 @@ export class Publisher<T, S extends Subscriber<T>> {
 	 * @param subject A player in blackjack by dice game.
 	 */
 	public subscribe(subject: S): void {
-		this.subscribers.push(subject);
+		this.subscribers.add(subject);
 	}
 
 	/**
@@ -23,9 +23,8 @@ export class Publisher<T, S extends Subscriber<T>> {
 	 * @param subject A player who wants to leave the game.
 	 */
 	public unsubscribe(subject: S): void {
-		const index = this.subscribers.indexOf(subject);
-		if (index !== -1) {
-			this.subscribers.splice(index, 1);
+		if (this.subscribers.has(subject)) {
+			this.subscribers.delete(subject);
 		}
 	}
 

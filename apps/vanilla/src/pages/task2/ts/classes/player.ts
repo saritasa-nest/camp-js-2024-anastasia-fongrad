@@ -1,13 +1,14 @@
 import { PlayerTurnResult } from '../types/player-turn-result';
 import { PlayerDisplayResult } from '../types/player-display-result';
-
 import { Subscriber } from '../types/subscriber';
-import { Publisher } from '../types/publisher';
+
+import { Publisher } from './publisher';
 
 import { DiceGenerator } from './dice-generator';
+import { ResultDisplay } from './result-display';
 
 /** Blackjack by dice player.*/
-export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDisplayResult> {
+export class Player extends Publisher<PlayerDisplayResult, ResultDisplay> implements Subscriber<PlayerTurnResult> {
 
 	private readonly name: string;
 
@@ -17,11 +18,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 
 	private winStatus: boolean;
 
-	private readonly subscribers: Subscriber<PlayerDisplayResult>[];
-
-	private readonly diceGenerator: DiceGenerator;
-
-	public constructor(playerId: number, diceGenerator: DiceGenerator, name?: string) {
+	public constructor(playerId: number, name?: string) {
+		super();
 		this.id = playerId;
 		if (name == null) {
 			this.name = `Player ${playerId + 1}`;
@@ -29,39 +27,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 			this.name = name;
 		}
 		this.diceResults = [];
-		this.subscribers = [];
 		this.winStatus = false;
-		this.diceGenerator = diceGenerator;
-		this.diceGenerator.subscribe(this);
-	}
-
-	/**
-	 * Subscribes a game display to receive notifications about the game.
-	 * @param subject Result display object.
-	 */
-	public subscribe(subject: Subscriber<PlayerDisplayResult>): void {
-		this.subscribers.push(subject);
-	}
-
-	/**
-	 * Unsubscribes a game display from receiving notifications about the game.
-	 * @param subject Result display object.
-	 */
-	public unsubscribe(subject: Subscriber<PlayerDisplayResult>): void {
-		const index = this.subscribers.indexOf(subject);
-		if (index !== -1) {
-			this.subscribers.splice(index, 1);
-		}
-	}
-
-	/**
-	 * Notifies subscribers about new game events.
-	 * @param message Ready-to-display information about the turn result.
-	 */
-	public notify(message: PlayerDisplayResult): void {
-		this.subscribers.forEach(subscriber => {
-			subscriber.update(message);
-		});
+		DiceGenerator.getInstance().subscribe(this);
 	}
 
 	/**
@@ -79,7 +46,7 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		};
 		this.notify(newMessage);
 		if (this.isWinner()) {
-			this.diceGenerator.unsubscribe(this);
+			DiceGenerator.getInstance().unsubscribe(this);
 		}
 	}
 

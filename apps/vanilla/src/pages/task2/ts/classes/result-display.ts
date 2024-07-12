@@ -4,23 +4,15 @@ import { Subscriber } from '../types/subscriber';
 import { PlayerDisplayResult } from '../types/player-display-result';
 
 import { TurnGenerator } from './turn-generator';
-
 import { Player } from './player';
-import { DiceGenerator } from './dice-generator';
 
 /** Displays the game on the html page. */
 export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 	private readonly players: Player[];
 
-	private readonly diceGenerator: DiceGenerator;
-
-	private readonly turnGenerator: TurnGenerator;
-
 	public constructor() {
 		this.players = [];
-		this.turnGenerator = new TurnGenerator();
-		this.diceGenerator = new DiceGenerator(this.turnGenerator);
 	}
 
 	/**
@@ -84,14 +76,14 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	/** Creates players and starts the game. */
 	public startGame(): void {
 		for (let id = 0; id < PLAYERS_COUNT; id++) {
-			const player = new Player(id, this.diceGenerator);
+			const player = new Player(id);
 			this.players.push(player);
 			player.subscribe(this);
 		}
 		this.addPlayerFields();
 		const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
 		rollButton.addEventListener('click', () => {
-			this.turnGenerator.getNextTurn();
+			TurnGenerator.getInstance().getNextTurn();
 		});
 	}
 }

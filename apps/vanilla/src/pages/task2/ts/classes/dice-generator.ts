@@ -1,24 +1,23 @@
-import { Publisher } from '../types/publisher';
 import { PlayerTurnResult } from '../types/player-turn-result';
 import { Subscriber } from '../types/subscriber';
 import { SIDES_COUNT } from '../constants';
 
+import { Publisher } from './publisher';
+
 import { TurnGenerator } from './turn-generator';
+import { Player } from './player';
 
 /** Generator that determines the value of a dice for a player. */
-export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {
-
-	private readonly subscribers: Subscriber<PlayerTurnResult>[];
+export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implements Subscriber<number> {
 
 	private readonly sidesCount: number;
 
-	private readonly turnGenerator: TurnGenerator;
+	private static instance: DiceGenerator | null = null;
 
-	public constructor(turnGenerator: TurnGenerator) {
+	private constructor() {
+		super();
 		this.sidesCount = SIDES_COUNT;
-		this.subscribers = [];
-		this.turnGenerator = turnGenerator;
-		this.turnGenerator.subscribe(this);
+		TurnGenerator.getInstance().subscribe(this);
 	}
 
 	/**
@@ -34,34 +33,23 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	}
 
 	/**
-	 * Subscribes a player to receive notifications.
-	 * @param subject A player in blackjack by dice game.
-	 */
-	public subscribe(subject: Subscriber<PlayerTurnResult>): void {
-		this.subscribers.push(subject);
-	}
-
-	/**
-	 * Stops a game for the player.
-	 * @param subject A player who wants to leave the game.
-	 */
-	public unsubscribe(subject: Subscriber<PlayerTurnResult>): void {
-		const index = this.subscribers.indexOf(subject);
-		if (index !== -1) {
-			this.subscribers.splice(index, 1);
-		}
-		if (this.subscribers.length === 0) {
-			this.turnGenerator.unsubscribe(this);
-		}
-	}
-
-	/**
 	 * Notifies players with player turn result.
 	 * @param message Results for a player in a current round.
 	 */
-	public notify(message: PlayerTurnResult): void {
-		const subscriber = this.subscribers[message.playerId];
+	public override notify(message: PlayerTurnResult): void {
+		const subscriber = Array.from(this.subscribers).find(subject => subject.getId() === message.playerId);
+		if (subscriber == null) {
+			return;
+		}
 		subscriber.update(message);
+	}
+
+	/** Generates a random dice number. */
+	public static getInstance(): DiceGenerator {
+		if (!this.instance) {
+			this.instance = new DiceGenerator();
+		}
+		return this.instance;
 	}
 
 	/** Generates a random dice number. */
@@ -71,6 +59,6 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 
 	/** Generates a random dice number. */
 	public getPlayersNumber(): number {
-		return this.subscribers.length;
+		return this.subscribers.size;
 	}
 }
