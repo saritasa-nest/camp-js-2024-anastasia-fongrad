@@ -6,17 +6,21 @@ import { PlayerDisplayResult } from '../types/player-display-result';
 import { TurnGenerator } from './turn-generator';
 
 import { Player } from './player';
+import { DiceGenerator } from './dice-generator';
 
 /** Displays the game on the html page. */
 export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 	private readonly players: Player[];
 
+	private readonly diceGenerator: DiceGenerator;
+
 	private readonly turnGenerator: TurnGenerator;
 
 	public constructor() {
 		this.players = [];
 		this.turnGenerator = new TurnGenerator();
+		this.diceGenerator = new DiceGenerator(this.turnGenerator);
 	}
 
 	/**
@@ -26,8 +30,8 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	public update(message: PlayerDisplayResult): void {
 		const totalScore = this.players.reduce((sum, current) => sum + current.getScore(), 0);
 		const diceCapElement = <HTMLElement>document.querySelector('.main__dice-cap');
-		const header = <HTMLElement>diceCapElement.querySelector('.dice-cap__header');
-		header.textContent = `Dice cap - ${totalScore}`;
+		const totalScoreElement = <HTMLElement>diceCapElement.querySelector('.dice-cap__score');
+		totalScoreElement.textContent = `Total score: ${totalScore}`;
 
 		const newDiceValueElement = document.createElement('li');
 		newDiceValueElement.className = 'dice-cap__value';
@@ -35,9 +39,9 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 		const diceValuesList = <HTMLElement>diceCapElement.querySelector('.dice-cap__values');
 		diceValuesList.appendChild(newDiceValueElement);
 
-		const playerField = <HTMLElement>document.querySelector(`#Player${message.playerIndex}`);
-		const score = <HTMLElement>playerField.querySelector('.player-field__score');
-		score.textContent = `Player score: ${message.playerScore}`;
+		const playerField = <HTMLElement>document.querySelector(`#Player${message.playerId}`);
+		const playerScoreElement = <HTMLElement>playerField.querySelector('.player-field__score');
+		playerScoreElement.textContent = `Player score: ${message.playerScore}`;
 
 		const newPlayerValueElement = document.createElement('li');
 		newPlayerValueElement.className = 'dice-cap__value';
@@ -80,7 +84,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	/** Creates players and starts the game. */
 	public startGame(): void {
 		for (let id = 0; id < PLAYERS_COUNT; id++) {
-			const player = new Player(id, this.turnGenerator);
+			const player = new Player(id, this.diceGenerator);
 			this.players.push(player);
 			player.subscribe(this);
 		}

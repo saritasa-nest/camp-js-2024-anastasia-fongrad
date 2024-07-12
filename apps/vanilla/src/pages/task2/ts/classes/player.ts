@@ -5,12 +5,13 @@ import { Subscriber } from '../types/subscriber';
 import { Publisher } from '../types/publisher';
 
 import { DiceGenerator } from './dice-generator';
-import { TurnGenerator } from './turn-generator';
 
 /** Blackjack by dice player.*/
 export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDisplayResult> {
 
 	private readonly name: string;
+
+	private readonly id: number;
 
 	private readonly diceResults: number[];
 
@@ -20,7 +21,8 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 
 	private readonly diceGenerator: DiceGenerator;
 
-	public constructor(playerId: number, turnGenerator: TurnGenerator, name?: string) {
+	public constructor(playerId: number, diceGenerator: DiceGenerator, name?: string) {
+		this.id = playerId;
 		if (name == null) {
 			this.name = `Player ${playerId + 1}`;
 		} else {
@@ -29,7 +31,7 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		this.diceResults = [];
 		this.subscribers = [];
 		this.winStatus = false;
-		this.diceGenerator = new DiceGenerator(playerId, turnGenerator);
+		this.diceGenerator = diceGenerator;
 		this.diceGenerator.subscribe(this);
 	}
 
@@ -70,7 +72,7 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 		this.diceResults.push(message.diceResult);
 		this.winStatus = this.getScore() >= 21;
 		const newMessage: PlayerDisplayResult = {
-			playerIndex: message.playerIndex,
+			playerId: message.playerId,
 			newDiceResult: message.diceResult,
 			playerScore: this.getScore(),
 			isWinner: this.winStatus,
@@ -89,6 +91,11 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 	/** Returns current players name. */
 	public getName(): string {
 		return this.name;
+	}
+
+	/** Returns current players name. */
+	public getId(): number {
+		return this.id;
 	}
 
 	/** Checks if the player has won the game. */

@@ -12,12 +12,9 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 
 	private readonly sidesCount: number;
 
-	private readonly playerIndex: number;
-
 	private readonly turnGenerator: TurnGenerator;
 
-	public constructor(playerIndex: number, turnGenerator: TurnGenerator) {
-		this.playerIndex = playerIndex;
+	public constructor(turnGenerator: TurnGenerator) {
 		this.sidesCount = SIDES_COUNT;
 		this.subscribers = [];
 		this.turnGenerator = turnGenerator;
@@ -30,8 +27,7 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	 */
 	public update(message: number): void {
 		const result: PlayerTurnResult = {
-			playerIndex: this.playerIndex,
-			playerTurn: message,
+			playerId: message,
 			diceResult: this.generateDiceNumber(),
 		};
 		this.notify(result);
@@ -64,13 +60,17 @@ export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<nu
 	 * @param message Results for a player in a current round.
 	 */
 	public notify(message: PlayerTurnResult): void {
-		this.subscribers.forEach(subscriber => {
-			subscriber.update(message);
-		});
+		const subscriber = this.subscribers[message.playerId];
+		subscriber.update(message);
 	}
 
 	/** Generates a random dice number. */
 	public generateDiceNumber(): number {
 		return Math.floor(Math.random() * this.sidesCount) + 1;
+	}
+
+	/** Generates a random dice number. */
+	public getPlayersNumber(): number {
+		return this.subscribers.length;
 	}
 }

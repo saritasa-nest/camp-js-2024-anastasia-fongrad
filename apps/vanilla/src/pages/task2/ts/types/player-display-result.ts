@@ -1,8 +1,8 @@
 /** Ready-to-display data for a specific player. */
 export type PlayerDisplayResult = {
 
-	/** The index of the player throwing a dice. */
-	readonly playerIndex: number;
+	/** The id of the player throwing a dice. */
+	readonly playerId: number;
 
 	/** The result of throwing a dice. */
 	readonly newDiceResult: number;

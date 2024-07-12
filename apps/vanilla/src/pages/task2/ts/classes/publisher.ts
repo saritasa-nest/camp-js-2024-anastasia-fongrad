@@ -1,15 +1,20 @@
 import { Subscriber } from '../types/subscriber';
 
 /** Generator that determines the value of a dice for a player. */
-export class Publisher<T> {
+export class Publisher<T, S extends Subscriber<T>> {
 
-	private readonly subscribers: Subscriber<T>[] = [];
+	/** Generator that determines the value of a dice for a player. */
+	protected readonly subscribers: S[];
+
+	protected constructor() {
+		this.subscribers = [];
+	}
 
 	/**
 	 * Subscribes a player to receive notifications.
 	 * @param subject A player in blackjack by dice game.
 	 */
-	public subscribe(subject: Subscriber<T>): void {
+	public subscribe(subject: S): void {
 		this.subscribers.push(subject);
 	}
 
@@ -17,7 +22,7 @@ export class Publisher<T> {
 	 * Stops a game for the player.
 	 * @param subject A player who wants to leave the game.
 	 */
-	public unsubscribe(subject: Subscriber<T>): void {
+	public unsubscribe(subject: S): void {
 		const index = this.subscribers.indexOf(subject);
 		if (index !== -1) {
 			this.subscribers.splice(index, 1);
