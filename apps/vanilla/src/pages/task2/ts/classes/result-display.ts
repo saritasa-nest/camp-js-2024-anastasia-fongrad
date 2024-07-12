@@ -1,13 +1,13 @@
 import { PLAYERS_COUNT } from '../constants';
 
 import { Subscriber } from '../types/subscriber';
-import { PlayerDisplayResult } from '../types/playerDisplayResult';
+import { PlayerDisplayResult } from '../types/player-display-result';
 
-import { TurnGenerator } from './turnGenerator';
+import { TurnGenerator } from './turn-generator';
 
 import { Player } from './player';
 
-/** This is a description of the foo function. */
+/** Displays the game on the html page. */
 export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 
 	private readonly players: Player[];
@@ -77,20 +77,14 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 		});
 	}
 
-	/** This is a description of the foo function. */
-	public createPlayers(): void {
+	/** Creates players and starts the game. */
+	public startGame(): void {
 		for (let id = 0; id < PLAYERS_COUNT; id++) {
-			const playerName = `Player ${id + 1}`;
-			const player = new Player(playerName, id, this.turnGenerator);
+			const player = new Player(id, this.turnGenerator);
 			this.players.push(player);
 			player.subscribe(this);
 		}
 		this.addPlayerFields();
-	}
-
-	/** This is a description of the foo function. */
-	public startGame(): void {
-		this.createPlayers();
 		const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
 		rollButton.addEventListener('click', () => {
 			this.turnGenerator.getNextTurn();

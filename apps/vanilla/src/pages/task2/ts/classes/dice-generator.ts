@@ -1,9 +1,9 @@
 import { Publisher } from '../types/publisher';
-import { PlayerTurnResult } from '../types/playerTurnResult';
+import { PlayerTurnResult } from '../types/player-turn-result';
 import { Subscriber } from '../types/subscriber';
 import { SIDES_COUNT } from '../constants';
 
-import { TurnGenerator } from './turnGenerator';
+import { TurnGenerator } from './turn-generator';
 
 /** Generator that determines the value of a dice for a player. */
 export class DiceGenerator implements Publisher<PlayerTurnResult>, Subscriber<number> {

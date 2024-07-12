@@ -1,4 +1,4 @@
-import { ResultDisplay } from './classes/resultDisplay';
+import { ResultDisplay } from './classes/result-display';
 
 const resultDisplay = new ResultDisplay();
 

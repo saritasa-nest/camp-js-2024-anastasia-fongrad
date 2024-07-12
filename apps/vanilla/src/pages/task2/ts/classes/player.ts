@@ -1,11 +1,11 @@
-import { PlayerTurnResult } from '../types/playerTurnResult';
-import { PlayerDisplayResult } from '../types/playerDisplayResult';
+import { PlayerTurnResult } from '../types/player-turn-result';
+import { PlayerDisplayResult } from '../types/player-display-result';
 
 import { Subscriber } from '../types/subscriber';
 import { Publisher } from '../types/publisher';
 
-import { DiceGenerator } from './diceGenerator';
-import { TurnGenerator } from './turnGenerator';
+import { DiceGenerator } from './dice-generator';
+import { TurnGenerator } from './turn-generator';
 
 /** Blackjack by dice player.*/
 export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDisplayResult> {
@@ -20,12 +20,16 @@ export class Player implements Subscriber<PlayerTurnResult>, Publisher<PlayerDis
 
 	private readonly diceGenerator: DiceGenerator;
 
-	public constructor(name: string, playerIndex: number, turnGenerator: TurnGenerator) {
-		this.name = name;
+	public constructor(playerId: number, turnGenerator: TurnGenerator, name?: string) {
+		if (name == null) {
+			this.name = `Player ${playerId + 1}`;
+		} else {
+			this.name = name;
+		}
 		this.diceResults = [];
 		this.subscribers = [];
 		this.winStatus = false;
-		this.diceGenerator = new DiceGenerator(playerIndex, turnGenerator);
+		this.diceGenerator = new DiceGenerator(playerId, turnGenerator);
 		this.diceGenerator.subscribe(this);
 	}
 

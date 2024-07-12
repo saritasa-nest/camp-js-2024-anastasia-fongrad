@@ -7,11 +7,11 @@ export class TurnGenerator implements Publisher<number> {
 
 	private readonly subscribers: Subscriber<number>[];
 
-	private currentPlayerIndex: number;
+	private currentPlayerId: number;
 
 	public constructor() {
 		this.subscribers = [];
-		this.currentPlayerIndex = PLAYERS_COUNT;
+		this.currentPlayerId = PLAYERS_COUNT;
 	}
 
 	/**
@@ -38,7 +38,7 @@ export class TurnGenerator implements Publisher<number> {
 	 * @param message Number of the player throwing the dice.
 	 */
 	public notify(message: number): void {
-		const subscriber = this.subscribers[this.currentPlayerIndex];
+		const subscriber = this.subscribers[this.currentPlayerId];
 		subscriber.update(message);
 	}
 
@@ -47,11 +47,11 @@ export class TurnGenerator implements Publisher<number> {
 		if (this.subscribers.length === 0) {
 			return;
 		}
-		if (this.currentPlayerIndex >= this.subscribers.length - 1) {
-			this.currentPlayerIndex = 0;
+		if (this.currentPlayerId >= this.subscribers.length - 1) {
+			this.currentPlayerId = 0;
 		} else {
-			this.currentPlayerIndex += 1;
+			this.currentPlayerId += 1;
 		}
-		this.notify(this.currentPlayerIndex);
+		this.notify(this.currentPlayerId);
 	}
 }

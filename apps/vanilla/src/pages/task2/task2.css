@@ -29,6 +29,7 @@
 .dice-cap {
   background-color: var(--surface-overlay);
   border-radius: var(--border-radius-input);
+  min-height: 170px;
   padding: var(--space-6) var(--space-8);
   border: var(--default-border);
   display: flex;
