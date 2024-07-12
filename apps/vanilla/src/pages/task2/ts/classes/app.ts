@@ -74,15 +74,15 @@ export class Application implements Subscriber<PlayerDisplayResult> {
 
 	/** Creates players and starts the game. */
 	public startGame(): void {
-		for (let id = 0; id < PLAYERS_COUNT; id++) {
-			const player = new Player(id);
+		for (let index = 0; index < PLAYERS_COUNT; index++) {
+			const player = new Player(index);
 			this.players.push(player);
 			player.subscribe(this);
 		}
 		this.addPlayerFields();
 		const rollButton = <HTMLButtonElement>document.querySelector('.main__button');
 		rollButton.addEventListener('click', () => {
-			TurnGenerator.getInstance().getNextTurn();
+			TurnGenerator.getInstance().generateNextTurn();
 		});
 	}
 }

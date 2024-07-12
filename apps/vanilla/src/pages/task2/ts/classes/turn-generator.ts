@@ -14,7 +14,7 @@ export class TurnGenerator extends Publisher<number, DiceGenerator> {
 	}
 
 	/** Determines the next player to roll the dice. */
-	public getNextTurn(): void {
+	public generateNextTurn(): void {
 		this.notify(this._currentPlayerId);
 		if (this.subscribers.size === 0) {
 			return;
