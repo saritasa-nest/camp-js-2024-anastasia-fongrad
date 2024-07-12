@@ -9,13 +9,13 @@ import { Player } from './player';
 /** Generator that determines the value of a dice for a player. */
 export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implements Subscriber<number> {
 
-	private readonly sidesCount: number;
+	private readonly _sidesCount: number;
 
-	private static instance: DiceGenerator | null = null;
+	private static _instance: DiceGenerator | null = null;
 
 	private constructor() {
 		super();
-		this.sidesCount = SIDES_COUNT;
+		this._sidesCount = SIDES_COUNT;
 		TurnGenerator.getInstance().subscribe(this);
 	}
 
@@ -41,7 +41,7 @@ export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implement
 		}
 		let { playerId } = message;
 		let subscriber: Player | undefined;
-		const compareId = (subject: Player): boolean => subject.getId() === playerId;
+		const compareId = (subject: Player): boolean => subject.id === playerId;
 		while (subscriber == null) {
 			subscriber = Array.from(this.subscribers).find(compareId);
 			playerId++;
@@ -51,15 +51,15 @@ export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implement
 
 	/** Gets a class instance accordingly to the Singleton pattern. */
 	public static getInstance(): DiceGenerator {
-		if (!this.instance) {
-			this.instance = new DiceGenerator();
+		if (!this._instance) {
+			this._instance = new DiceGenerator();
 		}
-		return this.instance;
+		return this._instance;
 	}
 
 	/** Generates a random dice number. */
 	public generateDiceNumber(): number {
-		return Math.floor(Math.random() * this.sidesCount) + 1;
+		return Math.floor(Math.random() * this._sidesCount) + 1;
 	}
 
 	/** Generates a random dice number. */

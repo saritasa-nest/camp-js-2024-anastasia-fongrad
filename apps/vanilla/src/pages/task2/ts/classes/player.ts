@@ -4,29 +4,29 @@ import { Subscriber } from '../types/subscriber';
 
 import { Publisher } from './publisher';
 import { DiceGenerator } from './dice-generator';
-import { Application } from './result-display';
+import { Application } from './app';
 
 /** Blackjack by dice player.*/
 export class Player extends Publisher<PlayerDisplayResult, Application> implements Subscriber<PlayerTurnResult> {
 
-	private readonly name: string;
+	private readonly _name: string;
 
-	private readonly id: number;
+	private readonly _id: number;
 
-	private readonly diceResults: number[];
+	private readonly _diceResults: number[];
 
-	private winStatus: boolean;
+	private _winStatus: boolean;
 
 	public constructor(playerId: number, name?: string) {
 		super();
-		this.id = playerId;
+		this._id = playerId;
 		if (name == null) {
-			this.name = `Player ${playerId + 1}`;
+			this._name = `Player ${playerId + 1}`;
 		} else {
-			this.name = name;
+			this._name = name;
 		}
-		this.diceResults = [];
-		this.winStatus = false;
+		this._diceResults = [];
+		this._winStatus = false;
 		DiceGenerator.getInstance().subscribe(this);
 	}
 
@@ -35,37 +35,37 @@ export class Player extends Publisher<PlayerDisplayResult, Application> implemen
 	 * @param message Players result for this turn.
 	 */
 	public update(message: PlayerTurnResult): void {
-		this.diceResults.push(message.diceResult);
-		this.winStatus = this.score >= 21;
+		this._diceResults.push(message.diceResult);
+		this._winStatus = this.score >= 21;
 		const newMessage: PlayerDisplayResult = {
-			playerId: this.id,
+			playerId: this._id,
 			newDiceResult: message.diceResult,
 			playerScore: this.score,
-			isWinner: this.winStatus,
+			isWinner: this._winStatus,
 		};
 		this.notify(newMessage);
-		if (this.isWinner()) {
+		if (this._winStatus) {
 			DiceGenerator.getInstance().unsubscribe(this);
 		}
 	}
 
 	/** Returns total score for the current player. */
 	public get score(): number {
-		return this.diceResults.reduce((sum, current) => sum + current, 0);
+		return this._diceResults.reduce((sum, current) => sum + current, 0);
 	}
 
 	/** Returns the name of the current player. */
-	public getName(): string {
-		return this.name;
+	public get name(): string {
+		return this._name;
 	}
 
 	/** Returns the id of the current player. */
-	public getId(): number {
-		return this.id;
+	public get id(): number {
+		return this._id;
 	}
 
 	/** Checks if the player has won the game. */
-	public isWinner(): boolean {
-		return this.winStatus;
+	public get winStatus(): boolean {
+		return this._winStatus;
 	}
 }

@@ -1,4 +1,4 @@
-import { Application } from './classes/result-display';
+import { Application } from './classes/app';
 
 const gameApplication = new Application();
 

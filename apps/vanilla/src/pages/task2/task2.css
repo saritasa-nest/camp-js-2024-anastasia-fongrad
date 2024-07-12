@@ -68,7 +68,7 @@
   text-transform: uppercase;
 }
 
-._winner {
+.player-field_winner {
   background-color: var(--accent);
   border: 1px solid var(--accent-border);
 }

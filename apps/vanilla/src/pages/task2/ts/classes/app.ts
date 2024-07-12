@@ -41,7 +41,7 @@ export class Application implements Subscriber<PlayerDisplayResult> {
 		playerValuesList.appendChild(newPlayerValueElement);
 
 		if (message.isWinner) {
-			playerField.classList.add('_winner');
+			playerField.classList.add('player-field_winner');
 		}
 	}
 
@@ -55,7 +55,7 @@ export class Application implements Subscriber<PlayerDisplayResult> {
 
 			const header = document.createElement('h2');
 			header.className = 'player-field__header';
-			header.textContent = player.getName();
+			header.textContent = player.name;
 			playerField.appendChild(header);
 
 			const diceValues = document.createElement('ul');
