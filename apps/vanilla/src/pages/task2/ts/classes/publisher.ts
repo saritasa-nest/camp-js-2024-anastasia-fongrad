@@ -1,9 +1,9 @@
 import { Subscriber } from '../types/subscriber';
 
-/** Generator that determines the value of a dice for a player. */
+/** Publisher implementing the observer design pattern. */
 export class Publisher<T, S extends Subscriber<T>> {
 
-	/** Generator that determines the value of a dice for a player. */
+	/** Set of subscribers for the current publisher. */
 	protected readonly subscribers: Set<S>;
 
 	protected constructor() {
@@ -11,16 +11,16 @@ export class Publisher<T, S extends Subscriber<T>> {
 	}
 
 	/**
-	 * Subscribes a player to receive notifications.
-	 * @param subject A player in blackjack by dice game.
+	 * Subscribes a subject to receive notifications.
+	 * @param subject A subject implementing the observer design pattern.
 	 */
 	public subscribe(subject: S): void {
 		this.subscribers.add(subject);
 	}
 
 	/**
-	 * Stops a game for the player.
-	 * @param subject A player who wants to leave the game.
+	 * Unsubscribes a subject from receiving notifications.
+	 * @param subject A subject implementing the observer design pattern.
 	 */
 	public unsubscribe(subject: S): void {
 		if (this.subscribers.has(subject)) {
@@ -29,8 +29,8 @@ export class Publisher<T, S extends Subscriber<T>> {
 	}
 
 	/**
-	 * Notifies players with player turn result.
-	 * @param message Results for a player in a current round.
+	 * Notifies all the subscribers with a message.
+	 * @param message A message that needs to be send to subscribers.
 	 */
 	public notify(message: T): void {
 		this.subscribers.forEach(subscriber => {

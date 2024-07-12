@@ -7,7 +7,7 @@ import { TurnGenerator } from './turn-generator';
 import { Player } from './player';
 
 /** Displays the game on the html page. */
-export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
+export class Application implements Subscriber<PlayerDisplayResult> {
 
 	private readonly players: Player[];
 
@@ -20,7 +20,7 @@ export class ResultDisplay implements Subscriber<PlayerDisplayResult> {
 	 * @param message Ready-for-display dice results.
 	 */
 	public update(message: PlayerDisplayResult): void {
-		const totalScore = this.players.reduce((sum, current) => sum + current.getScore(), 0);
+		const totalScore = this.players.reduce((sum, current) => sum + current.score, 0);
 		const diceCapElement = <HTMLElement>document.querySelector('.main__dice-cap');
 		const totalScoreElement = <HTMLElement>diceCapElement.querySelector('.dice-cap__score');
 		totalScoreElement.textContent = `Total score: ${totalScore}`;

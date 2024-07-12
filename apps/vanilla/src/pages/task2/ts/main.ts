@@ -1,5 +1,5 @@
-import { ResultDisplay } from './classes/result-display';
+import { Application} from './classes/result-display';
 
-const resultDisplay = new ResultDisplay();
+const gameApplication = new Application();
 
-resultDisplay.startGame();
+gameApplication.startGame();

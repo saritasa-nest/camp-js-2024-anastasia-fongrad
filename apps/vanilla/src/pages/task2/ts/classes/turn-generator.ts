@@ -1,5 +1,3 @@
-import { PLAYERS_COUNT } from '../constants';
-
 import { DiceGenerator } from './dice-generator';
 import { Publisher } from './publisher';
 
@@ -12,11 +10,12 @@ export class TurnGenerator extends Publisher<number, DiceGenerator> {
 
 	private constructor() {
 		super();
-		this.currentPlayerId = PLAYERS_COUNT;
+		this.currentPlayerId = 0;
 	}
 
 	/** Determines the next player to roll the dice. */
 	public getNextTurn(): void {
+		this.notify(this.currentPlayerId);
 		if (this.subscribers.size === 0) {
 			return;
 		}
@@ -30,10 +29,9 @@ export class TurnGenerator extends Publisher<number, DiceGenerator> {
 		} else {
 			this.currentPlayerId += 1;
 		}
-		this.notify(this.currentPlayerId);
 	}
 
-	/** Generates a random dice number. */
+	/** Gets a class instance accordingly to the Singleton pattern */
 	public static getInstance(): TurnGenerator {
 		if (!this.instance) {
 			this.instance = new TurnGenerator();

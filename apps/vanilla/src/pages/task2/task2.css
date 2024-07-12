@@ -29,7 +29,7 @@
 .dice-cap {
   background-color: var(--surface-overlay);
   border-radius: var(--border-radius-input);
-  min-height: 170px;
+  min-height: 160px;
   padding: var(--space-6) var(--space-8);
   border: var(--default-border);
   display: flex;
@@ -46,7 +46,7 @@
 }
 
 .main__button:hover {
-  background-color: rgb(248 101 48 / 100%);
+  background-color: var(--primary-hover);
 }
 
 .main__button:hover:active {
@@ -69,6 +69,6 @@
 }
 
 ._winner {
-  background-color: var(--winner);
-  border: 1px solid var(--winner-border);
+  background-color: var(--accent);
+  border: 1px solid var(--accent-border);
 }

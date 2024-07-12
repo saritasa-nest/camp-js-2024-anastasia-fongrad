@@ -5,10 +5,10 @@ import { Subscriber } from '../types/subscriber';
 import { Publisher } from './publisher';
 
 import { DiceGenerator } from './dice-generator';
-import { ResultDisplay } from './result-display';
+import { Application } from './result-display';
 
 /** Blackjack by dice player.*/
-export class Player extends Publisher<PlayerDisplayResult, ResultDisplay> implements Subscriber<PlayerTurnResult> {
+export class Player extends Publisher<PlayerDisplayResult, Application> implements Subscriber<PlayerTurnResult> {
 
 	private readonly name: string;
 
@@ -37,11 +37,11 @@ export class Player extends Publisher<PlayerDisplayResult, ResultDisplay> implem
 	 */
 	public update(message: PlayerTurnResult): void {
 		this.diceResults.push(message.diceResult);
-		this.winStatus = this.getScore() >= 21;
+		this.winStatus = this.score >= 21;
 		const newMessage: PlayerDisplayResult = {
-			playerId: message.playerId,
+			playerId: this.id,
 			newDiceResult: message.diceResult,
-			playerScore: this.getScore(),
+			playerScore: this.score,
 			isWinner: this.winStatus,
 		};
 		this.notify(newMessage);
@@ -51,16 +51,16 @@ export class Player extends Publisher<PlayerDisplayResult, ResultDisplay> implem
 	}
 
 	/** Returns total score for the current player. */
-	public getScore(): number {
+	public get score(): number {
 		return this.diceResults.reduce((sum, current) => sum + current, 0);
 	}
 
-	/** Returns current players name. */
+	/** Returns the name of the current player. */
 	public getName(): string {
 		return this.name;
 	}
 
-	/** Returns current players name. */
+	/** Returns the id of the current player. */
 	public getId(): number {
 		return this.id;
 	}

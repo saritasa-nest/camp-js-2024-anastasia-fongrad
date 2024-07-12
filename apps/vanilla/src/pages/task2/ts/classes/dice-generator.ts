@@ -37,14 +37,20 @@ export class DiceGenerator extends Publisher<PlayerTurnResult, Player> implement
 	 * @param message Results for a player in a current round.
 	 */
 	public override notify(message: PlayerTurnResult): void {
-		const subscriber = Array.from(this.subscribers).find(subject => subject.getId() === message.playerId);
-		if (subscriber == null) {
+		if (this.subscribers.size === 0) {
 			return;
+		}
+		let { playerId } = message;
+		let subscriber: Player | undefined;
+		const compareId = (subject: Player): boolean => subject.getId() === playerId;
+		while (subscriber == null) {
+			subscriber = Array.from(this.subscribers).find(compareId);
+			playerId++;
 		}
 		subscriber.update(message);
 	}
 
-	/** Generates a random dice number. */
+	/** Gets a class instance accordingly to the Singleton pattern */
 	public static getInstance(): DiceGenerator {
 		if (!this.instance) {
 			this.instance = new DiceGenerator();
