@@ -1,0 +1,74 @@
+@import url("../../css/index.css");
+
+.main__container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-block: var(--space-12);
+}
+
+.main__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.main__button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  padding: var(--space-5) var(--space-9);
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: var(--text-semibold);
+  border-radius: var(--border-radius-input);
+  max-width: max-content;
+  cursor: pointer;
+}
+
+.player-field,
+.dice-cap {
+  background-color: var(--surface-overlay);
+  border-radius: var(--border-radius-input);
+  min-height: 160px;
+  padding: var(--space-6) var(--space-8);
+  border: var(--default-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .player-field,
+  .dice-cap {
+    padding: var(--space-6) var(--space-4);
+  }
+}
+
+.main__button:hover {
+  background-color: var(--primary-hover);
+}
+
+.main__button:hover:active {
+  border: var(--default-border);
+}
+
+.dice-cap__values,
+.player-field__dice-values {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.player-field__header,
+.dice-cap__header {
+  font-size: var(--subtitle);
+  font-weight: var(--text-semibold);
+  line-height: var(--subtitle-line-height);
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.player-field_winner {
+  background-color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
