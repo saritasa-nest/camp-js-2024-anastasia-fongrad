@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { ExampleComponent } from './features/example/example.component';
+import { AnimeTableComponent } from './features/anime_table/anime_table.component';
 
 /** Routes object. */
 export const appRoutes: Routes = [
 	{
 		path: '',
-		component: ExampleComponent,
+		component: AnimeTableComponent,
 	},
 ];
