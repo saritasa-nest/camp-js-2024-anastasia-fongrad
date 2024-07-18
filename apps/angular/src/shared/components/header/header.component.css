@@ -5,4 +5,12 @@
 .container {
   display: flex;
   align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header__content {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }

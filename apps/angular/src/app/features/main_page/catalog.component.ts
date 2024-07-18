@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/shared/components/anime_table/anime_table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 
@@ -9,5 +9,6 @@ import { HeaderComponent } from '@js-camp/angular/shared/components/header/heade
 	styleUrl: './catalog.component.css',
 	templateUrl: './catalog.component.html',
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent { }
+export class MainPageComponent {}

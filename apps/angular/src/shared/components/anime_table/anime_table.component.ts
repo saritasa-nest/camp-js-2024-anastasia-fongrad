@@ -1,9 +1,12 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FetchAnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { Observable } from 'rxjs';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
+
+import { EmptyPipe } from '../../pipes/empty.pipe';
 
 /** 1. */
 @Component({
@@ -11,11 +14,12 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 	styleUrl: './anime_table.component.css',
 	templateUrl: './anime_table.component.html',
 	standalone: true,
-	imports: [MatTableModule, CommonModule, NgOptimizedImage],
+	imports: [MatTableModule, CommonModule, NgOptimizedImage, MatChipsModule, EmptyPipe, DatePipe],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeTableComponent implements OnInit {
 	/** 1. */
-	public displayedColumns: string[] = ['id', 'image', 'titleEng', 'titleJpn', 'startDate', 'type', 'status'];
+	public displayedColumns: string[] = ['image', 'titleEng', 'titleJpn', 'startDate', 'type', 'status'];
 
 	/** 1. */
 	protected animeData$!: Observable<Anime[]>;
