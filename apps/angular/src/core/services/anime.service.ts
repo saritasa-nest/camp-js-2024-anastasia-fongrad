@@ -1,16 +1,37 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { GetAnimeDto } from '@js-camp/core/dtos/get_anime.dto';
+import { environment } from '@js-camp/angular/environments/environment';
+import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
+import { Anime } from '@js-camp/core/models/anime';
 
+/** 1. */
 @Injectable({
-  providedIn: 'root',
+	providedIn: 'root',
 })
-export class AnimeService {
-  cars = ['Sunflower GT', 'Flexus Sport', 'Sprout Mach One'];
+export class FetchAnimeService {
+	private readonly rootUrl = 'https://api.camp-js.saritasa.rocks/api/v1/';
 
-  getCars(): string[] {
-    return this.cars;
-  }
+	public constructor(private http: HttpClient) {}
 
-  getCar(id: number) {
-    return this.cars[id];
-  }
+	/** 1. */
+	public getAnime(): Observable<Anime[]> {
+		const headers = {
+			'Api-Key': environment.apiKey,
+		};
+		const result$ = this.http.get<GetAnimeDto>(`${this.rootUrl}anime/anime/`, { headers });
+		const newN$ = result$.pipe(
+			map((response: GetAnimeDto) => {
+				if ('results' in response) {
+					const animeResult = response.results.map(dto => AnimeMapper.fromDto(dto));
+					return animeResult;
+				}
+				console.error(response);
+				return [];
+			}),
+		);
+		return newN$;
+	}
 }

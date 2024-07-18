@@ -1,4 +1,5 @@
 import { enableProdMode } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
@@ -11,5 +12,5 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-	providers: [provideRouter(appRoutes)],
+	providers: [provideRouter(appRoutes), provideHttpClient()],
 }).catch(err => console.error(err));
