@@ -9,6 +9,16 @@ import { MatChipsModule } from '@angular/material/chips';
 import { EmptyPipe } from '../../pipes/empty.pipe';
 
 /** 1. */
+enum AnimeTableColumns {
+	Image = 'image',
+	TitleEng = 'English title',
+	TitleJpn = 'Japanese title',
+	StartDate = 'Start date',
+	Type = 'type',
+	Status = 'status',
+}
+
+/** 1. */
 @Component({
 	selector: 'anime-table',
 	styleUrl: './anime_table.component.css',
@@ -18,8 +28,12 @@ import { EmptyPipe } from '../../pipes/empty.pipe';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeTableComponent implements OnInit {
+
 	/** 1. */
-	public displayedColumns: string[] = ['image', 'titleEng', 'titleJpn', 'startDate', 'type', 'status'];
+	protected readonly animeColumns = AnimeTableColumns;
+
+	/** 1. */
+	protected readonly displayedColumns = Object.values(this.animeColumns);
 
 	/** 1. */
 	protected animeData$!: Observable<Anime[]>;
