@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AnimeTableComponent } from '@js-camp/angular/shared/components/anime_table/anime_table.component';
+import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 
 /** 1. */
 @Component({
 	selector: 'main-page',
 	imports: [AnimeTableComponent, HeaderComponent],
-	styleUrl: './catalog.component.css',
-	templateUrl: './catalog.component.html',
+	styleUrl: './anime-catalog.component.css',
+	templateUrl: './anime-catalog.component.html',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainPageComponent {}
+export class AnimeCatalogComponent {}

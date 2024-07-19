@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GetAnimeDto } from '@js-camp/core/dtos/get_anime.dto';
+import { GetAnimeDto } from '@js-camp/core/dtos/get-anime.dto';
 
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';

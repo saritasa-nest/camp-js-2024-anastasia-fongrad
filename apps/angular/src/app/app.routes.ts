@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { MainPageComponent } from './features/main_page/catalog.component';
+import { MainPageComponent } from './features/anime-catalog/anime-catalog.component';
 
 /** Routes object. */
 export const appRoutes: Routes = [

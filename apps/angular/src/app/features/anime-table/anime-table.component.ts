@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { EmptyPipe } from '../../pipes/empty.pipe';
+import { EmptyPipe } from '../../../shared/pipes/empty.pipe';
 
 /** 1. */
 enum AnimeTableColumns {
@@ -21,8 +21,8 @@ enum AnimeTableColumns {
 /** 1. */
 @Component({
 	selector: 'anime-table',
-	styleUrl: './anime_table.component.css',
-	templateUrl: './anime_table.component.html',
+	styleUrl: './anime-table.component.css',
+	templateUrl: './anime-table.component.html',
 	standalone: true,
 	imports: [MatTableModule, CommonModule, NgOptimizedImage, MatChipsModule, EmptyPipe, DatePipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
