@@ -1,7 +1,7 @@
 import { Genre } from '@js-camp/core/models/genre';
 
 /** Genres state. */
-export interface GenresState {
+export type GenresState = {
 
 	/** Genres list. */
 	readonly genres: Genre[];
@@ -11,8 +11,9 @@ export interface GenresState {
 
 	/** Whether the genres are loading or not. */
 	readonly isLoading: boolean;
-}
+};
 
+/** 1. */
 export const initialState: GenresState = {
 	isLoading: false,
 	genres: [],
