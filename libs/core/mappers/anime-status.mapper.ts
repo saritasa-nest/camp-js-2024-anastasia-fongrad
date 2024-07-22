@@ -1,4 +1,4 @@
-import { DtoStatus, ModelStatus } from '../utils/statusEnums';
+import { DtoStatus, ModelStatus } from '../utils/enums/statusEnums';
 
 export namespace StatusMapper {
 

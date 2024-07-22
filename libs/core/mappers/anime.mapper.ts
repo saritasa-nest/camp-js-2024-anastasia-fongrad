@@ -1,10 +1,10 @@
 import { Anime } from '../models/anime';
 import { AnimeDto } from '../dtos/anime.dto';
-import { DtoStatus } from '../utils/statusEnums';
-import { DtoType } from '../utils/typeEnums';
+import { DtoStatus } from '../utils/enums/statusEnums';
+import { DtoType } from '../utils/enums/typeEnums';
 
-import { StatusMapper } from './status.mapper';
-import { TypeMapper } from './type.mapper';
+import { StatusMapper } from './anime-status.mapper';
+import { TypeMapper } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 

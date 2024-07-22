@@ -8,6 +8,5 @@ import { RouterModule } from '@angular/router';
 	styleUrls: ['./app.component.css'],
 	standalone: true,
 	imports: [RouterModule],
-	providers: [],
 })
 export class AppComponent {}

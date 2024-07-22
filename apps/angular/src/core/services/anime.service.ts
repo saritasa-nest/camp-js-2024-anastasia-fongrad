@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GetAnimeDto } from '@js-camp/core/dtos/get-anime.dto';
 
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';
+import { AnimeListDto } from '@js-camp/core/dtos/anime-list.dto';
 
 /** 1. */
 @Injectable({
@@ -18,9 +18,9 @@ export class FetchAnimeService {
 
 	/** 1. */
 	public getAnime(): Observable<Anime[]> {
-		const result$ = this.http.get<GetAnimeDto>('anime/anime/');
+		const result$ = this.http.get<AnimeListDto>('anime/anime/');
 		const newN$ = result$.pipe(
-			map((response: GetAnimeDto) => {
+			map((response: AnimeListDto) => {
 				if ('results' in response) {
 					const animeResult = response.results.map(dto => AnimeMapper.fromDto(dto));
 					return animeResult;

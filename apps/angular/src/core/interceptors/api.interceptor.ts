@@ -1,26 +1,25 @@
-import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '@js-camp/angular/environments/environment';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { AppConfig } from '../utils/app-config';
 
-/** 1. */
-@Injectable()
-export class ApiInterceptor implements HttpInterceptor {
-	private readonly rootUrl = 'https://api.camp-js.saritasa.rocks/api/v1/';
-
-	/**
-	 * 1.
-	 * @param req 1.
-	 * @param next 1.
-	 * @returns 1.
-	 */
-	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		const apiReq = req.clone({
-			url: `${this.rootUrl}${req.url}`,
+/**
+ * 1.
+ * @param req 1.
+ * @param next 1.
+ * @returns 1.
+ */
+export const apiInterceptor: HttpInterceptorFn = (req, next) => {
+	const appConfig = new AppConfig;
+	let apiReq = req;
+	if(req.url.startsWith('anime')){
+		apiReq = req.clone({
+			url: `${appConfig.baseUrl}${req.url}`,
 			setHeaders: {
-				'Api-Key': environment.apiKey,
+				'Api-Key': appConfig.apiKey,
 			},
 		});
-		return next.handle(apiReq);
 	}
+	return next(apiReq);
 }
