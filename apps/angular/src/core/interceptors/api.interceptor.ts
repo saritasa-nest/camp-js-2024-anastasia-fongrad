@@ -16,6 +16,8 @@ export const apiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, nex
 		apiReq = req.clone({
 			url: `${appConfig.baseUrl}${req.url}`,
 			setHeaders: {
+				// We need to send api-key to the server in this format
+				// eslint-disable-next-line @typescript-eslint/naming-convention
 				'Api-Key': appConfig.apiKey,
 			},
 		});

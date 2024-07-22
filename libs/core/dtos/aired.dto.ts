@@ -2,8 +2,8 @@
 export type AiredDto = {
 
 	/** Start airing date in format 2024-07-22T02:40:54.873Z. */
-	readonly start: string;
+	readonly start: string | null;
 
 	/** End airing date in format 2024-07-22T02:40:54.873Z. */
-	readonly end: string;
+	readonly end: string | null;
 };

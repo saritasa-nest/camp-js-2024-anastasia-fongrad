@@ -16,7 +16,7 @@ export class Anime extends Immerable {
 	public readonly titleJpn: string;
 
 	/** Anime start airing date. */
-	public readonly startDate: string;
+	public readonly startDate: string | null;
 
 	/** Anime type. */
 	public readonly type: string;
