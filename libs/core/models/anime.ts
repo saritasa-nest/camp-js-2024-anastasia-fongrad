@@ -1,27 +1,27 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Genre. */
+/** Anime model. */
 export class Anime extends Immerable {
 
-	/** Id. */
+	/** Anime id. */
 	public readonly id: number;
 
-	/** Id. */
+	/** Anime preview image. */
 	public readonly image: string;
 
-	/** Id. */
+	/** Anime English title. */
 	public readonly titleEng: string;
 
-	/** Id. */
+	/** Anime Japanese title. */
 	public readonly titleJpn: string;
 
-	/** Id. */
+	/** Anime start airing date. */
 	public readonly startDate: string;
 
-	/** Id. */
+	/** Anime type. */
 	public readonly type: string;
 
-	/** Id. */
+	/** Anime airing status. */
 	public readonly status: string;
 
 	public constructor(data: AnimeConstructorData) {

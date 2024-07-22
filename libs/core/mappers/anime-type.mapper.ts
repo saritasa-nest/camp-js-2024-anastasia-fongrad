@@ -3,8 +3,8 @@ import { DtoType, ModelType } from '../utils/enums/typeEnums';
 export namespace TypeMapper {
 
 	/**
-	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * Maps anime-type dto to model.
+	 * @param dto Anime-type enum.
 	 */
 	export function fromDto(dto: DtoType): ModelType {
 		const typeMap: { [key in DtoType]: ModelType } = {

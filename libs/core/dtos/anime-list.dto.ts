@@ -1,17 +1,17 @@
 import { AnimeDto } from './anime.dto';
 
-/** Genre DTO. */
+/** Anime list DTO. */
 export type AnimeListDto = {
 
-	/** Genre DTO. */
+	/** Total number of anime. */
 	readonly count: number;
 
-	/** Genre DTO. */
+	/** Address of the next anime page. */
 	readonly next: string;
 
-	/** Genre DTO. */
+	/** Address of the previous anime page. */
 	readonly previous: string;
 
-	/** Genre DTO. */
+	/** List of anime object for the current page. */
 	readonly results: readonly AnimeDto[];
 };

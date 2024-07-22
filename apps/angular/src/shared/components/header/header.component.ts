@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
-/** 1. */
+/** Header component for the app. */
 @Component({
 	selector: 'header-component',
 	templateUrl: './header.component.html',

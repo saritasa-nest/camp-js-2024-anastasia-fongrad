@@ -8,7 +8,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 import { EmptyPipe } from '../../../shared/pipes/empty.pipe';
 
-/** 1. */
+/** Anime table column names. */
 enum AnimeTableColumns {
 	Image = 'image',
 	TitleEng = 'English title',
@@ -18,7 +18,7 @@ enum AnimeTableColumns {
 	Status = 'status',
 }
 
-/** 1. */
+/** Anime table component. */
 @Component({
 	selector: 'anime-table',
 	styleUrl: './anime-table.component.css',
@@ -29,18 +29,18 @@ enum AnimeTableColumns {
 })
 export class AnimeTableComponent implements OnInit {
 
-	/** 1. */
+	/** Anime table column names. */
 	protected readonly animeColumns = AnimeTableColumns;
 
-	/** 1. */
+	/** An array that determines anime table columns order. */
 	protected readonly displayedColumns = Object.values(this.animeColumns);
 
-	/** 1. */
+	/** Stream containing anime data from the server. */
 	protected animeData$!: Observable<Anime[]>;
 
 	public constructor(private fetchAnimeService: FetchAnimeService) {}
 
-	/** 1. */
+	/** Gets anime date when the component is initialized. */
 	public ngOnInit(): void {
 		this.animeData$ = this.fetchAnimeService.getAnime();
 	}

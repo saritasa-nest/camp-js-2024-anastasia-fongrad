@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime type in the dto object. */
 export enum DtoType {
 	TV = 'TV',
 	OVA = 'OVA',
@@ -10,7 +10,7 @@ export enum DtoType {
 	Unknown = 'UNKNOWN',
 }
 
-/** 1. */
+/** Represents anime type in the model. */
 export enum ModelType{
 	TV = 'TV',
 	OVA = 'OVA',

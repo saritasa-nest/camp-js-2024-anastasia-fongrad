@@ -7,7 +7,7 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeListDto } from '@js-camp/core/dtos/anime-list.dto';
 
-/** 1. */
+/** Fetches anime data from the server. */
 @Injectable({
 	providedIn: 'root',
 })

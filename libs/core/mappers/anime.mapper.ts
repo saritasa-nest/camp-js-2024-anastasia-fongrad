@@ -9,8 +9,8 @@ import { TypeMapper } from './anime-type.mapper';
 export namespace AnimeMapper {
 
 	/**
-	 * Maps dto to model.
-	 * @param dto Genre dto.
+	 * Maps anime dto to model.
+	 * @param dto Anime dto.
 	 */
 	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({

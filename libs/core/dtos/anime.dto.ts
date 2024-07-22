@@ -1,44 +1,44 @@
 import { AiredDto } from './aired.dto';
 
-/** Genre DTO. */
+/** Anime DTO. */
 export type AnimeDto = {
 
-	/** Genre DTO. */
+	/** Id of the current anime. */
 	readonly id: number;
 
-	/** Genre DTO. */
+	/** Anime creation date in format 2024-07-16T06:21:11.171641Z. */
 	readonly created: string;
 
-	/** Genre DTO. */
+	/** Date of last modification in format 2024-07-16T06:21:11.171641Z. */
 	readonly modified: string;
 
-	/** Genre DTO. */
+	/** English title. */
 	readonly title_eng: string;
 
-	/** Genre DTO. */
+	/** Japanese title. */
 	readonly title_jpn: string;
 
-	/** Genre DTO. */
+	/** Anime preview. */
 	readonly image: string;
 
-	/** Genre DTO. */
+	/** Anime airing dates. */
 	readonly aired: AiredDto;
 
-	/** Genre DTO. */
+	/** Anime type. */
 	readonly type: string;
 
-	/** Genre DTO. */
+	/** Anime airing status. */
 	readonly status: string;
 
-	/** Genre DTO. */
+	/** Total anime score. */
 	readonly score: number;
 
-	/** Genre DTO. */
+	/** User anime score. */
 	readonly user_score: number;
 
-	/** Genre DTO. */
+	/** A list of released studios. */
 	readonly studios: readonly number[];
 
-	/** Genre DTO. */
+	/** A list of anime genres. */
 	readonly genres: readonly number[];
 };
