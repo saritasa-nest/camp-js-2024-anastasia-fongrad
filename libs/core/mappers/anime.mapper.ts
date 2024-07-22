@@ -1,7 +1,7 @@
 import { Anime } from '../models/anime';
 import { AnimeDto } from '../dtos/anime.dto';
-import { DtoStatus } from '../utils/enums/statusEnums';
-import { DtoType } from '../utils/enums/typeEnums';
+import { DtoStatus } from '../utils/enums/dto-status.enum';
+import { DtoType } from '../utils/enums/dto-type.enum';
 
 import { StatusMapper } from './anime-status.mapper';
 import { TypeMapper } from './anime-type.mapper';
@@ -15,9 +15,9 @@ export namespace AnimeMapper {
 	export function fromDto(dto: AnimeDto): Anime {
 		return new Anime({
 			id: dto.id,
-			image: dto.image,
-			titleEng: dto.title_eng,
-			titleJpn: dto.title_jpn,
+			imageUrl: dto.image,
+			titleEnglish: dto.title_eng,
+			titleJapanese: dto.title_jpn,
 			startDate: dto.aired.start,
 			type: TypeMapper.fromDto(dto.type as DtoType),
 			status: StatusMapper.fromDto(dto.status as DtoStatus),

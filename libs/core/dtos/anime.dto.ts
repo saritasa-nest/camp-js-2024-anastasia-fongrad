@@ -1,4 +1,4 @@
-import { AiredDto } from './aired.dto';
+import { TimeIntervalDto } from './aired.dto';
 
 /** Anime DTO. */
 export type AnimeDto = {
@@ -22,7 +22,7 @@ export type AnimeDto = {
 	readonly image: string;
 
 	/** Anime airing dates. */
-	readonly aired: AiredDto;
+	readonly aired: TimeIntervalDto;
 
 	/** Anime type. */
 	readonly type: string;

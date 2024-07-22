@@ -1,4 +1,5 @@
-import { DtoType, ModelType } from '../utils/enums/typeEnums';
+import { DtoType } from '../utils/enums/dto-type.enum';
+import { ModelType } from '../utils/enums/model-type.enum';
 
 export namespace TypeMapper {
 

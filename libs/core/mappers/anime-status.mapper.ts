@@ -1,4 +1,5 @@
-import { DtoStatus, ModelStatus } from '../utils/enums/statusEnums';
+import { DtoStatus } from '../utils/enums/dto-status.enum';
+import { ModelStatus } from '../utils/enums/model-status.enum';
 
 export namespace StatusMapper {
 

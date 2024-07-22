@@ -5,22 +5,22 @@ import { map } from 'rxjs/operators';
 
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';
-import { AnimeListDto } from '@js-camp/core/dtos/anime-list.dto';
+import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
+import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 
 /** Fetches anime data from the server. */
 @Injectable({
 	providedIn: 'root',
 })
 export class FetchAnimeService {
-	private readonly rootUrl = 'https://api.camp-js.saritasa.rocks/api/v1/';
 
 	public constructor(private http: HttpClient) {}
 
 	/** 1. */
 	public getAnime(): Observable<Anime[]> {
-		const result$ = this.http.get<AnimeListDto>('anime/anime/');
+		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/');
 		const newN$ = result$.pipe(
-			map((response: AnimeListDto) => {
+			map((response: PaginationDto<AnimeDto>) => {
 				if ('results' in response) {
 					const animeResult = response.results.map(dto => AnimeMapper.fromDto(dto));
 					return animeResult;
