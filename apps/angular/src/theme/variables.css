@@ -1,0 +1,15 @@
+:root {
+  /* Colors */
+  --surface: rgb(33 14 78 / 100%);
+  --surface-overlay: rgb(14 8 48 / 100%);
+  --on-surface: rgb(255 255 255 / 100%);
+  --accent: rgb(236 195 216 / 100%);
+  --on-accent: rgb(14 8 48 / 100%);
+
+  /* Space variables */
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-20: 80px;
+}

@@ -1,12 +1,19 @@
+@import "../../../theme/variables.css";
+
 table {
-  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background-color: var(--accent);
+}
+
+table tr {
+  color: var(--on-accent);
 }
 
 .table__container {
   width: 100px;
   height: 100px;
-  margin: 20px 0;
-  box-sizing: border-box;
+  margin: var(--space-5) 0;
 }
 
 .table__img {

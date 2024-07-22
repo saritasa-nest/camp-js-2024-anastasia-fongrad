@@ -1,8 +1,10 @@
 /* Global styles. */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./variables.css";
 
 body {
   font-family: Roboto, sans-serif;
-  background-color: rgb(196 131 163);
-  color: white;
+  background-color: var(--surface);
+  color: var(--on-surface);
+  margin: 0;
 }
