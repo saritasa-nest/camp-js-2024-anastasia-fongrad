@@ -24,7 +24,14 @@ enum AnimeTableColumns {
 	styleUrl: './anime-table.component.css',
 	templateUrl: './anime-table.component.html',
 	standalone: true,
-	imports: [MatTableModule, CommonModule, NgOptimizedImage, MatChipsModule, EmptyPipe, DatePipe],
+	imports: [
+		MatTableModule,
+		CommonModule,
+		NgOptimizedImage,
+		MatChipsModule,
+		EmptyPipe,
+		DatePipe
+	],
 })
 export class AnimeTableComponent {
 
