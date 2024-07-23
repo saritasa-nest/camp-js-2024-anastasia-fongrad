@@ -7,3 +7,18 @@
 .main__header {
   font-size: var(--header);
 }
+
+.main__form {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.main__search-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mat-button-wrapper {
+  height: 100%;
+}

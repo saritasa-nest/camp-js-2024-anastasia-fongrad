@@ -5,7 +5,28 @@
 			<h1 class="main__header">
 				Anime Catalog
 			</h1>
+			<div class="main__form">
+				<mat-form-field>
+					<mat-label>Favorite Food</mat-label>
+					<mat-select [(value)]="selectedFood">
+					<mat-option></mat-option>
+					@for (option of foods; track option) {
+						<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
+					}
+					</mat-select>
+				</mat-form-field>
+				<div class="main__search-group">
+					<mat-form-field appearance="fill">
+						<mat-label>Search</mat-label>
+						<input matInput placeholder="Placeholder">
+						<mat-icon matSuffix>search</mat-icon>
+					</mat-form-field>
+					<button mat-flat-button>Search</button>
+				</div>
+			</div>
 			<camp-anime-table/>
+			<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+			</mat-paginator>
 		</div>
 	</section>
 </main>
