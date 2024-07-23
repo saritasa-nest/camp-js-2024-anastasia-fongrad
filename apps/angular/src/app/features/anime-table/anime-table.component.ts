@@ -1,6 +1,6 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FetchAnimeService } from '@js-camp/angular/core/services/anime.service';
+import { Component, inject } from '@angular/core';
+import { AnimeApiService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
@@ -11,23 +11,22 @@ import { EmptyPipe } from '../../../shared/pipes/empty.pipe';
 /** Anime table column names. */
 enum AnimeTableColumns {
 	Image = 'image',
-	TitleEng = 'English title',
-	TitleJpn = 'Japanese title',
-	StartDate = 'Start date',
+	TitleEng = 'EnglishTitle',
+	TitleJpn = 'JapaneseTitle',
+	StartDate = 'startDate',
 	Type = 'type',
 	Status = 'status',
 }
 
 /** Anime table component. */
 @Component({
-	selector: 'anime-table',
+	selector: 'camp-anime-table',
 	styleUrl: './anime-table.component.css',
 	templateUrl: './anime-table.component.html',
 	standalone: true,
 	imports: [MatTableModule, CommonModule, NgOptimizedImage, MatChipsModule, EmptyPipe, DatePipe],
-	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeTableComponent implements OnInit {
+export class AnimeTableComponent {
 
 	/** Anime table column names. */
 	protected readonly animeColumns = AnimeTableColumns;
@@ -36,12 +35,21 @@ export class AnimeTableComponent implements OnInit {
 	protected readonly displayedColumns = Object.values(this.animeColumns);
 
 	/** Stream containing anime data from the server. */
-	protected animeData$!: Observable<Anime[]>;
+	protected animeList$!: Observable<Anime[]>;
 
-	public constructor(private fetchAnimeService: FetchAnimeService) {}
+	private readonly animeApiService = inject(AnimeApiService);
 
-	/** Gets anime date when the component is initialized. */
-	public ngOnInit(): void {
-		this.animeData$ = this.fetchAnimeService.getAnime();
+	public constructor() {
+		this.animeList$ = this.animeApiService.getAnime();
+	}
+
+	/**
+	 * 1.
+	 * @param index 1.
+	 * @param anime 1.
+	 * @returns 1.
+	 */
+	protected trackByAnime(index: number, anime: Anime): number {
+		return anime.id;
 	}
 }

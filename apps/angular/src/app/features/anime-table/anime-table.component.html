@@ -1,21 +1,21 @@
-<table mat-table [dataSource]="animeData$" class="mat-elevation-z8">
+<table mat-table [dataSource]="animeList$" [trackBy]="trackByAnime" class="mat-elevation-z8">
 	<ng-container [matColumnDef]="animeColumns.Image">
 		<th mat-header-cell *matHeaderCellDef> {{ animeColumns.Image }} </th>
 		<td mat-cell *matCellDef="let element">
 			<div class="table__container">
-				<img class="table__img" [src]="element.image" [alt]="element.titleJpn"/>
+				<img class="table__img" [src]="element.imageUrl" [alt]="element.titleJpn"/>
 			</div>
 		</td>
 	  </ng-container>
 
 	<ng-container [matColumnDef]="animeColumns.TitleEng">
 	  <th mat-header-cell *matHeaderCellDef>{{ animeColumns.TitleEng }}</th>
-	  <td mat-cell *matCellDef="let element"> {{ element.titleEng | empty }} </td>
+	  <td mat-cell *matCellDef="let element"> {{ element.titleEnglish | empty }} </td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="animeColumns.TitleJpn">
 	  <th mat-header-cell *matHeaderCellDef>{{ animeColumns.TitleJpn }}</th>
-	  <td mat-cell *matCellDef="let element"> {{ element.titleJpn | empty }} </td>
+	  <td mat-cell *matCellDef="let element"> {{ element.titleJapanese | empty }} </td>
 	</ng-container>
 
 	<ng-container [matColumnDef]="animeColumns.StartDate">

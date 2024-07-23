@@ -12,7 +12,7 @@ import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 @Injectable({
 	providedIn: 'root',
 })
-export class FetchAnimeService {
+export class AnimeApiService {
 
 	public constructor(private http: HttpClient) {}
 

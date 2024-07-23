@@ -13,7 +13,7 @@
 }
 
 .main__header {
-  font-size: 32px;
+  font-size: var(--header);
 }
 
 @media screen and (max-width: 1280px) {

@@ -1,4 +1,4 @@
-import { TimeIntervalDto } from './aired.dto';
+import { TimeIntervalDto } from './time-interval.dto';
 
 /** Anime DTO. */
 export type AnimeDto = {

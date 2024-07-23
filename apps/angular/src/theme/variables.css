@@ -13,4 +13,8 @@
   --space-8: calc(8 * var(--space-base));
   --space-10: calc(10 * var(--space-base));
   --space-20: calc(20 * var(--space-base));
+
+  /* Font-size variables */
+  --header: 32px;
+  --main-text: 14px;
 }
