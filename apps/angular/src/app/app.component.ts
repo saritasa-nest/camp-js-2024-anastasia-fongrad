@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-/** App component. */
+/** Main app component. */
 @Component({
 	selector: 'camp-root',
 	templateUrl: './app.component.html',

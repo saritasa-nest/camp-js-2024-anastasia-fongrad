@@ -1,5 +1,9 @@
 {
 	"$schema": "./node_modules/nx/schemas/nx-schema.json",
+	"npmScope": "saritasa",
+	"affected": {
+		"defaultBase": "develop"
+	},
 	"tasksRunnerOptions": {
 		"default": {
 			"runner": "nx/tasks-runners/default",

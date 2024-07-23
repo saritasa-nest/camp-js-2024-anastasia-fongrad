@@ -35,7 +35,7 @@ export class AnimeTableComponent {
 	protected readonly displayedColumns = Object.values(this.animeColumns);
 
 	/** Stream containing anime data from the server. */
-	protected animeList$!: Observable<Anime[]>;
+	protected animeList$: Observable<Anime[]>;
 
 	private readonly animeApiService = inject(AnimeApiService);
 

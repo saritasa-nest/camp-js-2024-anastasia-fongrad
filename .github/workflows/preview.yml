@@ -26,7 +26,7 @@ jobs:
       run: |
         npm ci
         PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-        REPO_NAME=saritasa-frontend-boilerplate-camp
+        REPO_NAME=camp-js-2024-anastasia-fongrad
         npm run angular:build -- --baseHref=/$REPO_NAME/pr-preview/pr-$PR_NUMBER/
 
     - name: Deploy preview
