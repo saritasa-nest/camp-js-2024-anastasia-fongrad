@@ -19,16 +19,14 @@ export class AnimeApiService {
 	/** Get anime list. */
 	public getAnimeList(): Observable<Anime[]> {
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/');
-		const newN$ = result$.pipe(
+		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => {
 				if ('results' in response) {
-					const animeResult = response.results.map(dto => AnimeMapper.fromDto(dto));
-					return animeResult;
+					return response.results.map(dto => AnimeMapper.fromDto(dto));
 				}
 				console.error(response);
 				return [];
 			}),
 		);
-		return newN$;
 	}
 }
