@@ -8,7 +8,7 @@ export namespace TypeMapper {
 	 * @param dto Anime-type enum.
 	 */
 	export function fromDto(dto: DtoType): ModelType {
-		const typeMap: { [key in DtoType]: ModelType } = {
+		const typeMap: Record<DtoType, ModelType> = {
 			[DtoType.TV]: ModelType.TV,
 			[DtoType.OVA]: ModelType.OVA,
 			[DtoType.Movie]: ModelType.Movie,

@@ -1,16 +1,6 @@
 @import "../../../theme/variables.css";
 
-table {
-  max-width: 100%;
-  box-sizing: border-box;
-  background-color: var(--accent);
-}
-
-table tr {
-  color: var(--on-accent);
-}
-
-.table__container {
+.table__img-container {
   width: 100px;
   height: 100px;
   margin: var(--space-5) 0;

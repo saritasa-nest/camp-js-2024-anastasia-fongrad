@@ -40,14 +40,13 @@ export class AnimeTableComponent {
 	private readonly animeApiService = inject(AnimeApiService);
 
 	public constructor() {
-		this.animeList$ = this.animeApiService.getAnime();
+		this.animeList$ = this.animeApiService.getAnimeList();
 	}
 
 	/**
-	 * 1.
-	 * @param index 1.
-	 * @param anime 1.
-	 * @returns 1.
+	 * Helps to track changes in anime data by its id.
+	 * @param index Index of the given entity.
+	 * @param anime Given anime object.
 	 */
 	protected trackByAnime(index: number, anime: Anime): number {
 		return anime.id;

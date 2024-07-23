@@ -2,7 +2,7 @@
 	<ng-container [matColumnDef]="animeColumns.Image">
 		<th mat-header-cell *matHeaderCellDef> {{ animeColumns.Image }} </th>
 		<td mat-cell *matCellDef="let element">
-			<div class="table__container">
+			<div class="table__img-container">
 				<img class="table__img" [src]="element.imageUrl" [alt]="element.titleJpn"/>
 			</div>
 		</td>

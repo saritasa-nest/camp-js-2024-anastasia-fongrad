@@ -8,3 +8,42 @@ body {
   color: var(--on-surface);
   margin: 0;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+@media screen and (max-width: 1280px) {
+  .container {
+    padding: 0 var(--space-10);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-6);
+  }
+}
+
+.mat-mdc-table {
+  max-width: 100%;
+  box-sizing: border-box;
+
+  /** Use !important to override default colors */
+  background-color: var(--accent) !important;
+}
+
+table tr {
+  /** Use !important to override default colors */
+  color: var(--on-accent) !important;
+}
+
+mat-toolbar {
+  /** Use !important to override default colors */
+  background-color: var(--surface-overlay) !important;
+  color: var(--on-surface) !important;
+}

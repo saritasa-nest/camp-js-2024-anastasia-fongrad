@@ -8,12 +8,11 @@ export namespace StatusMapper {
 	 * @param dto Anime-status enum.
 	 */
 	export function fromDto(dto: DtoStatus): ModelStatus {
-		const statusMap: { [key in DtoStatus]: ModelStatus } = {
+		const statusMap: Record<DtoStatus, ModelStatus> = {
 			[DtoStatus.Airing]: ModelStatus.Airing,
 			[DtoStatus.Finished]: ModelStatus.Finished,
 			[DtoStatus.NotYetAired]: ModelStatus.NotYetAired,
 		};
-
 		return statusMap[dto];
 	}
 }

@@ -1,31 +1,5 @@
-@import "../../../theme/variables.css";
-
-mat-toolbar {
-  background-color: var(--surface-overlay);
-  color: var(--on-surface);
-}
-
-.container {
-  display: flex;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .header__content {
   display: flex;
   align-items: center;
   width: 100%;
-}
-
-@media screen and (max-width: 1280px) {
-  .container {
-    padding: 0 var(--space-10);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .container {
-    padding: 0 var(--space-6);
-  }
 }

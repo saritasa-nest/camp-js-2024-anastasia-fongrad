@@ -8,7 +8,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 
-/** Fetches anime data from the server. */
+/** Connects to the API to manage anime data. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -16,8 +16,8 @@ export class AnimeApiService {
 
 	public constructor(private http: HttpClient) {}
 
-	/** 1. */
-	public getAnime(): Observable<Anime[]> {
+	/** Requests anime list from the API. */
+	public getAnimeList(): Observable<Anime[]> {
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/');
 		const newN$ = result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => {
