@@ -16,7 +16,7 @@ export class AnimeApiService {
 
 	public constructor(private http: HttpClient) {}
 
-	/** Requests anime list from the API. */
+	/** Get anime list. */
 	public getAnimeList(): Observable<Anime[]> {
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/');
 		const newN$ = result$.pipe(
