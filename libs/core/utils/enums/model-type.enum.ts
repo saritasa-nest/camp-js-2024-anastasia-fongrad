@@ -7,5 +7,5 @@ export enum ModelType{
 	ONA = 'ONA',
 	Music = 'music',
 	PromotionalVideos = 'promotional videos',
-	Unknown = '',
+	Unknown = '\u2014',
 }

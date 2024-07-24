@@ -4,7 +4,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { EmptyPipe } from '../../../shared/pipes/empty.pipe';
+import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 /** Anime table column names. */
 enum AnimeTableColumns {

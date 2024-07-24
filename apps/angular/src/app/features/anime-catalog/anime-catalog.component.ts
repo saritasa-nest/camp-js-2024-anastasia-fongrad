@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-table/anime-table.component';
+import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';

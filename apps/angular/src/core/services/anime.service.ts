@@ -26,6 +26,9 @@ export class AnimeApiService {
 	/** Connects to the API to manage anime data. */
 	public type: string | null;
 
+	/** Connects to the API to manage anime data. */
+	public search: string | null;
+
 	private http: HttpClient;
 
 	public constructor(private httpClient: HttpClient) {
@@ -33,6 +36,7 @@ export class AnimeApiService {
 		this.http = httpClient;
 		this.offset = 0;
 		this.type = null;
+		this.search = null;
 	}
 
 	/** Get anime list. */
@@ -56,6 +60,9 @@ export class AnimeApiService {
 		params = params.append(PaginationParameters.Limit, this.limitPerPage.toString());
 		if (this.type != null) {
 			params = params.append(PaginationParameters.Type, this.type);
+		}
+		if (this.search != null) {
+			params = params.append(PaginationParameters.Search, this.search);
 		}
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });
 		return result$.pipe(
