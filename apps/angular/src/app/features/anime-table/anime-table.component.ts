@@ -1,8 +1,6 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, inject } from '@angular/core';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime.service';
+import { Component, Input } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
-import { Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 
@@ -30,7 +28,7 @@ enum AnimeTableColumns {
 		NgOptimizedImage,
 		MatChipsModule,
 		EmptyPipe,
-		DatePipe
+		DatePipe,
 	],
 })
 export class AnimeTableComponent {
@@ -42,13 +40,7 @@ export class AnimeTableComponent {
 	protected readonly displayedColumns = Object.values(this.animeColumns);
 
 	/** Stream containing anime data from the server. */
-	protected animeList$: Observable<Anime[]>;
-
-	private readonly animeApiService = inject(AnimeApiService);
-
-	public constructor() {
-		this.animeList$ = this.animeApiService.getAnimeList();
-	}
+	@Input() public animeList: readonly Anime[] | undefined;
 
 	/**
 	 * Helps to track changes in anime data by its id.
