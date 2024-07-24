@@ -8,4 +8,8 @@ export const appRoutes: Routes = [
 		path: '',
 		component: AnimeCatalogComponent,
 	},
+	{
+		path: ':offset/:limit',
+		component: AnimeCatalogComponent,
+	},
 ];

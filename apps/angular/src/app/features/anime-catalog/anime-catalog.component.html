@@ -10,7 +10,7 @@
 					<mat-label>Anime type</mat-label>
 					<mat-select [(value)]="selectedType" (valueChange)="onSelectType()">
 					<mat-option></mat-option>
-					@for (option of types; track option) {
+					@for (option of selectTypes; track option) {
 						<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
 					}
 					</mat-select>

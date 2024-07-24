@@ -14,6 +14,7 @@ import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/anime-type-select';
+import { Router } from '@angular/router';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -34,12 +35,16 @@ import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/an
 	templateUrl: './anime-catalog.component.html',
 	standalone: true,
 })
+
 export class AnimeCatalogComponent {
 	/** 1. */
-	protected readonly types: AnimeSelectType[] = animeSelectType;
+	protected readonly selectTypes: AnimeSelectType[];
 
 	/** 1. */
-	protected readonly selectedType = this.types[0].value;
+	protected readonly selectedType: string;
+
+	/** 1. */
+	protected readonly searchQuery: string | null;
 
 	/** 1. */
 	protected readonly animeApiService = inject(AnimeApiService);
@@ -47,7 +52,10 @@ export class AnimeCatalogComponent {
 	/** 1. */
 	protected paginationData$: Observable<Pagination<Anime>>;
 
-	public constructor() {
+	public constructor(private router: Router) {
+		this.selectTypes = animeSelectType;
+		this.searchQuery = null;
+		this.selectedType = this.selectTypes[0].value;
 		this.animeApiService.type = this.selectedType;
 		this.paginationData$ = this.animeApiService.getPagination();
 	}
@@ -60,14 +68,25 @@ export class AnimeCatalogComponent {
 		this.animeApiService.limitPerPage = event.pageSize;
 		this.animeApiService.offset = event.pageIndex * event.pageSize;
 		this.paginationData$ = this.animeApiService.getPagination();
+		this.router.navigate([], {
+			queryParams: {
+				offset: this.animeApiService.offset,
+				limit: this.animeApiService.limitPerPage,
+			},
+			queryParamsHandling: 'merge',
+		});
 	}
 
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
+	/** 1. */
 	protected onSelectType(): void {
 		this.animeApiService.type = this.selectedType;
+		this.animeApiService.offset = 0;
+		this.paginationData$ = this.animeApiService.getPagination();
+	}
+
+	/** 1. */
+	protected onSearch(): void {
+		this.animeApiService.search = this.searchQuery;
 		this.animeApiService.offset = 0;
 		this.paginationData$ = this.animeApiService.getPagination();
 	}

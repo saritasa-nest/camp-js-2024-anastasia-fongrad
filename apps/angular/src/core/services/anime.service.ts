@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';
@@ -8,6 +8,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
+import { ActivatedRoute } from '@angular/router';
 
 import { PaginationParameters } from '../utils/get-params.enum';
 
@@ -15,7 +16,7 @@ import { PaginationParameters } from '../utils/get-params.enum';
 @Injectable({
 	providedIn: 'root',
 })
-export class AnimeApiService {
+export class AnimeApiService implements OnDestroy {
 
 	/** Connects to the API to manage anime data. */
 	public limitPerPage: number;
@@ -31,12 +32,20 @@ export class AnimeApiService {
 
 	private http: HttpClient;
 
-	public constructor(private httpClient: HttpClient) {
+	/** Connects to the API to manage anime data. */
+	private routeSubscription: Subscription;
+
+	public constructor(private httpClient: HttpClient, private route: ActivatedRoute) {
 		this.limitPerPage = 25;
 		this.http = httpClient;
 		this.offset = 0;
 		this.type = null;
 		this.search = null;
+
+		this.routeSubscription = this.route.params.subscribe(params => {
+			this.offset = +params['offset'];
+			this.limitPerPage = +params['limit'];
+		});
 	}
 
 	/** Get anime list. */
@@ -79,5 +88,12 @@ export class AnimeApiService {
 				});
 			}),
 		);
+	}
+
+	/** 1. */
+	public ngOnDestroy(): void {
+		if (this.routeSubscription) {
+			this.routeSubscription.unsubscribe();
+		}
 	}
 }
