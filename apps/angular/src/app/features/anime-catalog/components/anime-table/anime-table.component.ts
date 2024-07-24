@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 
-import { EmptyPipe } from '../../../shared/pipes/empty.pipe';
+import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 /** Anime table column names. */
 enum AnimeTableColumns {
 	Image = 'image',
-	TitleEng = 'EnglishTitle',
-	TitleJpn = 'JapaneseTitle',
+	TitleEnglish = 'englishTitle',
+	TitleJapanese = 'japaneseTitle',
 	StartDate = 'startDate',
 	Type = 'type',
 	Status = 'status',
@@ -24,7 +24,14 @@ enum AnimeTableColumns {
 	styleUrl: './anime-table.component.css',
 	templateUrl: './anime-table.component.html',
 	standalone: true,
-	imports: [MatTableModule, CommonModule, NgOptimizedImage, MatChipsModule, EmptyPipe, DatePipe],
+	imports: [
+		MatTableModule,
+		CommonModule,
+		NgOptimizedImage,
+		MatChipsModule,
+		EmptyPipe,
+		DatePipe,
+	],
 })
 export class AnimeTableComponent {
 
@@ -35,7 +42,7 @@ export class AnimeTableComponent {
 	protected readonly displayedColumns = Object.values(this.animeColumns);
 
 	/** Stream containing anime data from the server. */
-	protected animeList$: Observable<Anime[]>;
+	protected readonly animeList$: Observable<Anime[]>;
 
 	private readonly animeApiService = inject(AnimeApiService);
 
