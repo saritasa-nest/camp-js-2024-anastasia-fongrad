@@ -18,14 +18,14 @@
 				<div class="main__search-group">
 					<mat-form-field appearance="fill">
 						<mat-label>Search</mat-label>
-						<input matInput placeholder="Placeholder">
+						<input matInput [(ngModel)]="searchQuery" placeholder="Placeholder">
 						<mat-icon matSuffix>search</mat-icon>
 					</mat-form-field>
-					<button mat-flat-button type="button">Search</button>
+					<button mat-flat-button type="button" (click)="onSearch()">Search</button>
 				</div>
 			</div>
 			<camp-anime-table [animeList]="(paginationData$ | async)?.results"/>
-			<mat-paginator [length]="(paginationData$ | async)?.totalCount" [pageSize]="animeApiService.limitPerPage" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)" aria-label="Select page">
+			<mat-paginator #paginator [length]="(paginationData$ | async)?.totalCount" [pageSize]="animeApiService.limitPerPage" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>
 	</section>

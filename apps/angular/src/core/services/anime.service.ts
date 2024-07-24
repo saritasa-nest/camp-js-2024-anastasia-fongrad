@@ -1,8 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Anime } from '@js-camp/core/models/anime';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -32,6 +31,11 @@ export class AnimeApiService implements OnDestroy {
 
 	private http: HttpClient;
 
+	private paginationDataSubject$: BehaviorSubject<Pagination<Anime>>;
+
+	/** Connects to the API to manage anime data. */
+	public paginationData$: Observable<Pagination<Anime>>;
+
 	/** Connects to the API to manage anime data. */
 	private routeSubscription: Subscription;
 
@@ -41,25 +45,24 @@ export class AnimeApiService implements OnDestroy {
 		this.offset = 0;
 		this.type = null;
 		this.search = null;
-
-		this.routeSubscription = this.route.params.subscribe(params => {
-			this.offset = +params['offset'];
-			this.limitPerPage = +params['limit'];
-		});
-	}
-
-	/** Get anime list. */
-	public getAnimeList(): Observable<Anime[]> {
-		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/');
-		return result$.pipe(
-			map((response: PaginationDto<AnimeDto>) => {
-				if ('results' in response) {
-					return response.results.map(dto => AnimeMapper.fromDto(dto));
-				}
-				console.error(response);
-				return [];
+		this.paginationDataSubject$ = new BehaviorSubject<Pagination<Anime>>(
+			new Pagination<Anime>({
+				totalCount: 0,
+				nextPage: null,
+				previousPage: null,
+				results: [],
 			}),
 		);
+		this.paginationData$ = this.paginationDataSubject$.asObservable();
+		this.routeSubscription = this.route.queryParams.pipe(
+			switchMap(params => {
+				this.offset = +params['offset'];
+				this.limitPerPage = +params['limit'];
+				this.type = params['type'];
+				this.search = params['search'];
+				return this.getPagination();
+			}),
+		).subscribe(pagination => this.paginationDataSubject$.next(pagination));
 	}
 
 	/** Get anime list. */

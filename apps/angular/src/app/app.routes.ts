@@ -12,4 +12,16 @@ export const appRoutes: Routes = [
 		path: ':offset/:limit',
 		component: AnimeCatalogComponent,
 	},
+	{
+		path: ':offset/:limit/:search',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:status',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:search/:status',
+		component: AnimeCatalogComponent,
+	},
 ];

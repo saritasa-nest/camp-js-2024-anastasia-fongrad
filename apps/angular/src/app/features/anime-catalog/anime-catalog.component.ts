@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent, MatPaginator } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,6 +38,9 @@ import { Router } from '@angular/router';
 
 export class AnimeCatalogComponent {
 	/** 1. */
+	@ViewChild('paginator') private paginator!: MatPaginator;
+
+	/** 1. */
 	protected readonly selectTypes: AnimeSelectType[];
 
 	/** 1. */
@@ -57,7 +60,7 @@ export class AnimeCatalogComponent {
 		this.searchQuery = null;
 		this.selectedType = this.selectTypes[0].value;
 		this.animeApiService.type = this.selectedType;
-		this.paginationData$ = this.animeApiService.getPagination();
+		this.paginationData$ = this.animeApiService.paginationData$;
 	}
 
 	/**
@@ -65,13 +68,10 @@ export class AnimeCatalogComponent {
 	 * @param event 1.
 	 */
 	protected onPageChange(event: PageEvent): void {
-		this.animeApiService.limitPerPage = event.pageSize;
-		this.animeApiService.offset = event.pageIndex * event.pageSize;
-		this.paginationData$ = this.animeApiService.getPagination();
 		this.router.navigate([], {
 			queryParams: {
-				offset: this.animeApiService.offset,
-				limit: this.animeApiService.limitPerPage,
+				offset: event.pageIndex * event.pageSize,
+				limit: event.pageSize,
 			},
 			queryParamsHandling: 'merge',
 		});
@@ -79,15 +79,25 @@ export class AnimeCatalogComponent {
 
 	/** 1. */
 	protected onSelectType(): void {
-		this.animeApiService.type = this.selectedType;
-		this.animeApiService.offset = 0;
-		this.paginationData$ = this.animeApiService.getPagination();
+		this.router.navigate([], {
+			queryParams: {
+				offset: 0,
+				type: this.selectedType,
+			},
+			queryParamsHandling: 'merge',
+		});
+		this.paginator.pageIndex = 0;
 	}
 
 	/** 1. */
 	protected onSearch(): void {
-		this.animeApiService.search = this.searchQuery;
-		this.animeApiService.offset = 0;
-		this.paginationData$ = this.animeApiService.getPagination();
+		this.router.navigate([], {
+			queryParams: {
+				search: this.searchQuery,
+				offset: 0,
+			},
+			queryParamsHandling: 'merge',
+		});
+		this.paginator.pageIndex = 0;
 	}
 }
