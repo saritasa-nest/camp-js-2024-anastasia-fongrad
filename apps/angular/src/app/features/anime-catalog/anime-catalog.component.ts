@@ -15,6 +15,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/anime-type-select';
 import { Router } from '@angular/router';
+import { Sort } from '@angular/material/sort';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -99,5 +100,21 @@ export class AnimeCatalogComponent {
 			queryParamsHandling: 'merge',
 		});
 		this.paginator.pageIndex = 0;
+	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	public onSortChange(event: Sort): void {
+		let ordering = event.active;
+		if (event.direction === 'desc') {
+			ordering = `-${ordering}`;
+		}
+
+		this.router.navigate([], {
+			queryParams: { ordering },
+			queryParamsHandling: 'merge',
+		});
 	}
 }

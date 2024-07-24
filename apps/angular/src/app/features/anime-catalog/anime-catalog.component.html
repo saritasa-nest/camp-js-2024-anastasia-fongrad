@@ -24,7 +24,7 @@
 					<button mat-flat-button type="button" (click)="onSearch()">Search</button>
 				</div>
 			</div>
-			<camp-anime-table [animeList]="(paginationData$ | async)?.results"/>
+			<camp-anime-table [animeList]="(paginationData$ | async)?.results" (sortChange)="onSortChange($event)"/>
 			<mat-paginator #paginator [length]="(paginationData$ | async)?.totalCount" [pageSize]="animeApiService.limitPerPage" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>

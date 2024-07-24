@@ -1,19 +1,30 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatSortModule, Sort } from '@angular/material/sort';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
-/** Anime table column names. */
-enum AnimeTableColumns {
+/** Anime table column ids. */
+enum AnimeTableColumnIds {
 	Image = 'image',
-	TitleEng = 'EnglishTitle',
-	TitleJpn = 'JapaneseTitle',
-	StartDate = 'startDate',
+	TitleEng = 'title_eng',
+	TitleJpn = 'title_jpn',
+	StartDate = 'aired__startswith',
 	Type = 'type',
 	Status = 'status',
+}
+
+/** Anime table column names. */
+enum AnimeTableColumnNames {
+	Image = 'Image',
+	TitleEng = 'English Title',
+	TitleJpn = 'Japanese Title',
+	StartDate = 'Start Date',
+	Type = 'Type',
+	Status = 'Status',
 }
 
 /** Anime table component. */
@@ -29,18 +40,33 @@ enum AnimeTableColumns {
 		MatChipsModule,
 		EmptyPipe,
 		DatePipe,
+		MatSortModule,
 	],
 })
 export class AnimeTableComponent {
 
+	/** Anime table column ids. */
+	protected readonly animeColumnIds = AnimeTableColumnIds;
+
 	/** Anime table column names. */
-	protected readonly animeColumns = AnimeTableColumns;
+	protected readonly animeColumnNames = AnimeTableColumnNames;
 
 	/** An array that determines anime table columns order. */
-	protected readonly displayedColumns = Object.values(this.animeColumns);
+	protected readonly displayedColumns = Object.values(this.animeColumnIds);
 
 	/** Stream containing anime data from the server. */
 	@Input() public animeList: readonly Anime[] | undefined;
+
+	/** Stream containing anime data from the server. */
+	@Output() public sortChange = new EventEmitter<Sort>();
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	public emitSortChange(event: Sort): void {
+		this.sortChange.emit(event);
+	}
 
 	/**
 	 * Helps to track changes in anime data by its id.

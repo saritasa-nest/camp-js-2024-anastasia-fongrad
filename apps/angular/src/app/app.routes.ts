@@ -17,11 +17,27 @@ export const appRoutes: Routes = [
 		component: AnimeCatalogComponent,
 	},
 	{
-		path: ':offset/:limit/:status',
+		path: ':offset/:limit/:type',
 		component: AnimeCatalogComponent,
 	},
 	{
-		path: ':offset/:limit/:search/:status',
+		path: ':offset/:limit/:ordering',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:search/:type',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:search/:ordering',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:type/:ordering',
+		component: AnimeCatalogComponent,
+	},
+	{
+		path: ':offset/:limit/:search/:type/:ordering',
 		component: AnimeCatalogComponent,
 	},
 ];

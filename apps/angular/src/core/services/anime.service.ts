@@ -29,6 +29,9 @@ export class AnimeApiService implements OnDestroy {
 	/** Connects to the API to manage anime data. */
 	public search: string | null;
 
+	/** Connects to the API to manage anime data. */
+	public ordering: string | null;
+
 	private http: HttpClient;
 
 	private paginationDataSubject$: BehaviorSubject<Pagination<Anime>>;
@@ -45,6 +48,7 @@ export class AnimeApiService implements OnDestroy {
 		this.offset = 0;
 		this.type = null;
 		this.search = null;
+		this.ordering = null;
 		this.paginationDataSubject$ = new BehaviorSubject<Pagination<Anime>>(
 			new Pagination<Anime>({
 				totalCount: 0,
@@ -60,6 +64,7 @@ export class AnimeApiService implements OnDestroy {
 				this.limitPerPage = +params['limit'];
 				this.type = params['type'];
 				this.search = params['search'];
+				this.ordering = params['ordering'];
 				return this.getPagination();
 			}),
 		).subscribe(pagination => this.paginationDataSubject$.next(pagination));
@@ -75,6 +80,9 @@ export class AnimeApiService implements OnDestroy {
 		}
 		if (this.search != null) {
 			params = params.append(PaginationParameters.Search, this.search);
+		}
+		if (this.ordering != null) {
+			params = params.append(PaginationParameters.Ordering, this.ordering);
 		}
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });
 		return result$.pipe(

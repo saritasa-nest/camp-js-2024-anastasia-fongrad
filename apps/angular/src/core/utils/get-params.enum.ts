@@ -4,4 +4,5 @@ export enum PaginationParameters {
 	Limit = 'limit',
 	Type = 'type',
 	Search = 'search',
+	Ordering = 'ordering',
 }
