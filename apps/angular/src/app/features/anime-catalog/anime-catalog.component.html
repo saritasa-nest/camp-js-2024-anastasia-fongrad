@@ -7,10 +7,10 @@
 			</h1>
 			<div class="main__form">
 				<mat-form-field>
-					<mat-label>Favorite Food</mat-label>
-					<mat-select [(value)]="selectedFood">
+					<mat-label>Anime type</mat-label>
+					<mat-select [(value)]="selectedType" (valueChange)="onSelectType()">
 					<mat-option></mat-option>
-					@for (option of foods; track option) {
+					@for (option of types; track option) {
 						<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
 					}
 					</mat-select>
@@ -21,7 +21,7 @@
 						<input matInput placeholder="Placeholder">
 						<mat-icon matSuffix>search</mat-icon>
 					</mat-form-field>
-					<button mat-flat-button>Search</button>
+					<button mat-flat-button type="button">Search</button>
 				</div>
 			</div>
 			<camp-anime-table [animeList]="(paginationData$ | async)?.results"/>

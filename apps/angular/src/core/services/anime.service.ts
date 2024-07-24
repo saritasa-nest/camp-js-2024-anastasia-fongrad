@@ -9,6 +9,8 @@ import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
+import { PaginationParameters } from '../utils/get-params.enum';
+
 /** Connects to the API to manage anime data. */
 @Injectable({
 	providedIn: 'root',
@@ -21,12 +23,16 @@ export class AnimeApiService {
 	/** Connects to the API to manage anime data. */
 	public offset: number;
 
+	/** Connects to the API to manage anime data. */
+	public type: string | null;
+
 	private http: HttpClient;
 
 	public constructor(private httpClient: HttpClient) {
 		this.limitPerPage = 25;
 		this.http = httpClient;
 		this.offset = 0;
+		this.type = null;
 	}
 
 	/** Get anime list. */
@@ -46,8 +52,11 @@ export class AnimeApiService {
 	/** Get anime list. */
 	public getPagination(): Observable<Pagination<Anime>> {
 		let params = new HttpParams();
-		params = params.append('offset', this.offset.toString());
-		params = params.append('limit', this.limitPerPage.toString());
+		params = params.append(PaginationParameters.Offset, this.offset.toString());
+		params = params.append(PaginationParameters.Limit, this.limitPerPage.toString());
+		if (this.type != null) {
+			params = params.append(PaginationParameters.Type, this.type);
+		}
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => {

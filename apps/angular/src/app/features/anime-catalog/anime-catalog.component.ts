@@ -13,21 +13,7 @@ import { Observable } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
-
-type AnimeSelectType = {
-
-	/** 1. */
-	value: string;
-
-	/** 1. */
-	viewValue: string;
-};
-
-const animeSelectType: AnimeSelectType[] = [
-	{ value: 'steak-0', viewValue: 'Steak' },
-	{ value: 'pizza-1', viewValue: 'Pizza' },
-	{ value: 'tacos-2', viewValue: 'Tacos' },
-];
+import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/anime-type-select';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -50,10 +36,10 @@ const animeSelectType: AnimeSelectType[] = [
 })
 export class AnimeCatalogComponent {
 	/** 1. */
-	protected readonly foods: AnimeSelectType[] = animeSelectType;
+	protected readonly types: AnimeSelectType[] = animeSelectType;
 
 	/** 1. */
-	protected selectedFood = this.foods[2].value;
+	protected readonly selectedType = this.types[0].value;
 
 	/** 1. */
 	protected readonly animeApiService = inject(AnimeApiService);
@@ -62,6 +48,7 @@ export class AnimeCatalogComponent {
 	protected paginationData$: Observable<Pagination<Anime>>;
 
 	public constructor() {
+		this.animeApiService.type = this.selectedType;
 		this.paginationData$ = this.animeApiService.getPagination();
 	}
 
@@ -72,6 +59,16 @@ export class AnimeCatalogComponent {
 	protected onPageChange(event: PageEvent): void {
 		this.animeApiService.limitPerPage = event.pageSize;
 		this.animeApiService.offset = event.pageIndex * event.pageSize;
+		this.paginationData$ = this.animeApiService.getPagination();
+	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	protected onSelectType(): void {
+		this.animeApiService.type = this.selectedType;
+		this.animeApiService.offset = 0;
 		this.paginationData$ = this.animeApiService.getPagination();
 	}
 }
