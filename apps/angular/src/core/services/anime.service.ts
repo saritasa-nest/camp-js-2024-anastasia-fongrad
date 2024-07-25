@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, EMPTY } from 'rxjs';
-import { catchError, map, take } from 'rxjs/operators';
-
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { Anime } from '@js-camp/core/models/anime';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -22,9 +21,8 @@ export class AnimeApiService {
 			map((response: PaginationDto<AnimeDto>) => response.results.map(dto => AnimeMapper.fromDto(dto))),
 			catchError((error: unknown): Observable<Anime[]> => {
 				console.error(error);
-				return EMPTY;
+				return throwError(() => error);
 			}),
-			take(3),
 		);
 	}
 }

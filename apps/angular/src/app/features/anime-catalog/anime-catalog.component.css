@@ -3,5 +3,7 @@
 }
 
 .main__header {
-  font-size: var(--header);
+  font-size: var(--title);
+  line-height: var(--title-line-height);
+  font-weight: var(--text-semibold);
 }

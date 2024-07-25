@@ -6,6 +6,9 @@ body {
   font-family: Roboto, sans-serif;
   background-color: var(--surface);
   color: var(--on-surface);
+  font-size: var(--body);
+  line-height: var(--body-line-height);
+  font-weight: var(--text-medium);
   margin: 0;
 }
 
