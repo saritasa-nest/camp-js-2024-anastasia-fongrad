@@ -17,5 +17,5 @@ const GenreCardComponent: FC<Props> = ({ genre }: Props) => (
 	</div>
 );
 
-/** 1. */
+/** Memoized version of GenreCardComponent for performance optimization. */
 export const GenreCard = memo(GenreCardComponent);

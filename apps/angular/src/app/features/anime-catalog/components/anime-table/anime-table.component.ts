@@ -1,5 +1,5 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime.service';
 import { Anime } from '@js-camp/core/models/anime';
 import { Observable } from 'rxjs';
@@ -23,6 +23,7 @@ enum AnimeTableColumns {
 	selector: 'camp-anime-table',
 	styleUrl: './anime-table.component.css',
 	templateUrl: './anime-table.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
 	imports: [
 		MatTableModule,

@@ -1,5 +1,3 @@
-@import "../../../theme/variables.css";
-
 .main__table {
   margin: var(--space-20) 0;
 }

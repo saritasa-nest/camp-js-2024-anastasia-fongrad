@@ -5,7 +5,7 @@ import {
 
 import { genresSlice } from './genre/slice';
 
-/** 1. */
+/** The Redux store of the application. */
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
@@ -18,14 +18,14 @@ export const store = configureStore({
 	}),
 });
 
-/** 1. */
+/** Type definition for the state of the Redux store. */
 export type RootState = ReturnType<typeof store.getState>;
 
-/** 1. */
+/** Type definition for the dispatch function of the Redux store. */
 export type AppDispatch = typeof store.dispatch;
 
 /** Typed `useDispatch` hook. */
 export const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
 
-/** 1. */
+/**  Typed `useSelector` hook. */
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

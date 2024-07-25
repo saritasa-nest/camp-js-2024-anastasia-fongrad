@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
 
-import { AnimeCatalogComponent } from './features/anime-catalog/anime-catalog.component';
-
 /** Routes object. */
 export const appRoutes: Routes = [
 	{
 		path: '',
-		component: AnimeCatalogComponent,
+		loadComponent: () =>
+			import('../app/features/anime-catalog/anime-catalog.component').then(x => x.AnimeCatalogComponent),
 	},
 ];

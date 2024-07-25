@@ -9,5 +9,8 @@ export abstract class Immerable {
 	private readonly [immerable] = true;
 }
 
-/** 1. */
+/**
+ * A utility type that takes a type `T` and returns a new type with the `[immerable]` property omitted.
+ * @template T The original type.
+ */
 export type OmitImmerable<T> = Omit<T, '[immerable]'>;

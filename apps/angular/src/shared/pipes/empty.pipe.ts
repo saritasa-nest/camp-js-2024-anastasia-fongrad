@@ -16,12 +16,8 @@ export class EmptyPipe implements PipeTransform {
 		value: number | string | null | undefined,
 		placeholder?: string,
 	): string | number {
-		let placeholderCharacter = '\u2014';
-		if (placeholder) {
-			placeholderCharacter = placeholder;
-		}
 		if (value == null || value === '') {
-			return placeholderCharacter;
+			return placeholder ?? '\u2014';
 		}
 		return value;
 	}

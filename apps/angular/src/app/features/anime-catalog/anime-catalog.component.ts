@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 
@@ -11,6 +11,7 @@ import { HeaderComponent } from '@js-camp/angular/shared/components/header/heade
 	],
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
 })
 export class AnimeCatalogComponent {}

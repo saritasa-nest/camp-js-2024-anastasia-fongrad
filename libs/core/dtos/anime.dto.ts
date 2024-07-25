@@ -1,4 +1,4 @@
-import { TimeIntervalDto } from './time-interval.dto';
+import { DateTimeIntervalDto } from './date-time-interval.dto';
 
 /** Anime DTO. */
 export type AnimeDto = {
@@ -6,10 +6,16 @@ export type AnimeDto = {
 	/** Id of the current anime. */
 	readonly id: number;
 
-	/** Anime creation date in format 2024-07-16T06:21:11.171641Z. */
+	/**
+	 * Anime creation date-time.
+	 * @example '2024-07-16T06:21:11.171641Z'
+	 */
 	readonly created: string;
 
-	/** Date of last modification in format 2024-07-16T06:21:11.171641Z. */
+	/**
+	 * Anime last modification date-time.
+	 * @example '2024-07-16T06:21:11.171641Z'
+	 */
 	readonly modified: string;
 
 	/** English title. */
@@ -22,7 +28,7 @@ export type AnimeDto = {
 	readonly image: string;
 
 	/** Anime airing dates. */
-	readonly aired: TimeIntervalDto;
+	readonly aired: DateTimeIntervalDto;
 
 	/** Anime type. */
 	readonly type: string;
