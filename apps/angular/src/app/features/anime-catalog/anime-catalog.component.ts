@@ -1,4 +1,4 @@
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule, PageEvent, MatPaginator } from '@angular/material/paginator';
@@ -9,12 +9,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime.service';
-import { Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/anime-type-select';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 
 /** A component that represents anime catalog page. */
@@ -37,7 +38,7 @@ import { Sort } from '@angular/material/sort';
 	standalone: true,
 })
 
-export class AnimeCatalogComponent {
+export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** 1. */
 	@ViewChild('paginator') private paginator!: MatPaginator;
 
@@ -54,14 +55,41 @@ export class AnimeCatalogComponent {
 	protected readonly animeApiService = inject(AnimeApiService);
 
 	/** 1. */
-	protected paginationData$: Observable<Pagination<Anime>>;
+	protected paginationData?: Pagination<Anime>;
 
-	public constructor(private router: Router) {
+	private routeSubscription?: Subscription;
+
+	private route = inject(ActivatedRoute);
+
+	private router = inject(Router);
+
+	public constructor() {
 		this.selectTypes = animeSelectType;
 		this.searchQuery = null;
 		this.selectedType = this.selectTypes[0].value;
-		this.animeApiService.type = this.selectedType;
-		this.paginationData$ = this.animeApiService.paginationData$;
+	}
+
+	/** 1. */
+	public ngOnInit(): void {
+		this.routeSubscription = this.route.queryParams.pipe(
+			switchMap(params => {
+				const offset = +params['offset'] || 0;
+				const limit = +params['limit'] || 25;
+				const type = params['type'] || null;
+				const search = params['search'] || null;
+				const ordering = params['ordering'] || null;
+				return this.animeApiService.getPagination(offset, limit, type, search, ordering);
+			}),
+		).subscribe(pagination => {
+			this.paginationData = pagination;
+		});
+		this.router.navigate([], {
+			queryParams: {
+				offset: 0,
+				limit: 5,
+			},
+			queryParamsHandling: 'merge',
+		});
 	}
 
 	/**
@@ -116,5 +144,12 @@ export class AnimeCatalogComponent {
 			queryParams: { ordering },
 			queryParamsHandling: 'merge',
 		});
+	}
+
+	/** 1. */
+	public ngOnDestroy(): void {
+		if (this.routeSubscription) {
+			this.routeSubscription?.unsubscribe();
+		}
 	}
 }
