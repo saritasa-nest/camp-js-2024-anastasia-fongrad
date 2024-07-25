@@ -29,6 +29,12 @@
   border: var(--on-surface) 1px solid;
 }
 
+.main__reset-button {
+  width: 200px;
+  background-color: var(--surface-overlay) !important;
+  color: var(--on-surface) !important;
+}
+
 .main__search-button :hover {
   background-color: var(--surface-hover) !important;
 }

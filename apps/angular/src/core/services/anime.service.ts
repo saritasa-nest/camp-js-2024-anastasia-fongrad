@@ -31,13 +31,13 @@ export class AnimeApiService {
 		let params = new HttpParams();
 		params = params.append(PaginationParameters.Offset, offset.toString());
 		params = params.append(PaginationParameters.Limit, limit.toString());
-		if (type != null) {
+		if (type) {
 			params = params.append(PaginationParameters.Type, type);
 		}
-		if (search != null && search != "") {
+		if (search) {
 			params = params.append(PaginationParameters.Search, search);
 		}
-		if (ordering != null) {
+		if (ordering) {
 			params = params.append(PaginationParameters.Ordering, ordering);
 		}
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });

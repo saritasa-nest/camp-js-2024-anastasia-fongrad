@@ -52,10 +52,10 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected readonly searchQuery: string | null;
 
 	/** 1. */
-	protected readonly animeApiService = inject(AnimeApiService);
+	protected paginationData?: Pagination<Anime>;
 
 	/** 1. */
-	protected paginationData?: Pagination<Anime>;
+	protected readonly sortParameters: string[];
 
 	private routeSubscription?: Subscription;
 
@@ -63,10 +63,13 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	private router = inject(Router);
 
+	private readonly animeApiService = inject(AnimeApiService);
+
 	public constructor() {
 		this.selectTypes = animeSelectType;
 		this.searchQuery = null;
 		this.selectedType = this.selectTypes[0].value;
+		this.sortParameters = [];
 	}
 
 	/** 1. */
@@ -144,13 +147,33 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * @param event 1.
 	 */
 	public onSortChange(event: Sort): void {
-		let ordering = event.active;
+		const parameter = event.active;
+		let order = parameter;
 		if (event.direction === 'desc') {
-			ordering = `-${ordering}`;
+			order = `-${parameter}`;
 		}
-
+		if (this.sortParameters.includes(parameter)) {
+			const index = this.sortParameters.indexOf(parameter);
+			this.sortParameters.splice(index, 1);
+		} else if (this.sortParameters.includes(`-${parameter}`)) {
+			const index = this.sortParameters.indexOf(`-${parameter}`);
+			this.sortParameters.splice(index, 1);
+		}
+		this.sortParameters.push(order);
+		const ordering = this.sortParameters.join(',');
 		this.router.navigate([], {
 			queryParams: { ordering },
+			queryParamsHandling: 'merge',
+		});
+	}
+
+	/** 1. */
+	public cancelSorting(): void {
+		this.sortParameters.splice(0, this.sortParameters.length);
+		this.router.navigate([], {
+			queryParams: {
+				ordering: null,
+			},
 			queryParamsHandling: 'merge',
 		});
 	}

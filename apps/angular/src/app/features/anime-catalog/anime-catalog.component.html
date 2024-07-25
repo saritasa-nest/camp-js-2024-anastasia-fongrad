@@ -22,6 +22,9 @@
 					</mat-form-field>
 					<button class="main__search-button" mat-flat-button type="button" (click)="onSearch()">Search</button>
 				</div>
+				@if(sortParameters.length > 0){
+					<button class="main__reset-button" mat-flat-button type="button" (click)="cancelSorting()">Cancel sorting</button>
+				}
 			</div>
 			<camp-anime-table [animeList]="(paginationData)?.results" (sortChange)="onSortChange($event)"/>
 			<mat-paginator #paginator [length]="(paginationData)?.totalCount" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPageChange($event)" aria-label="Select page">
