@@ -47,3 +47,28 @@ mat-toolbar {
   background-color: var(--surface-overlay) !important;
   color: var(--on-surface) !important;
 }
+
+mat-paginator {
+  /** Use !important to override default colors */
+  background-color: var(--accent) !important;
+  color: var(--on-accent) !important;
+}
+
+button {
+  width: 100px;
+  height: 55px !important;
+}
+
+.mdc-text-field--filled {
+  background-color: var(--surface-overlay) !important;
+  color: var(--on-surface) !important;
+}
+
+label {
+  color: var(--accent) !important;
+}
+
+.main__type-select mat-select,
+mat-form-field input {
+  color: var(--on-surface) !important;
+}

@@ -10,15 +10,25 @@
 
 .main__form {
   display: flex;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 
 .main__search-group {
   display: flex;
-  align-items: center;
+  align-items: top;
   gap: 4px;
 }
 
 .mat-button-wrapper {
   height: 100%;
+}
+
+.main__search-button {
+  background-color: var(--surface-overlay) !important;
+  color: var(--on-surface) !important;
+  border: var(--on-surface) 1px solid;
+}
+
+.main__search-button :hover {
+  background-color: var(--surface-hover) !important;
 }

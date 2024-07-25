@@ -6,22 +6,21 @@
 				Anime Catalog
 			</h1>
 			<div class="main__form">
-				<mat-form-field>
+				<mat-form-field class="main__type-select" appearance="fill">
 					<mat-label>Anime type</mat-label>
 					<mat-select [(value)]="selectedType" (valueChange)="onSelectType()">
-					<mat-option></mat-option>
-					@for (option of selectTypes; track option) {
-						<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
-					}
+						<mat-option></mat-option>
+						@for (option of selectTypes; track option) {
+							<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
+						}
 					</mat-select>
 				</mat-form-field>
 				<div class="main__search-group">
 					<mat-form-field appearance="fill">
 						<mat-label>Search</mat-label>
 						<input matInput [(ngModel)]="searchQuery" placeholder="Placeholder">
-						<mat-icon matSuffix>search</mat-icon>
 					</mat-form-field>
-					<button mat-flat-button type="button" (click)="onSearch()">Search</button>
+					<button class="main__search-button" mat-flat-button type="button" (click)="onSearch()">Search</button>
 				</div>
 			</div>
 			<camp-anime-table [animeList]="(paginationData)?.results" (sortChange)="onSortChange($event)"/>

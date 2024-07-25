@@ -120,14 +120,23 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** 1. */
 	protected onSearch(): void {
+		if (this.searchQuery) {
+			this.router.navigate([], {
+				queryParams: {
+					search: this.searchQuery,
+					offset: 0,
+				},
+				queryParamsHandling: 'merge',
+			});
+			this.paginator.pageIndex = 0;
+			return;
+		}
 		this.router.navigate([], {
 			queryParams: {
-				search: this.searchQuery,
-				offset: 0,
+				search: null,
 			},
 			queryParamsHandling: 'merge',
 		});
-		this.paginator.pageIndex = 0;
 	}
 
 	/**

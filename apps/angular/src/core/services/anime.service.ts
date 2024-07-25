@@ -34,7 +34,7 @@ export class AnimeApiService {
 		if (type != null) {
 			params = params.append(PaginationParameters.Type, type);
 		}
-		if (search != null) {
+		if (search != null && search != "") {
 			params = params.append(PaginationParameters.Search, search);
 		}
 		if (ordering != null) {
