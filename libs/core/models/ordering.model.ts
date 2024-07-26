@@ -1,5 +1,6 @@
-import { ModelSortParameter } from "../utils/enums/model-sort-parameter";
+import { ModelSortParameter } from '../utils/enums/model-sort-parameter';
 
+/** 1. */
 export type OrderingParameter = {
 
 	/** 1. */
@@ -7,4 +8,4 @@ export type OrderingParameter = {
 
 	/** 1. */
 	readonly parameterOrder: boolean;
-}
+};

@@ -15,4 +15,4 @@ export type AnimeQueryParametersDto = {
 
 	/** 1. */
 	readonly ordering: string | null;
-}
+};

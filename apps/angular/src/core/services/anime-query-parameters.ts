@@ -4,6 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
+
 import { AnimeApiService } from './anime-api.service';
 
 /** 1. */
