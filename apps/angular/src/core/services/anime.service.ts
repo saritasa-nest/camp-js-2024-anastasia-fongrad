@@ -27,7 +27,13 @@ export class AnimeApiService {
 	 * @param ordering A string with sorting options separated by commas.
 	 * @returns A flow with pagination data.
 	 */
-	public getPagination(offset: number, limit: number, type?: string, search?: string, ordering?: string): Observable<Pagination<Anime>> {
+	public getPagination(
+		offset: number,
+		limit: number,
+		type: string | null,
+		search: string | null,
+		ordering: string | null,
+	): Observable<Pagination<Anime>> {
 		let params = new HttpParams();
 		params = params.append(RequestParameters.Offset, offset.toString());
 		params = params.append(RequestParameters.Limit, limit.toString());

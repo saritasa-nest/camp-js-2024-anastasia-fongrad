@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule, PageEvent, MatPaginator } from '@angular/material/paginator';
@@ -35,7 +35,6 @@ import { Sort } from '@angular/material/sort';
 	],
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
-	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
@@ -46,10 +45,16 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected readonly selectTypes: SelectType[];
 
 	/** A chosen anime type to filter by. */
-	protected readonly selectedType: string | null;
+	protected selectedType: string | null;
 
 	/** A query to search anime by title. */
-	protected readonly searchQuery: string | null;
+	protected searchQuery: string | null;
+
+	/** A number of anime displayed on a current page. */
+	protected pageSize: number;
+
+	/** An index of the current page. */
+	protected pageIndex: number;
 
 	/** Anime pagination data to be displayed. */
 	protected paginationData?: Pagination<Anime>;
@@ -69,29 +74,40 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		this.selectTypes = animeSelectType;
 		this.searchQuery = null;
 		this.selectedType = null;
+		this.pageSize = 5;
+		this.pageIndex = 0;
 		this.sortParameters = [];
 	}
 
-	/** Subscribes on observables when the component is initialized. */
+	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
 		this.routeSubscription = this.route.queryParams.pipe(
 			switchMap(params => {
+				if (Object.keys(params).length === 0) {
+					this.router.navigate([], {
+						queryParams: {
+							offset: 0,
+							limit: 5,
+						},
+						queryParamsHandling: 'merge',
+					});
+				}
 				const offset = +params['offset'] || 0;
-				const limit = +params['limit'] || 25;
-				const type = params['type'] || null;
-				const search = params['search'] || null;
 				const ordering = params['ordering'] || null;
-				return this.animeApiService.getPagination(offset, limit, type, search, ordering);
+				this.searchQuery = params['search'] || null;
+				this.selectedType = params['type'] || null;
+				this.pageSize = +params['limit'] || 5;
+				this.pageIndex = offset / this.pageSize;
+				return this.animeApiService.getPagination(
+					offset,
+					this.pageSize,
+					this.selectedType,
+					this.searchQuery,
+					ordering,
+				);
 			}),
 		).subscribe(pagination => {
 			this.paginationData = pagination;
-		});
-		this.router.navigate([], {
-			queryParams: {
-				offset: 0,
-				limit: 5,
-			},
-			queryParamsHandling: 'merge',
 		});
 	}
 
@@ -118,7 +134,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 			},
 			queryParamsHandling: 'merge',
 		});
-		this.paginator.pageIndex = 0;
+		this.pageIndex = 0;
 	}
 
 	/** Changes query parameters when a search button is pressed. */
@@ -131,7 +147,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 				},
 				queryParamsHandling: 'merge',
 			});
-			this.paginator.pageIndex = 0;
+			this.pageIndex = 0;
 			return;
 		}
 		this.router.navigate([], {
