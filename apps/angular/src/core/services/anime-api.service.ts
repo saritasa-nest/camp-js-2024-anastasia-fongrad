@@ -27,7 +27,7 @@ export class AnimeApiService {
 	 * @param ordering A string with sorting options separated by commas.
 	 * @returns A flow with pagination data.
 	 */
-	public getPagination(
+	public getAll(
 		offset: number,
 		limit: number,
 		type: string | null,

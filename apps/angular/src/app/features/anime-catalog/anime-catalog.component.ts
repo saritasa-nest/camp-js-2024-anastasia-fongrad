@@ -1,14 +1,14 @@
-import { Component, inject, ViewChild, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
-import { MatPaginatorModule, PageEvent, MatPaginator } from '@angular/material/paginator';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime.service';
+import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Pagination } from '@js-camp/core/models/pagination.model';
@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-type-select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/services/anime-query-parameters';
+
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -38,9 +40,6 @@ import { Sort } from '@angular/material/sort';
 	standalone: true,
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
-	/** Child MatPaginator component. */
-	@ViewChild('paginator') private readonly paginator!: MatPaginator;
-
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes: SelectType[];
 
@@ -57,7 +56,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected pageIndex: number;
 
 	/** Anime pagination data to be displayed. */
-	protected paginationData?: Pagination<Anime>;
+	protected paginatedAnime?: Pagination<Anime>;
 
 	/** An array of parameters to sort anime by. */
 	protected readonly sortParameters: string[];
@@ -74,8 +73,8 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		this.selectTypes = animeSelectType;
 		this.searchQuery = null;
 		this.selectedType = null;
-		this.pageSize = 5;
-		this.pageIndex = 0;
+		this.pageSize = DEFAULT_PAGE_SIZE;
+		this.pageIndex = START_PAGE_INDEX;
 		this.sortParameters = [];
 	}
 
@@ -86,19 +85,19 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 				if (Object.keys(params).length === 0) {
 					this.router.navigate([], {
 						queryParams: {
-							offset: 0,
-							limit: 5,
+							offset: START_PAGE_INDEX,
+							limit: DEFAULT_PAGE_SIZE,
 						},
 						queryParamsHandling: 'merge',
 					});
 				}
-				const offset = +params['offset'] || 0;
+				const offset = +params['offset'] || START_PAGE_INDEX;
 				const ordering = params['ordering'] || null;
 				this.searchQuery = params['search'] || null;
 				this.selectedType = params['type'] || null;
-				this.pageSize = +params['limit'] || 5;
+				this.pageSize = +params['limit'] || DEFAULT_PAGE_SIZE;
 				this.pageIndex = offset / this.pageSize;
-				return this.animeApiService.getPagination(
+				return this.animeApiService.getAll(
 					offset,
 					this.pageSize,
 					this.selectedType,
@@ -107,8 +106,12 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 				);
 			}),
 		).subscribe(pagination => {
-			this.paginationData = pagination;
+			this.paginatedAnime = pagination;
 		});
+	}
+
+	private addQueryParameters(): number {
+		return 1;
 	}
 
 	/**
@@ -129,12 +132,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected onSelectType(): void {
 		this.router.navigate([], {
 			queryParams: {
-				offset: 0,
+				offset: START_PAGE_INDEX,
 				type: this.selectedType,
 			},
 			queryParamsHandling: 'merge',
 		});
-		this.pageIndex = 0;
 	}
 
 	/** Changes query parameters when a search button is pressed. */
@@ -143,11 +145,10 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 			this.router.navigate([], {
 				queryParams: {
 					search: this.searchQuery,
-					offset: 0,
+					offset: START_PAGE_INDEX,
 				},
 				queryParamsHandling: 'merge',
 			});
-			this.pageIndex = 0;
 			return;
 		}
 		this.router.navigate([], {
