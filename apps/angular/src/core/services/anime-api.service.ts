@@ -49,16 +49,7 @@ export class AnimeApiService {
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => {
-				if ('results' in response) {
-					return PaginationMapper.fromDto(response);
-				}
-				console.error(response);
-				return new Pagination<Anime>({
-					totalCount: 0,
-					nextPage: null,
-					previousPage: null,
-					results: [],
-				});
+				return PaginationMapper.fromDto(response);
 			}),
 			catchError((error: unknown): Observable<Pagination<Anime>> => {
 				console.error(error);

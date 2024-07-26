@@ -1,8 +1,10 @@
-import { Injectable, inject } from "@angular/core";
+import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AnimeApiService } from "./anime-api.service";
 import { switchMap } from 'rxjs/operators';
-import { AnimeQueryParameters } from "@js-camp/core/models/anime-parameters.model";
+import { Observable } from 'rxjs';
+import { Pagination } from '@js-camp/core/models/pagination.model';
+import { Anime } from '@js-camp/core/models/anime';
+import { AnimeApiService } from './anime-api.service';
 
 /** 1. */
 export const DEFAULT_PAGE_SIZE = 5;
@@ -10,19 +12,21 @@ export const DEFAULT_PAGE_SIZE = 5;
 /** 1. */
 export const START_PAGE_INDEX = 0;
 
-
+/** 1. */
 @Injectable({
 	providedIn: 'root',
 })
 export class AnimeQueryParametersService {
 	private readonly route = inject(ActivatedRoute);
+
 	private router = inject(Router);
+
 	private readonly animeApiService = inject(AnimeApiService);
 
-	//** 1. */
-	handleRouteParameters() {
+	/** 1. */
+	public handleRouteParameters(): Observable<Pagination<Anime>> {
 		return this.route.queryParams.pipe(
-		  	switchMap(params => {
+			switchMap(params => {
 				if (Object.keys(params).length === 0) {
 					this.navigate({
 						offset: START_PAGE_INDEX,
@@ -49,7 +53,7 @@ export class AnimeQueryParametersService {
 	 * 1.
 	 * @param queryParams 1.
 	 */
-	navigate(queryParams: object): void {
+	public navigate(queryParams: object): void {
 		this.router.navigate([], {
 			queryParams,
 			queryParamsHandling: 'merge',

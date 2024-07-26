@@ -8,18 +8,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-type-select';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/services/anime-query-parameters';
-import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
-
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -45,38 +40,32 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected readonly selectTypes: SelectType[];
 
 	/** A chosen anime type to filter by. */
-	protected selectedType: string | null;
+	protected selectedType: string | null = null;
 
 	/** A query to search anime by title. */
-	protected searchQuery: string | null;
+	protected searchQuery: string | null = null;
 
 	/** A number of anime displayed on a current page. */
-	protected pageSize: number;
+	protected pageSize = DEFAULT_PAGE_SIZE;
 
 	/** An index of the current page. */
-	protected pageIndex: number;
+	protected pageIndex = START_PAGE_INDEX;
 
 	/** Anime pagination data to be displayed. */
 	protected paginatedAnime?: Pagination<Anime>;
 
 	/** An array of parameters to sort anime by. */
-	protected readonly sortParameters: string[];
+	protected readonly sortParameters: string[] = [];
+
+	/** 1. */
+	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
 
 	private routeSubscription?: Subscription;
-
-	private readonly route = inject(ActivatedRoute);
-
-	private router = inject(Router);
 
 	private routeParameterService = inject(AnimeQueryParametersService);
 
 	public constructor() {
 		this.selectTypes = animeSelectType;
-		this.searchQuery = null;
-		this.selectedType = null;
-		this.pageSize = DEFAULT_PAGE_SIZE;
-		this.pageIndex = START_PAGE_INDEX;
-		this.sortParameters = [];
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
@@ -111,7 +100,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 			this.routeParameterService.navigate({
 				search: this.searchQuery,
 				offset: START_PAGE_INDEX,
-		  	});
+			});
 			return;
 		}
 		this.routeParameterService.navigate({
