@@ -18,6 +18,7 @@ import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-t
 import { ActivatedRoute, Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/services/anime-query-parameters';
+import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
 
 
 /** A component that represents anime catalog page. */
@@ -67,7 +68,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	private router = inject(Router);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private routeParameterService = inject(AnimeQueryParametersService);
 
 	public constructor() {
 		this.selectTypes = animeSelectType;
@@ -80,38 +81,9 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
-		this.routeSubscription = this.route.queryParams.pipe(
-			switchMap(params => {
-				if (Object.keys(params).length === 0) {
-					this.router.navigate([], {
-						queryParams: {
-							offset: START_PAGE_INDEX,
-							limit: DEFAULT_PAGE_SIZE,
-						},
-						queryParamsHandling: 'merge',
-					});
-				}
-				const offset = +params['offset'] || START_PAGE_INDEX;
-				const ordering = params['ordering'] || null;
-				this.searchQuery = params['search'] || null;
-				this.selectedType = params['type'] || null;
-				this.pageSize = +params['limit'] || DEFAULT_PAGE_SIZE;
-				this.pageIndex = offset / this.pageSize;
-				return this.animeApiService.getAll(
-					offset,
-					this.pageSize,
-					this.selectedType,
-					this.searchQuery,
-					ordering,
-				);
-			}),
-		).subscribe(pagination => {
+		this.routeSubscription = this.routeParameterService.handleRouteParameters().subscribe(pagination => {
 			this.paginatedAnime = pagination;
 		});
-	}
-
-	private addQueryParameters(): number {
-		return 1;
 	}
 
 	/**
@@ -119,43 +91,31 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * @param event Page change event.
 	 */
 	protected onPageChange(event: PageEvent): void {
-		this.router.navigate([], {
-			queryParams: {
-				offset: event.pageIndex * event.pageSize,
-				limit: event.pageSize,
-			},
-			queryParamsHandling: 'merge',
+		this.routeParameterService.navigate({
+			offset: event.pageIndex * event.pageSize,
+			limit: event.pageSize,
 		});
 	}
 
 	/** Changes query parameters when a new type is selected. */
 	protected onSelectType(): void {
-		this.router.navigate([], {
-			queryParams: {
-				offset: START_PAGE_INDEX,
-				type: this.selectedType,
-			},
-			queryParamsHandling: 'merge',
+		this.routeParameterService.navigate({
+			offset: START_PAGE_INDEX,
+			type: this.selectedType,
 		});
 	}
 
 	/** Changes query parameters when a search button is pressed. */
 	protected onSearch(): void {
 		if (this.searchQuery) {
-			this.router.navigate([], {
-				queryParams: {
-					search: this.searchQuery,
-					offset: START_PAGE_INDEX,
-				},
-				queryParamsHandling: 'merge',
-			});
+			this.routeParameterService.navigate({
+				search: this.searchQuery,
+				offset: START_PAGE_INDEX,
+		  	});
 			return;
 		}
-		this.router.navigate([], {
-			queryParams: {
-				search: null,
-			},
-			queryParamsHandling: 'merge',
+		this.routeParameterService.navigate({
+			search: null,
 		});
 	}
 
@@ -163,7 +123,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * Changes query parameters when sort event is triggered.
 	 * @param event Sort event from an anime table.
 	 */
-	public onSortChange(event: Sort): void {
+	protected onSortChange(event: Sort): void {
 		const parameter = event.active;
 		let order = parameter;
 		if (event.direction === 'desc') {
@@ -178,20 +138,14 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		}
 		this.sortParameters.push(order);
 		const ordering = this.sortParameters.join(',');
-		this.router.navigate([], {
-			queryParams: { ordering },
-			queryParamsHandling: 'merge',
-		});
+		this.routeParameterService.navigate({ ordering });
 	}
 
 	/** Resets the order of anime in the table to the original one. */
-	public cancelSorting(): void {
+	protected cancelSorting(): void {
 		this.sortParameters.splice(0, this.sortParameters.length);
-		this.router.navigate([], {
-			queryParams: {
-				ordering: null,
-			},
-			queryParamsHandling: 'merge',
+		this.routeParameterService.navigate({
+			ordering: null,
 		});
 	}
 
