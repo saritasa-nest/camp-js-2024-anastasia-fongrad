@@ -1,28 +1,16 @@
 import { AnimeQueryParametersDto } from '../dtos/anime-parameters.dto';
 import { AnimeQueryParameters } from '../models/anime-parameters.model';
-import { OrderingParameter } from '../models/ordering.model';
+import { OrderingMapper } from './ordering.mapper';
 
 export namespace AnimeQueryParametersMapper {
 
-	/**
-	 * Maps anime dto to model.
-	 * @param dto Anime dto.
-	 */
-	export function fromDto(dto: AnimeQueryParametersDto): AnimeQueryParameters {
-		return new AnimeQueryParameters({
-			offset: dto.offset,
-			limitPerPage: dto.limit,
-			animeType: dto.type,
-			searchQuery: dto.search,
-			animeOrdering: [],
-		});
+	export function toDto(model: AnimeQueryParameters): AnimeQueryParametersDto {
+		return {
+			offset: model.offset,
+			limit: model.limitPerPage,
+			type: model.animeType,
+			search: model.searchQuery,
+			ordering: OrderingMapper.toDto(model.animeOrdering),
+		}
 	}
-}
-
-/**
- * 1.
- * @param ordering 1.
- */
-function orderingToDto(ordering: OrderingParameter[]) :string {
-	return "";
 }
