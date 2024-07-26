@@ -4,5 +4,15 @@
 			<img src="assets/anime-icon.png" height="60" alt="">
 			<span>Anime Catalog App</span>
 		</div>
+		<div class="header__user">
+			<div class="header__user-name">
+				User
+			</div>
+			<button mat-button type="button" [matMenuTriggerFor]="menu">Menu</button>
+			<mat-menu #menu="matMenu">
+				<button type="button" mat-menu-item>Item 1</button>
+				<button type="button" mat-menu-item>Item 2</button>
+			</mat-menu>
+		</div>
 	</div>
 </mat-toolbar>
