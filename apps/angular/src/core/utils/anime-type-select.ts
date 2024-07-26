@@ -1,18 +1,18 @@
 import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
 import { DtoType } from '@js-camp/core/utils/enums/dto-type.enum';
 
-/** 1. */
-export type AnimeSelectType = {
+/** A type for a select element. */
+export type SelectType = {
 
-	/** 1. */
+	/** Value of a select option. */
 	value: string;
 
-	/** 1. */
+	/** Displayed text of a select option. */
 	viewValue: string;
 };
 
-/** 1. */
-export const animeSelectType: AnimeSelectType[] = Object.keys(ModelType).map(key => ({
+/** Values for a select element. */
+export const animeSelectType: SelectType[] = Object.keys(ModelType).map(key => ({
 	value: DtoType[key as keyof typeof DtoType],
 	viewValue: ModelType[key as keyof typeof ModelType],
 }));

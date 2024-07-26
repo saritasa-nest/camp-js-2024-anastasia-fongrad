@@ -1,5 +1,5 @@
-/** 1. */
-export enum PaginationParameters {
+/** Query parameters for a get anime request. */
+export enum RequestParameters {
 	Offset = 'offset',
 	Limit = 'limit',
 	Type = 'type',

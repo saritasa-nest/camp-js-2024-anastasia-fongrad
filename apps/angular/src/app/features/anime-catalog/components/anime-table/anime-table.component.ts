@@ -57,12 +57,12 @@ export class AnimeTableComponent {
 	/** Stream containing anime data from the server. */
 	@Input() public animeList: readonly Anime[] | undefined;
 
-	/** Stream containing anime data from the server. */
+	/** Event emitter for a sort table event. */
 	@Output() public sortChange = new EventEmitter<Sort>();
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Emits sort table event to the parent component.
+	 * @param event Sort table event.
 	 */
 	public emitSortChange(event: Sort): void {
 		this.sortChange.emit(event);

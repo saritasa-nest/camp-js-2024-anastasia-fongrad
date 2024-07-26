@@ -8,7 +8,7 @@ import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
-import { PaginationParameters } from '../utils/get-params.enum';
+import { RequestParameters } from '../utils/request-parameters.enum';
 
 /** Connects to the API to manage anime data. */
 @Injectable({
@@ -19,26 +19,26 @@ export class AnimeApiService {
 	private readonly http: HttpClient = inject(HttpClient);
 
 	/**
-	 * 1.
-	 * @param offset 1.
-	 * @param limit 1.
-	 * @param type 1.
-	 * @param search 1.
-	 * @param ordering 1.
-	 * @returns 1.
+	 * Gets pagination data from the API.
+	 * @param offset A number of anime to pass in a list.
+	 * @param limit Max number of anime objects on a page.
+	 * @param type A type of an anime to filter by.
+	 * @param search A query to search anime by their title.
+	 * @param ordering A string with sorting options separated by commas.
+	 * @returns A flow with pagination data.
 	 */
 	public getPagination(offset: number, limit: number, type?: string, search?: string, ordering?: string): Observable<Pagination<Anime>> {
 		let params = new HttpParams();
-		params = params.append(PaginationParameters.Offset, offset.toString());
-		params = params.append(PaginationParameters.Limit, limit.toString());
+		params = params.append(RequestParameters.Offset, offset.toString());
+		params = params.append(RequestParameters.Limit, limit.toString());
 		if (type) {
-			params = params.append(PaginationParameters.Type, type);
+			params = params.append(RequestParameters.Type, type);
 		}
 		if (search) {
-			params = params.append(PaginationParameters.Search, search);
+			params = params.append(RequestParameters.Search, search);
 		}
 		if (ordering) {
-			params = params.append(PaginationParameters.Ordering, ordering);
+			params = params.append(RequestParameters.Ordering, ordering);
 		}
 		const result$ = this.http.get<PaginationDto<AnimeDto>>('anime/anime/', { params });
 		return result$.pipe(

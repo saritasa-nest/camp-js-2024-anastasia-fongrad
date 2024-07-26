@@ -14,7 +14,7 @@ import { switchMap } from 'rxjs/operators';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
-import { animeSelectType, AnimeSelectType } from '@js-camp/angular/core/utils/anime-type-select';
+import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-type-select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Sort } from '@angular/material/sort';
 
@@ -37,29 +37,28 @@ import { Sort } from '@angular/material/sort';
 	templateUrl: './anime-catalog.component.html',
 	standalone: true,
 })
-
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
-	/** 1. */
-	@ViewChild('paginator') private paginator!: MatPaginator;
+	/** Child MatPaginator component. */
+	@ViewChild('paginator') private readonly paginator!: MatPaginator;
 
-	/** 1. */
-	protected readonly selectTypes: AnimeSelectType[];
+	/** An array of available anime types to choose from. */
+	protected readonly selectTypes: SelectType[];
 
-	/** 1. */
-	protected readonly selectedType: string;
+	/** A chosen anime type to filter by. */
+	protected readonly selectedType: string | null;
 
-	/** 1. */
+	/** A query to search anime by title. */
 	protected readonly searchQuery: string | null;
 
-	/** 1. */
+	/** Anime pagination data to be displayed. */
 	protected paginationData?: Pagination<Anime>;
 
-	/** 1. */
+	/** An array of parameters to sort anime by. */
 	protected readonly sortParameters: string[];
 
 	private routeSubscription?: Subscription;
 
-	private route = inject(ActivatedRoute);
+	private readonly route = inject(ActivatedRoute);
 
 	private router = inject(Router);
 
@@ -68,11 +67,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	public constructor() {
 		this.selectTypes = animeSelectType;
 		this.searchQuery = null;
-		this.selectedType = this.selectTypes[0].value;
+		this.selectedType = null;
 		this.sortParameters = [];
 	}
 
-	/** 1. */
+	/** Subscribes on observables when the component is initialized. */
 	public ngOnInit(): void {
 		this.routeSubscription = this.route.queryParams.pipe(
 			switchMap(params => {
@@ -96,8 +95,8 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Changes query parameters when pagination event occurs.
+	 * @param event Page change event.
 	 */
 	protected onPageChange(event: PageEvent): void {
 		this.router.navigate([], {
@@ -109,7 +108,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	/** 1. */
+	/** Changes query parameters when a new type is selected. */
 	protected onSelectType(): void {
 		this.router.navigate([], {
 			queryParams: {
@@ -121,7 +120,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		this.paginator.pageIndex = 0;
 	}
 
-	/** 1. */
+	/** Changes query parameters when a search button is pressed. */
 	protected onSearch(): void {
 		if (this.searchQuery) {
 			this.router.navigate([], {
@@ -143,8 +142,8 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Changes query parameters when sort event is triggered.
+	 * @param event Sort event from an anime table.
 	 */
 	public onSortChange(event: Sort): void {
 		const parameter = event.active;
@@ -167,7 +166,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	/** 1. */
+	/** Resets the order of anime in the table to the original one. */
 	public cancelSorting(): void {
 		this.sortParameters.splice(0, this.sortParameters.length);
 		this.router.navigate([], {
@@ -178,10 +177,10 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	/** 1. */
+	/** Unsubscribes from observables when the component is destroyed. */
 	public ngOnDestroy(): void {
 		if (this.routeSubscription) {
-			this.routeSubscription?.unsubscribe();
+			this.routeSubscription.unsubscribe();
 		}
 	}
 }
