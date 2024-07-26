@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchGenres } from './dispatchers';
 import { initialState } from './state';
 
-/** 1. */
+/** Slice of the Redux store for managing genres data. */
 export const genresSlice = createSlice({
 	name: 'genres',
 	initialState,

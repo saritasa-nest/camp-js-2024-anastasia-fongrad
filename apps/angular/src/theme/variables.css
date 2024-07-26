@@ -16,6 +16,18 @@
   --space-20: calc(20 * var(--space-base));
 
   /* Font-size variables */
-  --header: 32px;
-  --main-text: 16px;
+  --title: 2em;
+  --body: 16px;
+  --body-small: 0.8em;
+
+  /* Font line height variables */
+  --title-line-height: 133.3%;
+  --body-line-height: 160%;
+  --body-small-line-height: 150%;
+
+  /* Font weight variables */
+  --text-regular: 400;
+  --text-medium: 500;
+  --text-semibold: 600;
+  --text-bold: 700;
 }

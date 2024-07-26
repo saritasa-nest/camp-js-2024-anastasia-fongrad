@@ -13,7 +13,7 @@ export type GenresState = {
 	readonly isLoading: boolean;
 };
 
-/** 1. */
+/** Initial state for the genres slice of the Redux store. */
 export const initialState: GenresState = {
 	isLoading: false,
 	genres: [],

@@ -7,10 +7,16 @@ export type GenreDto = {
 	/** Name. */
 	readonly name: string;
 
-	/** Creation time, for example, "2014-12-20T17:30:50.416Z". */
+	/**
+	 * Creation date-time.
+	 * @example '2024-07-22T02:40:54.873Z'.
+	 */
 	readonly created: string;
 
-	/** Time of the last modification, for example, "2014-12-20T17:30:50.416Z". */
+	/**
+	 * Date-time of the last modification.
+	 * @example '2024-07-22T02:40:54.873Z'.
+	 */
 	readonly modified: string;
 
 	/** DTO type. */

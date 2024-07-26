@@ -1,5 +1,5 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
@@ -32,6 +32,7 @@ enum AnimeTableColumnNames {
 	selector: 'camp-anime-table',
 	styleUrl: './anime-table.component.css',
 	templateUrl: './anime-table.component.html',
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	standalone: true,
 	imports: [
 		MatTableModule,

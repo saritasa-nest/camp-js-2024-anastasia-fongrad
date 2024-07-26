@@ -19,7 +19,7 @@ export class Anime extends Immerable {
 	 * Anime start airing date.
 	 * @example '2024-07-22T02:40:54.873Z'.
 	 */
-	public readonly startDate: string | null;
+	public readonly startDate: Date | null;
 
 	/** Anime type. */
 	public readonly type: string;

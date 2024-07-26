@@ -1,11 +1,11 @@
-@import "../../../theme/variables.css";
-
 .main__table {
   margin: var(--space-20) 0;
 }
 
 .main__header {
-  font-size: var(--header);
+  font-size: var(--title);
+  line-height: var(--title-line-height);
+  font-weight: var(--text-semibold);
 }
 
 .main__form {
