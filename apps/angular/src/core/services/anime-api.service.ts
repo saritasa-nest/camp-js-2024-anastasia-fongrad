@@ -10,6 +10,8 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { RequestParameters } from '../utils/request-parameters.enum';
 
+import { ApiUrlService } from './api-url.service';
+
 /** Connects to the API to manage anime data. */
 @Injectable({
 	providedIn: 'root',
@@ -17,6 +19,8 @@ import { RequestParameters } from '../utils/request-parameters.enum';
 export class AnimeApiService {
 
 	private readonly http: HttpClient = inject(HttpClient);
+
+	private readonly apiUtlService = inject(ApiUrlService);
 
 	/**
 	 * Gets pagination data from the API.

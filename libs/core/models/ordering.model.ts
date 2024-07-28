@@ -1,4 +1,4 @@
-import { ModelSortParameter } from '../utils/enums/model-sort-parameter';
+import { ModelSortParameter } from '../utils/enums/model-sort-parameter.enum';
 
 /** 1. */
 export type OrderingParameter = {

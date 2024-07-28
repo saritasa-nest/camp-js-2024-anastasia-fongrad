@@ -1,5 +1,5 @@
-import { DtoSortParameter } from '../utils/enums/dto-sort-parameter';
-import { ModelSortParameter } from '../utils/enums/model-sort-parameter';
+import { DtoSortParameter } from '../utils/enums/dto-sort-parameter.enum';
+import { ModelSortParameter } from '../utils/enums/model-sort-parameter.enum';
 
 export namespace SortParameterMapper {
 

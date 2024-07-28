@@ -10,12 +10,13 @@ export namespace AnimeQueryParametersMapper {
 	 * @param model 1.
 	 */
 	export function toDto(model: AnimeQueryParameters): AnimeQueryParametersDto {
+		const ordering = OrderingMapper.toDto(model.animeOrdering);
 		return {
 			offset: model.offset,
 			limit: model.limitPerPage,
-			type: model.animeType,
-			search: model.searchQuery,
-			ordering: OrderingMapper.toDto(model.animeOrdering),
+			type: model.animeType ? model.animeType : undefined,
+			search: model.searchQuery ? model.searchQuery : undefined,
+			ordering: ordering ? ordering : undefined,
 		};
 	}
 }

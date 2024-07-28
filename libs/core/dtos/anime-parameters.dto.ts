@@ -1,18 +1,18 @@
 /** Anime DTO. */
-export type AnimeQueryParametersDto = {
+export type AnimeQueryParametersDto = Readonly<{
 
 	/** 1. */
-	readonly offset: number;
+	offset: number;
 
 	/** 1. */
-	readonly limit: number;
+	limit: number;
 
 	/** 1. */
-	readonly type: string | null;
+	type?: string;
 
 	/** 1. */
-	readonly search: string | null;
+	search?: string;
 
 	/** 1. */
-	readonly ordering: string | null;
-};
+	ordering?: string;
+}>;

@@ -7,21 +7,21 @@
 				</th>
 				<td mat-cell *matCellDef="let element">
 					<div class="table__img-container">
-						<img class="table__img" [src]="element.imageUrl" [alt]="element.titleJpn"/>
+						<img class="table__img" [src]="element.imageUrl" [alt]="element.JapaneseTitle"/>
 					</div>
 				</td>
 			</ng-container>
 
-			<ng-container [matColumnDef]="animeColumnIds.TitleEng">
+			<ng-container [matColumnDef]="animeColumnIds.EnglishTitle">
 			<th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by title">
-				{{ animeColumnNames.TitleEng }}
+				{{ animeColumnNames.EnglishTitle }}
 			</th>
 			<td mat-cell *matCellDef="let element"> {{ element.titleEnglish | empty }} </td>
 			</ng-container>
 
-			<ng-container [matColumnDef]="animeColumnIds.TitleJpn">
+			<ng-container [matColumnDef]="animeColumnIds.JapaneseTitle">
 			<th mat-header-cell *matHeaderCellDef>
-				{{ animeColumnNames.TitleJpn }}
+				{{ animeColumnNames.JapaneseTitle }}
 			</th>
 			<td mat-cell *matCellDef="let element"> {{ element.titleJapanese | empty }} </td>
 			</ng-container>

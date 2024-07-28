@@ -14,7 +14,9 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-type-select';
 import { Sort } from '@angular/material/sort';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
+import { START_PAGE_INDEX, AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
+import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
+import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-parameter.enum';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -39,23 +41,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes: SelectType[];
 
-	/** A chosen anime type to filter by. */
-	protected selectedType: string | null = null;
-
-	/** A query to search anime by title. */
-	protected searchQuery: string | null = null;
-
-	/** A number of anime displayed on a current page. */
-	protected pageSize = DEFAULT_PAGE_SIZE;
-
-	/** An index of the current page. */
-	protected pageIndex = START_PAGE_INDEX;
-
 	/** Anime pagination data to be displayed. */
 	protected paginatedAnime?: Pagination<Anime>;
 
-	/** An array of parameters to sort anime by. */
-	protected readonly sortParameters: string[] = [];
+	/** 1. */
+	protected readonly animeParameters: AnimeQueryParameters;
 
 	/** 1. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
@@ -66,6 +56,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	public constructor() {
 		this.selectTypes = animeSelectType;
+		this.animeParameters = new AnimeQueryParameters({});
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
@@ -80,32 +71,21 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * @param event Page change event.
 	 */
 	protected onPageChange(event: PageEvent): void {
-		this.routeParameterService.navigate({
-			offset: event.pageIndex * event.pageSize,
-			limit: event.pageSize,
-		});
+		this.animeParameters.offset = event.pageIndex * event.pageSize;
+		this.animeParameters.limitPerPage = event.pageSize;
+		this.routeParameterService.navigate(this.animeParameters);
 	}
 
 	/** Changes query parameters when a new type is selected. */
 	protected onSelectType(): void {
-		this.routeParameterService.navigate({
-			offset: START_PAGE_INDEX,
-			type: this.selectedType,
-		});
+		this.animeParameters.offset = START_PAGE_INDEX;
+		this.routeParameterService.navigate(this.animeParameters);
 	}
 
 	/** Changes query parameters when a search button is pressed. */
 	protected onSearch(): void {
-		if (this.searchQuery) {
-			this.routeParameterService.navigate({
-				search: this.searchQuery,
-				offset: START_PAGE_INDEX,
-			});
-			return;
-		}
-		this.routeParameterService.navigate({
-			search: null,
-		});
+		this.animeParameters.offset = START_PAGE_INDEX;
+		this.routeParameterService.navigate(this.animeParameters);
 	}
 
 	/**
@@ -113,29 +93,25 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * @param event Sort event from an anime table.
 	 */
 	protected onSortChange(event: Sort): void {
-		const parameter = event.active;
-		let order = parameter;
-		if (event.direction === 'desc') {
-			order = `-${parameter}`;
+		const parameterName = event.active as ModelSortParameter;
+		const parameterOrder = event.direction !== 'desc';
+		const existingParameterIndex = this.animeParameters.animeOrdering.findIndex(
+			p => p.parameterName === parameterName,
+		);
+		if (existingParameterIndex !== -1) {
+			this.animeParameters.animeOrdering.splice(existingParameterIndex, 1);
 		}
-		if (this.sortParameters.includes(parameter)) {
-			const index = this.sortParameters.indexOf(parameter);
-			this.sortParameters.splice(index, 1);
-		} else if (this.sortParameters.includes(`-${parameter}`)) {
-			const index = this.sortParameters.indexOf(`-${parameter}`);
-			this.sortParameters.splice(index, 1);
-		}
-		this.sortParameters.push(order);
-		const ordering = this.sortParameters.join(',');
-		this.routeParameterService.navigate({ ordering });
+		this.animeParameters.animeOrdering.push({
+			parameterName,
+			parameterOrder,
+		});
+		this.routeParameterService.navigate(this.animeParameters);
 	}
 
 	/** Resets the order of anime in the table to the original one. */
 	protected cancelSorting(): void {
-		this.sortParameters.splice(0, this.sortParameters.length);
-		this.routeParameterService.navigate({
-			ordering: null,
-		});
+		this.animeParameters.animeOrdering.splice(0, this.animeParameters.animeOrdering.length);
+		this.routeParameterService.navigate(this.animeParameters);
 	}
 
 	/** Unsubscribes from observables when the component is destroyed. */

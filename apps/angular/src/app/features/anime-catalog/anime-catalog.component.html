@@ -8,7 +8,7 @@
 			<div class="main__form">
 				<mat-form-field class="main__type-select" appearance="fill">
 					<mat-label>Anime type</mat-label>
-					<mat-select [(value)]="selectedType" (valueChange)="onSelectType()">
+					<mat-select [(value)]="animeParameters.animeType" (valueChange)="onSelectType()">
 						<mat-option></mat-option>
 						@for (option of selectTypes; track option) {
 							<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
@@ -18,16 +18,16 @@
 				<div class="main__search-group">
 					<mat-form-field appearance="fill">
 						<mat-label>Search</mat-label>
-						<input matInput [(ngModel)]="searchQuery" placeholder="Placeholder">
+						<input matInput [(ngModel)]="animeParameters.searchQuery" placeholder="Placeholder">
 					</mat-form-field>
 					<button class="main__search-button" mat-flat-button type="button" (click)="onSearch()">Search</button>
 				</div>
-				@if(sortParameters.length > 0){
+				@if(animeParameters.animeOrdering.length > 0){
 					<button class="main__reset-button" mat-flat-button type="button" (click)="cancelSorting()">Cancel sorting</button>
 				}
 			</div>
 			<camp-anime-table [animeList]="(paginatedAnime)?.results" (sortChange)="onSortChange($event)"/>
-			<mat-paginator #paginator [length]="(paginatedAnime)?.totalCount" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
+			<mat-paginator #paginator [length]="(paginatedAnime)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.offset / animeParameters.limitPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>
 	</section>

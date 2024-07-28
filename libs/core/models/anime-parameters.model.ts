@@ -5,27 +5,27 @@ import { OrderingParameter } from './ordering.model';
 export class AnimeQueryParameters extends Immerable {
 
 	/** Anime id. */
-	public readonly offset: number;
+	public offset: number;
 
 	/** Anime preview image URL. */
-	public readonly limitPerPage: number;
+	public limitPerPage: number;
 
 	/** Anime English title. */
-	public readonly animeType: string | null;
+	public animeType: string;
 
 	/** Anime Japanese title. */
-	public readonly searchQuery: string | null;
+	public searchQuery: string;
 
 	/** Anime type. */
-	public readonly animeOrdering: OrderingParameter[];
+	public animeOrdering: OrderingParameter[];
 
-	public constructor(data: AnimeConstructorData) {
+	public constructor(data: Partial<AnimeConstructorData>) {
 		super();
-		this.offset = data.offset;
-		this.limitPerPage = data.limitPerPage;
-		this.animeType = data.animeType;
-		this.searchQuery = data.searchQuery;
-		this.animeOrdering = data.animeOrdering;
+		this.offset = data.offset ?? 0;
+		this.limitPerPage = data.limitPerPage ?? 5;
+		this.animeType = data.animeType ?? '';
+		this.searchQuery = data.searchQuery ?? '';
+		this.animeOrdering = data.animeOrdering ?? [];
 	}
 }
 

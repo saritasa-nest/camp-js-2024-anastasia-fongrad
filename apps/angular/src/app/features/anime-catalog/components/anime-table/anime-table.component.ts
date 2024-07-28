@@ -4,14 +4,15 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
+import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-parameter.enum';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 /** Anime table column ids. */
 enum AnimeTableColumnIds {
 	Image = 'image',
-	TitleEng = 'title_eng',
-	TitleJpn = 'title_jpn',
+	EnglishTitle = 'title_eng',
+	JapaneseTitle = 'title_jpn',
 	StartDate = 'aired__startswith',
 	Type = 'type',
 	Status = 'status',
@@ -20,11 +21,29 @@ enum AnimeTableColumnIds {
 /** Anime table column names. */
 enum AnimeTableColumnNames {
 	Image = 'Image',
-	TitleEng = 'English Title',
-	TitleJpn = 'Japanese Title',
+	EnglishTitle = 'English Title',
+	JapaneseTitle = 'Japanese Title',
 	StartDate = 'Start Date',
 	Type = 'Type',
 	Status = 'Status',
+}
+
+/**
+ * 1.
+ * @param column 1.
+ * @returns 1.
+ */
+function mapColumnToSortParameter(column: AnimeTableColumnIds): ModelSortParameter | null {
+	switch (column) {
+		case AnimeTableColumnIds.EnglishTitle:
+			return ModelSortParameter.EnglishTitle;
+		case AnimeTableColumnIds.StartDate:
+			return ModelSortParameter.StartDate;
+		case AnimeTableColumnIds.Status:
+			return ModelSortParameter.Status;
+		default:
+			return null;
+	}
 }
 
 /** Anime table component. */
@@ -65,7 +84,14 @@ export class AnimeTableComponent {
 	 * @param event Sort table event.
 	 */
 	public emitSortChange(event: Sort): void {
-		this.sortChange.emit(event);
+		const mappedSortParameter = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
+		if (mappedSortParameter) {
+			const newEvent = {
+				...event,
+				active: mappedSortParameter,
+			};
+			this.sortChange.emit(newEvent);
+		}
 	}
 
 	/**
