@@ -10,7 +10,7 @@ import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto
 
 import { AnimeApiService } from './anime-api.service';
 
-/** 1. */
+/** Works with anime query parameters. */
 @Injectable({
 	providedIn: 'root',
 })

@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
@@ -39,34 +39,27 @@ import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** An array of available anime types to choose from. */
-	protected readonly selectTypes: ModelType[];
+	protected readonly selectTypes = Object.values(ModelType);
 
 	/** Anime pagination data to be displayed. */
-	protected paginatedAnime?: Pagination<Anime>;
+	protected paginatedAnime$: Observable<Pagination<Anime>>;
 
 	/** Anime query parameters. */
-	protected animeParameters: AnimeQueryParameters;
+	protected animeParameters: AnimeQueryParameters = new AnimeQueryParameters({});
 
 	/** Available page size options for a select element. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
 
 	private routeSubscription?: Subscription;
 
-	private paginatedAnimeSubscription?: Subscription;
-
 	private routeParameterService = inject(AnimeQueryParametersService);
 
 	public constructor() {
-		this.selectTypes = Object.values(ModelType);
-		this.animeParameters = new AnimeQueryParameters({});
+		this.paginatedAnime$ = this.routeParameterService.getPaginatedAnime();
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
-		this.paginatedAnimeSubscription = this.routeParameterService.getPaginatedAnime().subscribe(pagination => {
-			this.paginatedAnime = pagination;
-		});
-
 		this.routeSubscription = this.routeParameterService.getQueryParameters().subscribe(animeParameters => {
 			this.animeParameters = animeParameters;
 		});
@@ -124,9 +117,6 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	public ngOnDestroy(): void {
 		if (this.routeSubscription) {
 			this.routeSubscription.unsubscribe();
-		}
-		if (this.paginatedAnimeSubscription) {
-			this.paginatedAnimeSubscription.unsubscribe();
 		}
 	}
 }

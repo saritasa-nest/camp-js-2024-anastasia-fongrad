@@ -25,8 +25,8 @@
 					<button class="main__reset-button" mat-flat-button type="button" (click)="cancelSorting()">Cancel sorting</button>
 				}
 			</div>
-			<camp-anime-table [animeList]="(paginatedAnime)?.results" (sortChange)="onSortChange($event)"/>
-			<mat-paginator #paginator [length]="(paginatedAnime)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.offset / animeParameters.limitPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
+			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="onSortChange($event)"/>
+			<mat-paginator #paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.offset / animeParameters.limitPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>
 	</section>
