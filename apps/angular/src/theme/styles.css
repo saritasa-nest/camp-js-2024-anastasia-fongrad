@@ -52,27 +52,31 @@ body {
   --mat-toolbar-container-text-color: var(--on-surface);
 }
 
-mat-paginator {
-  /** Use !important to override default colors */
-  background-color: var(--accent) !important;
-  color: var(--on-accent) !important;
+.mat-mdc-paginator {
+  --mat-paginator-container-background-color: var(--accent);
+  --mat-paginator-container-text-color: var(--on-accent);
 }
 
-button {
+.mat-mdc-unelevated-button {
   width: 100px;
-  height: 55px !important;
+
+  --mdc-filled-button-container-height: 55px;
 }
 
 .mdc-text-field--filled {
-  background-color: var(--surface-overlay) !important;
-  color: var(--on-surface) !important;
+  --mdc-filled-text-field-container-color: var(--surface-overlay);
+
+  color: var(--on-surface);
 }
 
-label {
-  color: var(--accent) !important;
+.mdc-floating-label {
+  --mdc-filled-text-field-label-text-color: var(--accent);
 }
 
-.main__type-select mat-select,
-mat-form-field input {
-  color: var(--on-surface) !important;
+.main__type-select .mat-mdc-select {
+  --mat-select-enabled-trigger-text-color: var(--on-surface);
+}
+
+.mat-mdc-form-field .mdc-text-field__input {
+  --mdc-filled-text-field-input-text-color: var(--on-surface);
 }
