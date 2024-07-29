@@ -1,3 +1,5 @@
+import { ModelType } from '../utils/enums/model-type.enum';
+
 import { Immerable, OmitImmerable } from './immerable';
 import { OrderingParameter } from './ordering.model';
 
@@ -11,7 +13,7 @@ export class AnimeQueryParameters extends Immerable {
 	public limitPerPage: number;
 
 	/** Anime English title. */
-	public animeType: string;
+	public animeType: ModelType[];
 
 	/** Anime Japanese title. */
 	public searchQuery: string;
@@ -23,7 +25,7 @@ export class AnimeQueryParameters extends Immerable {
 		super();
 		this.offset = data.offset ?? 0;
 		this.limitPerPage = data.limitPerPage ?? 5;
-		this.animeType = data.animeType ?? '';
+		this.animeType = data.animeType ?? [];
 		this.searchQuery = data.searchQuery ?? '';
 		this.animeOrdering = data.animeOrdering ?? [];
 	}

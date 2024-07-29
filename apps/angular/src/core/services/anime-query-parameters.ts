@@ -7,6 +7,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
 import { HttpParams } from '@angular/common/http';
+import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 
 import { AnimeApiService } from './anime-api.service';
 
@@ -34,18 +35,20 @@ export class AnimeQueryParametersService {
 				if (Object.keys(params).length === 0) {
 					this.navigate(new AnimeQueryParameters({}));
 				}
-				const offset = +params['offset'] || START_PAGE_INDEX;
-				const ordering = params['ordering'] || null;
-				const searchQuery = params['search'] || null;
-				const selectedType = params['type'] || null;
-				const pageSize = +params['limit'] || DEFAULT_PAGE_SIZE;
-				return this.animeApiService.getAll(
-					offset,
-					pageSize,
-					selectedType,
-					searchQuery,
-					ordering,
-				);
+				const parameters: Partial<AnimeQueryParametersDto> = {
+					offset: +params['offset'] || START_PAGE_INDEX,
+					limit: +params['limit'] || DEFAULT_PAGE_SIZE,
+				};
+				if (params['search']) {
+					parameters.search = params['search'];
+				}
+				if (params['type__in']) {
+					parameters.type__in = params['type__in'];
+				}
+				if (params['ordering']) {
+					parameters.ordering = params['ordering'];
+				}
+				return this.animeApiService.getAll(parameters);
 			}),
 		);
 	}

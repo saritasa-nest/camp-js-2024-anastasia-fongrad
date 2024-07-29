@@ -13,6 +13,6 @@ export class ApiUrlService {
 	public readonly animeListPath: string;
 
 	public constructor() {
-		this.animeListPath = `${this.appConfig.baseUrl}/anime/anime/`;
+		this.animeListPath = `anime/anime/`;
 	}
 }

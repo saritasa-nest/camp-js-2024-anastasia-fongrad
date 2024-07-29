@@ -8,10 +8,9 @@
 			<div class="main__form">
 				<mat-form-field class="main__type-select" appearance="fill">
 					<mat-label>Anime type</mat-label>
-					<mat-select [(value)]="animeParameters.animeType" (valueChange)="onSelectType()">
-						<mat-option></mat-option>
+					<mat-select [(value)]="animeParameters.animeType" (valueChange)="onSelectType()" multiple>
 						@for (option of selectTypes; track option) {
-							<mat-option [value]="option.value">{{ option.viewValue }}</mat-option>
+							<mat-option [value]="option">{{ option }}</mat-option>
 						}
 					</mat-select>
 				</mat-form-field>

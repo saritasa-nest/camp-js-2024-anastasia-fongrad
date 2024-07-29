@@ -2,7 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,11 +12,11 @@ import { Subscription } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
-import { animeSelectType, SelectType } from '@js-camp/angular/core/utils/anime-type-select';
 import { Sort } from '@angular/material/sort';
 import { START_PAGE_INDEX, AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
 import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-parameter.enum';
+import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -39,7 +39,7 @@ import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-paramet
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** An array of available anime types to choose from. */
-	protected readonly selectTypes: SelectType[];
+	protected readonly selectTypes: ModelType[];
 
 	/** Anime pagination data to be displayed. */
 	protected paginatedAnime?: Pagination<Anime>;
@@ -50,12 +50,15 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** 1. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
 
+	/** 1. */
+	protected readonly types = new FormControl();
+
 	private routeSubscription?: Subscription;
 
 	private routeParameterService = inject(AnimeQueryParametersService);
 
 	public constructor() {
-		this.selectTypes = animeSelectType;
+		this.selectTypes = Object.values(ModelType);
 		this.animeParameters = new AnimeQueryParameters({});
 	}
 
