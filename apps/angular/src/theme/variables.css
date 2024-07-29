@@ -1,0 +1,32 @@
+:root {
+  /* Colors */
+  --surface: rgb(33 14 78 / 100%);
+  --surface-overlay: rgb(14 8 48 / 100%);
+  --on-surface: rgb(255 255 255 / 100%);
+  --accent: rgb(236 195 216 / 100%);
+  --on-accent: rgb(14 8 48 / 100%);
+
+  /* Space variables */
+  --space-base: 4px;
+  --space-5: calc(5 * var(--space-base));
+  --space-6: calc(6 * var(--space-base));
+  --space-8: calc(8 * var(--space-base));
+  --space-10: calc(10 * var(--space-base));
+  --space-20: calc(20 * var(--space-base));
+
+  /* Font-size variables */
+  --title: 2em;
+  --body: 16px;
+  --body-small: 0.8em;
+
+  /* Font line height variables */
+  --title-line-height: 133.3%;
+  --body-line-height: 160%;
+  --body-small-line-height: 150%;
+
+  /* Font weight variables */
+  --text-regular: 400;
+  --text-medium: 500;
+  --text-semibold: 600;
+  --text-bold: 700;
+}

@@ -1,5 +1,5 @@
 /** Pagination meta info. */
-export interface PaginationDto<T> {
+export type PaginationDto<T> = {
 
 	/** Total count of items. */
 	readonly count: number;
@@ -12,4 +12,4 @@ export interface PaginationDto<T> {
 
 	/** Array of items requested. */
 	readonly results: readonly T[];
-}
+};
