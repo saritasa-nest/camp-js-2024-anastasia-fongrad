@@ -36,17 +36,18 @@ body {
   max-width: 100%;
   box-sizing: border-box;
 
-  /** Use !important to override default colors */
-  background-color: var(--accent) !important;
+  --mat-table-background-color: var(--accent);
 }
 
-table tr {
-  /** Use !important to override default colors */
-  color: var(--on-accent) !important;
+.mat-mdc-header-row {
+  --mat-table-header-headline-color: var(--on-accent);
 }
 
-mat-toolbar {
-  /** Use !important to override default colors */
-  background-color: var(--surface-overlay) !important;
-  color: var(--on-surface) !important;
+.mat-mdc-row {
+  --mat-table-row-item-label-text-color: var(--on-accent);
+}
+
+.mat-toolbar {
+  --mat-toolbar-container-background-color: var(--surface-overlay);
+  --mat-toolbar-container-text-color: var(--on-surface);
 }

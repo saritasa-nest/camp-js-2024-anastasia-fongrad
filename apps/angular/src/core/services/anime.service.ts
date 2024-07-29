@@ -19,10 +19,7 @@ export class AnimeApiService {
 	public getAnimeList(): Observable<Anime[]> {
 		return this.http.get<PaginationDto<AnimeDto>>('anime/anime/').pipe(
 			map((response: PaginationDto<AnimeDto>) => response.results.map(dto => AnimeMapper.fromDto(dto))),
-			catchError((error: unknown): Observable<Anime[]> => {
-				console.error(error);
-				return throwError(() => error);
-			}),
+			catchError((error: unknown): Observable<Anime[]> => throwError(() => error)),
 		);
 	}
 }
