@@ -3,22 +3,22 @@ import { ModelType } from '../utils/enums/model-type.enum';
 import { Immerable, OmitImmerable } from './immerable';
 import { OrderingParameter } from './ordering.model';
 
-/** Anime model. */
+/** Anime query parameters model. */
 export class AnimeQueryParameters extends Immerable {
 
-	/** Anime id. */
+	/** Offset of the first anime. */
 	public offset: number;
 
-	/** Anime preview image URL. */
+	/** Max number of items per page. */
 	public limitPerPage: number;
 
-	/** Anime English title. */
+	/** Anime types to filter by. */
 	public animeType: ModelType[];
 
-	/** Anime Japanese title. */
+	/** A query to search anime by a title. */
 	public searchQuery: string;
 
-	/** Anime type. */
+	/** Ordering parameters object to sort anime by. */
 	public animeOrdering: OrderingParameter[];
 
 	public constructor(data: Partial<AnimeConstructorData>) {

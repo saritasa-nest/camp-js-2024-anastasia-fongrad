@@ -1,11 +1,11 @@
 import { ModelSortParameter } from '../utils/enums/model-sort-parameter.enum';
 
-/** 1. */
+/** A type for an ordering parameter. */
 export type OrderingParameter = {
 
-	/** 1. */
+	/** Ordering parameter name. */
 	readonly parameterName: ModelSortParameter;
 
-	/** 1. */
+	/** Ordering direction. */
 	readonly parameterOrder: boolean;
 };

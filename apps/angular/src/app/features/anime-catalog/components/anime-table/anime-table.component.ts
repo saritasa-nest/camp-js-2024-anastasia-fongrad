@@ -29,21 +29,16 @@ enum AnimeTableColumnNames {
 }
 
 /**
- * 1.
- * @param column 1.
- * @returns 1.
+ * Converts column name to a valid sort parameter name.
+ * @param column Column name to sort by.
  */
 function mapColumnToSortParameter(column: AnimeTableColumnIds): ModelSortParameter | null {
-	switch (column) {
-		case AnimeTableColumnIds.EnglishTitle:
-			return ModelSortParameter.EnglishTitle;
-		case AnimeTableColumnIds.StartDate:
-			return ModelSortParameter.StartDate;
-		case AnimeTableColumnIds.Status:
-			return ModelSortParameter.Status;
-		default:
-			return null;
-	}
+	const columnMap: Partial<Record<AnimeTableColumnIds, ModelSortParameter | null>> = {
+		[AnimeTableColumnIds.EnglishTitle]: ModelSortParameter.EnglishTitle,
+		[AnimeTableColumnIds.StartDate]: ModelSortParameter.StartDate,
+		[AnimeTableColumnIds.Status]: ModelSortParameter.Status,
+	};
+	return columnMap[column] ?? null;
 }
 
 /** Anime table component. */

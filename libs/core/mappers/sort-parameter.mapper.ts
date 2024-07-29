@@ -4,8 +4,8 @@ import { ModelSortParameter } from '../utils/enums/model-sort-parameter.enum';
 export namespace SortParameterMapper {
 
 	/**
-	 * Maps anime-status dto to model.
-	 * @param model Anime-status enum.
+	 * Converts anime sort parameters from a model to a dto object.
+	 * @param model Anime sort parameters model.
 	 */
 	export function toDto(model: ModelSortParameter): DtoSortParameter {
 		const statusMap: Record<ModelSortParameter, DtoSortParameter> = {
@@ -17,9 +17,8 @@ export namespace SortParameterMapper {
 	}
 
 	/**
-	 * 1.
-	 * @param dto 1.
-	 * @returns 1.
+	 * Converts anime sort parameters from a dto object to a model.
+	 * @param dto Anime sort parameters dto.
 	 */
 	export function fromDto(dto: DtoSortParameter): ModelSortParameter {
 		const statusMap: Record<DtoSortParameter, ModelSortParameter> = {

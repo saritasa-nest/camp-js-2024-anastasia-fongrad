@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 
 import { AppConfig } from '../utils/app-config';
 
-/** 1. */
+/** Provides urls to work with the API. */
 @Injectable({
 	providedIn: 'root',
 })
 export class ApiUrlService {
 	private readonly appConfig = inject(AppConfig);
 
-	/** 1. */
+	/** An url for the get anime list request. */
 	public readonly animeListPath: string;
 
 	public constructor() {

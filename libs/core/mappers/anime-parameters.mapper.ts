@@ -8,8 +8,8 @@ import { OrderingMapper } from './ordering.mapper';
 export namespace AnimeQueryParametersMapper {
 
 	/**
-	 * 1.
-	 * @param model 1.
+	 * Converts query parameters from a model to a dto object.
+	 * @param model Anime query parameters.
 	 */
 	export function toDto(model: AnimeQueryParameters): Partial<AnimeQueryParametersDto> {
 		const ordering = OrderingMapper.toDto(model.animeOrdering);
@@ -31,16 +31,15 @@ export namespace AnimeQueryParametersMapper {
 	}
 
 	/**
-	 * 1.
-	 * @param dto 1.
-	 * @returns 1.
+	 * Converts query parameters from a dto object to a model.
+	 * @param dto Anime query parameters dto.
 	 */
 	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
 		const animeOrdering = dto.ordering ? OrderingMapper.fromDto(dto.ordering) : null;
 		const animeType = dto.type__in ? dto.type__in.split(',').map(type => TypeMapper.fromDto(type as DtoType)) : [];
 		return new AnimeQueryParameters({
-			offset: dto.offset ?? 0,
-			limitPerPage: dto.limit ?? 5,
+			offset: dto.offset,
+			limitPerPage: dto.limit,
 			animeType,
 			searchQuery: dto.search ?? '',
 			animeOrdering: animeOrdering ?? [],

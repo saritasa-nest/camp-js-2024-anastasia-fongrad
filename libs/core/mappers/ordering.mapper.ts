@@ -7,8 +7,8 @@ import { SortParameterMapper } from './sort-parameter.mapper';
 export namespace OrderingMapper {
 
 	/**
-	 * Maps genre dto to model.
-	 * @param model Genre dto.
+	 * Converts anime table ordering from a model to a dto object.
+	 * @param model Anime table ordering.
 	 */
 	export function toDto(model: OrderingParameter[]): string {
 		if (model.length === 0) {
@@ -21,8 +21,8 @@ export namespace OrderingMapper {
 	}
 
 	/**
-	 * 1.
-	 * @param dto 1.
+	 * Converts anime table ordering from a dto object to a model.
+	 * @param dto Anime table ordering.
 	 */
 	export function fromDto(dto: string): OrderingParameter[] {
 		if (!dto) {

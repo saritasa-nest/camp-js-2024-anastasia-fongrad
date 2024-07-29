@@ -1,18 +1,18 @@
-/** Anime DTO. */
+/** Anime query parameters DTO. */
 export type AnimeQueryParametersDto = {
 
-	/** 1. */
+	/** Offset of the first anime. */
 	offset: number;
 
-	/** 1. */
+	/** Max number of items per page. */
 	limit: number;
 
-	/** 1. */
+	/** Anime types to filter by. */
 	type__in: string;
 
-	/** 1. */
+	/** A query to search anime by title. */
 	search: string;
 
-	/** 1. */
+	/** Columns to sort anime by. */
 	ordering: string;
 };

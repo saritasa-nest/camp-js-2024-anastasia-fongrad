@@ -22,9 +22,8 @@ export namespace TypeMapper {
 	}
 
 	/**
-	 * 1.
-	 * @param model 1.
-	 * @returns 1.
+	 * Maps anime-type model to a dto object.
+	 * @param model Anime-type object.
 	 */
 	export function toDto(model: ModelType): DtoType {
 		const typeMap: Record<ModelType, DtoType> = {

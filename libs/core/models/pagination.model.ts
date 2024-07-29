@@ -1,6 +1,6 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** Anime model. */
+/** Pagination model. */
 export class Pagination<T> extends Immerable {
 
 	/** Total count of items. */

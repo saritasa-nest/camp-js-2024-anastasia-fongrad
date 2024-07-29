@@ -22,9 +22,8 @@ export class AnimeApiService {
 	private readonly apiUtlService = inject(ApiUrlService);
 
 	/**
-	 * 1.
-	 * @param parameters 1.
-	 * @returns 1.
+	 * Gets paginated anime data from the server.
+	 * @param parameters Query parameters for the request.
 	 */
 	public getAll(parameters: Partial<AnimeQueryParametersDto>): Observable<Pagination<Anime>> {
 		const params = new HttpParams({ fromObject: parameters });
