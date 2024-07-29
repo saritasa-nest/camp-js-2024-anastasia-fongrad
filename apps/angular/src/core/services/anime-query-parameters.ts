@@ -1,12 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
-import { HttpParams } from '@angular/common/http';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 
 import { AnimeApiService } from './anime-api.service';
@@ -28,10 +27,9 @@ export class AnimeQueryParametersService {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
-	/** 1. */
-	public handleRouteParameters(): Observable<Pagination<Anime>> {
+	private parseQueryParameters(): Observable<Partial<AnimeQueryParametersDto>> {
 		return this.route.queryParams.pipe(
-			switchMap(params => {
+			map(params => {
 				if (Object.keys(params).length === 0) {
 					this.navigate(new AnimeQueryParameters({}));
 				}
@@ -48,8 +46,22 @@ export class AnimeQueryParametersService {
 				if (params['ordering']) {
 					parameters.ordering = params['ordering'];
 				}
-				return this.animeApiService.getAll(parameters);
+				return parameters;
 			}),
+		);
+	}
+
+	/** 1. */
+	public getPaginatedAnime(): Observable<Pagination<Anime>> {
+		return this.parseQueryParameters().pipe(
+			switchMap(parameters => this.animeApiService.getAll(parameters)),
+		);
+	}
+
+	/** 1. */
+	public getQueryParameters(): Observable<AnimeQueryParameters> {
+		return this.parseQueryParameters().pipe(
+			switchMap(parameters => of(AnimeQueryParametersMapper.fromDto(parameters))),
 		);
 	}
 
@@ -61,17 +73,6 @@ export class AnimeQueryParametersService {
 		const queryParams = { ...AnimeQueryParametersMapper.toDto(anime) };
 		this.router.navigate([], {
 			queryParams,
-			queryParamsHandling: 'merge',
 		});
-	}
-
-	/**
-	 * 1.
-	 * @param parameters 1.
-	 * @returns 1.
-	 */
-	public getQueryParameters(parameters: AnimeQueryParameters): HttpParams {
-		const animeParams = { ...AnimeQueryParametersMapper.toDto(parameters) };
-		return new HttpParams({ fromObject: animeParams });
 	}
 }

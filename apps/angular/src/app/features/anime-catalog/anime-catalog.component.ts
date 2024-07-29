@@ -45,7 +45,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected paginatedAnime?: Pagination<Anime>;
 
 	/** 1. */
-	protected readonly animeParameters: AnimeQueryParameters;
+	protected animeParameters: AnimeQueryParameters;
 
 	/** 1. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
@@ -54,6 +54,8 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected readonly types = new FormControl();
 
 	private routeSubscription?: Subscription;
+
+	private paginatedAnimeSubscription?: Subscription;
 
 	private routeParameterService = inject(AnimeQueryParametersService);
 
@@ -64,8 +66,12 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
-		this.routeSubscription = this.routeParameterService.handleRouteParameters().subscribe(pagination => {
+		this.paginatedAnimeSubscription = this.routeParameterService.getPaginatedAnime().subscribe(pagination => {
 			this.paginatedAnime = pagination;
+		});
+
+		this.routeSubscription = this.routeParameterService.getQueryParameters().subscribe(animeParameters => {
+			this.animeParameters = animeParameters;
 		});
 	}
 
@@ -121,6 +127,9 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	public ngOnDestroy(): void {
 		if (this.routeSubscription) {
 			this.routeSubscription.unsubscribe();
+		}
+		if (this.paginatedAnimeSubscription) {
+			this.paginatedAnimeSubscription.unsubscribe();
 		}
 	}
 }

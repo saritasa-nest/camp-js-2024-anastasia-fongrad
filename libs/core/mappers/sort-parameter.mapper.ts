@@ -15,4 +15,18 @@ export namespace SortParameterMapper {
 		};
 		return statusMap[model];
 	}
+
+	/**
+	 * 1.
+	 * @param dto 1.
+	 * @returns 1.
+	 */
+	export function fromDto(dto: DtoSortParameter): ModelSortParameter {
+		const statusMap: Record<DtoSortParameter, ModelSortParameter> = {
+			[DtoSortParameter.EnglishTitle]: ModelSortParameter.EnglishTitle,
+			[DtoSortParameter.StartDate]: ModelSortParameter.StartDate,
+			[DtoSortParameter.Status]: ModelSortParameter.Status,
+		};
+		return statusMap[dto];
+	}
 }
