@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+const DASH_SYMBOL = '\u2014';
+
 /** Pipe for alternative representation of empty value. */
 @Pipe({
 	name: 'empty',
@@ -17,7 +19,7 @@ export class EmptyPipe implements PipeTransform {
 		placeholder?: string,
 	): string | number {
 		if (value == null || value === '') {
-			return placeholder ?? '\u2014';
+			return placeholder ?? DASH_SYMBOL;
 		}
 		return value;
 	}
