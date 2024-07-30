@@ -1,12 +1,11 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatSortModule, Sort, MatSort } from '@angular/material/sort';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
@@ -60,9 +59,7 @@ function mapColumnToSortParameter(column: AnimeTableColumnIds): AnimeSortField |
 		MatSortModule,
 	],
 })
-export class AnimeTableComponent implements OnInit, OnDestroy {
-
-	@ViewChild(MatSort) private sort!: MatSort;
+export class AnimeTableComponent {
 
 	/** Anime table column ids. */
 	protected readonly animeColumnIds = AnimeTableColumnIds;
@@ -78,21 +75,8 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
 	/** Stream containing anime data from the server. */
 	@Input() public animeList: readonly Anime[] | undefined;
 
-	/** Observable that expects to receive a cancel command. */
-	@Input() public cancelSorting$!: Observable<void>;
-
 	/** Event emitter for a sort table event. */
 	@Output() public sortChange = new EventEmitter<SortParameter>();
-
-	/** Subscribes on a cancel sorting observable. */
-	public ngOnInit(): void {
-		this.sortSubscription = this.cancelSorting$.pipe(
-			tap(() => {
-				this.sort.active = '';
-				this.sort.direction = '';
-			}),
-		).subscribe();
-	}
 
 	/**
 	 * Emits sort table event to the parent component.
@@ -100,10 +84,16 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
 	 */
 	public emitSortChange(event: Sort): void {
 		const mappedSortParameter = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
+		let direction: 'ascending' | 'descending' | '' = '';
+		if (event.direction === 'asc') {
+			direction = 'ascending';
+		} else if (event.direction === 'desc') {
+			direction = 'descending';
+		}
 		if (mappedSortParameter) {
 			const newEvent: SortParameter = {
 				parameterName: mappedSortParameter,
-				isAscending: event.direction === 'asc',
+				direction,
 			};
 			this.sortChange.emit(newEvent);
 		}
@@ -116,12 +106,5 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
 	 */
 	protected trackByAnime(index: number, anime: Anime): number {
 		return anime.id;
-	}
-
-	/** Unsubscribes from all the subscriptions when component is destroyed. */
-	public ngOnDestroy(): void {
-		if (this.sortSubscription) {
-			this.sortSubscription.unsubscribe();
-		}
 	}
 }

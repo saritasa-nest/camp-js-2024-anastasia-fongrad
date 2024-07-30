@@ -136,14 +136,10 @@ export class AnimeQueryParametersService {
 		if (existingParameterIndex !== -1) {
 			this.animeParameters.animeOrdering.splice(existingParameterIndex, 1);
 		}
-		animeOrdering.push(event);
+		if (event.direction !== '') {
+			animeOrdering.push(event);
+		}
 		this.animeParameters = { ...this.animeParameters, animeOrdering };
-		this.navigate(this.animeParameters);
-	}
-
-	/** Resets the order of anime in the table to the original one. */
-	public cancelSorting(): void {
-		this.animeParameters.animeOrdering.splice(0, this.animeParameters.animeOrdering.length);
 		this.navigate(this.animeParameters);
 	}
 }

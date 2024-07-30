@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -37,9 +37,6 @@ import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 	standalone: true,
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
-
-	/** Event emitter for sorting cancelling. */
-	public cancelSorting = new EventEmitter<void>();
 
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes = Object.values(AnimeType);
@@ -107,11 +104,5 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		if (this.formTypeSubscription) {
 			this.formTypeSubscription.unsubscribe();
 		}
-	}
-
-	/** Resets table order to the default one. */
-	protected stopSorting(): void {
-		this.cancelSorting.emit();
-		this.routeParameterService.cancelSorting();
 	}
 }
