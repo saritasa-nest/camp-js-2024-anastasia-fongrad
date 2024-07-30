@@ -7,5 +7,5 @@ export type SortParameter = {
 	readonly parameterName: AnimeSortField;
 
 	/** Ordering direction. */
-	readonly parameterOrder: boolean;
+	readonly isAscending: boolean;
 };

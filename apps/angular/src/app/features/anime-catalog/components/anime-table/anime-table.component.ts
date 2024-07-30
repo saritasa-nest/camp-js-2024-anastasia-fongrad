@@ -7,6 +7,7 @@ import { MatSortModule, Sort, MatSort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -81,7 +82,7 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
 	@Input() public cancelSorting$!: Observable<void>;
 
 	/** Event emitter for a sort table event. */
-	@Output() public sortChange = new EventEmitter<Sort>();
+	@Output() public sortChange = new EventEmitter<SortParameter>();
 
 	/** Subscribes on a cancel sorting observable. */
 	public ngOnInit(): void {
@@ -100,9 +101,9 @@ export class AnimeTableComponent implements OnInit, OnDestroy {
 	public emitSortChange(event: Sort): void {
 		const mappedSortParameter = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
 		if (mappedSortParameter) {
-			const newEvent = {
-				...event,
-				active: mappedSortParameter,
+			const newEvent: SortParameter = {
+				parameterName: mappedSortParameter,
+				isAscending: event.direction === 'asc',
 			};
 			this.sortChange.emit(newEvent);
 		}

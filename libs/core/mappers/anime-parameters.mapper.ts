@@ -14,18 +14,20 @@ export namespace AnimeQueryParametersMapper {
 	export function toDto(model: AnimeQueryParameters): Partial<AnimeQueryParametersDto> {
 		const ordering = SortMapper.toDto(model.animeOrdering);
 		const types = model.animeType.map(type => TypeMapper.toDto(type)).join(',');
-		const dto: Partial<AnimeQueryParametersDto> = {
+		let dto: Partial<AnimeQueryParametersDto> = {
 			offset: model.offset,
 			limit: model.limitPerPage,
 		};
 		if (ordering) {
-			dto.ordering = ordering;
+			dto = { ...dto, ordering };
 		}
 		if (types) {
-			dto.type__in = types;
+			// Disable eslint for a name of a dto parameter
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			dto = { ...dto, type__in: types };
 		}
 		if (model.searchQuery) {
-			dto.search = model.searchQuery;
+			dto = { ...dto, search: model.searchQuery };
 		}
 		return dto;
 	}

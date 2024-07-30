@@ -16,7 +16,7 @@ export namespace SortMapper {
 		}
 		return model.map(orderParameter => {
 			const parameter = SortParameterMapper.toDto(orderParameter.parameterName as AnimeSortField);
-			return orderParameter.parameterOrder ? parameter : `-${parameter}`;
+			return orderParameter.isAscending ? parameter : `-${parameter}`;
 		}).join(',');
 	}
 
@@ -29,12 +29,12 @@ export namespace SortMapper {
 			return [];
 		}
 		return dto.split(',').map(orderParameter => {
-			const parameterOrder = !orderParameter.startsWith('-');
-			const parameter = parameterOrder ? orderParameter : orderParameter.slice(1);
+			const isAscending = !orderParameter.startsWith('-');
+			const parameter = isAscending ? orderParameter : orderParameter.slice(1);
 			const parameterName = SortParameterMapper.fromDto(parameter as AnimeSortFieldDto);
 			return {
 				parameterName: parameterName as AnimeSortField,
-				parameterOrder,
+				isAscending,
 			};
 		});
 	}

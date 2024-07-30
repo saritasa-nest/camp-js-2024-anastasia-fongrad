@@ -2,17 +2,17 @@
 export type AnimeQueryParametersDto = {
 
 	/** Offset of the first anime. */
-	offset: number;
+	readonly offset: number;
 
 	/** Max number of items per page. */
-	limit: number;
+	readonly limit: number;
 
 	/** Anime types to filter by. */
-	type__in: string;
+	readonly type__in?: string;
 
 	/** A query to search anime by title. */
-	search: string;
+	readonly search?: string;
 
 	/** Columns to sort anime by. */
-	ordering: string;
+	readonly ordering?: string;
 };

@@ -8,9 +8,8 @@ import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.mode
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 import { PageEvent } from '@angular/material/paginator';
-import { Sort } from '@angular/material/sort';
-import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
+import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { AnimeApiService } from './anime-api.service';
 
@@ -39,24 +38,26 @@ export class AnimeQueryParametersService {
 		animeOrdering: [],
 	};
 
-	private parseQueryParameters(): Observable<Partial<AnimeQueryParametersDto>> {
+	private parseQueryParameters(): Observable<AnimeQueryParametersDto> {
 		return this.route.queryParams.pipe(
 			map(params => {
 				if (Object.keys(params).length === 0) {
 					this.navigate(this.animeParameters);
 				}
-				const parameters: Partial<AnimeQueryParametersDto> = {
+				let parameters: AnimeQueryParametersDto = {
 					offset: +params['offset'] || START_PAGE_INDEX,
 					limit: +params['limit'] || DEFAULT_PAGE_SIZE,
 				};
 				if (params['search']) {
-					parameters.search = params['search'];
+					parameters = { ...parameters, search: params['search'] };
 				}
 				if (params['type__in']) {
-					parameters.type__in = params['type__in'];
+					// Disable eslint for a name of a dto parameter
+					// eslint-disable-next-line @typescript-eslint/naming-convention
+					parameters = { ...parameters, type__in: params['type__in'] };
 				}
 				if (params['ordering']) {
-					parameters.ordering = params['ordering'];
+					parameters = { ...parameters, ordering: params['ordering'] };
 				}
 				return parameters;
 			}),
@@ -127,20 +128,15 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when sort event is triggered.
 	 * @param event Sort event from an anime table.
 	 */
-	public onSortChange(event: Sort): void {
-		const parameterName = event.active as AnimeSortField;
-		const parameterOrder = event.direction !== 'desc';
+	public onSortChange(event: SortParameter): void {
 		const { animeOrdering } = this.animeParameters;
 		const existingParameterIndex = this.animeParameters.animeOrdering.findIndex(
-			p => p.parameterName === parameterName,
+			p => p.parameterName === event.parameterName,
 		);
 		if (existingParameterIndex !== -1) {
 			this.animeParameters.animeOrdering.splice(existingParameterIndex, 1);
 		}
-		animeOrdering.push({
-			parameterName,
-			parameterOrder,
-		});
+		animeOrdering.push(event);
 		this.animeParameters = { ...this.animeParameters, animeOrdering };
 		this.navigate(this.animeParameters);
 	}
