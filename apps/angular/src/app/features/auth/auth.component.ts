@@ -30,7 +30,7 @@ export class AuthComponent {
 		[RegistrationModel.FirstName]: new FormControl(null, Validators.required),
 		[RegistrationModel.LastName]: new FormControl(null, Validators.required),
 		[RegistrationModel.Email]: new FormControl(null, [Validators.required, Validators.email]),
-		[RegistrationModel.Password]: new FormControl(null, Validators.required),
+		[RegistrationModel.Password]: new FormControl(null, [Validators.required, Validators.minLength(8)]),
 		[RegistrationModel.ConfirmPassword]: new FormControl(null, Validators.required),
 		[RegistrationModel.Avatar]: new FormControl(null),
 	}, { validators: mustMatch('password', 'confirmPassword') });
