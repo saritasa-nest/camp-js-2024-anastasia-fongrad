@@ -22,10 +22,10 @@
 					<button class="main__search-button" mat-flat-button type="submit">Search</button>
 				</div>
 				@if(animeParameters.animeOrdering.length > 0){
-					<button class="main__reset-button" mat-flat-button type="button" (click)="routeParameterService.cancelSorting()">Cancel sorting</button>
+					<button class="main__reset-button" mat-flat-button type="button" (click)="stopSorting()">Cancel sorting</button>
 				}
 			</form>
-			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.onSortChange($event)"/>
+			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.onSortChange($event)" [cancelSorting$]="cancelSorting.asObservable()"/>
 			<mat-paginator #paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.offset / animeParameters.limitPerPage" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.onPageChange($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>

@@ -32,8 +32,8 @@ export class AnimeQueryParametersService {
 
 	/** Anime query parameters. */
 	protected animeParameters: AnimeQueryParameters = {
-		offset: 0,
-		limitPerPage: 5,
+		offset: START_PAGE_INDEX,
+		limitPerPage: DEFAULT_PAGE_SIZE,
 		searchQuery: '',
 		animeType: [],
 		animeOrdering: [],
@@ -100,23 +100,27 @@ export class AnimeQueryParametersService {
 	}
 
 	/**
-	 * 1.
-	 * @param animeType 1.
+	 * Changes query parameters when new type gets selected.
+	 * @param animeType An object with selected anime types.
 	 */
 	public onSelectType(animeType: AnimeType[]): void {
-		const offset = 0;
-		this.animeParameters = { ...this.animeParameters, offset, animeType };
-		this.navigate(this.animeParameters);
+		if (animeType && (animeType.length > 0)) {
+			const offset = 0;
+			this.animeParameters = { ...this.animeParameters, offset, animeType };
+			this.navigate(this.animeParameters);
+		}
 	}
 
 	/**
-	 * 1.
-	 * @param searchQuery 1.
+	 * Changes query parameters when search event occurs.
+	 * @param searchQuery Search anime query.
 	 */
 	public onSearch(searchQuery: string): void {
-		const offset = 0;
-		this.animeParameters = { ...this.animeParameters, offset, searchQuery };
-		this.navigate(this.animeParameters);
+		if (searchQuery && (searchQuery.length > 0)) {
+			const offset = 0;
+			this.animeParameters = { ...this.animeParameters, offset, searchQuery };
+			this.navigate(this.animeParameters);
+		}
 	}
 
 	/**

@@ -1,7 +1,7 @@
 import { AnimeType } from './enums/model-type.enum';
 import { SortParameter } from './sort.model';
 
-/** 1. */
+/** Anime query parameters model. */
 export type AnimeQueryParameters = {
 
 	/** Offset of the first anime. */

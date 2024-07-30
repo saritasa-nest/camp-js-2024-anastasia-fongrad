@@ -1,10 +1,12 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatSortModule, Sort } from '@angular/material/sort';
+import { MatSortModule, Sort, MatSort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -57,7 +59,9 @@ function mapColumnToSortParameter(column: AnimeTableColumnIds): AnimeSortField |
 		MatSortModule,
 	],
 })
-export class AnimeTableComponent {
+export class AnimeTableComponent implements OnInit, OnDestroy {
+
+	@ViewChild(MatSort) private sort!: MatSort;
 
 	/** Anime table column ids. */
 	protected readonly animeColumnIds = AnimeTableColumnIds;
@@ -68,11 +72,26 @@ export class AnimeTableComponent {
 	/** An array that determines anime table columns order. */
 	protected readonly displayedColumns = Object.values(this.animeColumnIds);
 
+	private sortSubscription?: Subscription;
+
 	/** Stream containing anime data from the server. */
 	@Input() public animeList: readonly Anime[] | undefined;
 
+	/** Observable that expects to receive a cancel command. */
+	@Input() public cancelSorting$!: Observable<void>;
+
 	/** Event emitter for a sort table event. */
 	@Output() public sortChange = new EventEmitter<Sort>();
+
+	/** Subscribes on a cancel sorting observable. */
+	public ngOnInit(): void {
+		this.sortSubscription = this.cancelSorting$.pipe(
+			tap(() => {
+				this.sort.active = '';
+				this.sort.direction = '';
+			}),
+		).subscribe();
+	}
 
 	/**
 	 * Emits sort table event to the parent component.
@@ -96,5 +115,12 @@ export class AnimeTableComponent {
 	 */
 	protected trackByAnime(index: number, anime: Anime): number {
 		return anime.id;
+	}
+
+	/** Unsubscribes from all the subscriptions when component is destroyed. */
+	public ngOnDestroy(): void {
+		if (this.sortSubscription) {
+			this.sortSubscription.unsubscribe();
+		}
 	}
 }

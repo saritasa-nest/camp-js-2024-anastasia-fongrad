@@ -9,7 +9,7 @@ import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 
-import { ApiUrlService } from './api-url.service';
+import { AppUrlConfig } from './app-url-config.service';
 
 /** Connects to the API to manage anime data. */
 @Injectable({
@@ -19,7 +19,7 @@ export class AnimeApiService {
 
 	private readonly http: HttpClient = inject(HttpClient);
 
-	private readonly apiUrlService = inject(ApiUrlService);
+	private readonly apiUrlService = inject(AppUrlConfig);
 
 	/**
 	 * Gets paginated anime data from the server.
@@ -27,7 +27,7 @@ export class AnimeApiService {
 	 */
 	public getAll(parameters: Partial<AnimeQueryParametersDto>): Observable<Pagination<Anime>> {
 		const params = new HttpParams({ fromObject: parameters });
-		const url = this.apiUrlService.animeListPath;
+		const url = this.apiUrlService.paths.animeCatalog;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto(response)),

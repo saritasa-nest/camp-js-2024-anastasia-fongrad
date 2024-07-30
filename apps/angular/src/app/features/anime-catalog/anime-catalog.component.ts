@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -37,6 +37,10 @@ import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 	standalone: true,
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
+
+	/** Event emitter for sorting cancelling. */
+	public cancelSorting = new EventEmitter<void>();
+
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes = Object.values(AnimeType);
 
@@ -44,7 +48,13 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected paginatedAnime$: Observable<Pagination<Anime>>;
 
 	/** Anime query parameters. */
-	protected animeParameters: AnimeQueryParameters;
+	protected animeParameters: AnimeQueryParameters = {
+		offset: 0,
+		limitPerPage: 5,
+		searchQuery: '',
+		animeType: [],
+		animeOrdering: [],
+	};
 
 	/** Available page size options for a select element. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
@@ -55,10 +65,10 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	private formSearchSubscription?: Subscription;
 
-	/** 1. */
+	/** A service that works with anime query parameters. */
 	protected routeParameterService = inject(AnimeQueryParametersService);
 
-	/** 1. */
+	/** Reactive anime filter form. */
 	protected animeForm = new FormGroup({
 		animeType: new FormControl([] as AnimeType[]),
 		searchQuery: new FormControl(''),
@@ -66,13 +76,6 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	public constructor() {
 		this.paginatedAnime$ = this.routeParameterService.getPaginatedAnime();
-		this.animeParameters = {
-			offset: 0,
-			limitPerPage: 5,
-			searchQuery: '',
-			animeType: [],
-			animeOrdering: [],
-		};
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
@@ -104,5 +107,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		if (this.formTypeSubscription) {
 			this.formTypeSubscription.unsubscribe();
 		}
+	}
+
+	/** Resets table order to the default one. */
+	protected stopSorting(): void {
+		this.cancelSorting.emit();
+		this.routeParameterService.cancelSorting();
 	}
 }
