@@ -37,12 +37,12 @@ export namespace AnimeQueryParametersMapper {
 	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
 		const animeOrdering = dto.ordering ? SortMapper.fromDto(dto.ordering) : null;
 		const animeType = dto.type__in ? dto.type__in.split(',').map(type => TypeMapper.fromDto(type as AnimeTypeDto)) : [];
-		return new AnimeQueryParameters({
-			offset: dto.offset,
-			limitPerPage: dto.limit,
+		return {
+			offset: dto.offset ?? 0,
+			limitPerPage: dto.limit ?? 5,
 			animeType,
 			searchQuery: dto.search ?? '',
 			animeOrdering: animeOrdering ?? [],
-		});
+		};
 	}
 }

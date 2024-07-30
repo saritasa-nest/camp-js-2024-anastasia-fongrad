@@ -7,6 +7,10 @@ import { Anime } from '@js-camp/core/models/anime';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
+import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
+import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
+import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 
 import { AnimeApiService } from './anime-api.service';
 
@@ -26,11 +30,20 @@ export class AnimeQueryParametersService {
 
 	private readonly animeApiService = inject(AnimeApiService);
 
+	/** Anime query parameters. */
+	protected animeParameters: AnimeQueryParameters = {
+		offset: 0,
+		limitPerPage: 5,
+		searchQuery: '',
+		animeType: [],
+		animeOrdering: [],
+	};
+
 	private parseQueryParameters(): Observable<Partial<AnimeQueryParametersDto>> {
 		return this.route.queryParams.pipe(
 			map(params => {
 				if (Object.keys(params).length === 0) {
-					this.navigate(new AnimeQueryParameters({}));
+					this.navigate(this.animeParameters);
 				}
 				const parameters: Partial<AnimeQueryParametersDto> = {
 					offset: +params['offset'] || START_PAGE_INDEX,
@@ -68,10 +81,69 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters for the current url.
 	 * @param animeQueryParameters Object with anime query parameters.
 	 */
-	public navigate(animeQueryParameters: AnimeQueryParameters): void {
+	private navigate(animeQueryParameters: AnimeQueryParameters): void {
 		const queryParams = { ...AnimeQueryParametersMapper.toDto(animeQueryParameters) };
 		this.router.navigate([], {
 			queryParams,
 		});
+	}
+
+	/**
+	 * Changes query parameters when pagination event occurs.
+	 * @param event Page change event.
+	 */
+	public onPageChange(event: PageEvent): void {
+		const offset = event.pageIndex * event.pageSize;
+		const limitPerPage = event.pageSize;
+		this.animeParameters = { ...this.animeParameters, offset, limitPerPage };
+		this.navigate(this.animeParameters);
+	}
+
+	/**
+	 * 1.
+	 * @param animeType 1.
+	 */
+	public onSelectType(animeType: AnimeType[]): void {
+		const offset = 0;
+		this.animeParameters = { ...this.animeParameters, offset, animeType };
+		this.navigate(this.animeParameters);
+	}
+
+	/**
+	 * 1.
+	 * @param searchQuery 1.
+	 */
+	public onSearch(searchQuery: string): void {
+		const offset = 0;
+		this.animeParameters = { ...this.animeParameters, offset, searchQuery };
+		this.navigate(this.animeParameters);
+	}
+
+	/**
+	 * Changes query parameters when sort event is triggered.
+	 * @param event Sort event from an anime table.
+	 */
+	public onSortChange(event: Sort): void {
+		const parameterName = event.active as AnimeSortField;
+		const parameterOrder = event.direction !== 'desc';
+		const { animeOrdering } = this.animeParameters;
+		const existingParameterIndex = this.animeParameters.animeOrdering.findIndex(
+			p => p.parameterName === parameterName,
+		);
+		if (existingParameterIndex !== -1) {
+			this.animeParameters.animeOrdering.splice(existingParameterIndex, 1);
+		}
+		animeOrdering.push({
+			parameterName,
+			parameterOrder,
+		});
+		this.animeParameters = { ...this.animeParameters, animeOrdering };
+		this.navigate(this.animeParameters);
+	}
+
+	/** Resets the order of anime in the table to the original one. */
+	public cancelSorting(): void {
+		this.animeParameters.animeOrdering.splice(0, this.animeParameters.animeOrdering.length);
+		this.navigate(this.animeParameters);
 	}
 }
