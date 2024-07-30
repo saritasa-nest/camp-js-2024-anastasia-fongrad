@@ -2,16 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { Pagination } from '@js-camp/core/models/pagination.model';
-import { Anime } from '@js-camp/core/models/anime';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 import { SortParameter } from '@js-camp/core/models/sort.model';
-
-import { AnimeApiService } from './anime-api.service';
 
 const START_PAGE_INDEX = 0;
 
@@ -27,8 +23,6 @@ export class AnimeQueryParametersService {
 
 	private readonly router = inject(Router);
 
-	private readonly animeApiService = inject(AnimeApiService);
-
 	/** Anime query parameters. */
 	protected animeParameters: AnimeQueryParameters = {
 		offset: START_PAGE_INDEX,
@@ -38,7 +32,8 @@ export class AnimeQueryParametersService {
 		animeOrdering: [],
 	};
 
-	private parseQueryParameters(): Observable<AnimeQueryParametersDto> {
+	/** Returns an object with row query parameters. */
+	public getQueryParameters(): Observable<AnimeQueryParametersDto> {
 		return this.route.queryParams.pipe(
 			map(params => {
 				if (Object.keys(params).length === 0) {
@@ -64,16 +59,9 @@ export class AnimeQueryParametersService {
 		);
 	}
 
-	/** Requests paginated anime data when query parameters change. */
-	public getPaginatedAnime(): Observable<Pagination<Anime>> {
-		return this.parseQueryParameters().pipe(
-			switchMap(parameters => this.animeApiService.getAll(parameters)),
-		);
-	}
-
 	/** Returns an object with parsed query parameters. */
-	public getQueryParameters(): Observable<AnimeQueryParameters> {
-		return this.parseQueryParameters().pipe(
+	public getParsedQueryParameters(): Observable<AnimeQueryParameters> {
+		return this.getQueryParameters().pipe(
 			switchMap(parameters => of(AnimeQueryParametersMapper.fromDto(parameters))),
 		);
 	}
@@ -105,11 +93,9 @@ export class AnimeQueryParametersService {
 	 * @param animeType An object with selected anime types.
 	 */
 	public onSelectType(animeType: AnimeType[]): void {
-		if (animeType && (animeType.length > 0)) {
-			const offset = 0;
-			this.animeParameters = { ...this.animeParameters, offset, animeType };
-			this.navigate(this.animeParameters);
-		}
+		const offset = START_PAGE_INDEX;
+		this.animeParameters = { ...this.animeParameters, offset, animeType };
+		this.navigate(this.animeParameters);
 	}
 
 	/**
@@ -117,11 +103,9 @@ export class AnimeQueryParametersService {
 	 * @param searchQuery Search anime query.
 	 */
 	public onSearch(searchQuery: string): void {
-		if (searchQuery && (searchQuery.length > 0)) {
-			const offset = 0;
-			this.animeParameters = { ...this.animeParameters, offset, searchQuery };
-			this.navigate(this.animeParameters);
-		}
+		const offset = START_PAGE_INDEX;
+		this.animeParameters = { ...this.animeParameters, offset, searchQuery };
+		this.navigate(this.animeParameters);
 	}
 
 	/**
