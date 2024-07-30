@@ -5,41 +5,12 @@
 			<h1 class="login__header">
 				Auth
 			</h1>
-			<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="login__form">
-				<mat-form-field appearance="fill">
-				  <mat-label>First Name</mat-label>
-				  <input matInput id="firstName" type="text" [formControlName]="registrationModel.FirstName">
-				  <mat-error>Please enter a valid email address</mat-error>
-				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Last Name</mat-label>
-					<input matInput id="lastName" type="text" [formControlName]="registrationModel.LastName">
-					<mat-error>Please enter a valid email address</mat-error>
-				  </mat-form-field>
-				<mat-form-field appearance="fill">
-				  <mat-label>Email</mat-label>
-				  <input matInput id="email" type="email" [formControlName]="registrationModel.Email">
-				  <mat-error>Please enter a valid email address</mat-error>
-				</mat-form-field>
-				<mat-form-field appearance="fill">
-				  <mat-label>Password</mat-label>
-				  <input matInput id="password" type="password" [formControlName]="registrationModel.Password">
-				  <mat-error>Please enter a valid email address</mat-error>
-				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Repeat Password</mat-label>
-					<input matInput id="confirmPassword" type="password" [formControlName]="registrationModel.ConfirmPassword">
-					@if( registrationForm.get(registrationModel.ConfirmPassword)?.invalid
-						&& registrationForm.get(registrationModel.ConfirmPassword)?.touched ) {
-						<mat-error>Please enter a valid email address</mat-error>
-					}
-				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Load avatar picture</mat-label>
-					<input matInput id="avatar" type="text" [formControlName]="registrationModel.Avatar">
-				</mat-form-field>
-				<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
-			</form>
+			@if (isAuthorized) {
+				<camp-registration-form/>
+			}
+			@else {
+				<camp-login-form/>
+			}
 		</div>
 	</section>
 </main>

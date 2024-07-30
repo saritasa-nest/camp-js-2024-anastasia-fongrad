@@ -1,0 +1,13 @@
+<form [formGroup]="loginForm" class="login__form">
+	<mat-form-field appearance="fill">
+	  <mat-label>Email</mat-label>
+	  <input matInput id="email" type="email" formControlName="email">
+	  <mat-error>Please enter a valid email address</mat-error>
+	</mat-form-field>
+	<mat-form-field appearance="fill">
+	  <mat-label>Password</mat-label>
+	  <input matInput id="password" type="password" formControlName="password">
+	  <mat-error>Please enter a valid email address</mat-error>
+	</mat-form-field>
+	<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+</form>

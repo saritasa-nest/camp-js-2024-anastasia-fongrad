@@ -7,8 +7,3 @@
   line-height: var(--title-line-height);
   font-weight: var(--text-semibold);
 }
-
-.login__form {
-  display: flex;
-  flex-direction: column;
-}

@@ -1,0 +1,10 @@
+.registration__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.registration__group {
+  display: flex;
+  flex-direction: column;
+}
