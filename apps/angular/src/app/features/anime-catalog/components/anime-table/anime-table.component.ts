@@ -4,7 +4,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
-import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-parameter.enum';
+import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -32,11 +32,11 @@ enum AnimeTableColumnNames {
  * Converts column name to a valid sort parameter name.
  * @param column Column name to sort by.
  */
-function mapColumnToSortParameter(column: AnimeTableColumnIds): ModelSortParameter | null {
-	const columnMap: Partial<Record<AnimeTableColumnIds, ModelSortParameter | null>> = {
-		[AnimeTableColumnIds.EnglishTitle]: ModelSortParameter.EnglishTitle,
-		[AnimeTableColumnIds.StartDate]: ModelSortParameter.StartDate,
-		[AnimeTableColumnIds.Status]: ModelSortParameter.Status,
+function mapColumnToSortParameter(column: AnimeTableColumnIds): AnimeSortField | null {
+	const columnMap: Partial<Record<AnimeTableColumnIds, AnimeSortField | null>> = {
+		[AnimeTableColumnIds.EnglishTitle]: AnimeSortField.EnglishTitle,
+		[AnimeTableColumnIds.StartDate]: AnimeSortField.StartDate,
+		[AnimeTableColumnIds.Status]: AnimeSortField.Status,
 	};
 	return columnMap[column] ?? null;
 }

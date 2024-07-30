@@ -1,21 +1,21 @@
-import { OrderingParameter } from '../models/ordering.model';
-import { DtoSortParameter } from '../utils/enums/dto-sort-parameter.enum';
-import { ModelSortParameter } from '../utils/enums/model-sort-parameter.enum';
+import { SortParameter } from '../models/sort.model';
+import { AnimeSortFieldDto } from '../dtos/enums/dto-sort-parameter.enum';
+import { AnimeSortField } from '../models/enums/model-sort-parameter.enum';
 
 import { SortParameterMapper } from './sort-parameter.mapper';
 
-export namespace OrderingMapper {
+export namespace SortMapper {
 
 	/**
 	 * Converts anime table ordering from a model to a dto object.
 	 * @param model Anime table ordering.
 	 */
-	export function toDto(model: OrderingParameter[]): string {
+	export function toDto(model: SortParameter[]): string {
 		if (model.length === 0) {
 			return '';
 		}
 		return model.map(orderParameter => {
-			const parameter = SortParameterMapper.toDto(orderParameter.parameterName as ModelSortParameter);
+			const parameter = SortParameterMapper.toDto(orderParameter.parameterName as AnimeSortField);
 			return orderParameter.parameterOrder ? parameter : `-${parameter}`;
 		}).join(',');
 	}
@@ -24,16 +24,16 @@ export namespace OrderingMapper {
 	 * Converts anime table ordering from a dto object to a model.
 	 * @param dto Anime table ordering.
 	 */
-	export function fromDto(dto: string): OrderingParameter[] {
+	export function fromDto(dto: string): SortParameter[] {
 		if (!dto) {
 			return [];
 		}
 		return dto.split(',').map(orderParameter => {
 			const parameterOrder = !orderParameter.startsWith('-');
 			const parameter = parameterOrder ? orderParameter : orderParameter.slice(1);
-			const parameterName = SortParameterMapper.fromDto(parameter as DtoSortParameter);
+			const parameterName = SortParameterMapper.fromDto(parameter as AnimeSortFieldDto);
 			return {
-				parameterName: parameterName as ModelSortParameter,
+				parameterName: parameterName as AnimeSortField,
 				parameterOrder,
 			};
 		});

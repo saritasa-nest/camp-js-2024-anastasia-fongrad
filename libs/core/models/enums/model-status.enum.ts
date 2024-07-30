@@ -1,5 +1,5 @@
 /** Represents anime status in the model. */
-export enum ModelStatus{
+export enum AnimeStatus{
 	Airing = 'airing',
 	Finished = 'finished',
 	NotYetAired = 'expected',

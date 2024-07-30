@@ -2,7 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,8 +15,8 @@ import { CommonModule } from '@angular/common';
 import { Sort } from '@angular/material/sort';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
-import { ModelSortParameter } from '@js-camp/core/utils/enums/model-sort-parameter.enum';
-import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
+import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
+import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -32,6 +32,7 @@ import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
 		MatIconModule,
 		MatButtonModule,
 		CommonModule,
+		ReactiveFormsModule,
 	],
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
@@ -39,7 +40,7 @@ import { ModelType } from '@js-camp/core/utils/enums/model-type.enum';
 })
 export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** An array of available anime types to choose from. */
-	protected readonly selectTypes = Object.values(ModelType);
+	protected readonly selectTypes = Object.values(AnimeType);
 
 	/** Anime pagination data to be displayed. */
 	protected paginatedAnime$: Observable<Pagination<Anime>>;
@@ -54,6 +55,12 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	private routeParameterService = inject(AnimeQueryParametersService);
 
+	/** 1. */
+	protected animeForm = new FormGroup({
+		animeType: new FormControl(''),
+		searchQuery: new FormControl(''),
+	});
+
 	public constructor() {
 		this.paginatedAnime$ = this.routeParameterService.getPaginatedAnime();
 	}
@@ -62,6 +69,14 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	public ngOnInit(): void {
 		this.routeSubscription = this.routeParameterService.getQueryParameters().subscribe(animeParameters => {
 			this.animeParameters = animeParameters;
+		});
+		this.animeForm.get('animeType')?.valueChanges.subscribe(value => {
+			this.animeParameters.animeType = value?.split(',').map(type => AnimeType[type as keyof typeof AnimeType]) ?? [];
+			this.onSelectType();
+		});
+		this.animeForm.get('searchQuery')?.valueChanges.subscribe(value => {
+			this.animeParameters.searchQuery = value ?? '';
+			this.onSearch();
 		});
 	}
 
@@ -92,7 +107,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	 * @param event Sort event from an anime table.
 	 */
 	protected onSortChange(event: Sort): void {
-		const parameterName = event.active as ModelSortParameter;
+		const parameterName = event.active as AnimeSortField;
 		const parameterOrder = event.direction !== 'desc';
 		const existingParameterIndex = this.animeParameters.animeOrdering.findIndex(
 			p => p.parameterName === parameterName,

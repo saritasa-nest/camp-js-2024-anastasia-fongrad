@@ -1,7 +1,6 @@
-import { ModelType } from '../utils/enums/model-type.enum';
-
+import { AnimeType } from './enums/model-type.enum';
 import { Immerable, OmitImmerable } from './immerable';
-import { OrderingParameter } from './ordering.model';
+import { SortParameter } from './sort.model';
 
 /** Anime query parameters model. */
 export class AnimeQueryParameters extends Immerable {
@@ -13,13 +12,13 @@ export class AnimeQueryParameters extends Immerable {
 	public limitPerPage: number;
 
 	/** Anime types to filter by. */
-	public animeType: ModelType[];
+	public animeType: AnimeType[];
 
 	/** A query to search anime by a title. */
 	public searchQuery: string;
 
 	/** Ordering parameters object to sort anime by. */
-	public animeOrdering: OrderingParameter[];
+	public animeOrdering: SortParameter[];
 
 	public constructor(data: Partial<AnimeConstructorData>) {
 		super();

@@ -10,15 +10,15 @@ import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto
 
 import { AnimeApiService } from './anime-api.service';
 
+const START_PAGE_INDEX = 0;
+
+const DEFAULT_PAGE_SIZE = 5;
+
 /** Works with anime query parameters. */
 @Injectable({
 	providedIn: 'root',
 })
 export class AnimeQueryParametersService {
-
-	private readonly startPageIndex = 0;
-
-	private readonly defaultPageSize = 5;
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -33,8 +33,8 @@ export class AnimeQueryParametersService {
 					this.navigate(new AnimeQueryParameters({}));
 				}
 				const parameters: Partial<AnimeQueryParametersDto> = {
-					offset: +params['offset'] || this.startPageIndex,
-					limit: +params['limit'] || this.defaultPageSize,
+					offset: +params['offset'] || START_PAGE_INDEX,
+					limit: +params['limit'] || DEFAULT_PAGE_SIZE,
 				};
 				if (params['search']) {
 					parameters.search = params['search'];

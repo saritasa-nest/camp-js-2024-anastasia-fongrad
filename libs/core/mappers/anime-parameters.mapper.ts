@@ -1,9 +1,9 @@
 import { AnimeQueryParametersDto } from '../dtos/anime-parameters.dto';
 import { AnimeQueryParameters } from '../models/anime-parameters.model';
-import { DtoType } from '../utils/enums/dto-type.enum';
+import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
 
 import { TypeMapper } from './anime-type.mapper';
-import { OrderingMapper } from './ordering.mapper';
+import { SortMapper } from './sort.mapper';
 
 export namespace AnimeQueryParametersMapper {
 
@@ -12,7 +12,7 @@ export namespace AnimeQueryParametersMapper {
 	 * @param model Anime query parameters.
 	 */
 	export function toDto(model: AnimeQueryParameters): Partial<AnimeQueryParametersDto> {
-		const ordering = OrderingMapper.toDto(model.animeOrdering);
+		const ordering = SortMapper.toDto(model.animeOrdering);
 		const types = model.animeType.map(type => TypeMapper.toDto(type)).join(',');
 		const dto: Partial<AnimeQueryParametersDto> = {
 			offset: model.offset,
@@ -35,8 +35,8 @@ export namespace AnimeQueryParametersMapper {
 	 * @param dto Anime query parameters dto.
 	 */
 	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
-		const animeOrdering = dto.ordering ? OrderingMapper.fromDto(dto.ordering) : null;
-		const animeType = dto.type__in ? dto.type__in.split(',').map(type => TypeMapper.fromDto(type as DtoType)) : [];
+		const animeOrdering = dto.ordering ? SortMapper.fromDto(dto.ordering) : null;
+		const animeType = dto.type__in ? dto.type__in.split(',').map(type => TypeMapper.fromDto(type as AnimeTypeDto)) : [];
 		return new AnimeQueryParameters({
 			offset: dto.offset,
 			limitPerPage: dto.limit,

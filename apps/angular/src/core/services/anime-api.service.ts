@@ -19,7 +19,7 @@ export class AnimeApiService {
 
 	private readonly http: HttpClient = inject(HttpClient);
 
-	private readonly apiUtlService = inject(ApiUrlService);
+	private readonly apiUrlService = inject(ApiUrlService);
 
 	/**
 	 * Gets paginated anime data from the server.
@@ -27,7 +27,7 @@ export class AnimeApiService {
 	 */
 	public getAll(parameters: Partial<AnimeQueryParametersDto>): Observable<Pagination<Anime>> {
 		const params = new HttpParams({ fromObject: parameters });
-		const url = this.apiUtlService.animeListPath;
+		const url = this.apiUrlService.animeListPath;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto(response)),
