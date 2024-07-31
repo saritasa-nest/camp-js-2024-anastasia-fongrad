@@ -8,9 +8,7 @@ import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-paramete
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 import { SortParameter } from '@js-camp/core/models/sort.model';
 
-const START_PAGE_INDEX = 0;
-
-const DEFAULT_PAGE_SIZE = 5;
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '../utils/anime-constants';
 
 /** Works with anime query parameters. */
 @Injectable({
@@ -29,7 +27,7 @@ export class AnimeQueryParametersService {
 				if (Object.keys(params).length === 0) {
 					this.changePagination(DEFAULT_PAGE_SIZE, START_PAGE_INDEX);
 				}
-				const offset = +params['offset'] || undefined;
+				const offset = params['offset'] !== undefined ? +params['offset'] : undefined;
 				const limit = +params['limit'] || undefined;
 				const search = params['search'] || undefined;
 				const types = params['type__in'] || undefined;
@@ -37,6 +35,7 @@ export class AnimeQueryParametersService {
 				return {
 					offset,
 					limit,
+
 					// Disable eslint for a name of a dto parameter
 					// eslint-disable-next-line @typescript-eslint/naming-convention
 					type__in: types,
@@ -63,6 +62,7 @@ export class AnimeQueryParametersService {
 		const newParameters = Object.fromEntries(
 			Object.entries(queryParams).filter(([_key, value]) => value !== undefined),
 		);
+
 		this.router.navigate([], {
 			queryParams: newParameters,
 			queryParamsHandling: 'merge',

@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Subscription, Observable, switchMap } from 'rxjs';
+import { Subscription, Observable, switchMap, Subject } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,8 @@ import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anim
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { takeUntil } from 'rxjs/operators';
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/utils/anime-constants';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -46,26 +48,12 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Anime query parameters. */
 	protected animeParameters: AnimeQueryParameters = {
-		pageNumber: 0,
-		limitPerPage: 5,
+		pageNumber: START_PAGE_INDEX,
+		limitPerPage: DEFAULT_PAGE_SIZE,
 		searchQuery: '',
 		animeTypes: [],
 		animeSort: null,
 	};
-
-	/** Available page size options for a select element. */
-	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
-
-	private routeSubscription?: Subscription;
-
-	private formTypeSubscription?: Subscription;
-
-	private formSearchSubscription?: Subscription;
-
-	private readonly animeApiService = inject(AnimeApiService);
-
-	/** A service that works with anime query parameters. */
-	protected routeParameterService = inject(AnimeQueryParametersService);
 
 	/** Reactive anime filter form. */
 	protected animeForm = new FormGroup({
@@ -73,13 +61,30 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		searchQuery: new FormControl(''),
 	});
 
+	/** Available page size options for a select element. */
+	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
+
+	/** A service that works with anime query parameters. */
+	protected routeParameterService = inject(AnimeQueryParametersService);
+
+	private readonly animeApiService = inject(AnimeApiService);
+
+	private destroy$ = new Subject<void>();
+
 	public constructor() {
 		this.paginatedAnime$ = this.getPaginatedAnime();
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
-		this.routeSubscription = this.routeParameterService.getParsedQueryParameters().subscribe(animeParameters => {
+		this.subscribeToRouteChange();
+		this.subscribeToFormChange();
+	}
+
+	private subscribeToRouteChange(): void {
+		this.routeParameterService.getParsedQueryParameters().pipe(
+			takeUntil(this.destroy$),
+		).subscribe(animeParameters => {
 			const newParameters = Object.fromEntries(
 				Object.entries(animeParameters).filter(([_key, value]) => value !== undefined),
 			);
@@ -92,20 +97,26 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 				searchQuery: animeParameters.searchQuery,
 			});
 		});
-		this.formTypeSubscription = this.animeForm.get('animeTypes')?.valueChanges.subscribe((value: AnimeType[] | null) => {
-			const animeTypes = value?.map(type => type as AnimeType) ?? undefined;
+	}
+
+	private subscribeToFormChange(): void {
+		this.animeForm.get('animeTypes')?.valueChanges.pipe(
+			takeUntil(this.destroy$),
+		).subscribe(formValue => {
+			const animeTypes = formValue?.map(type => type as AnimeType) ?? undefined;
 			if ((JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes) {
 				this.routeParameterService.changeTypesParameter(animeTypes);
 			}
 		});
-		this.formSearchSubscription = this.animeForm.get('searchQuery')?.valueChanges.subscribe(value => {
-			if ((value !== this.animeParameters.searchQuery) && value) {
-				this.routeParameterService.changeSearchParameter(value ?? '');
+		this.animeForm.get('searchQuery')?.valueChanges.pipe(
+			takeUntil(this.destroy$),
+		).subscribe(formValue => {
+			if ((formValue !== this.animeParameters.searchQuery) && formValue) {
+				this.routeParameterService.changeSearchParameter(formValue ?? '');
 			}
 		});
 	}
 
-	/** Requests paginated anime data when query parameters change. */
 	private getPaginatedAnime(): Observable<Pagination<Anime>> {
 		return this.routeParameterService.getQueryParameters().pipe(
 			switchMap(parameters => this.animeApiService.getAll(parameters)),
@@ -114,14 +125,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Unsubscribes from observables when the component is destroyed. */
 	public ngOnDestroy(): void {
-		if (this.routeSubscription) {
-			this.routeSubscription.unsubscribe();
-		}
-		if (this.formSearchSubscription) {
-			this.formSearchSubscription.unsubscribe();
-		}
-		if (this.formTypeSubscription) {
-			this.formTypeSubscription.unsubscribe();
-		}
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 }
