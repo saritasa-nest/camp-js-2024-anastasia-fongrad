@@ -4,7 +4,7 @@ import { SortParameter } from './sort.model';
 /** Anime query parameters model. */
 export type AnimeQueryParameters = {
 
-	/** Offset of the first anime. */
+	/** Number of the current page. */
 	readonly pageNumber: number;
 
 	/** Max number of items per page. */

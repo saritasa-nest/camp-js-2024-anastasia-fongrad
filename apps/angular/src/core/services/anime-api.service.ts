@@ -26,9 +26,12 @@ export class AnimeApiService {
 	 * @param parameters Query parameters for the request.
 	 */
 	public getAll(parameters: Partial<AnimeQueryParametersDto>): Observable<Pagination<Anime>> {
-		const params = new HttpParams({ fromObject: parameters });
+		const newParameters = Object.fromEntries(
+			Object.entries(parameters).filter(([_key, value]) => value !== undefined),
+		);
+		const httpParams = new HttpParams({ fromObject: newParameters });
 		const url = this.apiUrlService.paths.animeCatalog;
-		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params });
+		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto(response)),
 			catchError((error: unknown): Observable<Pagination<Anime>> => {

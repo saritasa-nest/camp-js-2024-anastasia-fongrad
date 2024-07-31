@@ -5,7 +5,6 @@ import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
-import { Subscription } from 'rxjs';
 import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
@@ -69,8 +68,6 @@ export class AnimeTableComponent {
 
 	/** An array that determines anime table columns order. */
 	protected readonly displayedColumns = Object.values(this.animeColumnIds);
-
-	private sortSubscription?: Subscription;
 
 	/** Stream containing anime data from the server. */
 	@Input() public animeList: readonly Anime[] | undefined;

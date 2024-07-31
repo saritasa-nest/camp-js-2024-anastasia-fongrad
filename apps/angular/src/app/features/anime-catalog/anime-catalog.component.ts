@@ -12,7 +12,7 @@ import { Subscription, Observable, switchMap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
-import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
+import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters.service';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
@@ -80,20 +80,26 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	/** Subscribes on route parameters when the component is initialized. */
 	public ngOnInit(): void {
 		this.routeSubscription = this.routeParameterService.getParsedQueryParameters().subscribe(animeParameters => {
-			this.animeParameters = animeParameters;
+			const newParameters = Object.fromEntries(
+				Object.entries(animeParameters).filter(([_key, value]) => value !== undefined),
+			);
+			this.animeParameters = {
+				...this.animeParameters,
+				...newParameters,
+			};
 			this.animeForm.patchValue({
 				animeTypes: animeParameters.animeTypes,
 				searchQuery: animeParameters.searchQuery,
 			});
 		});
 		this.formTypeSubscription = this.animeForm.get('animeTypes')?.valueChanges.subscribe((value: AnimeType[] | null) => {
-			const animeTypes = value?.map(type => type as AnimeType) ?? [];
-			if (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) {
+			const animeTypes = value?.map(type => type as AnimeType) ?? undefined;
+			if ((JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes) {
 				this.routeParameterService.changeTypesParameter(animeTypes);
 			}
 		});
 		this.formSearchSubscription = this.animeForm.get('searchQuery')?.valueChanges.subscribe(value => {
-			if (value !== this.animeParameters.searchQuery) {
+			if ((value !== this.animeParameters.searchQuery) && value) {
 				this.routeParameterService.changeSearchParameter(value ?? '');
 			}
 		});

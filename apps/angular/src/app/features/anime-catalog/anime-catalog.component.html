@@ -23,7 +23,7 @@
 				</div>
 			</form>
 			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.changeSortParameter($event)"/>
-			<mat-paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.pageNumber" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.changeAnimePage($event)" aria-label="Select page">
+			<mat-paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.pageNumber" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)" aria-label="Select page">
 			</mat-paginator>
 		</div>
 	</section>
