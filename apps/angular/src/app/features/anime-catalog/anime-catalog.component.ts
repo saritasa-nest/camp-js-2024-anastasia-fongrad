@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Subscription, Observable, switchMap, Subject } from 'rxjs';
+import { Observable, switchMap, Subject } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
@@ -65,7 +65,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
 
 	/** A service that works with anime query parameters. */
-	protected routeParameterService = inject(AnimeQueryParametersService);
+	protected readonly routeParameterService = inject(AnimeQueryParametersService);
 
 	private readonly animeApiService = inject(AnimeApiService);
 
@@ -84,35 +84,34 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	private subscribeToRouteChange(): void {
 		this.routeParameterService.getParsedQueryParameters().pipe(
 			takeUntil(this.destroy$),
-		).subscribe(animeParameters => {
-			const newParameters = Object.fromEntries(
-				Object.entries(animeParameters).filter(([_key, value]) => value !== undefined),
-			);
-			this.animeParameters = {
-				...this.animeParameters,
-				...newParameters,
-			};
-			this.animeForm.patchValue({
-				animeTypes: animeParameters.animeTypes,
-				searchQuery: animeParameters.searchQuery,
+		)
+			.subscribe(animeParameters => {
+				const newParameters = Object.fromEntries(
+					Object.entries(animeParameters).filter(([_key, value]) => value !== undefined),
+				);
+				this.animeParameters = {
+					...this.animeParameters,
+					...newParameters,
+				};
+				this.animeForm.patchValue({
+					animeTypes: animeParameters.animeTypes,
+					searchQuery: animeParameters.searchQuery,
+				});
 			});
-		});
 	}
 
 	private subscribeToFormChange(): void {
-		this.animeForm.get('animeTypes')?.valueChanges.pipe(
+		this.animeForm.valueChanges.pipe(
 			takeUntil(this.destroy$),
-		).subscribe(formValue => {
-			const animeTypes = formValue?.map(type => type as AnimeType) ?? undefined;
-			if ((JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes) {
-				this.routeParameterService.changeTypesParameter(animeTypes);
-			}
-		});
-		this.animeForm.get('searchQuery')?.valueChanges.pipe(
-			takeUntil(this.destroy$),
-		).subscribe(formValue => {
-			if ((formValue !== this.animeParameters.searchQuery) && formValue) {
-				this.routeParameterService.changeSearchParameter(formValue ?? '');
+		).subscribe(formValues => {
+			const animeTypes = formValues.animeTypes?.map(type => type as AnimeType) ?? undefined;
+			const isTypesChanged = (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes;
+			const isSearchChanged = (formValues.searchQuery !== this.animeParameters.searchQuery) && formValues.searchQuery;
+
+			// Disable eslint to use  logical OR for boolean values
+			/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */
+			if (isSearchChanged || isTypesChanged) {
+				this.routeParameterService.changeFilters(formValues.animeTypes ?? undefined, formValues.searchQuery ?? undefined);
 			}
 		});
 	}

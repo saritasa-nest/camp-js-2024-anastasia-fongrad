@@ -83,23 +83,13 @@ export class AnimeQueryParametersService {
 	}
 
 	/**
-	 * Changes query parameters when new type gets selected.
+	 * Changes query parameters on filters change.
 	 * @param animeTypes An object with selected anime types.
-	 */
-	public changeTypesParameter(animeTypes: AnimeType[]): void {
-		const params: Partial<AnimeQueryParameters> = {
-			animeTypes,
-			pageNumber: START_PAGE_INDEX,
-		};
-		this.navigate(params);
-	}
-
-	/**
-	 * Changes query parameters when search event occurs.
 	 * @param searchQuery Search anime query.
 	 */
-	public changeSearchParameter(searchQuery: string): void {
+	public changeFilters(animeTypes: AnimeType[] | undefined, searchQuery: string | undefined): void {
 		const params: Partial<AnimeQueryParameters> = {
+			animeTypes,
 			searchQuery,
 			pageNumber: START_PAGE_INDEX,
 		};
