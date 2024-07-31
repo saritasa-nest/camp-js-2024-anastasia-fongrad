@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
-import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-parameters.mapper';
+import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
 import { PageEvent } from '@angular/material/paginator';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
@@ -25,11 +25,11 @@ export class AnimeQueryParametersService {
 
 	/** Anime query parameters. */
 	protected animeParameters: AnimeQueryParameters = {
-		offset: START_PAGE_INDEX,
+		pageNumber: START_PAGE_INDEX,
 		limitPerPage: DEFAULT_PAGE_SIZE,
 		searchQuery: '',
-		animeType: [],
-		animeOrdering: [],
+		animeTypes: [],
+		animeSort: null,
 	};
 
 	/** Returns an object with row query parameters. */
@@ -81,10 +81,10 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when pagination event occurs.
 	 * @param event Page change event.
 	 */
-	public onPageChange(event: PageEvent): void {
-		const offset = event.pageIndex * event.pageSize;
+	public changeAnimePage(event: PageEvent): void {
+		const pageNumber = event.pageIndex;
 		const limitPerPage = event.pageSize;
-		this.animeParameters = { ...this.animeParameters, offset, limitPerPage };
+		this.animeParameters = { ...this.animeParameters, pageNumber, limitPerPage };
 		this.navigate(this.animeParameters);
 	}
 
@@ -92,9 +92,9 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when new type gets selected.
 	 * @param animeType An object with selected anime types.
 	 */
-	public onSelectType(animeType: AnimeType[]): void {
-		const offset = START_PAGE_INDEX;
-		this.animeParameters = { ...this.animeParameters, offset, animeType };
+	public changeTypesParameter(animeTypes: AnimeType[]): void {
+		const pageNumber = START_PAGE_INDEX;
+		this.animeParameters = { ...this.animeParameters, pageNumber, animeTypes };
 		this.navigate(this.animeParameters);
 	}
 
@@ -102,9 +102,9 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when search event occurs.
 	 * @param searchQuery Search anime query.
 	 */
-	public onSearch(searchQuery: string): void {
-		const offset = START_PAGE_INDEX;
-		this.animeParameters = { ...this.animeParameters, offset, searchQuery };
+	public changeSearchParameter(searchQuery: string): void {
+		const pageNumber = START_PAGE_INDEX;
+		this.animeParameters = { ...this.animeParameters, pageNumber, searchQuery };
 		this.navigate(this.animeParameters);
 	}
 
@@ -112,18 +112,8 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when sort event is triggered.
 	 * @param event Sort event from an anime table.
 	 */
-	public onSortChange(event: SortParameter): void {
-		const { animeOrdering } = this.animeParameters;
-		const existingParameterIndex = this.animeParameters.animeOrdering.findIndex(
-			p => p.parameterName === event.parameterName,
-		);
-		if (existingParameterIndex !== -1) {
-			this.animeParameters.animeOrdering.splice(existingParameterIndex, 1);
-		}
-		if (event.direction !== '') {
-			animeOrdering.push(event);
-		}
-		this.animeParameters = { ...this.animeParameters, animeOrdering };
+	public changeSortParameter(animeSort: SortParameter): void {
+		this.animeParameters = { ...this.animeParameters, animeSort };
 		this.navigate(this.animeParameters);
 	}
 }

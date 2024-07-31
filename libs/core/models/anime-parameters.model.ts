@@ -5,17 +5,17 @@ import { SortParameter } from './sort.model';
 export type AnimeQueryParameters = {
 
 	/** Offset of the first anime. */
-	offset: number;
+	readonly pageNumber: number;
 
 	/** Max number of items per page. */
-	limitPerPage: number;
+	readonly limitPerPage: number;
 
 	/** Anime types to filter by. */
-	animeType: AnimeType[];
+	readonly animeTypes: AnimeType[];
 
 	/** A query to search anime by a title. */
-	searchQuery: string;
+	readonly searchQuery: string;
 
 	/** Ordering parameters object to sort anime by. */
-	animeOrdering: SortParameter[];
+	readonly animeSort: SortParameter | null;
 };

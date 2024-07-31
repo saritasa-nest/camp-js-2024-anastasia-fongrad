@@ -46,11 +46,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Anime query parameters. */
 	protected animeParameters: AnimeQueryParameters = {
-		offset: 0,
+		pageNumber: 0,
 		limitPerPage: 5,
 		searchQuery: '',
-		animeType: [],
-		animeOrdering: [],
+		animeTypes: [],
+		animeSort: null,
 	};
 
 	/** Available page size options for a select element. */
@@ -69,7 +69,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	/** Reactive anime filter form. */
 	protected animeForm = new FormGroup({
-		animeType: new FormControl([] as AnimeType[]),
+		animeTypes: new FormControl([] as AnimeType[]),
 		searchQuery: new FormControl(''),
 	});
 
@@ -82,19 +82,19 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		this.routeSubscription = this.routeParameterService.getParsedQueryParameters().subscribe(animeParameters => {
 			this.animeParameters = animeParameters;
 			this.animeForm.patchValue({
-				animeType: animeParameters.animeType ?? [],
+				animeTypes: animeParameters.animeTypes,
 				searchQuery: animeParameters.searchQuery,
 			});
 		});
-		this.formTypeSubscription = this.animeForm.get('animeType')?.valueChanges.subscribe(value => {
-			const animeType = value?.map(type => type as AnimeType) ?? [];
-			if (JSON.stringify(animeType) !== JSON.stringify(this.animeParameters.animeType)) {
-				this.routeParameterService.onSelectType(animeType);
+		this.formTypeSubscription = this.animeForm.get('animeTypes')?.valueChanges.subscribe((value: AnimeType[] | null) => {
+			const animeTypes = value?.map(type => type as AnimeType) ?? [];
+			if (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) {
+				this.routeParameterService.changeTypesParameter(animeTypes);
 			}
 		});
 		this.formSearchSubscription = this.animeForm.get('searchQuery')?.valueChanges.subscribe(value => {
 			if (value !== this.animeParameters.searchQuery) {
-				this.routeParameterService.onSearch(value ?? '');
+				this.routeParameterService.changeSearchParameter(value ?? '');
 			}
 		});
 	}

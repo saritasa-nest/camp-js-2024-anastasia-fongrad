@@ -1,7 +1,7 @@
 import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
 import { AnimeType } from '../models/enums/model-type.enum';
 
-export namespace TypeMapper {
+export namespace AnimeTypeMapper {
 
 	/**
 	 * Maps anime-type dto to model.

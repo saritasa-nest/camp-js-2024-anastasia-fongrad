@@ -8,7 +8,7 @@
 			<form [formGroup]="animeForm" class="main__form">
 				<mat-form-field class="main__type-select" appearance="fill">
 					<mat-label>Anime type</mat-label>
-					<mat-select formControlName="animeType" multiple>
+					<mat-select formControlName="animeTypes" multiple>
 						@for (option of selectTypes; track option) {
 							<mat-option [value]="option">{{ option }}</mat-option>
 						}
@@ -22,8 +22,8 @@
 					<button class="main__search-button" mat-flat-button type="submit">Search</button>
 				</div>
 			</form>
-			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.onSortChange($event)"/>
-			<mat-paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.offset / animeParameters.limitPerPage" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.onPageChange($event)" aria-label="Select page">
+			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.changeSortParameter($event)"/>
+			<mat-paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.pageNumber" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.changeAnimePage($event)" aria-label="Select page">
 			</mat-paginator>
 		</div>
 	</section>

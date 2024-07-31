@@ -1,7 +1,7 @@
 import { AnimeStatusDto } from '../dtos/enums/dto-status.enum';
 import { AnimeStatus } from '../models/enums/model-status.enum';
 
-export namespace StatusMapper {
+export namespace AnimeStatusMapper {
 
 	/**
 	 * Maps anime-status dto to model.

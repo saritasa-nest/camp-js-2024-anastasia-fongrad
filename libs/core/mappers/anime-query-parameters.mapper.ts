@@ -2,8 +2,13 @@ import { AnimeQueryParametersDto } from '../dtos/anime-parameters.dto';
 import { AnimeQueryParameters } from '../models/anime-parameters.model';
 import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
 
-import { TypeMapper } from './anime-type.mapper';
-import { SortMapper } from './sort.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
+import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';
+
+
+const START_PAGE_INDEX = 0;
+
+const DEFAULT_PAGE_SIZE = 5;
 
 export namespace AnimeQueryParametersMapper {
 
@@ -12,14 +17,15 @@ export namespace AnimeQueryParametersMapper {
 	 * @param model Anime query parameters.
 	 */
 	export function toDto(model: AnimeQueryParameters): Partial<AnimeQueryParametersDto> {
-		const ordering = SortMapper.toDto(model.animeOrdering);
-		const types = model.animeType.map(type => TypeMapper.toDto(type)).join(',');
+		model.animeSort
+		const sort = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : null;
+		const types = model.animeTypes.map(type => AnimeTypeMapper.toDto(type)).join(',');
 		let dto: Partial<AnimeQueryParametersDto> = {
-			offset: model.offset,
+			offset: model.pageNumber * model.limitPerPage,
 			limit: model.limitPerPage,
 		};
-		if (ordering) {
-			dto = { ...dto, ordering };
+		if (sort) {
+			dto = { ...dto, ordering: sort };
 		}
 		if (types) {
 			// Disable eslint for a name of a dto parameter
@@ -37,14 +43,18 @@ export namespace AnimeQueryParametersMapper {
 	 * @param dto Anime query parameters dto.
 	 */
 	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
-		const animeOrdering = dto.ordering ? SortMapper.fromDto(dto.ordering) : null;
-		const animeType = dto.type__in ? dto.type__in.split(',').map(type => TypeMapper.fromDto(type as AnimeTypeDto)) : [];
+		const animeSort = dto.ordering ? AnimeSortParameterMapper.fromDto(dto.ordering) : null;
+		const animeTypes = dto.type__in ? dto.type__in.split(',').map(type => AnimeTypeMapper.fromDto(type as AnimeTypeDto)) : [];
+		let pageNumber = START_PAGE_INDEX
+		if (dto.limit && dto.offset) {
+			pageNumber = dto.offset / dto.limit;
+		}
 		return {
-			offset: dto.offset ?? 0,
-			limitPerPage: dto.limit ?? 5,
-			animeType,
+			pageNumber,
+			limitPerPage: dto.limit ?? DEFAULT_PAGE_SIZE,
+			animeTypes,
 			searchQuery: dto.search ?? '',
-			animeOrdering: animeOrdering ?? [],
+			animeSort: animeSort ?? null,
 		};
 	}
 }

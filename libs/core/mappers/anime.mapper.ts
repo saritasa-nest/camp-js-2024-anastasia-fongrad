@@ -3,8 +3,8 @@ import { AnimeDto } from '../dtos/anime.dto';
 import { AnimeStatusDto } from '../dtos/enums/dto-status.enum';
 import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
 
-import { StatusMapper } from './anime-status.mapper';
-import { TypeMapper } from './anime-type.mapper';
+import { AnimeStatusMapper } from './anime-status.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 
@@ -19,8 +19,8 @@ export namespace AnimeMapper {
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
 			startDate: dto.aired.start ? new Date(dto.aired.start) : null,
-			type: TypeMapper.fromDto(dto.type as AnimeTypeDto),
-			status: StatusMapper.fromDto(dto.status as AnimeStatusDto),
+			type: AnimeTypeMapper.fromDto(dto.type as AnimeTypeDto),
+			status: AnimeStatusMapper.fromDto(dto.status as AnimeStatusDto),
 		});
 	}
 }

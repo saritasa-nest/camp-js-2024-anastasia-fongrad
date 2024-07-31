@@ -1,7 +1,7 @@
 import { AnimeSortFieldDto } from '../dtos/enums/dto-sort-parameter.enum';
 import { AnimeSortField } from '../models/enums/model-sort-parameter.enum';
 
-export namespace SortParameterMapper {
+export namespace AnimeSortFieldMapper {
 
 	/**
 	 * Converts anime sort parameters from a model to a dto object.
