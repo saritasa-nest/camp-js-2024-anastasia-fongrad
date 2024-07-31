@@ -7,7 +7,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-parameters.dto';
+import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
 
 import { AppUrlConfig } from './app-url-config.service';
 

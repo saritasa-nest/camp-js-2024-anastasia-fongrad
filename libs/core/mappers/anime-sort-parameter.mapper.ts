@@ -11,11 +11,12 @@ export namespace AnimeSortParameterMapper {
 	 * @param model Anime table ordering.
 	 */
 	export function toDto(model: SortParameter): string {
-		if (!model) {
+		if (!model || model.direction === '') {
 			return '';
 		}
 		const parameter = AnimeSortFieldMapper.toDto(model.parameterName as AnimeSortField);
-		return model.direction === 'ascending' ? parameter : `-${parameter}`;
+		const orderedParameter = model.direction === 'ascending' ? parameter : `-${parameter}`;
+		return orderedParameter;
 	}
 
 	/**
@@ -23,7 +24,7 @@ export namespace AnimeSortParameterMapper {
 	 * @param dto Anime table ordering.
 	 */
 	export function fromDto(dto: string): SortParameter | null {
-		if (!dto || dto == '') {
+		if (!dto || dto === '') {
 			return null;
 		}
 		const isAscending = dto.startsWith('-') ? 'descending' : 'ascending';

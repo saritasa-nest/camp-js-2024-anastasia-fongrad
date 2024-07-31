@@ -13,7 +13,7 @@ import { Pagination } from '@js-camp/core/models/pagination.model';
 import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters';
-import { AnimeQueryParameters } from '@js-camp/core/models/anime-parameters.model';
+import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 
