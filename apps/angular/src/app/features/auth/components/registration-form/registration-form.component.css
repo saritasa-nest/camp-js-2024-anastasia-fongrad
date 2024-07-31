@@ -2,9 +2,42 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+  max-width: 700px;
 }
 
 .registration__group {
   display: flex;
   flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form__file-input {
+  width: 100%;
+  margin: 0 0 var(--space-5) 0;
+}
+
+.form__file-input button {
+  width: 100%;
+}
+
+.form__avatar {
+  display: flex;
+  align-items: center;
+  margin: 0 0 var(--space-5) 0;
+  gap: var(--space-5);
+  background-color: var(--surface-overlay);
+  border-radius: 10px;
+  padding: var(--space-5);
+}
+
+.form__avatar-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.form__avatar-img {
+  max-width: 100%;
+  object-fit: cover;
 }

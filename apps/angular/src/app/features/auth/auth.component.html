@@ -1,16 +1,29 @@
 <camp-header/>
 <main class="main">
-	<section class="main__login login">
-		<div class="login__container container">
-			<h1 class="login__header">
-				Auth
-			</h1>
-			@if (isAuthorized) {
-				<camp-registration-form/>
-			}
-			@else {
-				<camp-login-form/>
-			}
+	<section class="main__auth auth">
+		<div class="auth__container container">
+			<div class="auth__content">
+				@if (! isLoginFormActive) {
+					<div class="auth__registration-group">
+						<h1 class="auth__header">Registration</h1>
+						<camp-registration-form/>
+						<div class="auth__switch">
+							Already have an account?
+							<a href="#"(click)="showLoginForm(); $event.preventDefault()">Login</a>
+						</div>
+					</div>
+				}
+				@else {
+					<div class="auth__login-group">
+						<h1 class="auth__header">Login</h1>
+						<camp-login-form/>
+						<div class="auth__switch">
+							Don't have an account?
+							<a href="#" (click)="showRegistrationForm(); $event.preventDefault()">Register</a>
+						</div>
+					</div>
+				}
+			</div>
 		</div>
 	</section>
 </main>

@@ -1,9 +1,16 @@
-.login {
+.auth__content {
   margin: var(--space-20) 0;
 }
 
-.login__header {
+.auth__header {
   font-size: var(--title);
   line-height: var(--title-line-height);
   font-weight: var(--text-semibold);
+}
+
+.auth__registration-group,
+.auth__login-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 }

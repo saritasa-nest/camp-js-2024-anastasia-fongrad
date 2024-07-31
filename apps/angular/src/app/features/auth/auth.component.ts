@@ -18,5 +18,15 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 })
 export class AuthComponent {
 	/** 1. */
-	protected isAuthorized = true;
+	protected isLoginFormActive = false;
+
+	/** 1. */
+	protected showLoginForm(): void {
+		this.isLoginFormActive = true;
+	}
+
+	/** 1. */
+	protected showRegistrationForm(): void {
+		this.isLoginFormActive = false;
+	}
 }

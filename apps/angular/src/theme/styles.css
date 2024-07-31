@@ -51,3 +51,23 @@ body {
   --mat-toolbar-container-background-color: var(--surface-overlay);
   --mat-toolbar-container-text-color: var(--on-surface);
 }
+
+.mat-mdc-unelevated-button {
+  --mdc-filled-button-container-height: 55px;
+}
+
+.mdc-text-field--filled {
+  --mdc-filled-text-field-container-color: var(--surface-overlay);
+
+  color: var(--on-surface);
+}
+
+.mdc-floating-label {
+  --mdc-filled-text-field-label-text-color: var(--accent);
+}
+
+.mat-mdc-raised-button.mat-mdc-button-disabled {
+  --mdc-protected-button-disabled-label-text-color: var(--on-surface);
+  --mdc-protected-button-disabled-container-color: var(--surface-overlay);
+  --mdc-protected-button-container-height: 55px;
+}

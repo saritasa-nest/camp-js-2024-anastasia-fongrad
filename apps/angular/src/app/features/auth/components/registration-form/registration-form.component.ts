@@ -23,6 +23,8 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected registrationModel = RegistrationModel;
 
+	protected avatarImage = '';
+
 	/** 1. */
 	protected registrationForm = new FormGroup({
 		[RegistrationModel.FirstName]: new FormControl(null, Validators.required),
@@ -32,4 +34,21 @@ export class RegistrationFormComponent {
 		[RegistrationModel.ConfirmPassword]: new FormControl(null, Validators.required),
 		[RegistrationModel.Avatar]: new FormControl(null),
 	}, { validators: mustMatch('password', 'confirmPassword') });
+
+	/**
+	 * 1.
+	 * @param fileInputEvent 1.
+	 */
+	csvInputChange(event: Event) {
+		const element = event.target as HTMLInputElement;
+		if (element.files && element.files[0]) {
+			const reader = new FileReader();
+			reader.onload = (e: ProgressEvent<FileReader>) => {
+				if(e.target?.result) {
+					this.avatarImage = e.target.result as string;
+				}
+			};
+			reader.readAsDataURL(element.files[0]);
+		}
+	}
 }
