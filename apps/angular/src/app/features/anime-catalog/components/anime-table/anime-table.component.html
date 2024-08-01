@@ -1,6 +1,9 @@
 <div class="mat-elevation-z8">
 	@if (animeList !== undefined) {
-		<table mat-table [dataSource]="animeList" [trackBy]="trackByAnime" class="mat-elevation-z8" matSort (matSortChange)="emitSortChange($event)">
+		<table mat-table class="mat-elevation-z8" matSort
+			[dataSource]="animeList"
+			[trackBy]="trackByAnime"
+			(matSortChange)="emitSortChange($event)">
 			<ng-container [matColumnDef]="animeColumnIds.Image">
 				<th mat-header-cell *matHeaderCellDef >
 					{{ animeColumnNames.Image }}

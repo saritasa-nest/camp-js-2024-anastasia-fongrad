@@ -4,7 +4,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
-import { AnimeSortField } from '@js-camp/core/models/enums/model-sort-parameter.enum';
+import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
 import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
@@ -80,16 +80,11 @@ export class AnimeTableComponent {
 	 * @param event Sort table event.
 	 */
 	public emitSortChange(event: Sort): void {
-		const mappedSortParameter = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
-		let direction: 'ascending' | 'descending' | '' = '';
-		if (event.direction === 'asc') {
-			direction = 'ascending';
-		} else if (event.direction === 'desc') {
-			direction = 'descending';
-		}
-		if (mappedSortParameter) {
+		const parameterName = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
+		const { direction } = event;
+		if (parameterName) {
 			const newEvent: SortParameter = {
-				parameterName: mappedSortParameter,
+				parameterName,
 				direction,
 			};
 			this.sortChange.emit(newEvent);

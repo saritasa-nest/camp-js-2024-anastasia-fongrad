@@ -1,4 +1,4 @@
-import { AnimeSortField } from './enums/model-sort-parameter.enum';
+import { AnimeSortField } from './enums/anime-sort-field.enum';
 
 /** A type for an ordering parameter. */
 export type SortParameter = {
@@ -7,5 +7,5 @@ export type SortParameter = {
 	readonly parameterName: AnimeSortField;
 
 	/** Sort direction. */
-	readonly direction: 'ascending' | 'descending' | '';
+	readonly direction: 'asc' | 'desc' | '';
 };

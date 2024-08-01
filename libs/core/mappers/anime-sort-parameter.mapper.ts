@@ -1,6 +1,6 @@
 import { SortParameter } from '../models/sort.model';
-import { AnimeSortFieldDto } from '../dtos/enums/dto-sort-parameter.enum';
-import { AnimeSortField } from '../models/enums/model-sort-parameter.enum';
+import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
+import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
 
 import { AnimeSortFieldMapper } from './anime-sort-field.mapper';
 
@@ -15,7 +15,7 @@ export namespace AnimeSortParameterMapper {
 			return '';
 		}
 		const parameter = AnimeSortFieldMapper.toDto(model.parameterName as AnimeSortField);
-		const orderedParameter = model.direction === 'ascending' ? parameter : `-${parameter}`;
+		const orderedParameter = model.direction === 'asc' ? parameter : `-${parameter}`;
 		return orderedParameter;
 	}
 
@@ -27,7 +27,7 @@ export namespace AnimeSortParameterMapper {
 		if (!dto || dto === '') {
 			return null;
 		}
-		const isAscending = dto.startsWith('-') ? 'descending' : 'ascending';
+		const isAscending = dto.startsWith('-') ? 'desc' : 'asc';
 		const parameter = isAscending ? dto : dto.slice(1);
 		const parameterName = AnimeSortFieldMapper.fromDto(parameter as AnimeSortFieldDto);
 		return {

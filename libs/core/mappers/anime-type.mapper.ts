@@ -1,5 +1,5 @@
-import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
-import { AnimeType } from '../models/enums/model-type.enum';
+import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
+import { AnimeType } from '../models/enums/anime-type.enum';
 
 export namespace AnimeTypeMapper {
 

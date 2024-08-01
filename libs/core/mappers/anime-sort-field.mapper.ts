@@ -1,5 +1,5 @@
-import { AnimeSortFieldDto } from '../dtos/enums/dto-sort-parameter.enum';
-import { AnimeSortField } from '../models/enums/model-sort-parameter.enum';
+import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
+import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
 
 export namespace AnimeSortFieldMapper {
 

@@ -1,5 +1,5 @@
-import { AnimeStatusDto } from '../dtos/enums/dto-status.enum';
-import { AnimeStatus } from '../models/enums/model-status.enum';
+import { AnimeStatusDto } from '../dtos/enums/anime-status-dto.enum';
+import { AnimeStatus } from '../models/enums/anime-status.enum';
 
 export namespace AnimeStatusMapper {
 

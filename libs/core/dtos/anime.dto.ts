@@ -1,4 +1,6 @@
 import { DateTimeIntervalDto } from './date-time-interval.dto';
+import { AnimeStatusDto } from './enums/anime-status-dto.enum';
+import { AnimeTypeDto } from './enums/anime-type-dto.enum';
 
 /** Anime DTO. */
 export type AnimeDto = {
@@ -31,10 +33,10 @@ export type AnimeDto = {
 	readonly aired: DateTimeIntervalDto;
 
 	/** Anime type. */
-	readonly type: string;
+	readonly type: AnimeTypeDto;
 
 	/** Anime airing status. */
-	readonly status: string;
+	readonly status: AnimeStatusDto;
 
 	/** Total anime score. */
 	readonly score: number | null;

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
-import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
+import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { SortParameter } from '@js-camp/core/models/sort.model';
 
 import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '../utils/anime-constants';

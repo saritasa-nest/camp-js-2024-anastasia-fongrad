@@ -1,4 +1,4 @@
-import { AnimeType } from './enums/model-type.enum';
+import { AnimeType } from './enums/anime-type.enum';
 import { SortParameter } from './sort.model';
 
 /** Anime query parameters model. */

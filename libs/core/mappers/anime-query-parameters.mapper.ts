@@ -1,6 +1,6 @@
 import { AnimeQueryParametersDto } from '../dtos/anime-query-parameters.dto';
 import { AnimeQueryParameters } from '../models/anime-query-parameters.model';
-import { AnimeTypeDto } from '../dtos/enums/dto-type.enum';
+import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';

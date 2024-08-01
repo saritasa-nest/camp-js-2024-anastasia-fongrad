@@ -14,7 +14,7 @@ import { Anime } from '@js-camp/core/models/anime';
 import { CommonModule } from '@angular/common';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters.service';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
-import { AnimeType } from '@js-camp/core/models/enums/model-type.enum';
+import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { takeUntil } from 'rxjs/operators';
 import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/utils/anime-constants';
