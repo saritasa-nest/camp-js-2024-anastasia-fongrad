@@ -1,9 +1,13 @@
-<form [formGroup]="registrationForm" class="registration__form">
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration__form">
 	<div class="registration__group">
 		<mat-form-field appearance="fill">
 			<mat-label>First Name</mat-label>
-			<input matInput id="firstName" type="text" [formControlName]="registrationModel.FirstName">
-			<mat-error>Please enter a valid email address</mat-error>
+			<input matInput id="firstName" type="text"
+				formControlName="firstName"
+				autocomplete="firstName"
+				placeholder="Enter your first name"
+			>
+			<mat-error></mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Last Name</mat-label>

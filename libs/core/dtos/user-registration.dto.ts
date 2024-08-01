@@ -1,18 +1,18 @@
 /** Genre DTO. */
-export type RegistrationDto = {
+export type UserRegistrationDto = {
 
 	/** Id. */
 	readonly email: string;
 
 	/** Name. */
-	readonly first_name: string;
+	readonly first_name?: string;
 
 	/** 1. */
-	readonly last_name: string;
+	readonly last_name?: string;
 
 	/** 1. */
 	readonly password: string;
 
 	/** 1. */
-	readonly avatar: string;
+	readonly avatar?: string;
 };
