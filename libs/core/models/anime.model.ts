@@ -1,6 +1,6 @@
 import { AnimeStatus } from './enums/anime-status.enum';
 import { AnimeType } from './enums/anime-type.enum';
-import { Immerable, OmitImmerable } from './immerable';
+import { Immerable, OmitImmerable } from './immerable.model';
 
 /** Anime model. */
 export class Anime extends Immerable {

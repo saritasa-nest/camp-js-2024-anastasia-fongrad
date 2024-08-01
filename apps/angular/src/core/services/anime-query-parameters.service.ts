@@ -6,7 +6,7 @@ import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameter
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
-import { SortParameter } from '@js-camp/core/models/sort.model';
+import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 
 import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '../utils/anime-constants';
 
@@ -29,18 +29,15 @@ export class AnimeQueryParametersService {
 				}
 				const offset = params['offset'] !== undefined ? +params['offset'] : undefined;
 				const limit = +params['limit'] || undefined;
-				const search = params['search'] || undefined;
-				const types = params['type__in'] || undefined;
-				const ordering = params['ordering'] || undefined;
 				return {
 					offset,
 					limit,
 
 					// Disable eslint for a name of a dto parameter
 					// eslint-disable-next-line @typescript-eslint/naming-convention
-					type__in: types,
-					search,
-					ordering,
+					type__in: params['type__in'],
+					search: params['search'],
+					ordering: params['ordering'],
 				};
 			}),
 		);
@@ -58,13 +55,13 @@ export class AnimeQueryParametersService {
 	 * @param animeQueryParameters Object with anime query parameters.
 	 */
 	private navigate(animeQueryParameters: Partial<AnimeQueryParameters>): void {
-		const queryParams = AnimeQueryParametersMapper.toDto(animeQueryParameters);
-		const newParameters = Object.fromEntries(
-			Object.entries(queryParams).filter(([_key, value]) => value !== undefined),
+		const mappedQueryParams = AnimeQueryParametersMapper.toDto(animeQueryParameters);
+		const filteredQueryParams = Object.fromEntries(
+			Object.entries(mappedQueryParams).filter(([_key, value]) => value !== undefined),
 		);
 
 		this.router.navigate([], {
-			queryParams: newParameters,
+			queryParams: filteredQueryParams,
 			queryParamsHandling: 'merge',
 		});
 	}
@@ -100,7 +97,7 @@ export class AnimeQueryParametersService {
 	 * Changes query parameters when sort event is triggered.
 	 * @param animeSort Sort event from an anime table.
 	 */
-	public changeSortParameter(animeSort: SortParameter): void {
+	public changeSortParameter(animeSort: AnimeSortParameter): void {
 		const params: Partial<AnimeQueryParameters> = {
 			animeSort,
 		};

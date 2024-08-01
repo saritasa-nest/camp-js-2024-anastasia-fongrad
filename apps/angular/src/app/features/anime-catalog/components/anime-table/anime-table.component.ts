@@ -1,11 +1,11 @@
 import { MatTableModule } from '@angular/material/table';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
-import { SortParameter } from '@js-camp/core/models/sort.model';
+import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -70,20 +70,22 @@ export class AnimeTableComponent {
 	protected readonly displayedColumns = Object.values(this.animeColumnIds);
 
 	/** Stream containing anime data from the server. */
-	@Input() public animeList: readonly Anime[] | undefined;
+	@Input()
+	public animeList: readonly Anime[] | undefined;
 
 	/** Event emitter for a sort table event. */
-	@Output() public sortChange = new EventEmitter<SortParameter>();
+	@Output()
+	public sortChange = new EventEmitter<AnimeSortParameter>();
 
 	/**
 	 * Emits sort table event to the parent component.
 	 * @param event Sort table event.
 	 */
-	public emitSortChange(event: Sort): void {
+	public onSortChange(event: Sort): void {
 		const parameterName = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
 		const { direction } = event;
 		if (parameterName) {
-			const newEvent: SortParameter = {
+			const newEvent: AnimeSortParameter = {
 				parameterName,
 				direction,
 			};

@@ -1,6 +1,6 @@
 import { Pagination } from '../models/pagination.model';
 import { PaginationDto } from '../dtos/pagination.dto';
-import { Anime } from '../models/anime';
+import { Anime } from '../models/anime.model';
 import { AnimeDto } from '../dtos/anime.dto';
 
 import { AnimeMapper } from './anime.mapper';

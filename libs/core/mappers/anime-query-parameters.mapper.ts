@@ -21,7 +21,10 @@ export namespace AnimeQueryParametersMapper {
 			offset = 0;
 		}
 		const limit = model.limitPerPage ? model.limitPerPage : undefined;
-		const search = model.searchQuery ? model.searchQuery : undefined;
+
+		// Disable eslint to use logical or operator
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		const search = (model.searchQuery || (model.searchQuery === '')) ? model.searchQuery : undefined;
 		return {
 			limit,
 			offset,

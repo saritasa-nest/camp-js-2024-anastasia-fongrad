@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable, switchMap, Subject } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule } from '@angular/common';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters.service';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
@@ -106,7 +106,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		).subscribe(formValues => {
 			const animeTypes = formValues.animeTypes?.map(type => type as AnimeType) ?? undefined;
 			const isTypesChanged = (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes;
-			const isSearchChanged = (formValues.searchQuery !== this.animeParameters.searchQuery) && formValues.searchQuery;
+			const isSearchChanged = (formValues.searchQuery !== this.animeParameters.searchQuery) && (formValues.searchQuery !== null);
 
 			// Disable eslint to use  logical OR for boolean values
 			/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */

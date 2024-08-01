@@ -1,4 +1,4 @@
-import { Immerable, OmitImmerable } from './immerable';
+import { Immerable, OmitImmerable } from './immerable.model';
 
 /** Pagination model. */
 export class Pagination<T> extends Immerable {

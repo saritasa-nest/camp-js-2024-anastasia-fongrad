@@ -1,4 +1,4 @@
-import { SortParameter } from '../models/sort.model';
+import { AnimeSortParameter } from '../models/anime-sort-parameter.model';
 import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
 import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
 
@@ -10,7 +10,7 @@ export namespace AnimeSortParameterMapper {
 	 * Converts anime table ordering from a model to a dto object.
 	 * @param model Anime table ordering.
 	 */
-	export function toDto(model: SortParameter): string {
+	export function toDto(model: AnimeSortParameter): string {
 		if (!model || model.direction === '') {
 			return '';
 		}
@@ -23,7 +23,7 @@ export namespace AnimeSortParameterMapper {
 	 * Converts anime table ordering from a dto object to a model.
 	 * @param dto Anime table ordering.
 	 */
-	export function fromDto(dto: string): SortParameter | null {
+	export function fromDto(dto: string): AnimeSortParameter | null {
 		if (!dto || dto === '') {
 			return null;
 		}

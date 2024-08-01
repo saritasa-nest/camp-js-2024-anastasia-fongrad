@@ -3,7 +3,7 @@
 		<table mat-table class="mat-elevation-z8" matSort
 			[dataSource]="animeList"
 			[trackBy]="trackByAnime"
-			(matSortChange)="emitSortChange($event)">
+			(matSortChange)="onSortChange($event)">
 			<ng-container [matColumnDef]="animeColumnIds.Image">
 				<th mat-header-cell *matHeaderCellDef >
 					{{ animeColumnNames.Image }}
