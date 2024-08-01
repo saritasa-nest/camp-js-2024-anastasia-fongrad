@@ -7,9 +7,9 @@ import { Subject } from 'rxjs';
 import { mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
 import { UserRegistrationService } from '@js-camp/angular/core/services/user-registration.service';
-import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { FormBuilder } from '@angular/forms';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
+import { InputErrors } from '@js-camp/core/models/input-error';
 
 export namespace UserRegistrationForm {
 	/**
@@ -54,6 +54,9 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected registrationForm: FormGroup<RegistrationForm>;
 
+	/** 1. */
+	protected inputErrors: InputErrors[] = [];
+
 	private readonly destroy$ = new Subject<void>();
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
@@ -88,8 +91,12 @@ export class RegistrationFormComponent {
 			const formData = this.registrationForm.getRawValue();
 			this.registrationService.postRegistrationData(formData).subscribe(response => {
 				console.log('Registration successful', response);
+				this.inputErrors = [];
 			}, error => {
-				console.error('Registration failed', error);
+				if (Array.isArray(error)) {
+					this.inputErrors = error;
+					console.log(this.inputErrors);
+				}
 			});
 		}
 	}
