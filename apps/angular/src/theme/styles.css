@@ -62,6 +62,10 @@ body {
   color: var(--on-surface);
 }
 
+.mdc-text-field__input {
+  --mdc-filled-text-field-input-text-color: var(--on-surface);
+}
+
 .mdc-floating-label {
   --mdc-filled-text-field-label-text-color: var(--accent);
 }
@@ -69,5 +73,9 @@ body {
 .mat-mdc-raised-button.mat-mdc-button-disabled {
   --mdc-protected-button-disabled-label-text-color: var(--on-surface);
   --mdc-protected-button-disabled-container-color: var(--surface-overlay);
+  --mdc-protected-button-container-height: 55px;
+}
+
+.mat-mdc-raised-button {
   --mdc-protected-button-container-height: 55px;
 }

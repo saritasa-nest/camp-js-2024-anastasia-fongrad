@@ -1,9 +1,26 @@
-import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
+import { LoginForm } from '@js-camp/core/models/login-form';
+
+export namespace UserLoginForm {
+
+	/**
+	 * 1.
+	 * @param fb 1.
+	 */
+	export function initialize(fb: FormBuilder): FormGroup<LoginForm> {
+		return fb.group({
+			email: fb.nonNullable.control('', [
+				Validators.required,
+				Validators.email,
+			]),
+			password: fb.nonNullable.control('', [Validators.required]),
+		});
+	}
+}
 
 /** Main app component. */
 @Component({
@@ -20,8 +37,11 @@ import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.
 })
 export class LoginFormComponent {
 	/** 1. */
-	protected loginForm = new FormGroup({
-		[RegistrationModel.Email]: new FormControl(null, Validators.required),
-		[RegistrationModel.Password]: new FormControl(null, Validators.required),
-	});
+	protected loginForm: FormGroup<LoginForm>;
+
+	private readonly formBuilder: FormBuilder = inject(FormBuilder);
+
+	private constructor() {
+		this.loginForm = UserLoginForm.initialize(this.formBuilder);
+	}
 }

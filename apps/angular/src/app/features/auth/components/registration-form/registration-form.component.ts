@@ -1,5 +1,5 @@
-import { Component, inject, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,23 +9,13 @@ import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.
 import { UserRegistrationService } from '@js-camp/angular/core/services/user-registration.service';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { FormBuilder } from '@angular/forms';
+import { RegistrationForm } from '@js-camp/core/models/registration-form';
 
-export type RegistrationForm = {
-
-	readonly email: FormControl<string>;
-
-	readonly firstName: FormControl<string>;
-
-	readonly lastName: FormControl<string>;
-
-	readonly password: FormControl<string>;
-
-	readonly confirmPassword: FormControl<string>;
-
-	readonly avatar: FormControl<string>;
-};
-
-export namespace RegistrationForm {
+export namespace UserRegistrationForm {
+	/**
+	 * 1.
+	 * @param fb 1.
+	 */
 	export function initialize(fb: FormBuilder): FormGroup<RegistrationForm> {
 	  	return fb.group({
 			email: fb.nonNullable.control('', [
@@ -61,15 +51,18 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected avatarImage = '';
 
+	/** 1. */
+	protected registrationForm: FormGroup<RegistrationForm>;
+
 	private readonly destroy$ = new Subject<void>();
 
-	private readonly formBuilder = new FormBuilder();
+	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly registrationService: UserRegistrationService = inject(UserRegistrationService);
 
-	/** 1. */
-	@Input()
-	protected registrationForm: FormGroup<RegistrationForm> = RegistrationForm.initialize(this.formBuilder);
+	private constructor() {
+		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
+	}
 
 	/**
 	 * 1.
@@ -92,15 +85,8 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected onSubmit(): void {
 		if (this.registrationForm?.valid) {
-			const formData = this.registrationForm.value;
-			const userRegistration = new UserRegistration({
-				email: formData[RegistrationModel.Email] ?? '',
-				firstName: formData[RegistrationModel.FirstName] ?? '',
-				lastName: formData[RegistrationModel.LastName] ?? '',
-				password: formData[RegistrationModel.Password] ?? '',
-				avatar: this.avatarImage,
-			});
-			this.registrationService.postRegistrationData(userRegistration).subscribe(response => {
+			const formData = this.registrationForm.getRawValue();
+			this.registrationService.postRegistrationData(formData).subscribe(response => {
 				console.log('Registration successful', response);
 			}, error => {
 				console.error('Registration failed', error);
