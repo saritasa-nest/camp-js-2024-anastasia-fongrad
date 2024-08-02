@@ -7,7 +7,9 @@ import { AuthService } from '@js-camp/angular/core/services/auth-service';
 import { Router } from '@angular/router';
 import { UserLoginService } from '@js-camp/angular/core/services/user-login.service';
 import { UserProfile } from '@js-camp/core/models/user-profile';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError, switchMap } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 
 /** Header component for the app. */
 @Component({
@@ -25,8 +27,7 @@ import { Observable } from 'rxjs';
 })
 export class HeaderComponent {
 
-	/** 1. */
-	protected authService: AuthService = inject(AuthService);
+	private authService: AuthService = inject(AuthService);
 
 	/** 1. */
 	protected readonly userProfile$: Observable<UserProfile>;
@@ -36,12 +37,41 @@ export class HeaderComponent {
 	private router: Router = inject(Router);
 
 	public constructor() {
-		this.userProfile$ = this.userLoginService.getUserProfile();
+		this.userProfile$ = this.userLoginService.getUserProfile().pipe(
+			catchError((error: HttpErrorResponse) => {
+				if (error.status === 401) {
+					const refreshToken = this.authService.getToken()?.refresh;
+					console.log(refreshToken);
+					if (refreshToken) {
+						return this.userLoginService.refreshToken(refreshToken).pipe(
+							switchMap((newToken: UserAccessToken) => {
+								console.log(newToken);
+								this.authService.saveToken(newToken);
+								return this.userLoginService.getUserProfile()
+							}),
+							catchError(() => {
+								this.authService.clearToken();
+								this.router.navigate(['/login']);
+								return throwError(() => error);
+							})
+						);
+					} else {
+						this.authService.clearToken();
+						this.router.navigate(['/login']);
+					}
+				}
+				return throwError(() => error);
+			})
+		);
 	}
 
+	/** 1. */
 	protected logout(): void {
 		this.authService.clearToken();
 		this.router.navigate(['/login']);
 	}
 
+	protected isAuthorized(): boolean {
+		return this.authService.isAuthenticated();
+	}
 }
