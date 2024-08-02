@@ -11,3 +11,9 @@
   align-items: center;
   width: 100%;
 }
+
+.header__user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}

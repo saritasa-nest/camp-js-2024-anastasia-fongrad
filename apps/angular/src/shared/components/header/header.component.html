@@ -4,10 +4,18 @@
 			<img src="assets/anime-icon.png" height="60" alt="">
 			<span>Anime Catalog App</span>
 		</div>
-		<div class="header__user">
-			<div class="header__user-name">
-				Username
+		@if (authService.isAuthenticated()) {
+			<div class="header__user user">
+				@if ({ p: userProfile$ | async}; as userProfile ) {
+					<div class="user__profile">
+						<div class="user__first-name"></div>
+						<div class="user__last-name"></div>
+						<div class="user__email"></div>
+					</div>
+
+				}
+				<button mat-raised-button type="button" (click)="logout()">Logout</button>
 			</div>
-		</div>
+		}
 	</div>
 </mat-toolbar>

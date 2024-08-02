@@ -28,6 +28,7 @@ export class AuthService {
 
 	/** 1. */
 	public clearToken(): void {
+		console.log(1);
 		localStorage.removeItem(this.TOKEN_KEY);
 	}
 

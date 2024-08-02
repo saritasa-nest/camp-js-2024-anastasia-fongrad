@@ -9,4 +9,4 @@ export type InputErrorDto = {
 
 	/** 1. */
 	readonly detail: string;
-}
+};

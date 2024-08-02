@@ -62,7 +62,7 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
 
 	private readonly registrationService: UserRegistrationService = inject(UserRegistrationService);
 
-	private constructor() {
+	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
 	}
 
@@ -151,6 +151,7 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
 					this.inputErrors = error;
 				}
 			});
+			this.setFormErrors();
 		}
 	}
 

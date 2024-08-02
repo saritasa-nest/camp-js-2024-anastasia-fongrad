@@ -7,8 +7,6 @@ import { Observable, throwError } from 'rxjs';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { InputErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
 import { catchError, map } from 'rxjs/operators';
-import { InputErrorDto } from '@js-camp/core/dtos/input-error.dto';
-
 import { ApiUrlService } from './api-url.service';
 
 /** 1. */
@@ -26,8 +24,8 @@ export class UserRegistrationService {
 	 * @param registrationData 1.
 	 * @returns 1.
 	 */
-	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken | InputErrors[]> {
-		return this.http.post<UserAccessToken | { errors: InputErrorDto[] }>(
+	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken> {
+		return this.http.post<UserAccessToken>(
 			this.apiUrlService.registrationPath,
 			UserRegistrationMapper.toDto(registrationData),
 		).pipe(

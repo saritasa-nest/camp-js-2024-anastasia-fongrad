@@ -5,7 +5,7 @@ export namespace InputErrorsMapper {
 
 	/**
 	 * 1.
-	 * @param model 1.
+	 * @param dto 1.
 	 */
 	export function fromDto(dto: InputErrorDto[]): InputErrors[] {
 		const errorMap = new Map<string, string[]>();

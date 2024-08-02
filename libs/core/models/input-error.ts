@@ -6,4 +6,4 @@ export type InputErrors = {
 
 	/** 1. */
 	readonly errors: string[];
-}
+};
