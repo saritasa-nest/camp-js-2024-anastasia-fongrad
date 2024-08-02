@@ -1,18 +1,21 @@
 <mat-toolbar>
 	<div class="header__container container">
 		<div class="header__content">
-			<img src="assets/anime-icon.png" height="60" alt="">
+			<img src="assets/anime-icon.png" height="80" alt="">
 			<span>Anime Catalog App</span>
 		</div>
 		@if (authService.isAuthenticated()) {
 			<div class="header__user user">
 				@if ({ p: userProfile$ | async}; as userProfile ) {
-					<div class="user__profile">
-						<div class="user__first-name"></div>
-						<div class="user__last-name"></div>
-						<div class="user__email"></div>
+					<div class="user__profile" >
+						<img class="user__avatar" src="assets/user-icon.svg" alt="avatar" height="55">
+						<div class="user__info">
+							<div class="user__name">
+								{{ userProfile.p?.firstName + ' ' +  userProfile.p?.lastName}}
+							</div>
+							<div class="user__email">{{ userProfile.p?.email }}</div>
+						</div>
 					</div>
-
 				}
 				<button mat-raised-button type="button" (click)="logout()">Logout</button>
 			</div>

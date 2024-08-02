@@ -18,10 +18,13 @@ export class ApiUrlService {
 	/** 1. */
 	public readonly registrationPath: string;
 
+	public readonly tokenRefreshPath: string;
+
 	public constructor() {
 		this.animeListPath = 'anime/anime/';
 		this.loginPath = 'auth/login/';
 		this.registrationPath = 'auth/register/';
 		this.userProfilePath = 'users/profile/';
+		this.tokenRefreshPath = 'token/refresh/';
 	}
 }

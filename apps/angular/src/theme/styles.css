@@ -50,6 +50,7 @@ body {
 .mat-toolbar {
   --mat-toolbar-container-background-color: var(--surface-overlay);
   --mat-toolbar-container-text-color: var(--on-surface);
+  --mat-toolbar-standard-height: 90px;
 }
 
 .mat-mdc-unelevated-button {
