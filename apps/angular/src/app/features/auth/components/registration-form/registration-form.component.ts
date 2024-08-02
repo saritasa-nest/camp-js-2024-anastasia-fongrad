@@ -1,15 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { Subject } from 'rxjs';
-import { mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
 import { UserRegistrationService } from '@js-camp/angular/core/services/user-registration.service';
 import { FormBuilder } from '@angular/forms';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
+import { takeUntil } from 'rxjs/operators';
+import { UserRegistration } from '@js-camp/core/models/user-registration';
 
 export namespace UserRegistrationForm {
 	/**
@@ -26,7 +27,6 @@ export namespace UserRegistrationForm {
 			lastName: fb.nonNullable.control('', [Validators.required]),
 			password: fb.nonNullable.control('', [Validators.required]),
 			confirmPassword: fb.nonNullable.control('', [Validators.required]),
-			avatar: fb.nonNullable.control(''),
 		});
 	}
 }
@@ -44,7 +44,7 @@ export namespace UserRegistrationForm {
 		MatInputModule,
 	],
 })
-export class RegistrationFormComponent {
+export class RegistrationFormComponent implements OnInit, OnDestroy {
 	/** 1. */
 	protected readonly registrationModel = RegistrationModel;
 
@@ -54,8 +54,7 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected registrationForm: FormGroup<RegistrationForm>;
 
-	/** 1. */
-	protected inputErrors: InputErrors[] = [];
+	private inputErrors: InputErrors[] = [];
 
 	private readonly destroy$ = new Subject<void>();
 
@@ -65,6 +64,27 @@ export class RegistrationFormComponent {
 
 	private constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
+	}
+
+	/** 1. */
+	public ngOnInit(): void {
+		this.subscribeToFormChanges();
+	}
+
+	private subscribeToFormChanges(): void {
+		this.registrationForm.valueChanges.pipe(
+			takeUntil(this.destroy$),
+		).subscribe(formValues => {
+			this.registrationService.postRegistrationData(formValues as UserRegistration).subscribe(_response => {
+				this.inputErrors = [];
+			}, error => {
+				if (Array.isArray(error)) {
+					this.inputErrors = error;
+					return;
+				}
+			});
+			this.setFormErrors();
+		});
 	}
 
 	/**
@@ -85,6 +105,40 @@ export class RegistrationFormComponent {
 		}
 	}
 
+	/**
+	 * 1.
+	 * @param attributeName 1.
+	 */
+	protected getErrorMessage(attributeName: string): string | null {
+		const inputError = this.inputErrors.find(error => error.attributeName === attributeName);
+		if (inputError) {
+			return inputError.errors[0];
+		}
+		return null;
+	}
+
+	private setFormErrors(): void {
+		Object.keys(this.registrationForm.controls).forEach(key => {
+			const control = this.registrationForm.get(key);
+			const inputError = this.inputErrors.find(error => error.attributeName === key);
+			if (control) {
+				if (inputError) {
+					control.setErrors({ serverError: inputError.errors[0] });
+			  	} else {
+					const existingErrors = control.errors;
+					if (existingErrors) {
+						delete existingErrors['serverError'];
+						if (Object.keys(existingErrors).length === 0) {
+							control.setErrors(null);
+						} else {
+							control.setErrors(existingErrors);
+						}
+					}
+				}
+			}
+		});
+	}
+
 	/** 1. */
 	protected onSubmit(): void {
 		if (this.registrationForm?.valid) {
@@ -95,9 +149,14 @@ export class RegistrationFormComponent {
 			}, error => {
 				if (Array.isArray(error)) {
 					this.inputErrors = error;
-					console.log(this.inputErrors);
 				}
 			});
 		}
+	}
+
+	/** 1. */
+	public ngOnDestroy(): void {
+		this.destroy$.next();
+		this.destroy$.complete();
 	}
 }

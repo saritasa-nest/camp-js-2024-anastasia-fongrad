@@ -35,12 +35,11 @@ export class UserRegistrationService {
 				return response as UserAccessToken;
 			}),
 			catchError(error => {
-				console.log(error);
 				if (error.error && error.error.errors && error.status === 400) {
 					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);
-			})
+			}),
 		);
 	}
 }

@@ -17,7 +17,4 @@ export type RegistrationForm = {
 
 	/** 1. */
 	readonly confirmPassword: FormControl<string>;
-
-	/** 1. */
-	readonly avatar: FormControl<string>;
 };

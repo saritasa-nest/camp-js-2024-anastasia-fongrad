@@ -3,50 +3,28 @@
 		<mat-form-field appearance="fill">
 			<mat-label>First Name</mat-label>
 			<input matInput id="firstName" type="text" formControlName="firstName">
-			@if (registrationForm.get("firstName")?.invalid) {
-				<mat-error>First name is required</mat-error>
-			}
+			<mat-error>{{ getErrorMessage('firstName') ?? 'This field may not be blank' }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Last Name</mat-label>
 			<input matInput id="lastName" type="text" formControlName="lastName">
-			@if (registrationForm.get("lastName")?.invalid) {
-				<mat-error>Last name is required</mat-error>
-			}
+			<mat-error>{{ getErrorMessage('lastName') ?? 'This field may not be blank' }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Email</mat-label>
 			<input matInput id="email" type="email" formControlName="email">
-			@if (registrationForm.get("email")?.invalid) {
-				<mat-error>Email is required</mat-error>
-			}
+			<mat-error>{{ getErrorMessage('email') ?? 'This field may not be blank' }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Password</mat-label>
 			<input matInput id="password" type="password" formControlName="password">
-			@if (registrationForm.get("password")?.invalid) {
-				<mat-error>Password is required</mat-error>
-			}
+			<mat-error>{{ getErrorMessage('password') ?? 'This field may not be blank' }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Repeat Password</mat-label>
 			<input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
-			@if (registrationForm.get("confirmPassword")?.invalid) {
-				<mat-error>Confirm password is required</mat-error>
-			}
+			<mat-error>{{ getErrorMessage('confirmPassword') ?? 'This field may not be blank' }}</mat-error>
 		</mat-form-field>
-		<div class="form__file-input">
-			<input #csvInput hidden="true" [formControlName]="registrationModel.Avatar" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".png"/>
-			<button type="button" mat-flat-button color="primary" (click)="csvInput.click()">Load an avatar picture</button>
-		</div>
-		@if (avatarImage) {
-			<div class="form__avatar">
-				<div class="form__avatar-label">Avatar preview: </div>
-				<div class="form__avatar-container">
-					<img class="form__avatar-img" [src]="avatarImage" alt="User avatar">
-				</div>
-			</div>
-		}
 		<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
 	</div>
 </form>

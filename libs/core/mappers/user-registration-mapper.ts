@@ -13,7 +13,6 @@ export namespace UserRegistrationMapper {
 			first_name: model.firstName,
 			last_name: model.lastName,
 			password: model.password,
-			avatar: model.avatar,
 		};
 	}
 }

@@ -12,7 +12,4 @@ export type UserRegistration = {
 
 	/** 1. */
 	readonly password: string;
-
-	/** 1. */
-	readonly avatar: string;
 };
