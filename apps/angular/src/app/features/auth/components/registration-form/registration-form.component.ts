@@ -1,11 +1,10 @@
 import { Component, inject, EventEmitter, Output } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
-import { UserRegistrationService } from '@js-camp/angular/core/services/user-registration.service';
-import { FormBuilder } from '@angular/forms';
+import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
@@ -65,7 +64,7 @@ export class RegistrationFormComponent {
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
-	private readonly registrationService: UserRegistrationService = inject(UserRegistrationService);
+	private readonly registrationService: AuthorizationService = inject(AuthorizationService);
 
 	private readonly router: Router = inject(Router);
 

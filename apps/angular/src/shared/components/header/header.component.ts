@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '@js-camp/angular/core/services/auth-service';
+import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 import { Router } from '@angular/router';
-import { UserLoginService } from '@js-camp/angular/core/services/user-login.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
 import { UserProfile } from '@js-camp/core/models/user-profile';
 import { Observable, catchError, throwError, switchMap } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 
 /** Header component for the app. */
@@ -27,12 +26,12 @@ import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 })
 export class HeaderComponent {
 
-	private authService: AuthService = inject(AuthService);
+	private authService: LocalStorageService = inject(LocalStorageService);
 
 	/** 1. */
 	protected readonly userProfile$: Observable<UserProfile>;
 
-	private userLoginService: UserLoginService = inject(UserLoginService);
+	private userLoginService: AuthorizationService = inject(AuthorizationService);
 
 	private router: Router = inject(Router);
 
@@ -63,6 +62,11 @@ export class HeaderComponent {
 				return throwError(() => error);
 			})
 		);
+	}
+
+	/** 1. */
+	protected login(): void {
+		this.router.navigate(['/login']);
 	}
 
 	/** 1. */

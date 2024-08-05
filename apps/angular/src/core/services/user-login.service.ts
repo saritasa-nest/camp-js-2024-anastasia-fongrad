@@ -6,23 +6,47 @@ import { ApiUrlService } from './api-url.service';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login';
-import { InputErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
+import { ServerErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
 import { UserProfile } from '@js-camp/core/models/user-profile';
 import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
-import { AuthService } from './auth-service';
+import { LocalStorageService } from './local-storage.service';
+import { UserRegistration } from '@js-camp/core/models/user-registration';
+import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
 
 /** Connects to the API to manage anime data. */
 @Injectable({
 	providedIn: 'root',
 })
-export class UserLoginService {
+export class AuthorizationService {
 
 	private http: HttpClient = inject(HttpClient);
 
-	private authService: AuthService = inject(AuthService);
+	private authService: LocalStorageService = inject(LocalStorageService);
 
 	private apiUrlService: ApiUrlService = inject(ApiUrlService);
+
+	/**
+	 * 1.
+	 * @param registrationData 1.
+	 * @returns 1.
+	 */
+	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken> {
+		return this.http.post<UserAccessToken>(
+			this.apiUrlService.registrationPath,
+			UserRegistrationMapper.toDto(registrationData),
+		).pipe(
+			map(response => {
+				return response as UserAccessToken;
+			}),
+			catchError(error => {
+				if (error.error && error.error.errors) {
+					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
+				}
+				return throwError(() => error);
+			}),
+		);
+	}
 
 	/**
 	 * 1.
@@ -39,7 +63,7 @@ export class UserLoginService {
 			}),
 			catchError(error => {
 				if (error.error && error.error.errors) {
-					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
+					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);
 			}),
@@ -72,8 +96,8 @@ export class UserLoginService {
 				return response as UserAccessToken;
 			}),
 			catchError(error => {
-				if (error.error && error.error.errors && error.status === 400) {
-					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
+				if (error.error && error.error.errors) {
+					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);
 			}),
@@ -90,8 +114,8 @@ export class UserLoginService {
 			{ token: accessToken },
 		).pipe(
 			catchError(error => {
-				if (error.error && error.error.errors && error.status === 400) {
-					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
+				if (error.error && error.error.errors) {
+					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);
 			}),

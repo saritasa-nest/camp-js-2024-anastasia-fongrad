@@ -4,9 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginForm } from '@js-camp/core/models/login-form';
-import { UserLoginService } from '@js-camp/angular/core/services/user-login.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 export namespace UserLoginForm {
@@ -52,7 +53,7 @@ export class LoginFormComponent {
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
-	private readonly loginService: UserLoginService = inject(UserLoginService);
+	private readonly loginService: AuthorizationService = inject(AuthorizationService);
 
 	private inputErrors: InputErrors[] = [];
 

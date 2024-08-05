@@ -1,7 +1,10 @@
 import { InputErrors } from '../models/input-error';
 import { InputErrorDto } from '../dtos/input-error.dto';
+import { ErrorMessageDto } from '../dtos/enums/error-message-dto.enum';
 
-export namespace InputErrorsMapper {
+import { ErrorMessageMapper } from './error-message.mapper';
+
+export namespace ServerErrorsMapper {
 
 	/**
 	 * 1.
@@ -17,7 +20,7 @@ export namespace InputErrorsMapper {
 				}
 				errorMap.set(errorField, []);
 			}
-			errorMap.get(errorField)?.push(error.detail);
+			errorMap.get(errorField)?.push(ErrorMessageMapper.fromDto(error.detail as ErrorMessageDto));
 		});
 		const result: InputErrors[] = [];
 		errorMap.forEach((errors, attributeName) => {

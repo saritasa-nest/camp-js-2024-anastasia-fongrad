@@ -5,7 +5,7 @@ import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthService {
+export class LocalStorageService {
 
 	private readonly tokenKey = 'userAccessToken';
 

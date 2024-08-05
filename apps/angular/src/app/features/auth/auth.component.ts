@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { Router } from '@angular/router';
-import { AuthService } from '@js-camp/angular/core/services/auth-service';
+import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
@@ -31,7 +31,7 @@ export class AuthComponent {
 
 	private router: Router = inject(Router);
 
-	private authService: AuthService = inject(AuthService);
+	private authService: LocalStorageService = inject(LocalStorageService);
 
 	/** 1. */
 	protected showLoginForm(): void {
