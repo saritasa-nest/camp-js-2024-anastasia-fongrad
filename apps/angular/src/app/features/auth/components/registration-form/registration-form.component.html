@@ -46,6 +46,7 @@
 			}
 			<mat-error>{{ getErrorMessage('confirmPassword') }}</mat-error>
 		</mat-form-field>
+		<div class="registration__form-error">{{ getErrorMessage('form') }}</div>
 		<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
 	</div>
 </form>

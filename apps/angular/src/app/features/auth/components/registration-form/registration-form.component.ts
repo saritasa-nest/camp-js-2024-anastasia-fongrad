@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, EventEmitter, Output } from '@angular/core';
 import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { FormBuilder } from '@angular/forms';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
+import { Router } from '@angular/router';
 
 export namespace UserRegistrationForm {
 	/**
@@ -46,6 +47,11 @@ export namespace UserRegistrationForm {
 	],
 })
 export class RegistrationFormComponent {
+
+	/** 1. */
+	@Output()
+	public registrationSuccess = new EventEmitter<void>();
+
 	/** 1. */
 	protected readonly registrationModel = RegistrationModel;
 
@@ -60,6 +66,8 @@ export class RegistrationFormComponent {
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly registrationService: UserRegistrationService = inject(UserRegistrationService);
+
+	private readonly router: Router = inject(Router);
 
 	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
@@ -121,9 +129,9 @@ export class RegistrationFormComponent {
 	protected onSubmit(): void {
 		if (this.registrationForm?.valid) {
 			const formData = this.registrationForm.getRawValue();
-			this.registrationService.postRegistrationData(formData).subscribe(response => {
-				console.log('Registration successful', response);
+			this.registrationService.postRegistrationData(formData).subscribe(_response => {
 				this.inputErrors = [];
+				this.registrationSuccess.emit();
 			}, error => {
 				if (Array.isArray(error)) {
 					this.inputErrors = error;

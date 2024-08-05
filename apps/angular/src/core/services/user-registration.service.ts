@@ -4,7 +4,6 @@ import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
 import { Observable, throwError } from 'rxjs';
-import { InputErrors } from '@js-camp/core/models/input-error';
 import { InputErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
 import { catchError, map } from 'rxjs/operators';
 import { ApiUrlService } from './api-url.service';
@@ -33,7 +32,7 @@ export class UserRegistrationService {
 				return response as UserAccessToken;
 			}),
 			catchError(error => {
-				if (error.error && error.error.errors && error.status === 400) {
+				if (error.error && error.error.errors) {
 					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);

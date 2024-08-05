@@ -41,3 +41,9 @@
   max-width: 100%;
   object-fit: cover;
 }
+
+.registration__form-error {
+  color: var(--error-color);
+  font-size: var(--body-small);
+  line-height: var(--body-small-line-height);
+}
