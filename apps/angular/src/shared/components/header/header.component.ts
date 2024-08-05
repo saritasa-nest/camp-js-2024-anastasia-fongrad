@@ -4,11 +4,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
 import { UserProfile } from '@js-camp/core/models/user-profile';
 import { Observable, catchError, throwError, switchMap } from 'rxjs';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
 /** Header component for the app. */
 @Component({
@@ -22,6 +23,7 @@ import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 		MatMenuModule,
 		MatButtonModule,
 		CommonModule,
+		RouterModule,
 	],
 })
 export class HeaderComponent {
@@ -30,6 +32,8 @@ export class HeaderComponent {
 
 	/** 1. */
 	protected readonly userProfile$: Observable<UserProfile>;
+
+	protected readonly appRoutes = AppRoutes;
 
 	private userLoginService: AuthorizationService = inject(AuthorizationService);
 
@@ -50,13 +54,13 @@ export class HeaderComponent {
 							}),
 							catchError(() => {
 								this.authService.clearToken();
-								this.router.navigate(['/login']);
+								this.router.navigate([AppRoutes.Authorization]);
 								return throwError(() => error);
 							}),
 						);
 					} else {
 						this.authService.clearToken();
-						this.router.navigate(['/login']);
+						this.router.navigate([AppRoutes.Authorization]);
 					}
 				}
 				return throwError(() => error);
@@ -65,14 +69,9 @@ export class HeaderComponent {
 	}
 
 	/** 1. */
-	protected login(): void {
-		this.router.navigate(['/login']);
-	}
-
-	/** 1. */
 	protected logout(): void {
 		this.authService.clearToken();
-		this.router.navigate(['/login']);
+		this.router.navigate([AppRoutes.Authorization]);
 	}
 
 	/** 1. */

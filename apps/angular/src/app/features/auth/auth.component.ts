@@ -5,6 +5,7 @@ import { LocalStorageService } from '@js-camp/angular/core/services/local-storag
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
+import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
 import { RegistrationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
@@ -55,6 +56,6 @@ export class AuthComponent {
 	 */
 	protected onLoginSuccess(token: UserAccessToken): void {
 		this.authService.saveToken(token);
-		this.router.navigate(['']);
+		this.router.navigate([AppRoutes.Home]);
 	}
 }
