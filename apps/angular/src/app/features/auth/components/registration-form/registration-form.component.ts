@@ -4,11 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
-import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
-import { Router } from '@angular/router';
 
 export namespace UserRegistrationForm {
 	/**
@@ -55,9 +54,6 @@ export class RegistrationFormComponent {
 	protected readonly registrationModel = RegistrationModel;
 
 	/** 1. */
-	protected avatarImage = '';
-
-	/** 1. */
 	protected registrationForm: FormGroup<RegistrationForm>;
 
 	private inputErrors: InputErrors[] = [];
@@ -66,28 +62,8 @@ export class RegistrationFormComponent {
 
 	private readonly registrationService: AuthorizationService = inject(AuthorizationService);
 
-	private readonly router: Router = inject(Router);
-
 	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
-	protected csvInputChange(event: Event): void {
-		const element = event.target as HTMLInputElement;
-		// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-		if (element.files && element.files[0]) {
-			const reader = new FileReader();
-			reader.onload = (e: ProgressEvent<FileReader>) => {
-				if (e.target?.result) {
-					this.avatarImage = e.target.result as string;
-				}
-			};
-			reader.readAsDataURL(element.files[0]);
-		}
 	}
 
 	/**

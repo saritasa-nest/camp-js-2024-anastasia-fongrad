@@ -5,10 +5,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 import { RouterModule, Router } from '@angular/router';
-import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { UserProfile } from '@js-camp/core/models/user-profile';
-import { Observable, catchError, throwError, switchMap } from 'rxjs';
-import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+import { Observable } from 'rxjs';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
 /** Header component for the app. */
@@ -33,6 +32,7 @@ export class HeaderComponent {
 	/** 1. */
 	protected readonly userProfile$: Observable<UserProfile>;
 
+	/** 1. */
 	protected readonly appRoutes = AppRoutes;
 
 	private userLoginService: AuthorizationService = inject(AuthorizationService);
@@ -40,32 +40,7 @@ export class HeaderComponent {
 	private router: Router = inject(Router);
 
 	public constructor() {
-		this.userProfile$ = this.userLoginService.getUserProfile().pipe(
-			catchError(error => {
-				if (error.status === 401) {
-					const refreshToken = this.authService.getToken()?.refresh;
-					console.log(refreshToken);
-					if (refreshToken) {
-						return this.userLoginService.refreshToken(refreshToken).pipe(
-							switchMap((newToken: UserAccessToken) => {
-								console.log(newToken);
-								this.authService.saveToken(newToken);
-								return this.userLoginService.getUserProfile()
-							}),
-							catchError(() => {
-								this.authService.clearToken();
-								this.router.navigate([AppRoutes.Authorization]);
-								return throwError(() => error);
-							}),
-						);
-					} else {
-						this.authService.clearToken();
-						this.router.navigate([AppRoutes.Authorization]);
-					}
-				}
-				return throwError(() => error);
-			})
-		);
+		this.userProfile$ = this.userLoginService.getUserProfile();
 	}
 
 	/** 1. */

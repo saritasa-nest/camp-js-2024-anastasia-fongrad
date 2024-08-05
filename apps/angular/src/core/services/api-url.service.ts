@@ -21,11 +21,15 @@ export class ApiUrlService {
 	/** 1. */
 	public readonly tokenRefreshPath: string;
 
+	/** 1. */
+	public readonly tokenVerifyPath: string;
+
 	public constructor() {
 		this.animeListPath = 'anime/anime/';
 		this.loginPath = 'auth/login/';
 		this.registrationPath = 'auth/register/';
 		this.userProfilePath = 'users/profile/';
 		this.tokenRefreshPath = 'token/refresh/';
+		this.tokenVerifyPath = 'token/verify/';
 	}
 }

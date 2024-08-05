@@ -72,12 +72,8 @@ export class AuthorizationService {
 
 	/** 1. */
 	public getUserProfile(): Observable<UserProfile> {
-		const accessToken = this.authService.getToken()?.access;
-		console.log(accessToken);
-		const headers = new HttpHeaders().set('Authorization', `Bearer ${accessToken}`);
 		return this.http.get<UserProfileDto>(
 			this.apiUrlService.userProfilePath,
-			{ headers },
 		).pipe(
 			map((response: UserProfileDto) => UserProfileMapper.fromDto(response)),
 		);
@@ -110,7 +106,7 @@ export class AuthorizationService {
 	 */
 	public verifyToken(accessToken: string): void {
 		this.http.post(
-			this.apiUrlService.tokenRefreshPath,
+			this.apiUrlService.tokenVerifyPath,
 			{ token: accessToken },
 		).pipe(
 			catchError(error => {

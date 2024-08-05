@@ -4,7 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginForm } from '@js-camp/core/models/login-form';
-import { AuthorizationService } from '@js-camp/angular/core/services/user-login.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 
