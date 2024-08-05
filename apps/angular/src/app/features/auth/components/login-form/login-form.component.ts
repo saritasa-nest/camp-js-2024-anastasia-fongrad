@@ -8,6 +8,7 @@ import { UserLoginService } from '@js-camp/angular/core/services/user-login.serv
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { Router } from '@angular/router';
 import { AuthService } from '@js-camp/angular/core/services/auth-service';
+import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 export namespace UserLoginForm {
 
@@ -37,6 +38,7 @@ export namespace UserLoginForm {
 		MatButtonModule,
 		MatFormFieldModule,
 		MatInputModule,
+		EmptyPipe,
 	],
 })
 export class LoginFormComponent {

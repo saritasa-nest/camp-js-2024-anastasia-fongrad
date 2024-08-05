@@ -38,7 +38,7 @@ export class UserLoginService {
 				return response as UserAccessToken;
 			}),
 			catchError(error => {
-				if (error.error && error.error.errors && error.status === 400) {
+				if (error.error && error.error.errors) {
 					return throwError(() => InputErrorsMapper.fromDto(error.error.errors));
 				}
 				return throwError(() => error);

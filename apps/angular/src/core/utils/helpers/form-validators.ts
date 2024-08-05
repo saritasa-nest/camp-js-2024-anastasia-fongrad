@@ -30,13 +30,18 @@ export function mustMatch(controlName: string, matchingControlName: string): Val
 export function passwordStrong(controlName: string): ValidatorFn {
 	return (formGroup: AbstractControl): ValidationErrors | null => {
 		const control = formGroup.get(controlName);
+		if (!control) {
+			return null;
+		}
 		const hasNumber = /\d/.test(control?.value);
-		const hasUpper = /[A-Z]/.test(control?.value);
 		const hasLower = /[a-z]/.test(control?.value);
-		const valid = hasNumber && hasUpper && hasLower;
+		const hasMinLength = control?.value?.length >= 8;
+		const valid = hasNumber && hasLower && hasMinLength;
 		if (!valid) {
+			control?.setErrors({ strong: true });
 			return { strong: true };
 		}
+		control?.setErrors(null);
 		return null;
 	};
 }

@@ -18,7 +18,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 })
 export class AuthComponent {
 	/** 1. */
-	protected isLoginFormActive = false;
+	protected isLoginFormActive = true;
 
 	/** 1. */
 	protected showLoginForm(): void {

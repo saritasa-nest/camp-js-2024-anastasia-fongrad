@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 /** Provides urls to work with the API. */
 @Injectable({
@@ -18,6 +18,7 @@ export class ApiUrlService {
 	/** 1. */
 	public readonly registrationPath: string;
 
+	/** 1. */
 	public readonly tokenRefreshPath: string;
 
 	public constructor() {

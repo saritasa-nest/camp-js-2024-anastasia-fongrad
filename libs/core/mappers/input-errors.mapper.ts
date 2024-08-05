@@ -10,10 +10,14 @@ export namespace InputErrorsMapper {
 	export function fromDto(dto: InputErrorDto[]): InputErrors[] {
 		const errorMap = new Map<string, string[]>();
 		dto.forEach(error => {
-			if (!errorMap.has(error.attr)) {
-				errorMap.set(error.attr, []);
+			let errorField = error.attr;
+			if (!errorMap.has(errorField)) {
+				if (error.attr === null) {
+					errorField = 'form';
+				}
+				errorMap.set(errorField, []);
 			}
-			errorMap.get(error.attr)?.push(error.detail);
+			errorMap.get(errorField)?.push(error.detail);
 		});
 		const result: InputErrors[] = [];
 		errorMap.forEach((errors, attributeName) => {

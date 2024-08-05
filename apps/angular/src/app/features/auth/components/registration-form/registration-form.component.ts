@@ -3,14 +3,12 @@ import { FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { Subject } from 'rxjs';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
 import { UserRegistrationService } from '@js-camp/angular/core/services/user-registration.service';
 import { FormBuilder } from '@angular/forms';
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
-import { takeUntil } from 'rxjs/operators';
-import { UserRegistration } from '@js-camp/core/models/user-registration';
+import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 
 export namespace UserRegistrationForm {
 	/**
@@ -27,7 +25,10 @@ export namespace UserRegistrationForm {
 			lastName: fb.nonNullable.control('', [Validators.required]),
 			password: fb.nonNullable.control('', [Validators.required]),
 			confirmPassword: fb.nonNullable.control('', [Validators.required]),
-		});
+		}, { validators: [
+			passwordStrong('password'),
+			mustMatch('password', 'confirmPassword'),
+		] });
 	}
 }
 
@@ -44,7 +45,7 @@ export namespace UserRegistrationForm {
 		MatInputModule,
 	],
 })
-export class RegistrationFormComponent implements OnInit, OnDestroy {
+export class RegistrationFormComponent {
 	/** 1. */
 	protected readonly registrationModel = RegistrationModel;
 
@@ -56,35 +57,12 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
 
 	private inputErrors: InputErrors[] = [];
 
-	private readonly destroy$ = new Subject<void>();
-
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly registrationService: UserRegistrationService = inject(UserRegistrationService);
 
 	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
-	}
-
-	/** 1. */
-	public ngOnInit(): void {
-		this.subscribeToFormChanges();
-	}
-
-	private subscribeToFormChanges(): void {
-		this.registrationForm.valueChanges.pipe(
-			takeUntil(this.destroy$),
-		).subscribe(formValues => {
-			this.registrationService.postRegistrationData(formValues as UserRegistration).subscribe(_response => {
-				this.inputErrors = [];
-			}, error => {
-				if (Array.isArray(error)) {
-					this.inputErrors = error;
-					return;
-				}
-			});
-			this.setFormErrors();
-		});
 	}
 
 	/**
@@ -153,11 +131,5 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
 			});
 			this.setFormErrors();
 		}
-	}
-
-	/** 1. */
-	public ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
 	}
 }

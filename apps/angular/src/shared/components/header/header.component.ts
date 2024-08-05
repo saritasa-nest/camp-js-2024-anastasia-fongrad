@@ -38,7 +38,7 @@ export class HeaderComponent {
 
 	public constructor() {
 		this.userProfile$ = this.userLoginService.getUserProfile().pipe(
-			catchError((error: HttpErrorResponse) => {
+			catchError(error => {
 				if (error.status === 401) {
 					const refreshToken = this.authService.getToken()?.refresh;
 					console.log(refreshToken);
@@ -53,7 +53,7 @@ export class HeaderComponent {
 								this.authService.clearToken();
 								this.router.navigate(['/login']);
 								return throwError(() => error);
-							})
+							}),
 						);
 					} else {
 						this.authService.clearToken();
@@ -71,6 +71,7 @@ export class HeaderComponent {
 		this.router.navigate(['/login']);
 	}
 
+	/** 1. */
 	protected isAuthorized(): boolean {
 		return this.authService.isAuthenticated();
 	}
