@@ -3,47 +3,26 @@
 		<mat-form-field appearance="fill">
 			<mat-label>First Name</mat-label>
 			<input matInput id="firstName" type="text" formControlName="firstName">
-			@if ( registrationForm.get('firstName')?.hasError('required') ) {
-				<mat-error>First name is required</mat-error>
-			}
 			<mat-error>{{ getErrorMessage('firstName') }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Last Name</mat-label>
 			<input matInput id="lastName" type="text" formControlName="lastName">
-			@if ( registrationForm.get('lastName')?.hasError('required') ) {
-				<mat-error>Last name is required</mat-error>
-			}
 			<mat-error>{{ getErrorMessage('lastName') }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Email</mat-label>
 			<input matInput id="email" type="email" formControlName="email">
-			@if ( registrationForm.get('email')?.hasError('required') ) {
-				<mat-error>Email is required</mat-error>
-			}
 			<mat-error>{{ getErrorMessage('email') }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Password</mat-label>
 			<input matInput id="password" type="password" formControlName="password">
-			@if ( registrationForm.get('password')?.hasError('required') ) {
-				<mat-error>Password is required</mat-error>
-			}
-			@else if ( registrationForm.get('password')?.hasError('strong') ) {
-				<mat-error>Password isn't strong enough</mat-error>
-			}
 			<mat-error>{{ getErrorMessage('password') }}</mat-error>
 		</mat-form-field>
 		<mat-form-field appearance="fill">
 			<mat-label>Repeat Password</mat-label>
 			<input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
-			@if ( registrationForm.get('confirmPassword')?.hasError('required') ) {
-				<mat-error>Password confirmation is required</mat-error>
-			}
-			@else if ( registrationForm.get('confirmPassword')?.hasError('mustMatch') ) {
-				<mat-error>Passwords must match</mat-error>
-			}
 			<mat-error>{{ getErrorMessage('confirmPassword') }}</mat-error>
 		</mat-form-field>
 		<div class="registration__form-error">{{ getErrorMessage('form') }}</div>

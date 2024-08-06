@@ -2,25 +2,12 @@
 	<mat-form-field appearance="fill">
 		<mat-label>Email</mat-label>
 		<input matInput id="email" type="email" formControlName="email">
-		@if (loginForm.get('email')?.hasError('required')) {
-			<mat-error>Email is required</mat-error>
-		}
-		@else if (loginForm.get('email')?.hasError('email')) {
-			<mat-error>Please enter a valid email address</mat-error>
-		}
-		@else {
-			<mat-error>{{ getErrorMessage('email') }}</mat-error>
-		}
+		<mat-error>{{ getErrorMessage('email') }}</mat-error>
 	</mat-form-field>
 	<mat-form-field appearance="fill">
 		<mat-label>Password</mat-label>
 		<input matInput id="password" type="password" formControlName="password">
-		@if ( loginForm.get('password')?.hasError('required') ) {
-			<mat-error>Password is required</mat-error>
-		}
-		@else {
-			<mat-error>{{ getErrorMessage('password') }}</mat-error>
-		}
+		<mat-error>{{ getErrorMessage('password') }}</mat-error>
 	</mat-form-field>
 	<div class="login__form-error">{{ getErrorMessage('form') }}</div>
 	<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>

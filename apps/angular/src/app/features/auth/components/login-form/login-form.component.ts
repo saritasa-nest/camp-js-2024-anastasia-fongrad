@@ -5,8 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginForm } from '@js-camp/core/models/login-form';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
-import { InputErrors } from '@js-camp/core/models/input-error';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -55,7 +55,7 @@ export class LoginFormComponent {
 
 	private readonly loginService: AuthorizationService = inject(AuthorizationService);
 
-	private inputErrors: InputErrors[] = [];
+	private readonly formValidationService = inject(FormValidationService);
 
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
@@ -66,33 +66,7 @@ export class LoginFormComponent {
 	 * @param attributeName 1.
 	 */
 	protected getErrorMessage(attributeName: string): string | null {
-		const inputError = this.inputErrors.find(error => error.attributeName === attributeName);
-		if (inputError) {
-			return inputError.errors[0];
-		}
-		return null;
-	}
-
-	private setFormErrors(): void {
-		Object.keys(this.loginForm.controls).forEach(key => {
-			const control = this.loginForm.get(key);
-			const inputError = this.inputErrors.find(error => error.attributeName === key);
-			if (control) {
-				if (inputError) {
-					control.setErrors({ serverError: inputError.errors[0] });
-			  	} else {
-					const existingErrors = control.errors;
-					if (existingErrors) {
-						delete existingErrors['serverError'];
-						if (Object.keys(existingErrors).length === 0) {
-							control.setErrors(null);
-						} else {
-							control.setErrors(existingErrors);
-						}
-					}
-				}
-			}
-		});
+		return this.formValidationService.getErrorMessage(this.loginForm, attributeName);
 	}
 
 	/** 1. */
@@ -100,14 +74,14 @@ export class LoginFormComponent {
 		if (this.loginForm?.valid) {
 			const formData = this.loginForm.getRawValue();
 			this.loginService.postLoginData(formData).subscribe(response => {
-				this.inputErrors = [];
+				this.formValidationService.setInputErrors([]);
 				this.loginSuccess.emit(response);
 			}, error => {
 				if (Array.isArray(error)) {
-					this.inputErrors = error;
+					this.formValidationService.setInputErrors(error);
 				}
 			});
-			this.setFormErrors();
+			this.formValidationService.setFormErrors(this.loginForm);
 		}
 	}
 }

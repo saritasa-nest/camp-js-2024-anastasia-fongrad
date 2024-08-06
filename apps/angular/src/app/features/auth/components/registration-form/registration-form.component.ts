@@ -8,6 +8,7 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
+import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 
 export namespace UserRegistrationForm {
 	/**
@@ -56,7 +57,7 @@ export class RegistrationFormComponent {
 	/** 1. */
 	protected registrationForm: FormGroup<RegistrationForm>;
 
-	private inputErrors: InputErrors[] = [];
+	private readonly formValidationService = inject(FormValidationService);
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
@@ -69,50 +70,26 @@ export class RegistrationFormComponent {
 	/**
 	 * 1.
 	 * @param attributeName 1.
+	 * @returns 1.
 	 */
 	protected getErrorMessage(attributeName: string): string | null {
-		const inputError = this.inputErrors.find(error => error.attributeName === attributeName);
-		if (inputError) {
-			return inputError.errors[0];
-		}
-		return null;
-	}
+		return this.formValidationService.getErrorMessage(this.registrationForm, attributeName);
+	  }
 
-	private setFormErrors(): void {
-		Object.keys(this.registrationForm.controls).forEach(key => {
-			const control = this.registrationForm.get(key);
-			const inputError = this.inputErrors.find(error => error.attributeName === key);
-			if (control) {
-				if (inputError) {
-					control.setErrors({ serverError: inputError.errors[0] });
-			  	} else {
-					const existingErrors = control.errors;
-					if (existingErrors) {
-						delete existingErrors['serverError'];
-						if (Object.keys(existingErrors).length === 0) {
-							control.setErrors(null);
-						} else {
-							control.setErrors(existingErrors);
-						}
-					}
-				}
-			}
-		});
-	}
 
 	/** 1. */
 	protected onSubmit(): void {
 		if (this.registrationForm?.valid) {
 			const formData = this.registrationForm.getRawValue();
 			this.registrationService.postRegistrationData(formData).subscribe(_response => {
-				this.inputErrors = [];
+				this.formValidationService.setInputErrors([]);
 				this.registrationSuccess.emit();
 			}, error => {
 				if (Array.isArray(error)) {
-					this.inputErrors = error;
+					this.formValidationService.setInputErrors(error);
 				}
 			});
-			this.setFormErrors();
+			this.formValidationService.setFormErrors(this.registrationForm);
 		}
 	}
 }
