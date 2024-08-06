@@ -21,7 +21,7 @@ export class AnimeQueryParametersService {
 	private readonly router = inject(Router);
 
 	/** Returns an object with parsed query parameters. */
-	public getQueryParameters(): Observable<Partial<AnimeQueryParameters>> {
+	public getQueryParameters(): Observable<AnimeQueryParameters> {
 		return this.route.queryParams.pipe(
 			map(params => {
 				const offset = params['offset'] !== undefined ? +params['offset'] : undefined;

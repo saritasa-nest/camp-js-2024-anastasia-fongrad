@@ -32,7 +32,7 @@ export class AnimeCatalogComponent {
 	protected readonly paginatedAnime$: Observable<Pagination<Anime>>;
 
 	/** Anime query parameters. */
-	protected readonly animeParameters$: Observable<Partial<AnimeQueryParameters>>;
+	protected readonly animeParameters$: Observable<AnimeQueryParameters>;
 
 	/** Available page size options for a select element. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];

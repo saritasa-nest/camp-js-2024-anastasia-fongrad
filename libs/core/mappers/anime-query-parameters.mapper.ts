@@ -3,7 +3,7 @@ import { AnimeQueryParameters } from '../models/anime-query-parameters.model';
 import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
 import { AnimeType } from '../models/enums/anime-type.enum';
 import { EnumUtils } from '../utils/enum-utils';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, PARAMETER_SEPARATOR } from '../utils/anime-constants';
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, PARAMETER_SEPARATOR, DEFAULT_SEARCH_QUERY, DEFAULT_SORT_PARAM, DEFAULT_TYPE } from '../utils/anime-constants';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';
@@ -35,20 +35,21 @@ export namespace AnimeQueryParametersMapper {
 	 * Converts query parameters from a dto object to a model.
 	 * @param dto Anime query parameters dto.
 	 */
-	export function fromDto(dto: Partial<AnimeQueryParametersDto>): Partial<AnimeQueryParameters> {
-		const animeSort = dto.ordering ? AnimeSortParameterMapper.fromDto(dto.ordering) : undefined;
+	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
+		const animeSort = dto.ordering ? AnimeSortParameterMapper.fromDto(dto.ordering) : DEFAULT_SORT_PARAM;
 		const animeTypes = dto.type__in ? dto.type__in.split(PARAMETER_SEPARATOR).map(type => {
 			const typeName = EnumUtils.fromString(type, AnimeTypeDto);
 			return typeName ? AnimeTypeMapper.fromDto(typeName) : undefined;
 		})
-			.filter((type): type is AnimeType => type !== undefined) : undefined;
+			.filter((type): type is AnimeType => type !== undefined) : DEFAULT_TYPE;
 		const pageNumber = dto.limit && dto.offset ? dto.offset / dto.limit : START_PAGE_INDEX;
 		const limitPerPage = dto.limit ?? DEFAULT_PAGE_SIZE;
+		const searchQuery = dto.search ?? DEFAULT_SEARCH_QUERY;
 		return {
 			pageNumber,
 			limitPerPage,
 			animeTypes,
-			searchQuery: dto.search,
+			searchQuery,
 			animeSort,
 		};
 	}

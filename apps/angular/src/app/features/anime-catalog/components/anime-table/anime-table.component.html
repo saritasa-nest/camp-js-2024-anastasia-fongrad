@@ -1,9 +1,13 @@
-<div>
-	@if (animeList !== undefined) {
-		<table mat-table matSort
+<div class="table-wrapper">
+	@if (animeList !== undefined && sorting !== undefined) {
+		<table mat-table
+			matSort
 			[dataSource]="animeList"
 			[trackBy]="trackByAnime"
-			(matSortChange)="onSortChange($event)">
+			(matSortChange)="onSortChange($event)"
+			[matSortActive]="sorting.parameterName"
+			[matSortDirection]="sorting.direction"
+			>
 			<ng-container [matColumnDef]="animeColumnIds.Image">
 				<th mat-header-cell *matHeaderCellDef >
 					{{ animeColumnNames.Image }}

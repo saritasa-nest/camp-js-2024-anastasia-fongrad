@@ -12,6 +12,7 @@
 			/>
 			<camp-anime-table
 				[animeList]="(paginatedAnime$ | async)?.results"
+				[sorting]="(animeParameters$ | async)?.animeSort"
 				(sortChange)="routeParameterService.changeSortParameter($event)"
 			/>
 			<mat-paginator

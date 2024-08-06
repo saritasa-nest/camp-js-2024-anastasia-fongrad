@@ -17,5 +17,5 @@ export type AnimeQueryParameters = {
 	readonly searchQuery: string;
 
 	/** Ordering parameters object to sort anime by. */
-	readonly animeSort: AnimeSortParameter | null;
+	readonly animeSort: AnimeSortParameter;
 };

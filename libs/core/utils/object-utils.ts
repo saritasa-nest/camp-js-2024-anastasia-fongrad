@@ -8,7 +8,7 @@ export namespace ObjectUtils {
 	 */
 	export function removeEmptyFields<T extends object>(parameters: T): Partial<T> {
 		return Object.fromEntries(
-			Object.entries(parameters).filter(([_key, value]) => value !== undefined && value !== null && value !== ''),
+			Object.entries(parameters).filter(([_key, value]) => value !== undefined),
 		) as Partial<T>;
 	}
 }

@@ -73,7 +73,11 @@ export class AnimeTableComponent {
 
 	/** Stream containing anime data from the server. */
 	@Input()
-	public animeList: readonly Anime[] | undefined;
+	public animeList?: readonly Anime[];
+
+	/** 1. */
+	@Input()
+	public sorting?: AnimeSortParameter;
 
 	/** Event emitter for a sort table event. */
 	@Output()
@@ -97,10 +101,10 @@ export class AnimeTableComponent {
 
 	/**
 	 * Helps to track changes in anime data by its id.
-	 * @param index Index of the given entity.
+	 * @param _index Index of the given entity.
 	 * @param anime Given anime object.
 	 */
-	protected trackByAnime(index: number, anime: Anime): number {
+	protected trackByAnime(_index: number, anime: Anime): number {
 		return anime.id;
 	}
 }
