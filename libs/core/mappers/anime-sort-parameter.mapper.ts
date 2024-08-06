@@ -2,9 +2,10 @@ import { AnimeSortParameter } from '../models/anime-sort-parameter.model';
 import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
 import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
 
-import { AnimeSortFieldMapper } from './anime-sort-field.mapper';
 import { EnumUtils } from '../utils/enum-utils';
 import { DESCENDING_PREFIX } from '../utils/anime-constants';
+
+import { AnimeSortFieldMapper } from './anime-sort-field.mapper';
 
 export namespace AnimeSortParameterMapper {
 
@@ -35,11 +36,11 @@ export namespace AnimeSortParameterMapper {
 		const isAscending = dto.startsWith(DESCENDING_PREFIX) ? 'desc' : 'asc';
 		const parameter = isAscending ? dto : dto.replace(DESCENDING_PREFIX, '');
 		const parameterName = AnimeSortFieldMapper.fromDto(EnumUtils.fromString(parameter, AnimeSortFieldDto));
-		if(!parameterName) {
+		if (!parameterName) {
 			return null;
 		}
 		return {
-			parameterName: parameterName,
+			parameterName,
 			direction: isAscending,
 		};
 	}

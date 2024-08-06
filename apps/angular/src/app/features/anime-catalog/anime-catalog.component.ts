@@ -2,7 +2,7 @@ import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,8 +17,9 @@ import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameter
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { takeUntil } from 'rxjs/operators';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/utils/anime-constants';
-import { EnumUtils } from '@js-camp/core/utils/enum-utils';
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, DEFAULT_TYPE, DEFAULT_SEARCH_QUERY } from '@js-camp/core/utils/anime-constants';
+
+import { AnimeFilterForm } from './anime-filter-form.model';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -57,10 +58,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	};
 
 	/** Reactive anime filter form. */
-	protected animeForm = new FormGroup({
-		animeTypes: new FormControl([] as AnimeType[]),
-		searchQuery: new FormControl(''),
-	});
+	protected animeFiltersForm: FormGroup<AnimeFilterForm>;
 
 	/** Available page size options for a select element. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];
@@ -72,8 +70,11 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject<void>();
 
+	private readonly formBuilder: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
 	public constructor() {
 		this.paginatedAnime$ = this.getPaginatedAnime();
+		this.animeFiltersForm = this.initializeFiltersForm();
 	}
 
 	/** Subscribes on route parameters when the component is initialized. */
@@ -83,7 +84,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	}
 
 	private subscribeToRouteChange(): void {
-		this.routeParameterService.getParsedQueryParameters().pipe(
+		this.routeParameterService.getQueryParameters().pipe(
 			takeUntil(this.destroy$),
 		)
 			.subscribe(animeParameters => {
@@ -94,7 +95,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 					...this.animeParameters,
 					...newParameters,
 				};
-				this.animeForm.patchValue({
+				this.animeFiltersForm.patchValue({
 					animeTypes: animeParameters.animeTypes,
 					searchQuery: animeParameters.searchQuery,
 				});
@@ -102,18 +103,18 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 	}
 
 	private subscribeToFormChange(): void {
-		this.animeForm.valueChanges.pipe(
+		this.animeFiltersForm.valueChanges.pipe(
 			takeUntil(this.destroy$),
 		).subscribe(formValues => {
-			const animeTypes = formValues.animeTypes?.map(type => EnumUtils.fromString(type, AnimeType)) ?? undefined;
-			const isTypesChanged = (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes;
-			const isSearchChanged = (formValues.searchQuery !== this.animeParameters.searchQuery) && (formValues.searchQuery !== null);
+			this.routeParameterService.changeFilters(formValues.animeTypes ?? undefined, formValues.searchQuery ?? undefined);
+		});
+	}
 
-			// Disable eslint to use  logical OR for boolean values
-			/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */
-			if (isSearchChanged || isTypesChanged) {
-				this.routeParameterService.changeFilters(formValues.animeTypes ?? undefined, formValues.searchQuery ?? undefined);
-			}
+	private initializeFiltersForm(): FormGroup<AnimeFilterForm> {
+		return AnimeFilterForm.initialize({
+			formBuilder: this.formBuilder,
+			searchInitialValue: DEFAULT_SEARCH_QUERY,
+			typesInitialValue: DEFAULT_TYPE,
 		});
 	}
 

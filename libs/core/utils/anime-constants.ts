@@ -1,4 +1,4 @@
-import { AnimeType } from "../models/enums/anime-type.enum";
+import { AnimeType } from '../models/enums/anime-type.enum';
 
 /** Starting page index. */
 export const START_PAGE_INDEX = 0;

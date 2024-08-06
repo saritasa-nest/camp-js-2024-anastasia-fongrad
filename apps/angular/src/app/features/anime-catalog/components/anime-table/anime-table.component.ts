@@ -6,6 +6,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
+import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -33,13 +34,13 @@ enum AnimeTableColumnNames {
  * Converts column name to a valid sort parameter name.
  * @param column Column name to sort by.
  */
-function mapColumnToSortParameter(column: AnimeTableColumnIds): AnimeSortField | null {
+function mapColumnToSortParameter(column: AnimeTableColumnIds | null): AnimeSortField | null {
 	const columnMap: Partial<Record<AnimeTableColumnIds, AnimeSortField | null>> = {
 		[AnimeTableColumnIds.EnglishTitle]: AnimeSortField.EnglishTitle,
 		[AnimeTableColumnIds.StartDate]: AnimeSortField.StartDate,
 		[AnimeTableColumnIds.Status]: AnimeSortField.Status,
 	};
-	return columnMap[column] ?? null;
+	return column ? (columnMap[column] ?? null) : null;
 }
 
 /** Anime table component. */
@@ -82,7 +83,7 @@ export class AnimeTableComponent {
 	 * @param event Sort table event.
 	 */
 	protected onSortChange(event: Sort): void {
-		const parameterName = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
+		const parameterName = mapColumnToSortParameter(EnumUtils.fromString(event.active, AnimeTableColumnIds));
 		const { direction } = event;
 		if (parameterName) {
 			const newEvent: AnimeSortParameter = {

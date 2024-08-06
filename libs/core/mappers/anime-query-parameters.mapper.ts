@@ -3,7 +3,7 @@ import { AnimeQueryParameters } from '../models/anime-query-parameters.model';
 import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
 import { AnimeType } from '../models/enums/anime-type.enum';
 import { EnumUtils } from '../utils/enum-utils';
-import { START_PAGE_INDEX, PARAMETER_SEPARATOR, DEFAULT_SEARCH_QUERY } from '../utils/anime-constants';
+import { START_PAGE_INDEX, PARAMETER_SEPARATOR } from '../utils/anime-constants';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';
@@ -44,7 +44,8 @@ export namespace AnimeQueryParametersMapper {
 		const animeTypes = dto.type__in ? dto.type__in.split(PARAMETER_SEPARATOR).map(type => {
 			const typeName = EnumUtils.fromString(type, AnimeTypeDto);
 			return typeName ? AnimeTypeMapper.fromDto(typeName) : undefined;
-		}).filter((type): type is AnimeType => type !== undefined) : undefined;
+		})
+			.filter((type): type is AnimeType => type !== undefined) : undefined;
 		let pageNumber;
 		if (dto.limit && dto.offset) {
 			pageNumber = dto.offset / dto.limit;
@@ -56,7 +57,7 @@ export namespace AnimeQueryParametersMapper {
 			limitPerPage: dto.limit,
 			animeTypes,
 			searchQuery: dto.search,
-			animeSort: animeSort,
+			animeSort,
 		};
 	}
 }

@@ -4,11 +4,11 @@ import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
-import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
+import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 
-import { START_PAGE_INDEX } from '../../../../../libs/core/utils/anime-constants';
+const START_PAGE_INDEX = 0;
 
 /** Works with anime query parameters. */
 @Injectable({
@@ -20,8 +20,8 @@ export class AnimeQueryParametersService {
 
 	private readonly router = inject(Router);
 
-	/** Returns an object with row query parameters. */
-	public getQueryParameters(): Observable<Partial<AnimeQueryParametersDto>> {
+	/** Returns an object with parsed query parameters. */
+	public getQueryParameters(): Observable<Partial<AnimeQueryParameters>> {
 		return this.route.queryParams.pipe(
 			map(params => {
 				const offset = params['offset'] !== undefined ? +params['offset'] : undefined;
@@ -37,12 +37,7 @@ export class AnimeQueryParametersService {
 					ordering: params['ordering'],
 				};
 			}),
-		);
-	}
-
-	/** Returns an object with parsed query parameters. */
-	public getParsedQueryParameters(): Observable<Partial<AnimeQueryParameters>> {
-		return this.getQueryParameters().pipe(
+		).pipe(
 			switchMap(parameters => of(AnimeQueryParametersMapper.fromDto(parameters))),
 		);
 	}
@@ -52,13 +47,9 @@ export class AnimeQueryParametersService {
 	 * @param animeQueryParameters Object with anime query parameters.
 	 */
 	private navigate(animeQueryParameters: Partial<AnimeQueryParameters>): void {
-		const mappedQueryParams = AnimeQueryParametersMapper.toDto(animeQueryParameters);
-		const filteredQueryParams = Object.fromEntries(
-			Object.entries(mappedQueryParams).filter(([_key, value]) => value !== undefined),
-		);
-
+		const mappedQueryParams = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(animeQueryParameters));
 		this.router.navigate([], {
-			queryParams: filteredQueryParams,
+			queryParams: mappedQueryParams,
 			queryParamsHandling: 'merge',
 		});
 	}

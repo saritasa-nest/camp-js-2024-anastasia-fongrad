@@ -7,7 +7,9 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
+import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
+import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
+import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 
 import { AppUrlConfig } from './app-url-config.service';
 
@@ -25,11 +27,9 @@ export class AnimeApiService {
 	 * Gets paginated anime data from the server.
 	 * @param parameters Query parameters for the request.
 	 */
-	public getAll(parameters: Partial<AnimeQueryParametersDto>): Observable<Pagination<Anime>> {
-		const newParameters = Object.fromEntries(
-			Object.entries(parameters).filter(([_key, value]) => value !== undefined),
-		);
-		const httpParams = new HttpParams({ fromObject: newParameters });
+	public getAll(parameters: Partial<AnimeQueryParameters>): Observable<Pagination<Anime>> {
+		const dtoParameters = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(parameters));
+		const httpParams = new HttpParams({ fromObject: dtoParameters });
 		const url = this.apiUrlService.paths.animeCatalog;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
