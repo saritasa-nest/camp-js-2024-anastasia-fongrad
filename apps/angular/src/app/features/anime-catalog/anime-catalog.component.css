@@ -7,32 +7,3 @@
   line-height: var(--title-line-height);
   font-weight: var(--text-semibold);
 }
-
-.main__form {
-  display: flex;
-  gap: var(--space-8);
-}
-
-.main__search-group {
-  display: flex;
-  align-items: top;
-  gap: 4px;
-}
-
-.mat-button-wrapper {
-  height: 100%;
-}
-
-.main__search-button {
-  --mdc-filled-button-label-text-color: var(--on-surface);
-  --mdc-filled-button-container-color: var(--surface-overlay);
-
-  border: var(--on-surface) 1px solid;
-}
-
-.main__reset-button {
-  width: 200px;
-
-  --mdc-filled-button-label-text-color: var(--on-surface);
-  --mdc-filled-button-container-color: var(--surface-overlay);
-}
