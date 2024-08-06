@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeFilterForm } from './anime-filter-form.model';
 
-/** Main app component. */
+/** Anime filters form component. */
 @Component({
 	selector: 'camp-anime-filters',
 	templateUrl: './anime-filter-form.component.html',
@@ -30,13 +30,13 @@ import { AnimeFilterForm } from './anime-filter-form.model';
 })
 export class AnimeFilterFormComponent implements OnInit {
 
-	/** 1. */
+	/** Initial value for a search query. */
 	@Input()
-	public searchQuery: string | undefined;
+	public searchQuery?: string;
 
 	/** Initial value for anime types control. */
 	@Input()
-	public animeTypes: AnimeType[] | undefined;
+	public animeTypes?: AnimeType[];
 
 	/** Event emitter for a sort table event. */
 	@Output()
@@ -56,7 +56,7 @@ export class AnimeFilterFormComponent implements OnInit {
 		this.animeFiltersForm = this.initializeFiltersForm();
 	}
 
-	/** 1. */
+	/** Patches form values and subscribes on fields changes. */
 	public ngOnInit(): void {
 		if (this.animeFiltersForm) {
 			this.animeFiltersForm.patchValue({

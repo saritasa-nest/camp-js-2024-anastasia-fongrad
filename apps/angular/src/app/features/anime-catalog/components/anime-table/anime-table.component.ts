@@ -75,7 +75,7 @@ export class AnimeTableComponent {
 	@Input()
 	public animeList?: readonly Anime[];
 
-	/** 1. */
+	/** An initial value for the table sorting. */
 	@Input()
 	public sorting?: AnimeSortParameter;
 

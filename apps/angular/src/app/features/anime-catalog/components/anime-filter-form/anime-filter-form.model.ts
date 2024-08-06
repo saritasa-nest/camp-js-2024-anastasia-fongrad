@@ -4,10 +4,10 @@ import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 /** Type for an anime filters form. */
 export type AnimeFilterForm = {
 
-	/** Type of form control to select the type of anime. */
+	/** Form control to select the type of anime. */
 	readonly animeTypes: FormControl<AnimeType[]>;
 
-	/** Type of form control to search anime. */
+	/** Form control to search anime by its title. */
 	readonly searchQuery: FormControl<string>;
 };
 
