@@ -75,13 +75,13 @@ export class AnimeTableComponent {
 
 	/** Event emitter for a sort table event. */
 	@Output()
-	public sortChange = new EventEmitter<AnimeSortParameter>();
+	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
 
 	/**
 	 * Emits sort table event to the parent component.
 	 * @param event Sort table event.
 	 */
-	public onSortChange(event: Sort): void {
+	protected onSortChange(event: Sort): void {
 		const parameterName = mapColumnToSortParameter(event.active as AnimeTableColumnIds);
 		const { direction } = event;
 		if (parameterName) {

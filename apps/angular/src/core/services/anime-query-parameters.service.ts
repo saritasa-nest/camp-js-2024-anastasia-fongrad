@@ -8,7 +8,7 @@ import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-paramete
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '../utils/anime-constants';
+import { START_PAGE_INDEX } from '../../../../../libs/core/utils/anime-constants';
 
 /** Works with anime query parameters. */
 @Injectable({
@@ -24,9 +24,6 @@ export class AnimeQueryParametersService {
 	public getQueryParameters(): Observable<Partial<AnimeQueryParametersDto>> {
 		return this.route.queryParams.pipe(
 			map(params => {
-				if (Object.keys(params).length === 0) {
-					this.changePagination(DEFAULT_PAGE_SIZE, START_PAGE_INDEX);
-				}
 				const offset = params['offset'] !== undefined ? +params['offset'] : undefined;
 				const limit = +params['limit'] || undefined;
 				return {

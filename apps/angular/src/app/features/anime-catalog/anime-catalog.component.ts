@@ -17,7 +17,8 @@ import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameter
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { takeUntil } from 'rxjs/operators';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/angular/core/utils/anime-constants';
+import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE } from '@js-camp/core/utils/anime-constants';
+import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 
 /** A component that represents anime catalog page. */
 @Component({
@@ -104,7 +105,7 @@ export class AnimeCatalogComponent implements OnInit, OnDestroy {
 		this.animeForm.valueChanges.pipe(
 			takeUntil(this.destroy$),
 		).subscribe(formValues => {
-			const animeTypes = formValues.animeTypes?.map(type => type as AnimeType) ?? undefined;
+			const animeTypes = formValues.animeTypes?.map(type => EnumUtils.fromString(type, AnimeType)) ?? undefined;
 			const isTypesChanged = (JSON.stringify(animeTypes) !== JSON.stringify(this.animeParameters.animeTypes)) && animeTypes;
 			const isSearchChanged = (formValues.searchQuery !== this.animeParameters.searchQuery) && (formValues.searchQuery !== null);
 

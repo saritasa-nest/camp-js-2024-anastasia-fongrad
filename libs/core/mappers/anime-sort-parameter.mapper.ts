@@ -3,6 +3,8 @@ import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
 import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
 
 import { AnimeSortFieldMapper } from './anime-sort-field.mapper';
+import { EnumUtils } from '../utils/enum-utils';
+import { DESCENDING_PREFIX } from '../utils/anime-constants';
 
 export namespace AnimeSortParameterMapper {
 
@@ -14,8 +16,11 @@ export namespace AnimeSortParameterMapper {
 		if (!model || model.direction === '') {
 			return '';
 		}
-		const parameter = AnimeSortFieldMapper.toDto(model.parameterName as AnimeSortField);
-		const orderedParameter = model.direction === 'asc' ? parameter : `-${parameter}`;
+		const parameter = AnimeSortFieldMapper.toDto(EnumUtils.fromString(model.parameterName, AnimeSortField));
+		if (!parameter) {
+			return '';
+		}
+		const orderedParameter = model.direction === 'asc' ? parameter : `${DESCENDING_PREFIX}${parameter}`;
 		return orderedParameter;
 	}
 
@@ -27,11 +32,14 @@ export namespace AnimeSortParameterMapper {
 		if (!dto || dto === '') {
 			return null;
 		}
-		const isAscending = dto.startsWith('-') ? 'desc' : 'asc';
-		const parameter = isAscending ? dto : dto.slice(1);
-		const parameterName = AnimeSortFieldMapper.fromDto(parameter as AnimeSortFieldDto);
+		const isAscending = dto.startsWith(DESCENDING_PREFIX) ? 'desc' : 'asc';
+		const parameter = isAscending ? dto : dto.replace(DESCENDING_PREFIX, '');
+		const parameterName = AnimeSortFieldMapper.fromDto(EnumUtils.fromString(parameter, AnimeSortFieldDto));
+		if(!parameterName) {
+			return null;
+		}
 		return {
-			parameterName: parameterName as AnimeSortField,
+			parameterName: parameterName,
 			direction: isAscending,
 		};
 	}
