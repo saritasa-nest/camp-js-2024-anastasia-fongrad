@@ -7,7 +7,7 @@ export namespace UserProfileMapper {
 	 * 1.
 	 * @param dto 1.
 	 */
-	export function fromDto(dto: UserProfileDto): UserProfile{
+	export function fromDto(dto: UserProfileDto): UserProfile {
 		return {
 			email: dto.email,
 			firstName: dto.first_name,

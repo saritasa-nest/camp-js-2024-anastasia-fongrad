@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 
-/** Main app component. */
+/** Registration confirmation dialog component. */
 @Component({
 	selector: 'camp-root',
 	templateUrl: './confirmation-dialog.component.html',
@@ -17,6 +17,6 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDi
 	],
 })
 export class RegistrationDialogComponent {
-	/** 1. */
+	/** A link to the dialog popup. */
 	public readonly dialogRef = inject(MatDialogRef<RegistrationDialogComponent>);
 }

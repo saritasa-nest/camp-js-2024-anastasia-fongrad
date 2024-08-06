@@ -7,14 +7,15 @@ import { LoginForm } from '@js-camp/core/models/login-form';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
+import { InputErrors } from '@js-camp/core/models/input-error';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 export namespace UserLoginForm {
 
 	/**
-	 * 1.
-	 * @param fb 1.
+	 * Initializes a login form using FormBuilder.
+	 * @param fb Form builder object.
 	 */
 	export function initialize(fb: FormBuilder): FormGroup<LoginForm> {
 		return fb.group({
@@ -47,7 +48,6 @@ export class LoginFormComponent {
 	@Output()
 	public loginSuccess = new EventEmitter<UserAccessToken>();
 
-
 	/** 1. */
 	protected loginForm: FormGroup<LoginForm>;
 
@@ -71,17 +71,22 @@ export class LoginFormComponent {
 
 	/** 1. */
 	protected onSubmit(): void {
-		if (this.loginForm?.valid) {
-			const formData = this.loginForm.getRawValue();
-			this.loginService.postLoginData(formData).subscribe(response => {
+		if (!this.loginForm?.valid) {
+			return;
+		}
+		const formData = this.loginForm.getRawValue();
+		const observer = {
+			next: (response: UserAccessToken) => {
 				this.formValidationService.setInputErrors([]);
 				this.loginSuccess.emit(response);
-			}, error => {
+			},
+			error: (error: InputErrors[]) => {
 				if (Array.isArray(error)) {
 					this.formValidationService.setInputErrors(error);
 				}
-			});
-			this.formValidationService.setFormErrors(this.loginForm);
-		}
+				this.formValidationService.setFormErrors(this.loginForm);
+			},
+		};
+		this.loginService.postLoginData(formData).subscribe(observer);
 	}
 }

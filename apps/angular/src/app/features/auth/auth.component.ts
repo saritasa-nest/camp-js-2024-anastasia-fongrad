@@ -32,7 +32,7 @@ export class AuthComponent {
 
 	private router: Router = inject(Router);
 
-	private authService: LocalStorageService = inject(LocalStorageService);
+	private tokenStorageService: LocalStorageService = inject(LocalStorageService);
 
 	/** 1. */
 	protected showLoginForm(): void {
@@ -55,7 +55,7 @@ export class AuthComponent {
 	 * @param token 1.
 	 */
 	protected onLoginSuccess(token: UserAccessToken): void {
-		this.authService.saveToken(token);
+		this.tokenStorageService.saveToken(token);
 		this.router.navigate([AppRoutes.Home]);
 	}
 }

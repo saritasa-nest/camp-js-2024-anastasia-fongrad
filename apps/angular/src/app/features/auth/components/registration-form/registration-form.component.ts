@@ -9,14 +9,16 @@ import { RegistrationForm } from '@js-camp/core/models/registration-form';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
+import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 
 export namespace UserRegistrationForm {
+
 	/**
 	 * 1.
 	 * @param fb 1.
 	 */
 	export function initialize(fb: FormBuilder): FormGroup<RegistrationForm> {
-	  	return fb.group({
+		return fb.group({
 			email: fb.nonNullable.control('', [
 				Validators.required,
 				Validators.email,
@@ -25,10 +27,12 @@ export namespace UserRegistrationForm {
 			lastName: fb.nonNullable.control('', [Validators.required]),
 			password: fb.nonNullable.control('', [Validators.required]),
 			confirmPassword: fb.nonNullable.control('', [Validators.required]),
-		}, { validators: [
-			passwordStrong('password'),
-			mustMatch('password', 'confirmPassword'),
-		] });
+		}, {
+			validators: [
+				passwordStrong('password'),
+				mustMatch('password', 'confirmPassword'),
+			],
+		});
 	}
 }
 
@@ -74,22 +78,26 @@ export class RegistrationFormComponent {
 	 */
 	protected getErrorMessage(attributeName: string): string | null {
 		return this.formValidationService.getErrorMessage(this.registrationForm, attributeName);
-	  }
-
+	}
 
 	/** 1. */
 	protected onSubmit(): void {
-		if (this.registrationForm?.valid) {
-			const formData = this.registrationForm.getRawValue();
-			this.registrationService.postRegistrationData(formData).subscribe(_response => {
+		if (!this.registrationForm?.valid) {
+			return;
+		}
+		const formData = this.registrationForm.getRawValue();
+		const observer = {
+			next: (_response: UserAccessToken) => {
 				this.formValidationService.setInputErrors([]);
 				this.registrationSuccess.emit();
-			}, error => {
+			},
+			error: (error: InputErrors[]) => {
 				if (Array.isArray(error)) {
 					this.formValidationService.setInputErrors(error);
 				}
-			});
-			this.formValidationService.setFormErrors(this.registrationForm);
-		}
+				this.formValidationService.setFormErrors(this.registrationForm);
+			},
+		};
+		this.registrationService.postRegistrationData(formData).subscribe(observer);
 	}
 }

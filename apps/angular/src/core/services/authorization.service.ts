@@ -10,7 +10,6 @@ import { ServerErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
 import { UserProfile } from '@js-camp/core/models/user-profile';
 import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
-import { LocalStorageService } from './local-storage.service';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
 
@@ -21,8 +20,6 @@ import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-
 export class AuthorizationService {
 
 	private http: HttpClient = inject(HttpClient);
-
-	private authService: LocalStorageService = inject(LocalStorageService);
 
 	private apiUrlService: ApiUrlService = inject(ApiUrlService);
 
