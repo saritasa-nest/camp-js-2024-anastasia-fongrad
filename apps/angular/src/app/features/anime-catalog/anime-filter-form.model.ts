@@ -1,7 +1,7 @@
 import { FormControl, NonNullableFormBuilder, FormGroup } from '@angular/forms';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 
-/** 1. */
+/** Type for an anime filters form. */
 export type AnimeFilterForm = {
 
 	/** Type of form control to select the type of anime. */

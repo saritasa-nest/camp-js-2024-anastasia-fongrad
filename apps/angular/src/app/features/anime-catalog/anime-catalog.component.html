@@ -17,13 +17,19 @@
 				<div class="main__search-group">
 					<mat-form-field appearance="fill">
 						<mat-label>Search</mat-label>
-						<input matInput formControlName="searchQuery" placeholder="Placeholder">
+						<input matInput formControlName="searchQuery" placeholder="Search anime..." type="search">
 					</mat-form-field>
-					<button class="main__search-button" mat-flat-button type="submit">Search</button>
 				</div>
 			</form>
 			<camp-anime-table [animeList]="(paginatedAnime$ | async)?.results" (sortChange)="routeParameterService.changeSortParameter($event)"/>
-			<mat-paginator [length]="(paginatedAnime$ | async)?.totalCount" [pageSize]="animeParameters.limitPerPage" [pageIndex]="animeParameters.pageNumber" [pageSizeOptions]="pageSizeOptions" (page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)" aria-label="Select page">
+			<mat-paginator
+				[length]="(paginatedAnime$ | async)?.totalCount"
+				[pageSize]="(animeParameters$ | async)?.limitPerPage"
+				[pageIndex]="(animeParameters$ | async)?.pageNumber"
+				[pageSizeOptions]="pageSizeOptions"
+				(page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)"
+				aria-label="Select page"
+			>
 			</mat-paginator>
 		</div>
 	</section>
