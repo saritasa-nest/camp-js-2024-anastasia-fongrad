@@ -1,7 +1,7 @@
 import { AnimeSortParameter } from '../models/anime-sort-parameter.model';
 import { AnimeSortFieldDto } from '../dtos/enums/anime-sort-field-dto.enum';
 import { AnimeSortField } from '../models/enums/anime-sort-field.enum';
-
+import { AnimeSortDirections } from '../models/enums/anime-sort-directions.enum';
 import { EnumUtils } from '../utils/enum-utils';
 import { DESCENDING_PREFIX } from '../utils/anime-constants';
 
@@ -14,14 +14,15 @@ export namespace AnimeSortParameterMapper {
 	 * @param model Anime table ordering.
 	 */
 	export function toDto(model: AnimeSortParameter): string {
-		if (!model || model.direction === '') {
+		if (!model || model.direction === AnimeSortDirections.Empty) {
 			return '';
 		}
-		const parameter = AnimeSortFieldMapper.toDto(EnumUtils.fromString(model.parameterName, AnimeSortField));
+		const modelParameter = EnumUtils.fromString(model.parameterName, AnimeSortField);
+		const parameter = modelParameter ? AnimeSortFieldMapper.toDto(modelParameter) : undefined;
 		if (!parameter) {
 			return '';
 		}
-		const orderedParameter = model.direction === 'asc' ? parameter : `${DESCENDING_PREFIX}${parameter}`;
+		const orderedParameter = model.direction === AnimeSortDirections.Ascending ? parameter : `${DESCENDING_PREFIX}${parameter}`;
 		return orderedParameter;
 	}
 
@@ -33,9 +34,10 @@ export namespace AnimeSortParameterMapper {
 		if (!dto || dto === '') {
 			return null;
 		}
-		const isAscending = dto.startsWith(DESCENDING_PREFIX) ? 'desc' : 'asc';
+		const isAscending = dto.startsWith(DESCENDING_PREFIX) ? AnimeSortDirections.Descending : AnimeSortDirections.Ascending;
 		const parameter = isAscending ? dto : dto.replace(DESCENDING_PREFIX, '');
-		const parameterName = AnimeSortFieldMapper.fromDto(EnumUtils.fromString(parameter, AnimeSortFieldDto));
+		const dtoParameter = EnumUtils.fromString(parameter, AnimeSortFieldDto);
+		const parameterName = dtoParameter ? AnimeSortFieldMapper.fromDto(dtoParameter) : undefined;
 		if (!parameterName) {
 			return null;
 		}

@@ -46,13 +46,13 @@ export class AnimeCatalogComponent implements OnInit {
 	protected readonly selectTypes = Object.values(AnimeType);
 
 	/** Anime pagination data to be displayed. */
-	protected paginatedAnime$: Observable<Pagination<Anime>>;
+	protected readonly paginatedAnime$: Observable<Pagination<Anime>>;
 
 	/** Anime query parameters. */
-	protected animeParameters$: Observable<Partial<AnimeQueryParameters>>;
+	protected readonly animeParameters$: Observable<Partial<AnimeQueryParameters>>;
 
 	/** Reactive anime filter form. */
-	protected animeFiltersForm: FormGroup<AnimeFilterForm>;
+	protected readonly animeFiltersForm: FormGroup<AnimeFilterForm>;
 
 	/** Available page size options for a select element. */
 	protected readonly pageSizeOptions = [5, 10, 25, 50, 100];

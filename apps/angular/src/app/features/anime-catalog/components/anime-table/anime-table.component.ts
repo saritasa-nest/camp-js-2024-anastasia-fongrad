@@ -7,6 +7,7 @@ import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { EnumUtils } from '@js-camp/core/utils/enum-utils';
+import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -84,7 +85,7 @@ export class AnimeTableComponent {
 	 */
 	protected onSortChange(event: Sort): void {
 		const parameterName = mapColumnToSortParameter(EnumUtils.fromString(event.active, AnimeTableColumnIds));
-		const { direction } = event;
+		const direction = EnumUtils.fromString(event.direction, AnimeSortDirections) ?? AnimeSortDirections.Empty;
 		if (parameterName) {
 			const newEvent: AnimeSortParameter = {
 				parameterName,

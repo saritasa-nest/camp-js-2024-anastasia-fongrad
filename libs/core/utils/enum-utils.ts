@@ -1,4 +1,3 @@
-/** 1. */
 export namespace EnumUtils {
 
 	/**

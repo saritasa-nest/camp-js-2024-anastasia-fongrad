@@ -1,6 +1,6 @@
-<div class="mat-elevation-z8">
+<div>
 	@if (animeList !== undefined) {
-		<table mat-table class="mat-elevation-z8" matSort
+		<table mat-table matSort
 			[dataSource]="animeList"
 			[trackBy]="trackByAnime"
 			(matSortChange)="onSortChange($event)">
