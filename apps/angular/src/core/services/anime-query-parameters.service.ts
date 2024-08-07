@@ -57,12 +57,12 @@ export class AnimeQueryParametersService {
 	/**
 	 * Changes query parameters when anime pagination changes.
 	 * @param limitPerPage Max quantity of items per page.
-	 * @param pageNumber Current page number, starting from 0.
+	 * @param pageIndex Current page index, starting from 0.
 	 */
-	public changePagination(limitPerPage: number, pageNumber: number): void {
+	public changePagination(limitPerPage: number, pageIndex: number): void {
 		const params: Partial<AnimeQueryParameters> = {
 			limitPerPage,
-			pageNumber,
+			pageIndex,
 		};
 		this.navigate(params);
 	}
@@ -76,7 +76,7 @@ export class AnimeQueryParametersService {
 		const params: Partial<AnimeQueryParameters> = {
 			animeTypes,
 			searchQuery,
-			pageNumber: START_PAGE_INDEX,
+			pageIndex: START_PAGE_INDEX,
 		};
 		this.navigate(params);
 	}

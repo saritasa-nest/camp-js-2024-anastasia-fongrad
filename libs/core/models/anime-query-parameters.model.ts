@@ -5,7 +5,7 @@ import { AnimeSortParameter } from './anime-sort-parameter.model';
 export type AnimeQueryParameters = {
 
 	/** Number of the current page. */
-	readonly pageNumber: number;
+	readonly pageIndex: number;
 
 	/** Max number of items per page. */
 	readonly limitPerPage: number;

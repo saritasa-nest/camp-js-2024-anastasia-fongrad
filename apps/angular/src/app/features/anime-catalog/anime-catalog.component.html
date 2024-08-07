@@ -3,10 +3,10 @@
 	<section class="main__table">
 		<div class="main__container container">
 			@if (animeParameters$ | async; as animeParameters) {
+				<h1 class="main__header">
+					Anime Catalog
+				</h1>
 				@if(paginatedAnime$ | async; as paginatedAnime) {
-					<h1 class="main__header">
-						Anime Catalog
-					</h1>
 					<camp-anime-filters
 						[searchQuery]="animeParameters.searchQuery"
 						[animeTypes]="animeParameters.animeTypes"
@@ -20,11 +20,16 @@
 					<mat-paginator
 						[length]="paginatedAnime.totalCount"
 						[pageSize]="animeParameters.limitPerPage"
-						[pageIndex]="animeParameters.pageNumber"
+						[pageIndex]="animeParameters.pageIndex"
 						[pageSizeOptions]="pageSizeOptions"
 						(page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)"
 						aria-label="Select page"
 					/>
+				}
+				@else {
+					<div class="main__empty">
+						No anime data found. Please, come back later.
+					</div>
 				}
 			}
 		</div>

@@ -17,7 +17,7 @@ export namespace AnimeQueryParametersMapper {
 	export function toDto(model: Partial<AnimeQueryParameters>): Partial<AnimeQueryParametersDto> {
 		const ordering = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : undefined;
 		const types = model.animeTypes ? model.animeTypes.map(type => AnimeTypeMapper.toDto(type)).join(PARAMETER_SEPARATOR) : undefined;
-		const offset = model.pageNumber && model.limitPerPage ? model.pageNumber * model.limitPerPage : START_PAGE_INDEX;
+		const offset = model.pageIndex && model.limitPerPage ? model.pageIndex * model.limitPerPage : START_PAGE_INDEX;
 		const limit = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
 		return {
 			limit,
@@ -42,11 +42,11 @@ export namespace AnimeQueryParametersMapper {
 			return typeName ? AnimeTypeMapper.fromDto(typeName) : undefined;
 		})
 			.filter((type): type is AnimeType => type !== undefined) : DEFAULT_TYPE;
-		const pageNumber = dto.limit && dto.offset ? dto.offset / dto.limit : START_PAGE_INDEX;
+		const pageIndex = dto.limit && dto.offset ? dto.offset / dto.limit : START_PAGE_INDEX;
 		const limitPerPage = dto.limit ?? DEFAULT_PAGE_SIZE;
 		const searchQuery = dto.search ?? DEFAULT_SEARCH_QUERY;
 		return {
-			pageNumber,
+			pageIndex,
 			limitPerPage,
 			animeTypes,
 			searchQuery,
