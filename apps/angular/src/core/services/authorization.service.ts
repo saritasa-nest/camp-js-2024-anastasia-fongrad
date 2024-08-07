@@ -51,7 +51,7 @@ export class AuthorizationService {
 
 	/**
 	 * 1.
-	 * @param registrationData 1.
+	 * @param loginData 1.
 	 * @returns 1.
 	 */
 	public postLoginData(loginData: UserLogin): Observable<UserAccessToken | InputErrors[]> {

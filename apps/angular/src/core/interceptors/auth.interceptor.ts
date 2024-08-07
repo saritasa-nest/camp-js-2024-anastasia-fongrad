@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+
 import { AuthorizationService } from '../services/authorization.service';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
@@ -25,7 +26,6 @@ export class AuthInterceptor implements HttpInterceptor {
 	 * @returns 1.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		console.log(1);
 		if (this.isExcludedPath(req.url)) {
 			return next.handle(req);
 		}
