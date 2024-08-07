@@ -2,27 +2,31 @@
 <main class="main">
 	<section class="main__table">
 		<div class="main__container container">
-			<h1 class="main__header">
-				Anime Catalog
-			</h1>
-			<camp-anime-filters
-				[searchQuery]="(animeParameters$ | async)?.searchQuery"
-				[animeTypes]="(animeParameters$ | async)?.animeTypes"
-				(filtersChange)="routeParameterService.changeFilters($event.animeTypes, $event.searchQuery)"
-			/>
-			<camp-anime-table
-				[animeList]="(paginatedAnime$ | async)?.results"
-				[sorting]="(animeParameters$ | async)?.animeSort"
-				(sortChange)="routeParameterService.changeSortParameter($event)"
-			/>
-			<mat-paginator
-				[length]="(paginatedAnime$ | async)?.totalCount"
-				[pageSize]="(animeParameters$ | async)?.limitPerPage"
-				[pageIndex]="(animeParameters$ | async)?.pageNumber"
-				[pageSizeOptions]="pageSizeOptions"
-				(page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)"
-				aria-label="Select page"
-			/>
+			@if (animeParameters$ | async; as animeParameters) {
+				@if(paginatedAnime$ | async; as paginatedAnime) {
+					<h1 class="main__header">
+						Anime Catalog
+					</h1>
+					<camp-anime-filters
+						[searchQuery]="animeParameters.searchQuery"
+						[animeTypes]="animeParameters.animeTypes"
+						(filtersChange)="routeParameterService.changeFilters($event.animeTypes, $event.searchQuery)"
+					/>
+					<camp-anime-table
+						[animeList]="paginatedAnime.results"
+						[sorting]="animeParameters.animeSort"
+						(sortChange)="routeParameterService.changeSortParameter($event)"
+					/>
+					<mat-paginator
+						[length]="paginatedAnime.totalCount"
+						[pageSize]="animeParameters.limitPerPage"
+						[pageIndex]="animeParameters.pageNumber"
+						[pageSizeOptions]="pageSizeOptions"
+						(page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)"
+						aria-label="Select page"
+					/>
+				}
+			}
 		</div>
 	</section>
 </main>

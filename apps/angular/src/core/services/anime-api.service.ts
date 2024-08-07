@@ -10,6 +10,7 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
+import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
 
@@ -33,7 +34,7 @@ export class AnimeApiService {
 		const url = this.apiUrlService.paths.animeCatalog;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
-			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto(response)),
+			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto<AnimeDto, Anime>(response, AnimeMapper.fromDto)),
 			catchError((error: unknown): Observable<Pagination<Anime>> => {
 				console.error(error);
 				return throwError(() => error);

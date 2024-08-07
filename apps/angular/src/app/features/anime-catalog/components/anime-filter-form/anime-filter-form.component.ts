@@ -50,7 +50,7 @@ export class AnimeFilterFormComponent implements OnInit {
 
 	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly formBuilder: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	public constructor() {
 		this.animeFiltersForm = this.initializeFiltersForm();
