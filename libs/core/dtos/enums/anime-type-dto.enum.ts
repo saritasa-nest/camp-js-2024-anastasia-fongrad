@@ -1,5 +1,5 @@
 /** Represents anime type in the dto object. */
-export enum DtoType {
+export enum AnimeTypeDto {
 	TV = 'TV',
 	OVA = 'OVA',
 	Movie = 'MOVIE',

@@ -2,10 +2,36 @@
 <main class="main">
 	<section class="main__table">
 		<div class="main__container container">
-			<h1 class="main__header">
-				Anime Catalog
-			</h1>
-			<camp-anime-table/>
+			@if (animeParameters$ | async; as animeParameters) {
+				<h1 class="main__header">
+					Anime Catalog
+				</h1>
+				@if(paginatedAnime$ | async; as paginatedAnime) {
+					<camp-anime-filters
+						[searchQuery]="animeParameters.searchQuery"
+						[animeTypes]="animeParameters.animeTypes"
+						(filtersChange)="routeParameterService.changeFilters($event.animeTypes, $event.searchQuery)"
+					/>
+					<camp-anime-table
+						[animeList]="paginatedAnime.results"
+						[sorting]="animeParameters.animeSort"
+						(sortChange)="routeParameterService.changeSortParameter($event)"
+					/>
+					<mat-paginator
+						[length]="paginatedAnime.totalCount"
+						[pageSize]="animeParameters.limitPerPage"
+						[pageIndex]="animeParameters.pageIndex"
+						[pageSizeOptions]="pageSizeOptions"
+						(page)="routeParameterService.changePagination($event.pageSize, $event.pageIndex)"
+						aria-label="Select page"
+					/>
+				}
+				@else {
+					<div class="main__empty">
+						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+					</div>
+				}
+			}
 		</div>
 	</section>
 </main>

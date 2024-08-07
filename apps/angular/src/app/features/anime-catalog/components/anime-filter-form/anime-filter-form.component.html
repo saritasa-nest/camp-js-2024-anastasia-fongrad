@@ -1,0 +1,16 @@
+<form [formGroup]="animeFiltersForm" class="main__form">
+	<mat-form-field class="main__type-select" appearance="fill">
+		<mat-label>Anime type</mat-label>
+		<mat-select formControlName="animeTypes" multiple>
+			@for (option of selectTypes; track option) {
+				<mat-option [value]="option">{{ option }}</mat-option>
+			}
+		</mat-select>
+	</mat-form-field>
+	<div class="main__search-group">
+		<mat-form-field appearance="fill">
+			<mat-label>Search</mat-label>
+			<input matInput formControlName="searchQuery" placeholder="Search anime..." type="search">
+		</mat-form-field>
+	</div>
+</form>

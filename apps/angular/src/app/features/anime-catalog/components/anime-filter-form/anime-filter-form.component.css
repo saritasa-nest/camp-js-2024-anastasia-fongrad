@@ -1,0 +1,14 @@
+.main__form {
+  display: flex;
+  gap: var(--space-8);
+}
+
+.main__search-group {
+  display: flex;
+  align-items: top;
+  gap: 4px;
+}
+
+.mat-button-wrapper {
+  height: 100%;
+}

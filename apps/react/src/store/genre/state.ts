@@ -1,4 +1,4 @@
-import { Genre } from '@js-camp/core/models/genre';
+import { Genre } from '@js-camp/core/models/genre.model';
 
 /** Genres state. */
 export type GenresState = {

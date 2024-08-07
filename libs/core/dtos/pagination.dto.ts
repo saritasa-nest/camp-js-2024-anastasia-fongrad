@@ -5,10 +5,10 @@ export type PaginationDto<T> = {
 	readonly count: number;
 
 	/** Next page of items. */
-	readonly next: string;
+	readonly next: string | null;
 
 	/** Previous page of items. */
-	readonly previous: string;
+	readonly previous: string | null;
 
 	/** Array of items requested. */
 	readonly results: readonly T[];
