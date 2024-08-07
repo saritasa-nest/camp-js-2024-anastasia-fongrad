@@ -10,6 +10,7 @@ import { InputErrors } from '@js-camp/core/models/input-error';
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+import { Observable } from 'rxjs';
 
 export namespace UserRegistrationForm {
 
@@ -59,6 +60,9 @@ export class RegistrationFormComponent {
 	protected readonly registrationModel = RegistrationModel;
 
 	/** 1. */
+	protected registrationResult$?: Observable<UserAccessToken | InputErrors[]>;
+
+	/** 1. */
 	protected registrationForm: FormGroup<RegistrationForm>;
 
 	private readonly formValidationService = inject(FormValidationService);
@@ -86,18 +90,6 @@ export class RegistrationFormComponent {
 			return;
 		}
 		const formData = this.registrationForm.getRawValue();
-		const observer = {
-			next: (_response: UserAccessToken) => {
-				this.formValidationService.setInputErrors([]);
-				this.registrationSuccess.emit();
-			},
-			error: (error: InputErrors[]) => {
-				if (Array.isArray(error)) {
-					this.formValidationService.setInputErrors(error);
-				}
-				this.formValidationService.setFormErrors(this.registrationForm);
-			},
-		};
-		this.registrationService.postRegistrationData(formData).subscribe(observer);
+		this.registrationResult$ = this.registrationService.postRegistrationData(formData);
 	}
 }

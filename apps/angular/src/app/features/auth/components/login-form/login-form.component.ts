@@ -8,6 +8,7 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
+import { Observable } from 'rxjs';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
@@ -51,6 +52,9 @@ export class LoginFormComponent {
 	/** 1. */
 	protected loginForm: FormGroup<LoginForm>;
 
+	/** 1. */
+	protected loginResult$?: Observable<UserAccessToken | InputErrors[]>;
+
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly loginService: AuthorizationService = inject(AuthorizationService);
@@ -59,6 +63,7 @@ export class LoginFormComponent {
 
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
+
 	}
 
 	/**
@@ -75,18 +80,6 @@ export class LoginFormComponent {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
-		const observer = {
-			next: (response: UserAccessToken) => {
-				this.formValidationService.setInputErrors([]);
-				this.loginSuccess.emit(response);
-			},
-			error: (error: InputErrors[]) => {
-				if (Array.isArray(error)) {
-					this.formValidationService.setInputErrors(error);
-				}
-				this.formValidationService.setFormErrors(this.loginForm);
-			},
-		};
-		this.loginService.postLoginData(formData).subscribe(observer);
+		this.loginResult$ = this.loginService.postLoginData(formData);
 	}
 }

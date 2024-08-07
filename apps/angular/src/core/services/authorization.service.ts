@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ApiUrlService } from './api-url.service';
+
 import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login';
@@ -13,6 +13,10 @@ import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
 
+import { InputErrors } from '@js-camp/core/models/input-error';
+
+import { AppUrlConfig } from './app-url-config.service';
+
 /** Connects to the API to manage anime data. */
 @Injectable({
 	providedIn: 'root',
@@ -21,27 +25,27 @@ export class AuthorizationService {
 
 	private readonly http = inject(HttpClient);
 
-	private readonly apiUrlService = inject(ApiUrlService);
+	private readonly appUrlConfig = inject(AppUrlConfig);
+
+	private parseError(error: unknown): Observable<InputErrors[]> {
+		if (error instanceof HttpErrorResponse && error.error?.errors) {
+			return of(ServerErrorsMapper.fromDto(error.error.errors));
+		}
+		return throwError(() => new Error('An unknown error occurred'));
+	}
 
 	/**
 	 * 1.
 	 * @param registrationData 1.
 	 * @returns 1.
 	 */
-	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken> {
+	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken | InputErrors[]> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.paths.registration,
+			this.appUrlConfig.paths.registration,
 			UserRegistrationMapper.toDto(registrationData),
 		).pipe(
-			map(response => {
-				return response as UserAccessToken;
-			}),
-			catchError(error => {
-				if (error.error && error.error.errors) {
-					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
-				}
-				return throwError(() => error);
-			}),
+			map(response => response as UserAccessToken),
+			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
 
@@ -50,27 +54,20 @@ export class AuthorizationService {
 	 * @param registrationData 1.
 	 * @returns 1.
 	 */
-	public postLoginData(registrationData: UserLogin): Observable<UserAccessToken> {
+	public postLoginData(loginData: UserLogin): Observable<UserAccessToken | InputErrors[]> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.paths.login,
-			UserLoginMapper.toDto(registrationData),
+			this.appUrlConfig.paths.login,
+			UserLoginMapper.toDto(loginData),
 		).pipe(
-			map(response => {
-				return response as UserAccessToken;
-			}),
-			catchError(error => {
-				if (error.error && error.error.errors) {
-					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
-				}
-				return throwError(() => error);
-			}),
+			map(response => response as UserAccessToken),
+			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
 
 	/** 1. */
 	public getUserProfile(): Observable<UserProfile> {
 		return this.http.get<UserProfileDto>(
-			this.apiUrlService.paths.userProfile,
+			this.appUrlConfig.paths.userProfile,
 		).pipe(
 			map((response: UserProfileDto) => UserProfileMapper.fromDto(response)),
 		);
@@ -80,20 +77,13 @@ export class AuthorizationService {
 	 * 1.
 	 * @param refreshToken 1.
 	 */
-	public refreshToken(refreshToken: string): Observable<UserAccessToken> {
+	public refreshToken(refreshToken: string): Observable<UserAccessToken | InputErrors[]> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.paths.tokenRefresh,
+			this.appUrlConfig.paths.tokenRefresh,
 			{ refresh: refreshToken },
 		).pipe(
-			map(response => {
-				return response as UserAccessToken;
-			}),
-			catchError(error => {
-				if (error.error && error.error.errors) {
-					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
-				}
-				return throwError(() => error);
-			}),
+			map(response => response as UserAccessToken),
+			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
 
@@ -101,17 +91,13 @@ export class AuthorizationService {
 	 * 1.
 	 * @param accessToken 1.
 	 */
-	public verifyToken(accessToken: string): void {
-		this.http.post(
-			this.apiUrlService.paths.tokenVerify,
+	public verifyToken(accessToken: string): Observable<void | InputErrors[]> {
+		return this.http.post<void>(
+			this.appUrlConfig.paths.tokenVerify,
 			{ token: accessToken },
 		).pipe(
-			catchError(error => {
-				if (error.error && error.error.errors) {
-					return throwError(() => ServerErrorsMapper.fromDto(error.error.errors));
-				}
-				return throwError(() => error);
-			}),
+			map(() => undefined),
+			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
 }
