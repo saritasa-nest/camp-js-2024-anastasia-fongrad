@@ -6,7 +6,7 @@ import { HttpStatusCode } from '@js-camp/core/dtos/http-status-code.enum';
 import { AuthorizationService } from '../services/authorization.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
 
-/** 1. */
+/** Refreshes an access token. */
 @Injectable()
 export class RefreshInterceptor implements HttpInterceptor {
 
@@ -15,10 +15,10 @@ export class RefreshInterceptor implements HttpInterceptor {
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
 	/**
-	 * 1.
-	 * @param req 1.
-	 * @param next 1.
-	 * @returns 1.
+	 * Calls token refresh when access token gets expired.
+	 * @param req The request object to be modified.
+	 * @param next The next interceptor in the chain.
+	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		if (this.isExcludedPath(req.url)) {

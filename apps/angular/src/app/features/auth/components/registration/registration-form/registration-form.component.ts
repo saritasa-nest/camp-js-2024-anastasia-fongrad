@@ -3,7 +3,6 @@ import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 
 import { InputErrors } from '@js-camp/core/models/input-error';
@@ -13,7 +12,7 @@ import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
 
-/** Main app component. */
+/** Registration form component. */
 @Component({
 	selector: 'camp-registration-form',
 	templateUrl: './registration-form.component.html',
@@ -29,17 +28,14 @@ import { UserRegistrationForm, RegistrationForm } from './registration-form.mode
 })
 export class RegistrationFormComponent {
 
-	/** 1. */
+	/** Emits an event when registration is successful. */
 	@Output()
 	public readonly registrationSuccess = new EventEmitter<void>();
 
-	/** 1. */
-	protected readonly registrationModel = RegistrationModel;
-
-	/** 1. */
+	/** An array of registration errors received from a server. */
 	protected registrationErrors$?: Observable<void | InputErrors[]>;
 
-	/** 1. */
+	/** Registration form group. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
 	private readonly formValidationService = inject(FormValidationService);
@@ -53,10 +49,9 @@ export class RegistrationFormComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param serverErrors 1.
-	 * @param attributeName 1.
-	 * @returns 1.
+	 * Requests an error message for the current form field.
+	 * @param serverErrors A list of errors received from a server.
+	 * @param attributeName A name of a form field.
 	 */
 	protected getFieldError(
 		serverErrors: InputErrors[] | null | void,
@@ -65,7 +60,7 @@ export class RegistrationFormComponent {
 		return this.formValidationService.getErrorMessage(this.registrationForm, attributeName, serverErrors);
 	}
 
-	/** 1. */
+	/** Handles form submit event. */
 	protected onSubmit(): void {
 		const formData = this.registrationForm.getRawValue();
 		this.registrationErrors$ = this.registrationService.register(formData);

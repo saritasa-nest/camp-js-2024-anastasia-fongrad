@@ -1,12 +1,12 @@
 import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@angular/forms';
 
-/** 1. */
+/** Login form type. */
 export type LoginForm = {
 
-	/** 1. */
+	/** Email form field. */
 	readonly email: FormControl<string>;
 
-	/** 1. */
+	/** Password form field. */
 	readonly password: FormControl<string>;
 };
 

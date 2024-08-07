@@ -1,30 +1,30 @@
 import { passwordStrong, mustMatch } from '@js-camp/angular/core/utils/helpers/form-validators';
 import { FormGroup, Validators, NonNullableFormBuilder, FormControl } from '@angular/forms';
 
-/** 1. */
+/** Registration form type. */
 export type RegistrationForm = {
 
-	/** 1. */
+	/** Email field. */
 	readonly email: FormControl<string>;
 
-	/** 1. */
+	/** First name field. */
 	readonly firstName: FormControl<string>;
 
-	/** 1. */
+	/** Last name field. */
 	readonly lastName: FormControl<string>;
 
-	/** 1. */
+	/** Password field. */
 	readonly password: FormControl<string>;
 
-	/** 1. */
+	/** Confirm password field. */
 	readonly confirmPassword: FormControl<string>;
 };
 
 export namespace UserRegistrationForm {
 
 	/**
-	 * 1.
-	 * @param formBuilder 1.
+	 * Initializes user registration form.
+	 * @param formBuilder Non nullable form builder.
 	 */
 	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<RegistrationForm> {
 		return formBuilder.group({

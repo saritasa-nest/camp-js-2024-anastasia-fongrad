@@ -7,7 +7,7 @@ import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { RegistrationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 
-/** Main app component. */
+/** Registration page component. */
 @Component({
 	selector: 'camp-registration',
 	templateUrl: './registration.component.html',
@@ -21,14 +21,14 @@ import { RegistrationFormComponent } from './registration-form/registration-form
 })
 export class RegistrationComponent {
 
+	/** Available app route names. */
+	protected readonly appRoutes = AppRoutes;
+
 	private readonly dialog = inject(MatDialog);
 
 	private readonly router = inject(Router);
 
-	/** 1. */
-	protected readonly appRoutes = AppRoutes;
-
-	/** 1. */
+	/** Called when the user has successfully registered. */
 	protected onRegistrationSuccess(): void {
 		this.dialog.open(RegistrationDialogComponent);
 		this.router.navigate([AppRoutes.Login]);

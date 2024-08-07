@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 
 import { LoginFormComponent } from './login-form/login-form.component';
 
-/** Main app component. */
+/** Login page component. */
 @Component({
 	selector: 'camp-login',
 	templateUrl: './login.component.html',
@@ -19,12 +19,12 @@ import { LoginFormComponent } from './login-form/login-form.component';
 })
 export class LoginComponent {
 
-	/** 1. */
+	/** Available app route names. */
 	protected readonly appRoutes = AppRoutes;
 
 	private readonly router = inject(Router);
 
-	/** 1. */
+	/** Called when the user successfully logs in. */
 	protected onLoginSuccess(): void {
 		this.router.navigate([AppRoutes.Home]);
 	}

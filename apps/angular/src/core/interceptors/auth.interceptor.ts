@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { LocalStorageService } from '../services/local-storage.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
 
-/** 1. */
+/** Adds an access token to the request headers. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
@@ -14,10 +14,10 @@ export class AuthInterceptor implements HttpInterceptor {
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
 	/**
-	 * 1.
-	 * @param req 1.
-	 * @param next 1.
-	 * @returns 1.
+	 * Adds an access token to the request headers..
+	 * @param req The request object to be modified.
+	 * @param next The next interceptor in the chain.
+	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		if (this.isExcludedPath(req.url)) {
