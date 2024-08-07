@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters.service';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AnimeFilterFormComponent } from './components/anime-filter-form/anime-filter-form.component';
 
@@ -21,6 +22,7 @@ import { AnimeFilterFormComponent } from './components/anime-filter-form/anime-f
 		HeaderComponent,
 		MatPaginatorModule,
 		CommonModule,
+		MatProgressBarModule,
 	],
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
