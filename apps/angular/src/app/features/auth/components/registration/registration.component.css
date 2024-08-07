@@ -8,8 +8,7 @@
   font-weight: var(--text-semibold);
 }
 
-.auth__registration-group,
-.auth__login-group {
+.auth__registration-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-8);

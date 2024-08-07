@@ -1,5 +1,6 @@
 /** 1. */
 export enum AppRoutes {
 	Home = '',
-	Authorization = 'auth',
+	Registration = 'registration',
+	Login = 'login',
 }

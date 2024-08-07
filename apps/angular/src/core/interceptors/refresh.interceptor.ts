@@ -1,15 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { HttpStatusCode } from '@js-camp/core/dtos/http-status-code.enum';
 
-import { LocalStorageService } from '../services/local-storage.service';
+import { AuthorizationService } from '../services/authorization.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
 
 /** 1. */
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class RefreshInterceptor implements HttpInterceptor {
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly authService = inject(AuthorizationService);
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
@@ -23,20 +24,15 @@ export class AuthInterceptor implements HttpInterceptor {
 		if (this.isExcludedPath(req.url)) {
 			return next.handle(req);
 		}
-		const token = this.localStorageService.getToken()?.accessToken;
-		console.log(token);
-		if (!token) {
-			return next.handle(req);
-		}
-		const clonedRequest = req.clone({
-			setHeaders: {
-
-				// Disable eslint for a request header.
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		return next.handle(clonedRequest);
+		return next.handle(req).pipe(
+			catchError(error => {
+				if (error.status !== HttpStatusCode.Unauthorized) {
+					return throwError(() => error);
+				}
+				this.authService.refresh();
+				return next.handle(req);
+			})
+		)
 	}
 
 	private isExcludedPath(url: string): boolean {

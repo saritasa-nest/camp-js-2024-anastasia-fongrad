@@ -9,7 +9,7 @@ import { FormValidationService } from '@js-camp/angular/core/services/form-valid
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { Observable } from 'rxjs';
 
-import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
+import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
 
 /** Main app component. */
 @Component({

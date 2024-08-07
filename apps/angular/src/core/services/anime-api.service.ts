@@ -22,7 +22,7 @@ export class AnimeApiService {
 
 	private readonly http: HttpClient = inject(HttpClient);
 
-	private readonly apiUrlService = inject(AppUrlConfig);
+	private readonly appUrlConfig = inject(AppUrlConfig);
 
 	/**
 	 * Gets paginated anime data from the server.
@@ -31,7 +31,7 @@ export class AnimeApiService {
 	public getAll(parameters: Partial<AnimeQueryParameters>): Observable<Pagination<Anime>> {
 		const dtoParameters = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(parameters));
 		const httpParams = new HttpParams({ fromObject: dtoParameters });
-		const url = this.apiUrlService.paths.animeCatalog;
+		const url = this.appUrlConfig.paths.animeCatalog;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto<AnimeDto, Anime>(response, AnimeMapper.fromDto)),

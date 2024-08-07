@@ -6,9 +6,6 @@ import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dt
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login';
 import { ServerErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
-import { UserProfile } from '@js-camp/core/models/user-profile';
-import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
-import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
 import { InputErrors } from '@js-camp/core/models/input-error';
@@ -70,19 +67,13 @@ export class AuthorizationService {
 	}
 
 	/** 1. */
-	public getUserProfile(): Observable<UserProfile> {
-		return this.http.get<UserProfileDto>(
-			this.appUrlConfig.paths.userProfile,
-		).pipe(
-			map((response: UserProfileDto) => UserProfileMapper.fromDto(response)),
-		);
+	public logout(): void {
+		this.localStorageService.clearToken();
 	}
 
-	/**
-	 * 1.
-	 * @param refreshToken 1.
-	 */
-	public refreshToken(refreshToken: string): Observable<void | InputErrors[]> {
+	/** 1. */
+	public refresh(): Observable<void | InputErrors[]> {
+		const refreshToken = this.localStorageService.getToken()?.refreshToken;
 		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.tokenRefresh,
 			{ refresh: refreshToken },
@@ -95,11 +86,9 @@ export class AuthorizationService {
 		);
 	}
 
-	/**
-	 * 1.
-	 * @param accessToken 1.
-	 */
-	public verifyToken(accessToken: string): Observable<void | InputErrors[]> {
+	/** 1. */
+	public verify(): Observable<void | InputErrors[]> {
+		const accessToken = this.localStorageService.getToken()?.accessToken;
 		return this.http.post<void>(
 			this.appUrlConfig.paths.tokenVerify,
 			{ token: accessToken },

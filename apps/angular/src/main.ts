@@ -9,7 +9,7 @@ import { AppComponent } from './app/app.component';
 import { appRoutes } from './app/app.routes';
 import { apiInterceptor } from './core/interceptors/api.interceptor';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-
+import { RefreshInterceptor } from './core/interceptors/refresh.interceptor';
 import { AppConfig } from './core/utils/app-config';
 
 if (environment.production) {
@@ -27,6 +27,11 @@ bootstrapApplication(AppComponent, {
 		{
 			provide: HTTP_INTERCEPTORS,
 			useClass: AuthInterceptor,
+			multi: true,
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: RefreshInterceptor,
 			multi: true,
 		},
 		AppConfig,

@@ -10,8 +10,13 @@ export const appRoutes: Routes = [
 			import('../app/features/anime-catalog/anime-catalog.component').then(c => c.AnimeCatalogComponent),
 	},
 	{
-		path: AppRoutes.Authorization,
+		path: AppRoutes.Login,
 		loadComponent: () =>
-			import('../app/features/auth/auth.component').then(c => c.AuthComponent),
+			import('../app/features/auth/components/login/login.component').then(c => c.LoginComponent),
+	},
+	{
+		path: AppRoutes.Registration,
+		loadComponent: () =>
+			import('../app/features/auth/components/registration/registration.component').then(c => c.RegistrationComponent),
 	},
 ];
