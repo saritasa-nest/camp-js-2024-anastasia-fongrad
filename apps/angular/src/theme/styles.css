@@ -80,3 +80,16 @@ body {
 .mat-mdc-raised-button {
   --mdc-protected-button-container-height: 55px;
 }
+
+.mat-mdc-paginator {
+  --mat-paginator-container-background-color: var(--accent);
+  --mat-paginator-container-text-color: var(--on-accent);
+}
+
+.main__type-select .mat-mdc-select {
+  --mat-select-enabled-trigger-text-color: var(--on-surface);
+}
+
+.mat-mdc-form-field .mdc-text-field__input {
+  --mdc-filled-text-field-input-text-color: var(--on-surface);
+}

@@ -174,7 +174,6 @@
   display: block;
   position: relative;
   cursor: pointer;
-  user-select: none;
   padding-left: var(--space-9);
 }
 

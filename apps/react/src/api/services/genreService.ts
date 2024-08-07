@@ -1,4 +1,4 @@
-import { Genre } from '@js-camp/core/models/genre';
+import { Genre } from '@js-camp/core/models/genre.model';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { GenreDto } from '@js-camp/core/dtos/genre.dto';
 import { GenreMapper } from '@js-camp/core/mappers/genre.mapper';

@@ -4,15 +4,10 @@ import { Injectable } from '@angular/core';
 @Injectable({
 	providedIn: 'root',
 })
-export class ApiUrlService {
+export class AppUrlConfig {
 
 	/** An object tat contains app routes.  */
 	public readonly paths = {
 		animeCatalog: 'anime/anime/',
-		login: 'auth/login/',
-		registration: 'auth/register/',
-		userProfile: 'users/profile/',
-		tokenRefresh: 'token/refresh/',
-		tokenVerify: 'token/verify/',
 	} as const;
 }

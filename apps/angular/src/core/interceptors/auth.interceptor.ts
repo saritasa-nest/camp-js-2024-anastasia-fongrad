@@ -72,9 +72,9 @@ export class AuthInterceptor implements HttpInterceptor {
 	}
 
 	private isExcludedPath(url: string): boolean {
-		return url.includes(this.apiUrlService.loginPath) ||
-			url.includes(this.apiUrlService.registrationPath) ||
-			url.includes(this.apiUrlService.tokenRefreshPath) ||
-			url.includes(this.apiUrlService.tokenVerifyPath);
+		return url.includes(this.apiUrlService.paths.login) ||
+			url.includes(this.apiUrlService.paths.registration) ||
+			url.includes(this.apiUrlService.paths.tokenRefresh) ||
+			url.includes(this.apiUrlService.paths.tokenVerify);
 	}
 }

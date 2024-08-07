@@ -19,9 +19,9 @@ import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-
 })
 export class AuthorizationService {
 
-	private http: HttpClient = inject(HttpClient);
+	private readonly http = inject(HttpClient);
 
-	private apiUrlService: ApiUrlService = inject(ApiUrlService);
+	private readonly apiUrlService = inject(ApiUrlService);
 
 	/**
 	 * 1.
@@ -30,7 +30,7 @@ export class AuthorizationService {
 	 */
 	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.registrationPath,
+			this.apiUrlService.paths.registration,
 			UserRegistrationMapper.toDto(registrationData),
 		).pipe(
 			map(response => {
@@ -52,7 +52,7 @@ export class AuthorizationService {
 	 */
 	public postLoginData(registrationData: UserLogin): Observable<UserAccessToken> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.loginPath,
+			this.apiUrlService.paths.login,
 			UserLoginMapper.toDto(registrationData),
 		).pipe(
 			map(response => {
@@ -70,7 +70,7 @@ export class AuthorizationService {
 	/** 1. */
 	public getUserProfile(): Observable<UserProfile> {
 		return this.http.get<UserProfileDto>(
-			this.apiUrlService.userProfilePath,
+			this.apiUrlService.paths.userProfile,
 		).pipe(
 			map((response: UserProfileDto) => UserProfileMapper.fromDto(response)),
 		);
@@ -82,7 +82,7 @@ export class AuthorizationService {
 	 */
 	public refreshToken(refreshToken: string): Observable<UserAccessToken> {
 		return this.http.post<UserAccessToken>(
-			this.apiUrlService.tokenRefreshPath,
+			this.apiUrlService.paths.tokenRefresh,
 			{ refresh: refreshToken },
 		).pipe(
 			map(response => {
@@ -103,7 +103,7 @@ export class AuthorizationService {
 	 */
 	public verifyToken(accessToken: string): void {
 		this.http.post(
-			this.apiUrlService.tokenVerifyPath,
+			this.apiUrlService.paths.tokenVerify,
 			{ token: accessToken },
 		).pipe(
 			catchError(error => {
