@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
 import { RegistrationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -18,7 +17,6 @@ import { RegistrationFormComponent } from './registration-form/registration-form
 		HeaderComponent,
 		RegistrationFormComponent,
 		RouterModule,
-		CommonModule,
 	],
 })
 export class RegistrationComponent {

@@ -24,7 +24,7 @@ export namespace UserRegistrationForm {
 
 	/**
 	 * 1.
-	 * @param fb 1.
+	 * @param formBuilder 1.
 	 */
 	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<RegistrationForm> {
 		return formBuilder.group({

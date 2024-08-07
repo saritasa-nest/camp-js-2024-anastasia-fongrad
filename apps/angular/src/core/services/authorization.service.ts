@@ -72,6 +72,14 @@ export class AuthorizationService {
 	}
 
 	/** 1. */
+	public isAuthorized(): Observable<boolean> {
+		return this.verify().pipe(
+			map(() => true),
+			catchError(() => of(false)),
+		);
+	}
+
+	/** 1. */
 	public refresh(): Observable<void | InputErrors[]> {
 		const refreshToken = this.localStorageService.getToken()?.refreshToken;
 		return this.http.post<AuthorizationTokenDto>(

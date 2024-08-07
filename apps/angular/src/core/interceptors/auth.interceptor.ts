@@ -24,7 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
 			return next.handle(req);
 		}
 		const token = this.localStorageService.getToken()?.accessToken;
-		console.log(token);
 		if (!token) {
 			return next.handle(req);
 		}

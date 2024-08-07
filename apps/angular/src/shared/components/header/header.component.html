@@ -5,23 +5,26 @@
 			<span>Anime Catalog App</span>
 		</a>
 		<a [routerLink]="[appRoutes.Home]">Catalog</a>
-		@if (isAuthorized()) {
+		@if (isAuthorized$ | async; as isAuthorized) {
 			<div class="header__user user">
-				@if ({ p: userProfile$ | async}; as userProfile ) {
-					<div class="user__profile" >
-						<img class="user__avatar" src="assets/user-icon.svg" alt="avatar" height="55">
-						<div class="user__info">
-							<div class="user__name">
-								{{ userProfile.p?.firstName + ' ' +  userProfile.p?.lastName}}
+				@if (userProfile$ | async; as userProfile) {
+					@if (userProfile.email) {
+						<div class="user__profile" >
+							<img class="user__avatar" src="assets/user-icon.svg" alt="avatar" height="55">
+							<div class="user__info">
+								<div class="user__name">
+									{{ userProfile.firstName + ' ' +  userProfile.lastName}}
+								</div>
+								<div class="user__email">{{ userProfile.email }}</div>
 							</div>
-							<div class="user__email">{{ userProfile.p?.email }}</div>
 						</div>
-					</div>
+					}
 				}
 				<button mat-raised-button type="button" (click)="logout()">Logout</button>
 			</div>
 		}
 		@else {
+			<a [routerLink]="['/' + appRoutes.Registration]">Registration</a>
 			<button mat-raised-button type="button" [routerLink]="['/' + appRoutes.Login]">Login</button>
 		}
 	</div>

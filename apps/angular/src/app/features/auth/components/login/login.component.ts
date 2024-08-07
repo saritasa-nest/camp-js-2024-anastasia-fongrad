@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
-import { CommonModule } from '@angular/common';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { Router, RouterModule } from '@angular/router';
 
@@ -16,7 +15,6 @@ import { LoginFormComponent } from './login-form/login-form.component';
 		HeaderComponent,
 		LoginFormComponent,
 		RouterModule,
-		CommonModule,
 	],
 })
 export class LoginComponent {

@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
-import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
 import { RouterModule, Router } from '@angular/router';
 import { UserProfile } from '@js-camp/core/models/user-profile';
 import { Observable } from 'rxjs';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { UserProfileApiService } from '@js-camp/angular/core/services/user-profile-api.service';
+import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 
 /** Header component for the app. */
 @Component({
@@ -27,30 +27,29 @@ import { UserProfileApiService } from '@js-camp/angular/core/services/user-profi
 })
 export class HeaderComponent {
 
-	private authService = inject(LocalStorageService);
-
 	/** 1. */
 	protected readonly userProfile$: Observable<UserProfile>;
 
 	/** 1. */
+	protected readonly isAuthorized$: Observable<boolean>;
+
+	/** 1. */
 	protected readonly appRoutes = AppRoutes;
 
-	private userProfileService = inject(UserProfileApiService);
+	private readonly authService = inject(AuthorizationService);
 
-	private router = inject(Router);
+	private readonly userProfileService = inject(UserProfileApiService);
+
+	private readonly router = inject(Router);
 
 	public constructor() {
 		this.userProfile$ = this.userProfileService.getProfile();
+		this.isAuthorized$ = this.authService.isAuthorized();
 	}
 
 	/** 1. */
 	protected logout(): void {
-		this.authService.clearToken();
+		this.authService.logout();
 		this.router.navigate([AppRoutes.Login]);
-	}
-
-	/** 1. */
-	protected isAuthorized(): boolean {
-		return this.authService.isAuthenticated();
 	}
 }

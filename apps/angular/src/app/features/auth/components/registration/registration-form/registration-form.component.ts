@@ -5,11 +5,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { RegistrationModel } from '@js-camp/core/utils/enums/model-registration.enum';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
-import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
+
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
+import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
 
 /** Main app component. */
 @Component({
@@ -29,7 +31,7 @@ export class RegistrationFormComponent {
 
 	/** 1. */
 	@Output()
-	public registrationSuccess = new EventEmitter<void>();
+	public readonly registrationSuccess = new EventEmitter<void>();
 
 	/** 1. */
 	protected readonly registrationModel = RegistrationModel;
@@ -38,7 +40,7 @@ export class RegistrationFormComponent {
 	protected registrationErrors$?: Observable<void | InputErrors[]>;
 
 	/** 1. */
-	protected registrationForm: FormGroup<RegistrationForm>;
+	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
 	private readonly formValidationService = inject(FormValidationService);
 

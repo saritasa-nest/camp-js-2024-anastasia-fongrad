@@ -30,9 +30,4 @@ export class LocalStorageService {
 	public clearToken(): void {
 		localStorage.removeItem(this.tokenKey);
 	}
-
-	/** 1. */
-	public isAuthenticated(): boolean {
-		return !!this.getToken();
-	}
 }

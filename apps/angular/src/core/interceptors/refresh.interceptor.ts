@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError, switchMap } from 'rxjs';
 import { HttpStatusCode } from '@js-camp/core/dtos/http-status-code.enum';
 
 import { AuthorizationService } from '../services/authorization.service';
@@ -25,20 +25,24 @@ export class RefreshInterceptor implements HttpInterceptor {
 			return next.handle(req);
 		}
 		return next.handle(req).pipe(
-			catchError(error => {
-				if (error.status !== HttpStatusCode.Unauthorized) {
-					return throwError(() => error);
+			switchMap(() => next.handle(req)),
+			catchError((error: unknown) => {
+				if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
+					return this.authService.refresh().pipe(
+						switchMap(() => next.handle(req)),
+						catchError((refreshError: unknown) => throwError(() => refreshError)),
+					);
 				}
-				this.authService.refresh();
-				return next.handle(req);
-			})
-		)
+				return throwError(() => error);
+			}),
+		);
 	}
 
 	private isExcludedPath(url: string): boolean {
 		return url.includes(this.appUrlConfig.paths.login) ||
 			url.includes(this.appUrlConfig.paths.registration) ||
 			url.includes(this.appUrlConfig.paths.tokenRefresh) ||
-			url.includes(this.appUrlConfig.paths.tokenVerify);
+			url.includes(this.appUrlConfig.paths.tokenVerify) ||
+			url.includes(this.appUrlConfig.paths.animeCatalog);
 	}
 }

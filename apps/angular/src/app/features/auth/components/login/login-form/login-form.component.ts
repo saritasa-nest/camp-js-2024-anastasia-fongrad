@@ -3,13 +3,16 @@ import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { UserLoginForm, LoginForm } from './login-form.model';
+
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
+
+import { UserLoginForm, LoginForm } from './login-form.model';
 
 /** Main app component. */
 @Component({
@@ -23,19 +26,20 @@ import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
 		MatFormFieldModule,
 		MatInputModule,
 		EmptyPipe,
+		CommonModule,
 	],
 })
 export class LoginFormComponent {
 
 	/** 1. */
 	@Output()
-	public loginSuccess = new EventEmitter<void>();
+	public readonly loginSuccess = new EventEmitter<void>();
 
 	/** 1. */
-	protected loginForm: FormGroup<LoginForm>;
+	protected readonly loginForm: FormGroup<LoginForm>;
 
 	/** 1. */
-	protected loginResult$?: Observable<void | InputErrors[]>;
+	protected loginErrors$?: Observable<void | InputErrors[]>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -49,10 +53,15 @@ export class LoginFormComponent {
 
 	/**
 	 * 1.
+	 * @param serverErrors 1.
 	 * @param attributeName 1.
+	 * @returns 1.
 	 */
-	protected getErrorMessage(attributeName: string): string | null {
-		return this.formValidationService.getErrorMessage(this.loginForm, attributeName);
+	protected getFieldError(
+		serverErrors: InputErrors[] | null | void,
+		attributeName: string,
+	): string | null {
+		return this.formValidationService.getErrorMessage(this.loginForm, attributeName, serverErrors);
 	}
 
 	/** 1. */
@@ -61,6 +70,6 @@ export class LoginFormComponent {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
-		this.loginResult$ = this.loginService.login(formData);
+		this.loginErrors$ = this.loginService.login(formData);
 	}
 }

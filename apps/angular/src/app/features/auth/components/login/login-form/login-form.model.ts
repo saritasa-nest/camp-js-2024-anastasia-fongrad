@@ -10,12 +10,11 @@ export type LoginForm = {
 	readonly password: FormControl<string>;
 };
 
-
 export namespace UserLoginForm {
 
 	/**
 	 * Initializes a login form using FormBuilder.
-	 * @param fb Form builder object.
+	 * @param formBuilder Form builder object.
 	 */
 	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<LoginForm> {
 		return formBuilder.group({
