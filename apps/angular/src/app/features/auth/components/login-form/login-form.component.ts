@@ -1,33 +1,15 @@
 import { Component, inject, EventEmitter, Output } from '@angular/core';
-import { FormGroup, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { LoginForm } from '@js-camp/core/models/login-form';
+import { UserLoginForm, LoginForm } from './login-form.model';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
-import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { Observable } from 'rxjs';
 
 import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
-
-export namespace UserLoginForm {
-
-	/**
-	 * Initializes a login form using FormBuilder.
-	 * @param fb Form builder object.
-	 */
-	export function initialize(fb: FormBuilder): FormGroup<LoginForm> {
-		return fb.group({
-			email: fb.nonNullable.control('', [
-				Validators.required,
-				Validators.email,
-			]),
-			password: fb.nonNullable.control('', [Validators.required]),
-		});
-	}
-}
 
 /** Main app component. */
 @Component({
@@ -47,23 +29,22 @@ export class LoginFormComponent {
 
 	/** 1. */
 	@Output()
-	public loginSuccess = new EventEmitter<UserAccessToken>();
+	public loginSuccess = new EventEmitter<void>();
 
 	/** 1. */
 	protected loginForm: FormGroup<LoginForm>;
 
 	/** 1. */
-	protected loginResult$?: Observable<UserAccessToken | InputErrors[]>;
+	protected loginResult$?: Observable<void | InputErrors[]>;
 
-	private readonly formBuilder: FormBuilder = inject(FormBuilder);
+	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	private readonly loginService: AuthorizationService = inject(AuthorizationService);
+	private readonly loginService = inject(AuthorizationService);
 
 	private readonly formValidationService = inject(FormValidationService);
 
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
-
 	}
 
 	/**
@@ -80,6 +61,6 @@ export class LoginFormComponent {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
-		this.loginResult$ = this.loginService.postLoginData(formData);
+		this.loginResult$ = this.loginService.login(formData);
 	}
 }

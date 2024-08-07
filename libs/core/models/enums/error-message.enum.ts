@@ -12,4 +12,5 @@ export enum ErrorMessage {
 	PasswordCommon = 'This password is too common',
 	PasswordNumeric = 'Password can not be entirely numeric',
 	DefaultError = 'Unknown server error',
+	NotUnique = 'User with this email address already exists',
 }

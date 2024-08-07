@@ -3,12 +3,13 @@ import { FormGroup } from '@angular/forms';
 import { InputErrors } from '@js-camp/core/models/input-error';
 
 /** 1. */
+const SERVER_ERROR_KEY = 'serverError';
+
+/** 1. */
 @Injectable({
 	providedIn: 'root',
 })
 export class FormValidationService {
-
-	private inputErrors: InputErrors[] = [];
 
 	private errorMessages: { [key: string]: string; } = {
 		required: 'This field is required',
@@ -21,9 +22,14 @@ export class FormValidationService {
 	 * 1.
 	 * @param form 1.
 	 * @param attributeName 1.
+	 * @param serverErrors 1.
 	 * @returns 1.
 	 */
-	public getErrorMessage(form: FormGroup, attributeName: string): string | null {
+	public getErrorMessage(
+		form: FormGroup,
+		attributeName: string,
+		serverErrors: InputErrors[] | null | void,
+	): string | null {
 		const formField = form.get(attributeName);
 		if (!formField) {
 			return null;
@@ -33,18 +39,25 @@ export class FormValidationService {
 				return this.errorMessages[errorKey];
 			}
 		}
-		const inputError = this.inputErrors.find(error => error.attributeName === attributeName);
+		if (!serverErrors) {
+			return null;
+		}
+		const inputError = serverErrors.find(error => error.attributeName === attributeName);
 		return inputError ? inputError.errors[0] : null;
 	}
 
 	/**
 	 * 1.
 	 * @param form 1.
+	 * @param serverErrors 1.
 	 */
-	public setFormErrors(form: FormGroup): void {
+	public setFormErrors(
+		form: FormGroup,
+		serverErrors: InputErrors[] | null | void,
+	): void {
 		Object.keys(form.controls).forEach(key => {
 			const control = form.get(key);
-			const inputError = this.inputErrors.find(error => error.attributeName === key);
+			const inputError = serverErrors?.find(error => error.attributeName === key);
 			if (!control) {
 				return;
 			}
@@ -54,7 +67,7 @@ export class FormValidationService {
 			}
 			const existingErrors = control.errors;
 			if (existingErrors) {
-				delete existingErrors['serverError'];
+				delete existingErrors[SERVER_ERROR_KEY];
 				if (Object.keys(existingErrors).length === 0) {
 					control.setErrors(null);
 					return;
@@ -62,13 +75,5 @@ export class FormValidationService {
 				control.setErrors(existingErrors);
 			}
 		});
-	}
-
-	/**
-	 * 1.
-	 * @param errors 1.
-	 */
-	public setInputErrors(errors: InputErrors[]): void {
-		this.inputErrors = errors;
 	}
 }

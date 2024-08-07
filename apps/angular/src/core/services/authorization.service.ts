@@ -2,8 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-
-import { UserAccessToken } from '@js-camp/core/models/user-access-token';
+import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dto';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login';
 import { ServerErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
@@ -12,10 +11,11 @@ import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
-
 import { InputErrors } from '@js-camp/core/models/input-error';
+import { AuthorizationTokenMapper } from '@js-camp/core/mappers/authorization-token.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
+import { LocalStorageService } from './local-storage.service';
 
 /** Connects to the API to manage anime data. */
 @Injectable({
@@ -26,6 +26,8 @@ export class AuthorizationService {
 	private readonly http = inject(HttpClient);
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
+
+	private readonly localStorageService = inject(LocalStorageService);
 
 	private parseError(error: unknown): Observable<InputErrors[]> {
 		if (error instanceof HttpErrorResponse && error.error?.errors) {
@@ -39,12 +41,12 @@ export class AuthorizationService {
 	 * @param registrationData 1.
 	 * @returns 1.
 	 */
-	public postRegistrationData(registrationData: UserRegistration): Observable<UserAccessToken | InputErrors[]> {
-		return this.http.post<UserAccessToken>(
+	public register(registrationData: UserRegistration): Observable<void | InputErrors[]> {
+		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.registration,
 			UserRegistrationMapper.toDto(registrationData),
 		).pipe(
-			map(response => response as UserAccessToken),
+			map(() => undefined),
 			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
@@ -54,12 +56,15 @@ export class AuthorizationService {
 	 * @param loginData 1.
 	 * @returns 1.
 	 */
-	public postLoginData(loginData: UserLogin): Observable<UserAccessToken | InputErrors[]> {
-		return this.http.post<UserAccessToken>(
+	public login(loginData: UserLogin): Observable<void | InputErrors[]> {
+		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.login,
 			UserLoginMapper.toDto(loginData),
 		).pipe(
-			map(response => response as UserAccessToken),
+			map((tokenDto: AuthorizationTokenDto) => {
+				this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
+				return undefined;
+			}),
 			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
@@ -77,12 +82,15 @@ export class AuthorizationService {
 	 * 1.
 	 * @param refreshToken 1.
 	 */
-	public refreshToken(refreshToken: string): Observable<UserAccessToken | InputErrors[]> {
-		return this.http.post<UserAccessToken>(
+	public refreshToken(refreshToken: string): Observable<void | InputErrors[]> {
+		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.tokenRefresh,
 			{ refresh: refreshToken },
 		).pipe(
-			map(response => response as UserAccessToken),
+			map((tokenDto: AuthorizationTokenDto) => {
+				this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
+				return undefined;
+			}),
 			catchError((error: unknown) => this.parseError(error)),
 		);
 	}

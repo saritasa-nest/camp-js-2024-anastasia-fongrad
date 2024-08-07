@@ -16,7 +16,7 @@
 				@else {
 					<div class="auth__login-group">
 						<h1 class="auth__header">Login</h1>
-						<camp-login-form (loginSuccess)="onLoginSuccess($event)"/>
+						<camp-login-form (loginSuccess)="onLoginSuccess()"/>
 						<div class="auth__switch">
 							Don't have an account?
 							<a href="#" (click)="showRegistrationForm(); $event.preventDefault()">Register</a>

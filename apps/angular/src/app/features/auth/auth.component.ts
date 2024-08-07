@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
 import { Router } from '@angular/router';
-import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
-import { UserAccessToken } from '@js-camp/core/models/user-access-token';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
@@ -32,8 +30,6 @@ export class AuthComponent {
 
 	private router: Router = inject(Router);
 
-	private tokenStorageService: LocalStorageService = inject(LocalStorageService);
-
 	/** 1. */
 	protected showLoginForm(): void {
 		this.isLoginFormActive = true;
@@ -54,8 +50,7 @@ export class AuthComponent {
 	 * 1.
 	 * @param token 1.
 	 */
-	protected onLoginSuccess(token: UserAccessToken): void {
-		this.tokenStorageService.saveToken(token);
+	protected onLoginSuccess(): void {
 		this.router.navigate([AppRoutes.Home]);
 	}
 }

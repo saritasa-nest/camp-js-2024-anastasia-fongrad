@@ -11,4 +11,5 @@ export enum ErrorMessageDto {
 	PasswordLength = 'This password is too short. It must contain at least 8 characters.',
 	PasswordCommon = 'This password is too common.',
 	PasswordNumeric = 'This password is entirely numeric.',
+	NotUnique = 'User with this Email address already exists.',
 }

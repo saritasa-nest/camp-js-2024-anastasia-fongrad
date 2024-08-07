@@ -20,6 +20,7 @@ export namespace ErrorMessageMapper {
 			[ErrorMessageDto.PasswordLength]: ErrorMessage.PasswordLength,
 			[ErrorMessageDto.PasswordCommon]: ErrorMessage.PasswordCommon,
 			[ErrorMessageDto.PasswordNumeric]: ErrorMessage.PasswordNumeric,
+			[ErrorMessageDto.NotUnique]: ErrorMessage.NotUnique,
 		};
 		return statusMap[dto] ?? ErrorMessage.DefaultError;
 	}

@@ -1,5 +1,5 @@
 /** 1. */
-export type UserAccessToken = {
+export type AuthorizationTokenDto = {
 
 	/** 1. */
 	readonly refresh: string;
