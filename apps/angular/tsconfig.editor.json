@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts", "../../libs", "src/app/features/login/login-form", "src/app/features/auth/components/registratiom-form"],
+  "include": ["**/*.ts", "../../libs", "src/app/features/login/components/login-form", "src/app/features/auth/components/registratiom-form"],
   "compilerOptions": {
     "types": ["node"]
   }

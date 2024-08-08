@@ -3,7 +3,7 @@ import { HeaderComponent } from '@js-camp/angular/app/features/header/header.com
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { Router, RouterModule } from '@angular/router';
 
-import { LoginFormComponent } from './login-form/login-form.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 
 /** Login page component. */
 @Component({

@@ -4,8 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
-import { RegistrationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
-import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { RegistrationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { RegistrationFormComponent } from './components/registration-form/registration-form.component';
 
 /** Registration page component. */
 @Component({

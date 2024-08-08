@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, of, switchMap } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError, of, switchMap, catchError, map, tap } from 'rxjs';
 import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dto';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login.model';
@@ -58,10 +57,8 @@ export class AuthorizationService {
 			this.appUrlConfig.paths.login,
 			UserLoginMapper.toDto(loginData),
 		).pipe(
-			map((tokenDto: AuthorizationTokenDto) => {
-				this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
-				return undefined;
-			}),
+			tap(tokenDto => this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto))),
+			map(() => undefined),
 			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
@@ -90,10 +87,8 @@ export class AuthorizationService {
 					this.appUrlConfig.paths.tokenRefresh,
 					{ refresh: refreshToken },
 				).pipe(
-					map((tokenDto: AuthorizationTokenDto) => {
-						this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
-						return undefined;
-					}),
+					tap(tokenDto => this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto))),
+					map(() => undefined),
 					catchError((error: unknown) => this.parseError(error)),
 				);
 			}),

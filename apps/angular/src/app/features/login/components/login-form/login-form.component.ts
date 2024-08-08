@@ -10,7 +10,7 @@ import { Observable, tap, ReplaySubject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
-import { EmptyPipe } from '../../../../shared/pipes/empty.pipe';
+import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
 
 import { UserLoginForm, LoginForm } from './login-form.model';
 
