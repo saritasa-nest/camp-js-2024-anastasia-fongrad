@@ -12,15 +12,13 @@ import { AppConfig } from '../utils/app-config';
 export const apiInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> => {
 	const appConfig = new AppConfig();
 	let apiReq = req;
-	if (req.url.startsWith('anime')) {
-		apiReq = req.clone({
-			url: `${appConfig.baseUrl}${req.url}`,
-			setHeaders: {
-				// We need to send api-key to the server in this format
-				// eslint-disable-next-line @typescript-eslint/naming-convention
-				'Api-Key': appConfig.apiKey,
-			},
-		});
-	}
+	apiReq = req.clone({
+		url: `${appConfig.baseUrl}${req.url}`,
+		setHeaders: {
+			// We need to send api-key to the server in this format
+			// eslint-disable-next-line @typescript-eslint/naming-convention
+			'Api-Key': appConfig.apiKey,
+		},
+	});
 	return next(apiReq);
 };

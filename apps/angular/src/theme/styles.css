@@ -50,16 +50,10 @@ body {
 .mat-toolbar {
   --mat-toolbar-container-background-color: var(--surface-overlay);
   --mat-toolbar-container-text-color: var(--on-surface);
-}
-
-.mat-mdc-paginator {
-  --mat-paginator-container-background-color: var(--accent);
-  --mat-paginator-container-text-color: var(--on-accent);
+  --mat-toolbar-standard-height: 90px;
 }
 
 .mat-mdc-unelevated-button {
-  width: 100px;
-
   --mdc-filled-button-container-height: 55px;
 }
 
@@ -69,8 +63,27 @@ body {
   color: var(--on-surface);
 }
 
+.mdc-text-field__input {
+  --mdc-filled-text-field-input-text-color: var(--on-surface);
+}
+
 .mdc-floating-label {
   --mdc-filled-text-field-label-text-color: var(--accent);
+}
+
+.mat-mdc-raised-button.mat-mdc-button-disabled {
+  --mdc-protected-button-disabled-label-text-color: var(--on-surface);
+  --mdc-protected-button-disabled-container-color: var(--surface-overlay);
+  --mdc-protected-button-container-height: 55px;
+}
+
+.mat-mdc-raised-button {
+  --mdc-protected-button-container-height: 55px;
+}
+
+.mat-mdc-paginator {
+  --mat-paginator-container-background-color: var(--accent);
+  --mat-paginator-container-text-color: var(--on-accent);
 }
 
 .main__type-select .mat-mdc-select {
