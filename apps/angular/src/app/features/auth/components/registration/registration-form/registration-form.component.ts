@@ -7,7 +7,7 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
@@ -62,7 +62,16 @@ export class RegistrationFormComponent {
 
 	/** Handles form submit event. */
 	protected onSubmit(): void {
+		if (!this.registrationForm?.valid) {
+			return;
+		}
 		const formData = this.registrationForm.getRawValue();
-		this.registrationErrors$ = this.registrationService.register(formData);
+		this.registrationErrors$ = this.registrationService.register(formData).pipe(
+			tap(result => {
+				if (!result) {
+					this.registrationSuccess.emit();
+				}
+			}),
+		);
 	}
 }

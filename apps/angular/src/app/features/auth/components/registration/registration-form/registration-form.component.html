@@ -26,6 +26,6 @@
 			<mat-error>{{ getFieldError((registrationErrors$ | async), 'confirmPassword') }}</mat-error>
 		</mat-form-field>
 		<div class="registration__form-error">{{ getFieldError((registrationErrors$ | async), 'form') }}</div>
-		<button mat-raised-button color="primary" type="submit">Register</button>
+		<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
 	</div>
 </form>

@@ -5,12 +5,15 @@ import { HttpStatusCode } from '@js-camp/core/dtos/http-status-code.enum';
 
 import { AuthorizationService } from '../services/authorization.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
+import { LocalStorageService } from '../services/local-storage.service';
 
 /** Refreshes an access token. */
 @Injectable()
 export class RefreshInterceptor implements HttpInterceptor {
 
 	private readonly authService = inject(AuthorizationService);
+
+	private readonly tokenService = inject(LocalStorageService);
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
@@ -25,15 +28,25 @@ export class RefreshInterceptor implements HttpInterceptor {
 			return next.handle(req);
 		}
 		return next.handle(req).pipe(
-			switchMap(() => next.handle(req)),
 			catchError((error: unknown) => {
-				if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
-					return this.authService.refresh().pipe(
-						switchMap(() => next.handle(req)),
-						catchError((refreshError: unknown) => throwError(() => refreshError)),
-					);
+				if (!(error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized)) {
+					return throwError(() => error);
 				}
-				return throwError(() => error);
+				return this.authService.refresh().pipe(
+					switchMap(() => this.tokenService.getAccessToken()),
+					switchMap(newToken => {
+						const clonedRequest = req.clone({
+							setHeaders: {
+
+								// Disable eslint for a request header.
+								// eslint-disable-next-line @typescript-eslint/naming-convention
+								Authorization: `Bearer ${newToken}`,
+							},
+						});
+						return next.handle(clonedRequest);
+					}),
+					catchError((refreshError: unknown) => throwError(() => refreshError)),
+				);
 			}),
 		);
 	}

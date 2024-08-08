@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
@@ -42,7 +42,7 @@ export class LoginFormComponent {
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
-	private readonly loginService = inject(AuthorizationService);
+	private readonly authService = inject(AuthorizationService);
 
 	private readonly formValidationService = inject(FormValidationService);
 
@@ -68,6 +68,12 @@ export class LoginFormComponent {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
-		this.loginErrors$ = this.loginService.login(formData);
+		this.loginErrors$ = this.authService.login(formData).pipe(
+			tap(result => {
+				if (!result) {
+					this.loginSuccess.emit();
+				}
+			}),
+		);
 	}
 }

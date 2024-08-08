@@ -12,7 +12,7 @@ export class AppUrlConfig {
 		login: 'auth/login/',
 		registration: 'auth/register/',
 		userProfile: 'users/profile/',
-		tokenRefresh: 'token/refresh/',
-		tokenVerify: 'token/verify/',
+		tokenRefresh: 'auth/token/refresh/',
+		tokenVerify: 'auth/token/verify/',
 	} as const;
 }

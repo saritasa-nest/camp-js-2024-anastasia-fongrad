@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, of } from 'rxjs';
+import { Observable, throwError, of, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dto';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
@@ -81,28 +81,40 @@ export class AuthorizationService {
 
 	/** 1. */
 	public refresh(): Observable<void | InputErrors[]> {
-		const refreshToken = this.localStorageService.getToken()?.refreshToken;
-		return this.http.post<AuthorizationTokenDto>(
-			this.appUrlConfig.paths.tokenRefresh,
-			{ refresh: refreshToken },
-		).pipe(
-			map((tokenDto: AuthorizationTokenDto) => {
-				this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
-				return undefined;
+		return this.localStorageService.getRefreshToken().pipe(
+			switchMap(refreshToken => {
+				if (!refreshToken) {
+					return of(undefined);
+				}
+				return this.http.post<AuthorizationTokenDto>(
+					this.appUrlConfig.paths.tokenRefresh,
+					{ refresh: refreshToken },
+				).pipe(
+					map((tokenDto: AuthorizationTokenDto) => {
+						this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
+						return undefined;
+					}),
+					catchError((error: unknown) => this.parseError(error)),
+				);
 			}),
-			catchError((error: unknown) => this.parseError(error)),
 		);
 	}
 
 	/** 1. */
 	public verify(): Observable<void | InputErrors[]> {
-		const accessToken = this.localStorageService.getToken()?.accessToken;
-		return this.http.post<void>(
-			this.appUrlConfig.paths.tokenVerify,
-			{ token: accessToken },
-		).pipe(
-			map(() => undefined),
-			catchError((error: unknown) => this.parseError(error)),
+		return this.localStorageService.getAccessToken().pipe(
+			switchMap(accessToken => {
+				if (!accessToken) {
+					return of(undefined);
+				}
+				return this.http.post<void>(
+					this.appUrlConfig.paths.tokenVerify,
+					{ token: accessToken },
+				).pipe(
+					map(() => undefined),
+					catchError((error: unknown) => this.parseError(error)),
+				);
+			}),
 		);
 	}
 }

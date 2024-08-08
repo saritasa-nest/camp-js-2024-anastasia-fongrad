@@ -28,10 +28,7 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 export class HeaderComponent {
 
 	/** 1. */
-	protected readonly userProfile$: Observable<UserProfile>;
-
-	/** 1. */
-	protected readonly isAuthorized$: Observable<boolean>;
+	protected readonly userProfile$: Observable<void | UserProfile>;
 
 	/** 1. */
 	protected readonly appRoutes = AppRoutes;
@@ -44,7 +41,6 @@ export class HeaderComponent {
 
 	public constructor() {
 		this.userProfile$ = this.userProfileService.getProfile();
-		this.isAuthorized$ = this.authService.isAuthorized();
 	}
 
 	/** 1. */
