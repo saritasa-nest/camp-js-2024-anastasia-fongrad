@@ -1,4 +1,4 @@
-import { Component, inject, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnInit, DestroyRef } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,9 +7,10 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { Observable, tap, ReplaySubject } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
-import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
+import { EmptyPipe } from '../../../../shared/pipes/empty.pipe';
 
 import { UserLoginForm, LoginForm } from './login-form.model';
 
@@ -48,12 +49,14 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly loginErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
 
+	private readonly destroyRef = inject(DestroyRef);
+
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
 		this.loginErrors$ = this.loginErrorsSubject$.asObservable();
 	}
 
-	/** 1. */
+	/** Clears form errors on input value change. */
 	public ngOnInit(): void {
 		this.initializeFormValues();
 	}
@@ -61,9 +64,10 @@ export class LoginFormComponent implements OnInit {
 	private initializeFormValues(): void {
 		Object.keys(this.loginForm.controls).forEach(controlName => {
 			const control = this.loginForm.get(controlName);
-			control?.valueChanges.subscribe(() => {
-				control.setErrors(null);
-			});
+			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+				.subscribe(() => {
+					control.setErrors(null);
+				});
 		});
 	}
 

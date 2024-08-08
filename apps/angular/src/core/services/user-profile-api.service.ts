@@ -7,7 +7,7 @@ import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
 
-/** 1. */
+/** Connects to the API to manage user profiles data. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -17,7 +17,7 @@ export class UserProfileApiService {
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
-	/** 1. */
+	/** Gets an user profile from the server. */
 	public getProfile(): Observable<void | UserProfile> {
 		return this.http.get<UserProfileDto>(
 			this.appUrlConfig.paths.userProfile,

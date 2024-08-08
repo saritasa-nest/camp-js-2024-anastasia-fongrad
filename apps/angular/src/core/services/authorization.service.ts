@@ -14,7 +14,7 @@ import { AuthorizationTokenMapper } from '@js-camp/core/mappers/authorization-to
 import { AppUrlConfig } from './app-url-config.service';
 import { LocalStorageService } from './local-storage.service';
 
-/** Connects to the API to manage anime data. */
+/** Provides methods to perform user authorization. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -34,9 +34,9 @@ export class AuthorizationService {
 	}
 
 	/**
-	 * 1.
-	 * @param registrationData 1.
-	 * @returns 1.
+	 * Registers new user in a system.
+	 * @param registrationData User registration data received from the form.
+	 * @returns An observable with user registration errors.
 	 */
 	public register(registrationData: UserRegistration): Observable<void | InputErrors[]> {
 		return this.http.post<AuthorizationTokenDto>(
@@ -49,9 +49,9 @@ export class AuthorizationService {
 	}
 
 	/**
-	 * 1.
-	 * @param loginData 1.
-	 * @returns 1.
+	 * Performs user login operation.
+	 * @param loginData Login data received from the form.
+	 * @returns An observable with login errors..
 	 */
 	public login(loginData: UserLogin): Observable<void | InputErrors[]> {
 		return this.http.post<AuthorizationTokenDto>(
@@ -66,7 +66,7 @@ export class AuthorizationService {
 		);
 	}
 
-	/** 1. */
+	/** Performs user logout operation. */
 	public logout(): void {
 		this.localStorageService.clearToken();
 	}
@@ -79,7 +79,7 @@ export class AuthorizationService {
 		);
 	}
 
-	/** 1. */
+	/** Requests an access token refresh. */
 	public refresh(): Observable<void | InputErrors[]> {
 		return this.localStorageService.getRefreshToken().pipe(
 			switchMap(refreshToken => {
@@ -100,7 +100,7 @@ export class AuthorizationService {
 		);
 	}
 
-	/** 1. */
+	/** Verifies users access token. */
 	public verify(): Observable<void | InputErrors[]> {
 		return this.localStorageService.getAccessToken().pipe(
 			switchMap(accessToken => {

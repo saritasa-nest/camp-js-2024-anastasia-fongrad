@@ -29,10 +29,10 @@ import { LocalStorageService } from '@js-camp/angular/core/services/local-storag
 })
 export class HeaderComponent implements OnInit {
 
-	/** 1. */
+	/** User profile data. */
 	protected userProfile$: Observable<void | UserProfile>;
 
-	/** 1. */
+	/** Available app routes to navigate by. */
 	protected readonly appRoutes = AppRoutes;
 
 	private readonly authService = inject(AuthorizationService);
@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
 		this.userProfile$ = this.userProfileService.getProfile();
 	}
 
-	/** 1. */
+	/** Subscribes to the authentication token changes. */
 	public ngOnInit(): void {
 		this.localStorageService.onTokenChange().pipe(
 			takeUntilDestroyed(this.destroyRef),
@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
 			});
 	}
 
-	/** 1. */
+	/** Performs user logout operation. */
 	protected logout(): void {
 		this.authService.logout();
 		this.router.navigate([AppRoutes.Login]);

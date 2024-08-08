@@ -1,4 +1,4 @@
-/** 1. */
+/** Available app routes. */
 export enum AppRoutes {
 	Home = '',
 	Registration = 'registration',

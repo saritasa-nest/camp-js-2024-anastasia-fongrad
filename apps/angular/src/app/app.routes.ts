@@ -12,11 +12,11 @@ export const appRoutes: Routes = [
 	{
 		path: AppRoutes.Login,
 		loadComponent: () =>
-			import('../app/features/auth/components/login/login.component').then(c => c.LoginComponent),
+			import('./features/login/login.component').then(c => c.LoginComponent),
 	},
 	{
 		path: AppRoutes.Registration,
 		loadComponent: () =>
-			import('../app/features/auth/components/registration/registration.component').then(c => c.RegistrationComponent),
+			import('./features/registration/registration.component').then(c => c.RegistrationComponent),
 	},
 ];

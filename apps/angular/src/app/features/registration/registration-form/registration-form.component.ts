@@ -1,10 +1,10 @@
-import { Component, inject, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnInit, DestroyRef } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
-
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { Observable, tap, ReplaySubject } from 'rxjs';
@@ -44,6 +44,8 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly registrationService = inject(AuthorizationService);
 
+	private readonly destroyRef = inject(DestroyRef);
+
 	private readonly registrationErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
 
 	public constructor() {
@@ -51,7 +53,7 @@ export class RegistrationFormComponent implements OnInit {
 		this.registrationErrors$ = this.registrationErrorsSubject$.asObservable();
 	}
 
-	/** 1. */
+	/** Clears form errors on input value change. */
 	public ngOnInit(): void {
 		this.initializeFormValues();
 	}
@@ -59,9 +61,10 @@ export class RegistrationFormComponent implements OnInit {
 	private initializeFormValues(): void {
 		Object.keys(this.registrationForm.controls).forEach(controlName => {
 			const control = this.registrationForm.get(controlName);
-			control?.valueChanges.subscribe(() => {
-				control.setErrors(null);
-			});
+			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+				.subscribe(() => {
+					control.setErrors(null);
+				});
 		});
 	}
 

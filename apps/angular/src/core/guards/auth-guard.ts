@@ -5,7 +5,7 @@ import { Observable, map, catchError, of } from 'rxjs';
 import { AppRoutes } from '../utils/enums/app-routes.enum';
 import { AuthorizationService } from '../services/authorization.service';
 
-/** 1. */
+/** A guard that determines whether the user can access a page. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
 
 	private readonly router = inject(Router);
 
-	/** 1. */
+	/** Determines whether the user can access a page. */
 	public canActivate(): Observable<boolean> {
 		return this.authService.isAuthorized().pipe(
 			map(isAuthorized => {

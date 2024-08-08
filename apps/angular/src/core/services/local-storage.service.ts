@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthorizationToken } from '@js-camp/core/models/authorization-token';
 import { Observable, of, Subject } from 'rxjs';
 
-/** 1. */
+/** Works with user authorization tokens. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -12,11 +12,11 @@ export class LocalStorageService {
 
 	private readonly refreshTokenKey = 'refreshToken';
 
-	private tokenChangeSubject$ = new Subject<void>();
+	private readonly tokenChangeSubject$ = new Subject<void>();
 
 	/**
-	 * 1.
-	 * @param token 1.
+	 * Saves information about an authorization token.
+	 * @param token User authorization token.
 	 */
 	public saveToken(token: AuthorizationToken): void {
 		localStorage.setItem(this.accessTokenKey, token.accessToken);
@@ -24,29 +24,26 @@ export class LocalStorageService {
 		this.tokenChangeSubject$.next();
 	}
 
-	/** 1. */
+	/** Gets an access authorization token. */
 	public getAccessToken(): Observable<string | null> {
 		const accessToken = localStorage.getItem(this.accessTokenKey);
 		return of(accessToken);
 	}
 
-	/** 1. */
+	/** Gets a refresh authorization token. */
 	public getRefreshToken(): Observable<string | null> {
 		const refreshToken = localStorage.getItem(this.refreshTokenKey);
 		return of(refreshToken);
 	}
 
-	/** 1. */
+	/** Clears information about an authorization token. */
 	public clearToken(): void {
 		localStorage.removeItem(this.accessTokenKey);
 		localStorage.removeItem(this.refreshTokenKey);
 		this.tokenChangeSubject$.next();
 	}
 
-	/**
-	 * 1.
-	 * @returns 1.
-	 */
+	/** Returns an empty observable when token value changes. */
 	public onTokenChange(): Observable<void> {
 		return this.tokenChangeSubject$.asObservable();
 	}

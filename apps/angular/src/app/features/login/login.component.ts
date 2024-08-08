@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
+import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { Router, RouterModule } from '@angular/router';
 

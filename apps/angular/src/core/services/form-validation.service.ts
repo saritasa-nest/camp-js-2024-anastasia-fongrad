@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { InputErrors } from '@js-camp/core/models/input-error';
 
-/** 1. */
+/** Key for server error inside input errors. */
 const SERVER_ERROR_KEY = 'serverError';
 
-/** 1. */
+/** Form validation service. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -19,10 +19,10 @@ export class FormValidationService {
 	};
 
 	/**
-	 * 1.
-	 * @param form 1.
-	 * @param attributeName 1.
-	 * @param serverErrors 1.
+	 * Returns an error message for the current formControl.
+	 * @param form FormGroup to work with.
+	 * @param attributeName Name of a form control.
+	 * @param serverErrors An array of server errors.
 	 * @returns 1.
 	 */
 	public getErrorMessage(
@@ -47,9 +47,9 @@ export class FormValidationService {
 	}
 
 	/**
-	 * 1.
-	 * @param form 1.
-	 * @param serverErrors 1.
+	 * Sets server errors for the form.
+	 * @param form FormGroup to work with.
+	 * @param serverErrors An array of server errors.
 	 */
 	public setFormErrors(
 		form: FormGroup,
@@ -62,7 +62,7 @@ export class FormValidationService {
 				return;
 			}
 			if (inputError) {
-				control.setErrors({ serverError: inputError.errors[0] });
+				control.setErrors({ [SERVER_ERROR_KEY]: inputError.errors[0] });
 				control.markAsTouched();
 				return;
 			}

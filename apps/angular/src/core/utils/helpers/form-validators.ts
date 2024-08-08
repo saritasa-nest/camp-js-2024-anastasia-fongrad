@@ -1,10 +1,9 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 /**
- * 1.
- * @param controlName 1.
- * @param matchingControlName 1.
- * @returns 1.
+ * Custom form validator to check if control values match.
+ * @param controlName The name of the main control.
+ * @param matchingControlName The name of the matching control.
  */
 export function mustMatch(controlName: string, matchingControlName: string): ValidatorFn {
 	return (formGroup: AbstractControl): ValidationErrors | null => {
@@ -23,9 +22,8 @@ export function mustMatch(controlName: string, matchingControlName: string): Val
 }
 
 /**
- * 1.
- * @param controlName 1.
- * @returns 1.
+ * Custom form validator to check if a password is strong enough.
+ * @param controlName The name of the control to validate.
  */
 export function passwordStrong(controlName: string): ValidatorFn {
 	return (formGroup: AbstractControl): ValidationErrors | null => {
