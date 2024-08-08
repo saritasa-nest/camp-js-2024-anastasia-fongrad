@@ -1,7 +1,7 @@
 /** 1. */
 export enum ErrorMessage {
 	NoPermission = 'You do not have permission to perform this action',
-	NoAccount = 'No active account found with the given credentials',
+	NoAccount = 'Incorrect email or password',
 	AuthenticationError = 'Incorrect authentication credentials',
 	ServerError = 'A server error occurred',
 	InvalidToken = 'Token is invalid or expired',

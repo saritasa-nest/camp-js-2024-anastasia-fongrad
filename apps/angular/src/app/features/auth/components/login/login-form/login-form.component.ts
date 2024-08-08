@@ -1,4 +1,4 @@
-import { Component, inject, EventEmitter, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { InputErrors } from '@js-camp/core/models/input-error';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, ReplaySubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { EmptyPipe } from '../../../../../../shared/pipes/empty.pipe';
@@ -28,7 +28,7 @@ import { UserLoginForm, LoginForm } from './login-form.model';
 		CommonModule,
 	],
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
 
 	/** An event that is raised when a login is successful. */
 	@Output()
@@ -38,7 +38,7 @@ export class LoginFormComponent {
 	protected readonly loginForm: FormGroup<LoginForm>;
 
 	/** An array of login errors received from the server. */
-	protected loginErrors$?: Observable<void | InputErrors[]>;
+	protected readonly loginErrors$: Observable<void | InputErrors[]>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -46,8 +46,25 @@ export class LoginFormComponent {
 
 	private readonly formValidationService = inject(FormValidationService);
 
+	private readonly loginErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
+
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
+		this.loginErrors$ = this.loginErrorsSubject$.asObservable();
+	}
+
+	/** 1. */
+	public ngOnInit(): void {
+		this.initializeFormValues();
+	}
+
+	private initializeFormValues(): void {
+		Object.keys(this.loginForm.controls).forEach(controlName => {
+			const control = this.loginForm.get(controlName);
+			control?.valueChanges.subscribe(() => {
+				control.setErrors(null);
+			});
+		});
 	}
 
 	/**
@@ -68,12 +85,16 @@ export class LoginFormComponent {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
-		this.loginErrors$ = this.authService.login(formData).pipe(
-			tap(result => {
-				if (!result) {
+		this.authService.login(formData).pipe(
+			tap(errors => {
+				if (!errors) {
 					this.loginSuccess.emit();
+				} else {
+					this.formValidationService.setFormErrors(this.loginForm, errors);
 				}
+				this.loginErrorsSubject$.next(errors);
 			}),
-		);
+		)
+			.subscribe();
 	}
 }

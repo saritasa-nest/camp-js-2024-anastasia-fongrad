@@ -1,4 +1,4 @@
-import { Component, inject, EventEmitter, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,7 +7,7 @@ import { AuthorizationService } from '@js-camp/angular/core/services/authorizati
 
 import { InputErrors } from '@js-camp/core/models/input-error';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, ReplaySubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
@@ -26,14 +26,14 @@ import { UserRegistrationForm, RegistrationForm } from './registration-form.mode
 		CommonModule,
 	],
 })
-export class RegistrationFormComponent {
+export class RegistrationFormComponent implements OnInit {
 
 	/** Emits an event when registration is successful. */
 	@Output()
 	public readonly registrationSuccess = new EventEmitter<void>();
 
 	/** An array of registration errors received from a server. */
-	protected registrationErrors$?: Observable<void | InputErrors[]>;
+	protected readonly registrationErrors$: Observable<void | InputErrors[]>;
 
 	/** Registration form group. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
@@ -44,8 +44,25 @@ export class RegistrationFormComponent {
 
 	private readonly registrationService = inject(AuthorizationService);
 
+	private readonly registrationErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
+
 	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
+		this.registrationErrors$ = this.registrationErrorsSubject$.asObservable();
+	}
+
+	/** 1. */
+	public ngOnInit(): void {
+		this.initializeFormValues();
+	}
+
+	private initializeFormValues(): void {
+		Object.keys(this.registrationForm.controls).forEach(controlName => {
+			const control = this.registrationForm.get(controlName);
+			control?.valueChanges.subscribe(() => {
+				control.setErrors(null);
+			});
+		});
 	}
 
 	/**
@@ -66,12 +83,16 @@ export class RegistrationFormComponent {
 			return;
 		}
 		const formData = this.registrationForm.getRawValue();
-		this.registrationErrors$ = this.registrationService.register(formData).pipe(
-			tap(result => {
-				if (!result) {
+		this.registrationService.register(formData).pipe(
+			tap(errors => {
+				if (!errors) {
 					this.registrationSuccess.emit();
+				} else {
+					this.formValidationService.setFormErrors(this.registrationForm, errors);
 				}
+				this.registrationErrorsSubject$.next(errors);
 			}),
-		);
+		)
+			.subscribe();
 	}
 }

@@ -31,11 +31,8 @@ export class FormValidationService {
 		serverErrors: InputErrors[] | null | void,
 	): string | null {
 		const formField = form.get(attributeName);
-		if (!formField) {
-			return null;
-		}
 		for (const errorKey in this.errorMessages) {
-			if (formField.hasError(errorKey)) {
+			if (formField?.hasError(errorKey)) {
 				return this.errorMessages[errorKey];
 			}
 		}
@@ -43,7 +40,10 @@ export class FormValidationService {
 			return null;
 		}
 		const inputError = serverErrors.find(error => error.attributeName === attributeName);
-		return inputError ? inputError.errors[0] : null;
+		if (inputError) {
+			return inputError.errors[0];
+		}
+		return null;
 	}
 
 	/**
@@ -63,6 +63,7 @@ export class FormValidationService {
 			}
 			if (inputError) {
 				control.setErrors({ serverError: inputError.errors[0] });
+				control.markAsTouched();
 				return;
 			}
 			const existingErrors = control.errors;
