@@ -1,15 +1,15 @@
-/** 1. */
+/** User registration model. */
 export type UserRegistration = {
 
-	/** Id. */
+	/** User's email. */
 	readonly email: string;
 
-	/** Name. */
+	/** User's first name. */
 	readonly firstName: string;
 
-	/** 1. */
+	/** User's last name. */
 	readonly lastName: string;
 
-	/** 1. */
+	/** User's password. */
 	readonly password: string;
 };

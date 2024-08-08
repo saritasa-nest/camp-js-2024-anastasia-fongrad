@@ -2,14 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable, switchMap } from 'rxjs';
 
-import { LocalStorageService } from '../services/local-storage.service';
+import { AuthorizationTokenService } from '../services/authorization-token.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
 
 /** Adds an access token to the request headers. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly tokenService = inject(AuthorizationTokenService);
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
@@ -23,7 +23,7 @@ export class AuthInterceptor implements HttpInterceptor {
 		if (this.isExcludedPath(req.url)) {
 			return next.handle(req);
 		}
-		return this.localStorageService.getAccessToken().pipe(
+		return this.tokenService.getAccessToken().pipe(
 			switchMap(accessToken => {
 				if (!accessToken) {
 					return next.handle(req);

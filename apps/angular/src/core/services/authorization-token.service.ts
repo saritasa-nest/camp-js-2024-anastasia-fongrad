@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AuthorizationToken } from '@js-camp/core/models/authorization-token';
+import { AuthorizationToken } from '@js-camp/core/models/authorization-token.model';
 import { Observable, of, Subject } from 'rxjs';
 
 /** Works with user authorization tokens. */
 @Injectable({
 	providedIn: 'root',
 })
-export class LocalStorageService {
+export class AuthorizationTokenService {
 
 	private readonly accessTokenKey = 'accessToken';
 

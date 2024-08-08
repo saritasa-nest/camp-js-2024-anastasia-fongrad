@@ -1,15 +1,15 @@
-/** 1. */
+/** User profile model. */
 export type UserProfile = {
 
-	/** 1. */
+	/** User's email. */
 	readonly email: string;
 
-	/** 1. */
+	/** User's first name. */
 	readonly firstName: string;
 
-	/** 1. */
+	/** User's last name. */
 	readonly lastName: string;
 
-	/** 1. */
+	/** User's profile avatar. */
 	readonly avatar?: string;
 };

@@ -1,9 +1,9 @@
-/** 1. */
+/** User login model. */
 export type UserLogin = {
 
-	/** 1. */
+	/** User's email. */
 	readonly email: string;
 
-	/** 1. */
+	/** User's password. */
 	readonly password: string;
 };

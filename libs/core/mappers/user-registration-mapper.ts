@@ -1,4 +1,4 @@
-import { UserRegistration } from '../models/user-registration';
+import { UserRegistration } from '../models/user-registration.model';
 import { UserRegistrationDto } from '../dtos/user-registration.dto';
 
 export namespace UserRegistrationMapper {

@@ -4,15 +4,15 @@ import { Observable, throwError, of, switchMap } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dto';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
-import { UserLogin } from '@js-camp/core/models/user-login';
+import { UserLogin } from '@js-camp/core/models/user-login.model';
 import { ServerErrorsMapper } from '@js-camp/core/mappers/server-errors.mapper';
-import { UserRegistration } from '@js-camp/core/models/user-registration';
+import { UserRegistration } from '@js-camp/core/models/user-registration.model';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
-import { ServerError } from '@js-camp/core/models/server-error';
+import { ServerError } from '@js-camp/core/models/server-error.model';
 import { AuthorizationTokenMapper } from '@js-camp/core/mappers/authorization-token.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
-import { LocalStorageService } from './local-storage.service';
+import { AuthorizationTokenService } from './authorization-token.service';
 
 /** Provides methods to perform user authorization. */
 @Injectable({
@@ -24,7 +24,7 @@ export class AuthorizationService {
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly tokenService = inject(AuthorizationTokenService);
 
 	private parseError(error: unknown): Observable<ServerError[]> {
 		if (error instanceof HttpErrorResponse && error.error?.errors) {
@@ -59,7 +59,7 @@ export class AuthorizationService {
 			UserLoginMapper.toDto(loginData),
 		).pipe(
 			map((tokenDto: AuthorizationTokenDto) => {
-				this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
+				this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
 				return undefined;
 			}),
 			catchError((error: unknown) => this.parseError(error)),
@@ -68,7 +68,7 @@ export class AuthorizationService {
 
 	/** Performs user logout operation. */
 	public logout(): void {
-		this.localStorageService.clearToken();
+		this.tokenService.clearToken();
 	}
 
 	/** 1. */
@@ -81,7 +81,7 @@ export class AuthorizationService {
 
 	/** Requests an access token refresh. */
 	public refresh(): Observable<void | ServerError[]> {
-		return this.localStorageService.getRefreshToken().pipe(
+		return this.tokenService.getRefreshToken().pipe(
 			switchMap(refreshToken => {
 				if (!refreshToken) {
 					return of(undefined);
@@ -91,7 +91,7 @@ export class AuthorizationService {
 					{ refresh: refreshToken },
 				).pipe(
 					map((tokenDto: AuthorizationTokenDto) => {
-						this.localStorageService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
+						this.tokenService.saveToken(AuthorizationTokenMapper.fromDto(tokenDto));
 						return undefined;
 					}),
 					catchError((error: unknown) => this.parseError(error)),
@@ -102,7 +102,7 @@ export class AuthorizationService {
 
 	/** Verifies users access token. */
 	public verify(): Observable<void | ServerError[]> {
-		return this.localStorageService.getAccessToken().pipe(
+		return this.tokenService.getAccessToken().pipe(
 			switchMap(accessToken => {
 				if (!accessToken) {
 					return of(undefined);

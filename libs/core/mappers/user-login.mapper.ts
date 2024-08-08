@@ -1,4 +1,4 @@
-import { UserLogin } from '../models/user-login';
+import { UserLogin } from '../models/user-login.model';
 import { UserLoginDto } from '../dtos/user-login.dto';
 
 export namespace UserLoginMapper {

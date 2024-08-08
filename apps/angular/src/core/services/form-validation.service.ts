@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ServerError } from '@js-camp/core/models/server-error';
+import { ServerError } from '@js-camp/core/models/server-error.model';
 
 /** Key for server error inside input errors. */
 const SERVER_ERROR_KEY = 'serverError';

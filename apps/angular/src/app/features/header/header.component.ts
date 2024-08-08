@@ -4,13 +4,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule, Router } from '@angular/router';
-import { UserProfile } from '@js-camp/core/models/user-profile';
+import { UserProfile } from '@js-camp/core/models/user-profile.model';
 import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 import { UserProfileApiService } from '@js-camp/angular/core/services/user-profile-api.service';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
-import { LocalStorageService } from '@js-camp/angular/core/services/local-storage.service';
+import { AuthorizationTokenService } from '@js-camp/angular/core/services/authorization-token.service';
 
 /** Header component for the app. */
 @Component({
@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
 
 	private readonly userProfileService = inject(UserProfileApiService);
 
-	private readonly localStorageService = inject(LocalStorageService);
+	private readonly tokenService = inject(AuthorizationTokenService);
 
 	private readonly router = inject(Router);
 
@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
 
 	/** Subscribes to the authentication token changes. */
 	public ngOnInit(): void {
-		this.localStorageService.onTokenChange().pipe(
+		this.tokenService.onTokenChange().pipe(
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe(() => {

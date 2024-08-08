@@ -1,4 +1,4 @@
-import { UserProfile } from '../models/user-profile';
+import { UserProfile } from '../models/user-profile.model';
 import { UserProfileDto } from '../dtos/user-profile.dto';
 
 export namespace UserProfileMapper {

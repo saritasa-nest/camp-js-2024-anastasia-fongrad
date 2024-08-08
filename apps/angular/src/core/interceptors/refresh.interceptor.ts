@@ -5,7 +5,7 @@ import { HttpStatusCode } from '@js-camp/core/dtos/enums/http-status-code.enum';
 
 import { AuthorizationService } from '../services/authorization.service';
 import { AppUrlConfig } from '../services/app-url-config.service';
-import { LocalStorageService } from '../services/local-storage.service';
+import { AuthorizationTokenService } from '../services/authorization-token.service';
 
 /** Refreshes an access token. */
 @Injectable()
@@ -13,7 +13,7 @@ export class RefreshInterceptor implements HttpInterceptor {
 
 	private readonly authService = inject(AuthorizationService);
 
-	private readonly tokenService = inject(LocalStorageService);
+	private readonly tokenService = inject(AuthorizationTokenService);
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 

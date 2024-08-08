@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map, catchError, of } from 'rxjs';
-import { UserProfile } from '@js-camp/core/models/user-profile';
+import { UserProfile } from '@js-camp/core/models/user-profile.model';
 import { UserProfileDto } from '@js-camp/core/dtos/user-profile.dto';
 import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 

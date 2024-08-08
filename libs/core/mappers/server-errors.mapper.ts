@@ -1,4 +1,4 @@
-import { ServerError } from '../models/server-error';
+import { ServerError } from '../models/server-error.model';
 import { ServerErrorDto } from '../dtos/server-error.dto';
 import { ErrorMessage } from '../models/enums/error-message.enum';
 
