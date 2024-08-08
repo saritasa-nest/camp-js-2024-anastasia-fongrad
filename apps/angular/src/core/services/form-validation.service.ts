@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { InputErrors } from '@js-camp/core/models/input-error';
+import { ServerError } from '@js-camp/core/models/server-error';
 
 /** Key for server error inside input errors. */
 const SERVER_ERROR_KEY = 'serverError';
@@ -11,7 +11,7 @@ const SERVER_ERROR_KEY = 'serverError';
 })
 export class FormValidationService {
 
-	private errorMessages: { [key: string]: string; } = {
+	private clientErrorMessages: { [key: string]: string; } = {
 		required: 'This field is required',
 		email: 'Incorrect email address',
 		strong: 'Password is not strong enough',
@@ -21,27 +21,26 @@ export class FormValidationService {
 	/**
 	 * Returns an error message for the current formControl.
 	 * @param form FormGroup to work with.
-	 * @param attributeName Name of a form control.
+	 * @param controlName Name of a form control.
 	 * @param serverErrors An array of server errors.
-	 * @returns 1.
 	 */
 	public getErrorMessage(
 		form: FormGroup,
-		attributeName: string,
-		serverErrors: InputErrors[] | null | void,
+		controlName: string,
+		serverErrors: ServerError[] | null | void,
 	): string | null {
-		const formField = form.get(attributeName);
-		for (const errorKey in this.errorMessages) {
+		const formField = form.get(controlName);
+		for (const errorKey in this.clientErrorMessages) {
 			if (formField?.hasError(errorKey)) {
-				return this.errorMessages[errorKey];
+				return this.clientErrorMessages[errorKey];
 			}
 		}
 		if (!serverErrors) {
 			return null;
 		}
-		const inputError = serverErrors.find(error => error.attributeName === attributeName);
-		if (inputError) {
-			return inputError.errors[0];
+		const controlError = serverErrors.find(error => error.controlName === controlName);
+		if (controlError) {
+			return controlError.controlErrors[0];
 		}
 		return null;
 	}
@@ -53,16 +52,16 @@ export class FormValidationService {
 	 */
 	public setFormErrors(
 		form: FormGroup,
-		serverErrors: InputErrors[] | null | void,
+		serverErrors: ServerError[] | null | void,
 	): void {
 		Object.keys(form.controls).forEach(key => {
 			const control = form.get(key);
-			const inputError = serverErrors?.find(error => error.attributeName === key);
 			if (!control) {
 				return;
 			}
-			if (inputError) {
-				control.setErrors({ [SERVER_ERROR_KEY]: inputError.errors[0] });
+			const controlError = serverErrors?.find(error => error.controlName === key);
+			if (controlError) {
+				control.setErrors({ [SERVER_ERROR_KEY]: controlError.controlErrors[0] });
 				control.markAsTouched();
 				return;
 			}

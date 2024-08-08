@@ -1,9 +1,9 @@
-/** Genre DTO. */
+/** User login dto. */
 export type UserLoginDto = {
 
-	/** Id. */
+	/** User's email. */
 	readonly email: string;
 
-	/** 1. */
+	/** User's password. */
 	readonly password: string;
 };

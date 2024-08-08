@@ -4,8 +4,8 @@ import { UserRegistrationDto } from '../dtos/user-registration.dto';
 export namespace UserRegistrationMapper {
 
 	/**
-	 * 1.
-	 * @param model 1.
+	 * Maps a user registration model to a dto object.
+	 * @param model User registration model.
 	 */
 	export function toDto(model: UserRegistration): UserRegistrationDto {
 		return {

@@ -4,8 +4,8 @@ import { UserProfileDto } from '../dtos/user-profile.dto';
 export namespace UserProfileMapper {
 
 	/**
-	 * 1.
-	 * @param dto 1.
+	 * Maps user profile dto object to a user profile model.
+	 * @param dto User profile dto object.
 	 */
 	export function fromDto(dto: UserProfileDto): UserProfile {
 		return {

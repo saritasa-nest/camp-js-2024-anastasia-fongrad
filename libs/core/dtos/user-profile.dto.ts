@@ -1,4 +1,4 @@
-/** 1. */
+/** User profile dto. */
 export type UserProfileDto = {
 
 	/** 1. */
@@ -10,12 +10,12 @@ export type UserProfileDto = {
 	/** 1. */
 	readonly last_name: string;
 
-	/** 1. */
+	/** User's profile avatar. */
 	readonly avatar?: string;
 
-	/** 1. */
+	/** User profile creation date. */
 	readonly created: string;
 
-	/** 1. */
+	/** User profile last modification date. */
 	readonly modified: string;
 };

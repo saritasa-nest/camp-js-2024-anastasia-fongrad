@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { InputErrors } from '@js-camp/core/models/input-error';
+import { ServerError } from '@js-camp/core/models/server-error';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 import { Observable, tap, ReplaySubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -33,7 +33,7 @@ export class RegistrationFormComponent implements OnInit {
 	public readonly registrationSuccess = new EventEmitter<void>();
 
 	/** An array of registration errors received from a server. */
-	protected readonly registrationErrors$: Observable<void | InputErrors[]>;
+	protected readonly registrationErrors$: Observable<void | ServerError[]>;
 
 	/** Registration form group. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
@@ -46,7 +46,7 @@ export class RegistrationFormComponent implements OnInit {
 
 	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly registrationErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
+	private readonly registrationErrorsSubject$ = new ReplaySubject<void | ServerError[]>(1);
 
 	public constructor() {
 		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
@@ -74,7 +74,7 @@ export class RegistrationFormComponent implements OnInit {
 	 * @param attributeName A name of a form field.
 	 */
 	protected getFieldError(
-		serverErrors: InputErrors[] | null | void,
+		serverErrors: ServerError[] | null | void,
 		attributeName: string,
 	): string | null {
 		return this.formValidationService.getErrorMessage(this.registrationForm, attributeName, serverErrors);

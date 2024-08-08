@@ -1,9 +1,9 @@
-/** 1. */
+/** Authorization token model. */
 export type AuthorizationToken = {
 
-	/** 1. */
+	/** Refresh jwt token. */
 	readonly refreshToken: string;
 
-	/** 1. */
+	/** Access jwt token. */
 	readonly accessToken: string;
 };

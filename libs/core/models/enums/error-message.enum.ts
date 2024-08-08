@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents error messages for server errors. */
 export enum ErrorMessage {
 	NoPermission = 'You do not have permission to perform this action',
 	NoAccount = 'Incorrect email or password',

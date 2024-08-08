@@ -4,8 +4,8 @@ import { UserLoginDto } from '../dtos/user-login.dto';
 export namespace UserLoginMapper {
 
 	/**
-	 * 1.
-	 * @param model 1.
+	 * Maps user login data from a model to a dto object.
+	 * @param model User login object model.
 	 */
 	export function toDto(model: UserLogin): UserLoginDto {
 		return {

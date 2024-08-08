@@ -4,8 +4,8 @@ import { ErrorMessage } from '../models/enums/error-message.enum';
 export namespace ErrorMessageMapper {
 
 	/**
-	 * Converts anime sort parameters from a dto object to a model.
-	 * @param dto Anime sort parameters dto.
+	 * Converts server error messages from dto to a model.
+	 * @param dto Server error message dto.
 	 */
 	export function fromDto(dto: ErrorMessageDto): ErrorMessage {
 		const statusMap: Record<ErrorMessageDto, ErrorMessage> = {

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError, switchMap } from 'rxjs';
-import { HttpStatusCode } from '@js-camp/core/dtos/http-status-code.enum';
+import { HttpStatusCode } from '@js-camp/core/dtos/enums/http-status-code.enum';
 
 import { AuthorizationService } from '../services/authorization.service';
 import { AppUrlConfig } from '../services/app-url-config.service';

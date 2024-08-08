@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { InputErrors } from '@js-camp/core/models/input-error';
+import { ServerError } from '@js-camp/core/models/server-error';
 import { Observable, tap, ReplaySubject } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
@@ -39,7 +39,7 @@ export class LoginFormComponent implements OnInit {
 	protected readonly loginForm: FormGroup<LoginForm>;
 
 	/** An array of login errors received from the server. */
-	protected readonly loginErrors$: Observable<void | InputErrors[]>;
+	protected readonly loginErrors$: Observable<void | ServerError[]>;
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -47,7 +47,7 @@ export class LoginFormComponent implements OnInit {
 
 	private readonly formValidationService = inject(FormValidationService);
 
-	private readonly loginErrorsSubject$ = new ReplaySubject<void | InputErrors[]>(1);
+	private readonly loginErrorsSubject$ = new ReplaySubject<void | ServerError[]>(1);
 
 	private readonly destroyRef = inject(DestroyRef);
 
@@ -74,13 +74,13 @@ export class LoginFormComponent implements OnInit {
 	/**
 	 * Requests an error message for the current form field.
 	 * @param serverErrors A list of errors received from a server.
-	 * @param attributeName A name of a form field.
+	 * @param controlName A name of a form field.
 	 */
 	protected getFieldError(
-		serverErrors: InputErrors[] | null | void,
-		attributeName: string,
+		serverErrors: ServerError[] | null | void,
+		controlName: string,
 	): string | null {
-		return this.formValidationService.getErrorMessage(this.loginForm, attributeName, serverErrors);
+		return this.formValidationService.getErrorMessage(this.loginForm, controlName, serverErrors);
 	}
 
 	/** Handles form submit event. */

@@ -5,10 +5,10 @@ import { catchError, map } from 'rxjs/operators';
 import { AuthorizationTokenDto } from '@js-camp/core/dtos/authorization-token.dto';
 import { UserLoginMapper } from '@js-camp/core/mappers/user-login.mapper';
 import { UserLogin } from '@js-camp/core/models/user-login';
-import { ServerErrorsMapper } from '@js-camp/core/mappers/input-errors.mapper';
+import { ServerErrorsMapper } from '@js-camp/core/mappers/server-errors.mapper';
 import { UserRegistration } from '@js-camp/core/models/user-registration';
 import { UserRegistrationMapper } from '@js-camp/core/mappers/user-registration-mapper';
-import { InputErrors } from '@js-camp/core/models/input-error';
+import { ServerError } from '@js-camp/core/models/server-error';
 import { AuthorizationTokenMapper } from '@js-camp/core/mappers/authorization-token.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
@@ -26,7 +26,7 @@ export class AuthorizationService {
 
 	private readonly localStorageService = inject(LocalStorageService);
 
-	private parseError(error: unknown): Observable<InputErrors[]> {
+	private parseError(error: unknown): Observable<ServerError[]> {
 		if (error instanceof HttpErrorResponse && error.error?.errors) {
 			return of(ServerErrorsMapper.fromDto(error.error.errors));
 		}
@@ -38,7 +38,7 @@ export class AuthorizationService {
 	 * @param registrationData User registration data received from the form.
 	 * @returns An observable with user registration errors.
 	 */
-	public register(registrationData: UserRegistration): Observable<void | InputErrors[]> {
+	public register(registrationData: UserRegistration): Observable<void | ServerError[]> {
 		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.registration,
 			UserRegistrationMapper.toDto(registrationData),
@@ -53,7 +53,7 @@ export class AuthorizationService {
 	 * @param loginData Login data received from the form.
 	 * @returns An observable with login errors..
 	 */
-	public login(loginData: UserLogin): Observable<void | InputErrors[]> {
+	public login(loginData: UserLogin): Observable<void | ServerError[]> {
 		return this.http.post<AuthorizationTokenDto>(
 			this.appUrlConfig.paths.login,
 			UserLoginMapper.toDto(loginData),
@@ -80,7 +80,7 @@ export class AuthorizationService {
 	}
 
 	/** Requests an access token refresh. */
-	public refresh(): Observable<void | InputErrors[]> {
+	public refresh(): Observable<void | ServerError[]> {
 		return this.localStorageService.getRefreshToken().pipe(
 			switchMap(refreshToken => {
 				if (!refreshToken) {
@@ -101,7 +101,7 @@ export class AuthorizationService {
 	}
 
 	/** Verifies users access token. */
-	public verify(): Observable<void | InputErrors[]> {
+	public verify(): Observable<void | ServerError[]> {
 		return this.localStorageService.getAccessToken().pipe(
 			switchMap(accessToken => {
 				if (!accessToken) {

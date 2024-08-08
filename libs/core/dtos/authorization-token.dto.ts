@@ -1,9 +1,9 @@
-/** 1. */
+/** Authorization jwt tokens DTO. */
 export type AuthorizationTokenDto = {
 
-	/** 1. */
+	/** Refresh jwt token. */
 	readonly refresh: string;
 
-	/** 1. */
+	/** Access jwt token. */
 	readonly access: string;
 };

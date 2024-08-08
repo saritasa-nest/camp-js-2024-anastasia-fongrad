@@ -1,4 +1,4 @@
-/** 1. */
+/** Servers http status codes. */
 export enum HttpStatusCode {
 	OK = 200,
 	Created = 201,
