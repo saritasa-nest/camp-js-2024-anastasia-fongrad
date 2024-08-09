@@ -8,8 +8,11 @@ import { MatListModule } from '@angular/material/list';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatDialog } from '@angular/material/dialog';
 
 import { HeaderComponent } from '../header/header.component';
+
+import { ImagePopupComponent } from './components/image-popup/image-popup.component';
 
 /** Main app component. */
 @Component({
@@ -35,6 +38,8 @@ export class AnimeDetailsComponent {
 
 	private readonly route = inject(ActivatedRoute);
 
+	private readonly dialog = inject(MatDialog);
+
 	/** 1. */
 	protected readonly sanitizer = inject(DomSanitizer);
 
@@ -45,5 +50,20 @@ export class AnimeDetailsComponent {
 				return this.animeApiService.getDetails(id);
 			}),
 		);
+	}
+
+	/**
+	 * 1.
+	 * @param imageUrl 1.
+	 * @param imageTitle 1.
+	 */
+	protected openImageDialog(imageUrl: string, imageTitle: string): void {
+		this.dialog.open(ImagePopupComponent, {
+			data: {
+				imageUrl,
+				imageTitle,
+			},
+			panelClass: 'full-screen-dialog',
+		});
 	}
 }

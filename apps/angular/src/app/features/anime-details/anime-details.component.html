@@ -7,7 +7,7 @@
 					<div class="anime-details__base">
 						<div class="anime-details__preview">
 							<h1 class="anime-details__title">{{ animeDetails.titleJapanese }}</h1>
-							<div class="anime-details__image">
+							<div class="anime-details__image" (click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)">
 								<img [src]="animeDetails.imageUrl" [alt]="animeDetails.titleJapanese" class="anime-details__image">
 							</div>
 						</div>
@@ -47,7 +47,7 @@
 					</div>
 					@if (animeDetails.trailerUrl) {
 						<div class="anime-details__trailer">
-							<h2 class="anime-details__trailer-title">Trailer</h2>
+							<h2 class="anime-details__trailer-title">Watch trailer</h2>
 							<div class="anime-details__video">
 								<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(animeDetails.trailerUrl)" frameborder="0" allowfullscreen></iframe>
 							</div>
