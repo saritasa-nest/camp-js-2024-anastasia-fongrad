@@ -9,6 +9,11 @@ import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -26,6 +31,11 @@ import { ImagePopupComponent } from './components/image-popup/image-popup.compon
 		CommonModule,
 		MatListModule,
 		MatProgressBarModule,
+		MatChipsModule,
+		MatCardModule,
+		MatTooltip,
+		MatIconModule,
+		MatDividerModule,
 		EmptyPipe,
 	],
 })

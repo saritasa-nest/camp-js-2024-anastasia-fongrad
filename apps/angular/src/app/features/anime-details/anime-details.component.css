@@ -1,7 +1,6 @@
 .anime-details__content {
   margin: var(--space-20) 0;
   display: flex;
-  flex-direction: column;
   gap: var(--space-20);
 }
 
@@ -9,23 +8,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
-  width: 40%;
 }
 
 .anime-details__base {
   display: flex;
   gap: var(--space-6);
-}
-
-.anime-details__image {
-  width: 400px;
-  height: 500px;
-}
-
-.anime-details__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .anime-details__studios {
@@ -39,12 +26,8 @@
   gap: var(--space-2);
 }
 
-.anime-details__studio-logo {
-  width: 70px;
-  height: 70px;
-}
-
 .anime-details__trailer {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
@@ -64,4 +47,26 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+
+.example-card {
+  max-width: 500px;
+  color: black;
+}
+
+.example-card-footer {
+  padding: 16px;
+}
+
+.dates {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.genres {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-bottom: 12px;
 }
