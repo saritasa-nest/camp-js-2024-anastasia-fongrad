@@ -46,6 +46,6 @@ export class AuthInterceptor implements HttpInterceptor {
 			url.includes(this.appUrlConfig.paths.registration) ||
 			url.includes(this.appUrlConfig.paths.tokenRefresh) ||
 			url.includes(this.appUrlConfig.paths.tokenVerify) ||
-			url.includes(this.appUrlConfig.paths.animeCatalog);
+			url.endsWith(this.appUrlConfig.paths.animeCatalog);
 	}
 }

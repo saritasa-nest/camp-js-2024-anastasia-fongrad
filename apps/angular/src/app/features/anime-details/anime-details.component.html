@@ -1,0 +1,50 @@
+<camp-header/>
+<main class="main">
+	<section class="main__anime-details anime-details">
+		<div class="anime-details__container container">
+			<div class="anime-details__content">
+				@if (animeDetails$ | async; as animeDetails) {
+					<div class="anime-details__preview">
+						<h1 class="anime-details__title">{{ animeDetails.titleJapanese }}</h1>
+						<div class="anime-details__image">
+							<img [src]="animeDetails.imageUrl" [alt]="animeDetails.titleJapanese" class="anime-details__image">
+						</div>
+					</div>
+					<div class="anime-details__info">
+						<p>English Title: {{ animeDetails.titleEnglish | empty }}</p>
+						<p>Type: {{ animeDetails.type | empty }}</p>
+						<p>Status: {{ animeDetails.status | empty }}</p>
+						<p>Rating: {{animeDetails.rating | empty }}</p>
+						<p>Source: {{ animeDetails.source | empty }}</p>
+						<p>Season: {{ animeDetails.season | empty }}</p>
+						<p>Synopsis: {{ animeDetails.synopsis | empty }}</p>
+						<p>Is Airing: {{ animeDetails.isAiring ? 'Yes' : 'No' }}</p>
+						@if (animeDetails.airingDates) {
+							<p>Start date: {{ animeDetails.airingDates.start | date | empty }}</p>
+							<p>End date: {{ animeDetails.airingDates.end | date | empty }}</p>
+						}
+						@if (animeDetails.studios) {
+							Studios
+							<mat-list>
+								@for (studio of animeDetails.studios; track studio.id) {
+								  <mat-list-item>
+									<img matListItemIcon [src]="studio.imageUrl" [alt]="studio.name"/>
+									<p matListItemTitle>{{ studio.name }}</p>
+								  </mat-list-item>
+								}
+							</mat-list>
+						}
+						@if (animeDetails.genres) {
+							Genres
+							<mat-list>
+								@for (genre of animeDetails.genres; track genre.id) {
+								  <mat-list-item>{{ genre.name }}</mat-list-item>
+								}
+							</mat-list>
+						}
+					</div>
+				}
+			</div>
+		</div>
+	</section>
+</main>

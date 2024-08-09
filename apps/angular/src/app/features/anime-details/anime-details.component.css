@@ -1,0 +1,39 @@
+.anime-details__content {
+  margin: var(--space-20) 0;
+  display: flex;
+  gap: var(--space-6);
+}
+
+.anime-details__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  width: 40%;
+}
+
+.anime-details__image {
+  width: 400px;
+  height: 500px;
+}
+
+.anime-details__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.anime-details__studios {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.anime-details__studio {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.anime-details__studio-logo {
+  width: 70px;
+  height: 70px;
+}

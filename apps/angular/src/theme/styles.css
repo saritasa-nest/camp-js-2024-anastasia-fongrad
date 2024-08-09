@@ -93,3 +93,11 @@ body {
 .mat-mdc-form-field .mdc-text-field__input {
   --mdc-filled-text-field-input-text-color: var(--on-surface);
 }
+
+.mdc-list-item__primary-text {
+  --mdc-list-list-item-label-text-color: var(--on-surface);
+}
+
+.mdc-list-item:hover .mdc-list-item__primary-text {
+  --mdc-list-list-item-hover-label-text-color: var(--accent);
+}

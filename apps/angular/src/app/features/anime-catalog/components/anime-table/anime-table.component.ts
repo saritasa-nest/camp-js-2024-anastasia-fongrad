@@ -1,5 +1,5 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
@@ -8,8 +8,9 @@ import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
-
-import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Router } from '@angular/router';
+import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 
 /** Anime table column ids. */
 enum AnimeTableColumnIds {
@@ -71,6 +72,9 @@ export class AnimeTableComponent {
 	/** An array that determines anime table columns order. */
 	protected readonly displayedColumns = Object.values(this.animeColumnIds);
 
+	/** 1. */
+	protected readonly selectionModel = new SelectionModel<Anime>(false);
+
 	/** Stream containing anime data from the server. */
 	@Input()
 	public animeList?: readonly Anime[];
@@ -82,6 +86,8 @@ export class AnimeTableComponent {
 	/** Event emitter for a sort table event. */
 	@Output()
 	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
+
+	private readonly router = inject(Router);
 
 	/**
 	 * Emits sort table event to the parent component.
@@ -106,5 +112,13 @@ export class AnimeTableComponent {
 	 */
 	protected trackByAnime(_index: number, anime: Anime): number {
 		return anime.id;
+	}
+
+	/**
+	 * 1.
+	 * @param anime 1.
+	 */
+	protected showDetails(anime: Anime): void {
+		this.router.navigate(['/anime', anime.id]);
 	}
 }

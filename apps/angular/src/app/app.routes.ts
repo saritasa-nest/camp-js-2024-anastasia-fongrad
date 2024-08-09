@@ -19,4 +19,9 @@ export const appRoutes: Routes = [
 		loadComponent: () =>
 			import('./features/registration/registration.component').then(c => c.RegistrationComponent),
 	},
+	{
+		path: AppRoutes.AnimeDetails,
+		loadComponent: () =>
+			import('../app/features/anime-details/anime-details.component').then(c => c.AnimeDetailsComponent),
+	},
 ];
