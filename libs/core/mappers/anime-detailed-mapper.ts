@@ -6,6 +6,7 @@ import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeGenreMapper } from './anime-genre.mapper';
 import { AnimeStudioMapper } from './anime-studio-mapper';
 import { DateTimeIntervalMapper } from './date-time-interval.mapper';
+import { AnimeRatingMapper } from './anime-rating-mapper';
 
 export namespace AnimeDetailedMapper {
 
@@ -21,7 +22,7 @@ export namespace AnimeDetailedMapper {
 			titleJapanese: dto.title_jpn,
 			type: AnimeTypeMapper.fromDto(dto.type),
 			status: AnimeStatusMapper.fromDto(dto.status),
-			rating: dto.rating,
+			rating: AnimeRatingMapper.fromDto(dto.rating),
 			source: dto.source,
 			season: dto.season,
 			synopsis: dto.synopsis,

@@ -3,6 +3,7 @@ import { AnimeStatusDto } from './enums/anime-status-dto.enum';
 import { AnimeTypeDto } from './enums/anime-type-dto.enum';
 import { AnimeGenreDto } from './anime-genre.dto';
 import { AnimeStudioDto } from './anime-studio.dto';
+import { AnimeRatingDto } from './enums/anime-rating-dto.enum';
 
 /** Anime DTO. */
 export type AnimeDetailedDto = {
@@ -56,7 +57,7 @@ export type AnimeDetailedDto = {
 	readonly user_score: number | null;
 
 	/** 1. */
-	readonly rating: string;
+	readonly rating: AnimeRatingDto;
 
 	/** 1. */
 	readonly season: string;

@@ -4,6 +4,7 @@ import { Immerable, OmitImmerable } from './immerable.model';
 import { AnimeGenre } from './anime-genre.model';
 import { AnimeStudio } from './anime-studio.model';
 import { DateTimeInterval } from './date-time-interval.model';
+import { AnimeRating } from './enums/anime-rating.enum';
 
 /** Anime model. */
 export class AnimeDetailed extends Immerable {
@@ -27,7 +28,7 @@ export class AnimeDetailed extends Immerable {
 	public readonly status: AnimeStatus;
 
 	/** 1. */
-	public readonly rating: string;
+	public readonly rating: AnimeRating;
 
 	/** 1. */
 	public readonly source: string;
