@@ -6,6 +6,8 @@ import { AnimeDetailed } from '@js-camp/core/models/anime-detailed.model';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -20,6 +22,7 @@ import { HeaderComponent } from '../header/header.component';
 		HeaderComponent,
 		CommonModule,
 		MatListModule,
+		MatProgressBarModule,
 		EmptyPipe,
 	],
 })
@@ -31,6 +34,9 @@ export class AnimeDetailsComponent {
 	private readonly animeApiService = inject(AnimeApiService);
 
 	private readonly route = inject(ActivatedRoute);
+
+	/** 1. */
+	protected readonly sanitizer = inject(DomSanitizer);
 
 	public constructor() {
 		this.animeDetails$ = this.route.paramMap.pipe(

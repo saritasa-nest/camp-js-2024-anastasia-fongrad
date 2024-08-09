@@ -13,7 +13,7 @@ import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { AnimeDetailed } from '@js-camp/core/models/anime-detailed.model';
 import { AnimeDetailedDto } from '@js-camp/core/dtos/anime-detailed-dto';
-import { AnimeDetailedMapper } from '@js-camp/core/mappers/anime-detailed-mapper';
+import { AnimeDetailedMapper } from '@js-camp/core/mappers/anime-detailed.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
 

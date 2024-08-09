@@ -18,4 +18,23 @@ export namespace EnumUtils {
 		}
 		return enumValue;
 	}
+
+	/**
+	 * 1.
+	 * @param sourceEnum 1.
+	 * @param targetEnum 1.
+	 * @returns 1.
+	 */
+	export function createEnumMap<T extends string | number, U extends string | number>(
+		sourceEnum: Record<string, T>,
+		targetEnum: Record<string, U>,
+	): Record<T, U> {
+		const map: Partial<Record<T, U>> = {};
+		for (const key in sourceEnum) {
+			if (Object.prototype.hasOwnProperty.call(sourceEnum, key) && Object.prototype.hasOwnProperty.call(targetEnum, key)) {
+				map[sourceEnum[key]] = targetEnum[key];
+			}
+		}
+		return map as Record<T, U>;
+	}
 }

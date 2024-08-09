@@ -4,6 +4,8 @@ import { AnimeTypeDto } from './enums/anime-type-dto.enum';
 import { AnimeGenreDto } from './anime-genre.dto';
 import { AnimeStudioDto } from './anime-studio.dto';
 import { AnimeRatingDto } from './enums/anime-rating-dto.enum';
+import { AnimeSourceDto } from './enums/anime-source-dto.enum';
+import { AnimeSeasonDto } from './enums/anime-season-dto.enum';
 
 /** Anime DTO. */
 export type AnimeDetailedDto = {
@@ -48,7 +50,7 @@ export type AnimeDetailedDto = {
 	readonly status: AnimeStatusDto;
 
 	/** 1. */
-	readonly source: string;
+	readonly source: AnimeSourceDto;
 
 	/** Total anime score. */
 	readonly score: number | null;
@@ -60,7 +62,7 @@ export type AnimeDetailedDto = {
 	readonly rating: AnimeRatingDto;
 
 	/** 1. */
-	readonly season: string;
+	readonly season: AnimeSeasonDto;
 
 	/** 1. */
 	readonly synopsis: string;

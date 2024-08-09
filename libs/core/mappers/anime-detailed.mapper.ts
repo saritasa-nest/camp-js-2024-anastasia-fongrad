@@ -6,7 +6,9 @@ import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeGenreMapper } from './anime-genre.mapper';
 import { AnimeStudioMapper } from './anime-studio-mapper';
 import { DateTimeIntervalMapper } from './date-time-interval.mapper';
-import { AnimeRatingMapper } from './anime-rating-mapper';
+import { AnimeRatingMapper } from './anime-rating.mapper';
+import { AnimeSourceMapper } from './anime-source-mapper';
+import { AnimeSeasonMapper } from './anime-season.mapper';
 
 export namespace AnimeDetailedMapper {
 
@@ -18,13 +20,14 @@ export namespace AnimeDetailedMapper {
 		return new AnimeDetailed({
 			id: dto.id,
 			imageUrl: dto.image,
+			trailerUrl: dto.trailer_youtube_id ? `https://www.youtube.com/embed/${dto.trailer_youtube_id}` : '',
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
 			type: AnimeTypeMapper.fromDto(dto.type),
 			status: AnimeStatusMapper.fromDto(dto.status),
 			rating: AnimeRatingMapper.fromDto(dto.rating),
-			source: dto.source,
-			season: dto.season,
+			source: AnimeSourceMapper.fromDto(dto.source),
+			season: AnimeSeasonMapper.fromDto(dto.season),
 			synopsis: dto.synopsis,
 			isAiring: dto.airing,
 			airingDates: DateTimeIntervalMapper.fromDto(dto.aired),

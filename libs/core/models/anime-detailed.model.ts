@@ -5,6 +5,8 @@ import { AnimeGenre } from './anime-genre.model';
 import { AnimeStudio } from './anime-studio.model';
 import { DateTimeInterval } from './date-time-interval.model';
 import { AnimeRating } from './enums/anime-rating.enum';
+import { AnimeSource } from './enums/anime-source.enum';
+import { AnimeSeason } from './enums/anime-season.enum';
 
 /** Anime model. */
 export class AnimeDetailed extends Immerable {
@@ -14,6 +16,9 @@ export class AnimeDetailed extends Immerable {
 
 	/** Anime preview image URL. */
 	public readonly imageUrl: string;
+
+	/** 1. */
+	public readonly trailerUrl: string;
 
 	/** Anime English title. */
 	public readonly titleEnglish: string;
@@ -31,10 +36,10 @@ export class AnimeDetailed extends Immerable {
 	public readonly rating: AnimeRating;
 
 	/** 1. */
-	public readonly source: string;
+	public readonly source: AnimeSource;
 
 	/** 1. */
-	public readonly season: string;
+	public readonly season: AnimeSeason;
 
 	/** 1. */
 	public readonly synopsis: string;
@@ -55,6 +60,7 @@ export class AnimeDetailed extends Immerable {
 		super();
 		this.id = data.id;
 		this.imageUrl = data.imageUrl;
+		this.trailerUrl = data.trailerUrl;
 		this.titleEnglish = data.titleEnglish;
 		this.titleJapanese = data.titleJapanese;
 		this.type = data.type;
