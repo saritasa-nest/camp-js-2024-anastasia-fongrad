@@ -98,18 +98,10 @@ export class AuthorizationService {
 	/** Verifies users access token. */
 	public verify(): Observable<void | ServerError[]> {
 		return this.tokenService.getAccessToken().pipe(
-			switchMap(accessToken => {
-				if (!accessToken) {
-					return of(undefined);
-				}
-				return this.http.post<void>(
-					this.appUrlConfig.paths.tokenVerify,
-					{ token: accessToken },
-				).pipe(
-					map(() => undefined),
-					catchError((error: unknown) => this.parseError(error)),
-				);
-			}),
+			switchMap(accessToken => this.http.post<void>(
+				this.appUrlConfig.paths.tokenVerify,
+				{ token: accessToken },
+			)),
 		);
 	}
 }

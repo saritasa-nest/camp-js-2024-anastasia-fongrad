@@ -50,7 +50,8 @@
 }
 
 .example-card {
-  max-width: 500px;
+  width: 80%;
+  margin: 0 auto;
   color: black;
 }
 
@@ -69,4 +70,34 @@
   flex-direction: column;
   gap: var(--space-2);
   padding-bottom: 12px;
+}
+
+.anime-details__image {
+  margin: 0 auto;
+  width: 100%;
+  min-width: 50%;
+  height: 400px;
+  object-fit: contain;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  background-color: var(--accent);
+}
+
+.zoom-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  background-color: rgba(0 0 0 / 50%);
+  color: white;
+  border-radius: 50%;
+}
+
+.image-container:hover .zoom-button {
+  opacity: 1;
 }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { AppRoutes } from '../core/utils/enums/app-routes.enum';
+import { AuthGuard } from '../core/guards/auth-guard';
 
 /** Routes object. */
 export const appRoutes: Routes = [
@@ -23,5 +24,6 @@ export const appRoutes: Routes = [
 		path: AppRoutes.AnimeDetails,
 		loadComponent: () =>
 			import('../app/features/anime-details/anime-details.component').then(c => c.AnimeDetailsComponent),
+		canActivate: [AuthGuard],
 	},
 ];
