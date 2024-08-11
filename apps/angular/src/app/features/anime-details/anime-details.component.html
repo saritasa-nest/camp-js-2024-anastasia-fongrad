@@ -4,6 +4,7 @@
 		<div class="anime-details__container container">
 			<div class="anime-details__content">
 				@if (animeDetails$ | async; as animeDetails) {
+					<button mat-raised-button type="button" (click)="navigateBack()">Go Back</button>
 					<mat-card class="example-card" appearance="outlined">
 						<mat-card-header>
 							<mat-card-title>{{ animeDetails.titleJapanese }}</mat-card-title>

@@ -3,7 +3,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Observable, switchMap } from 'rxjs';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltip } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 import { HeaderComponent } from '../header/header.component';
 
@@ -36,6 +37,7 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
 		MatTooltip,
 		MatIconModule,
 		MatDividerModule,
+		MatButtonModule,
 		EmptyPipe,
 	],
 })
@@ -52,6 +54,8 @@ export class AnimeDetailsComponent {
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly dialog = inject(MatDialog);
+
+	private readonly location = inject(Location);
 
 	public constructor() {
 		this.animeDetails$ = this.route.paramMap.pipe(
@@ -75,5 +79,10 @@ export class AnimeDetailsComponent {
 			},
 			panelClass: 'full-screen-dialog',
 		});
+	}
+
+	/** Navigates to the previous page. */
+	protected navigateBack(): void {
+		this.location.back();
 	}
 }

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { Observable, map, catchError, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 import { AppRoutes } from '../utils/enums/app-routes.enum';
 import { AuthorizationService } from '../services/authorization.service';
@@ -9,7 +9,7 @@ import { AuthorizationService } from '../services/authorization.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class NotLoggedInGuard implements CanActivate {
 
 	private readonly authService = inject(AuthorizationService);
 
@@ -24,10 +24,6 @@ export class AuthGuard implements CanActivate {
 				}
 				this.router.navigate([AppRoutes.Login]);
 				return false;
-			}),
-			catchError(() => {
-				this.router.navigate([AppRoutes.Login]);
-				return of(false);
 			}),
 		);
 	}
