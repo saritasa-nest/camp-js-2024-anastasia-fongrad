@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime rating DTO. */
 export enum AnimeRatingDto {
 	AllAges = 'G',
 	Children = 'PG',

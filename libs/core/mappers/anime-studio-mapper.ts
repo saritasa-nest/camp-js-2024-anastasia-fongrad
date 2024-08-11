@@ -4,7 +4,7 @@ import { AnimeStudio } from '../models/anime-studio.model';
 export namespace AnimeStudioMapper {
 
 	/**
-	 * Maps genre dto to model.
+	 * Maps anime studios from a dto model to a model.
 	 * @param dto Genre dto.
 	 */
 	export function fromDto(dto: AnimeStudioDto): AnimeStudio {

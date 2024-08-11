@@ -55,7 +55,6 @@ export class RefreshInterceptor implements HttpInterceptor {
 		return url.includes(this.appUrlConfig.paths.login) ||
 			url.includes(this.appUrlConfig.paths.registration) ||
 			url.includes(this.appUrlConfig.paths.tokenRefresh) ||
-			url.includes(this.appUrlConfig.paths.tokenVerify) ||
 			url.endsWith(this.appUrlConfig.paths.animeCatalog);
 	}
 }

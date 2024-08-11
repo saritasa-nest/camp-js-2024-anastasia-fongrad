@@ -5,8 +5,8 @@ import { EnumUtils } from '../utils/enum-utils';
 export namespace AnimeRatingMapper {
 
 	/**
-	 * Converts anime sort parameters from a dto object to a model.
-	 * @param dto Anime sort parameters dto.
+	 * Converts anime rating from a dto object to a model.
+	 * @param dto Anime rating dto.
 	 */
 	export function fromDto(dto: AnimeRatingDto): AnimeRating {
 		const statusMap = EnumUtils.createEnumMap(AnimeRatingDto, AnimeRating);

@@ -2,8 +2,8 @@ export namespace EnumUtils {
 
 	/**
 	 * Convert enum to string array.
-	 * @param enumValueAsString - Enum value as string.
-	 * @param enumeration - Enumeration.
+	 * @param enumValueAsString Enum value as string.
+	 * @param enumeration Enumeration.
 	 */
 	export function fromString<TKey extends string, TValue extends string>(
 		enumValueAsString: string,
@@ -20,10 +20,9 @@ export namespace EnumUtils {
 	}
 
 	/**
-	 * 1.
-	 * @param sourceEnum 1.
-	 * @param targetEnum 1.
-	 * @returns 1.
+	 * Creates a map based on to records.
+	 * @param sourceEnum Source enum record.
+	 * @param targetEnum Target enum record.
 	 */
 	export function createEnumMap<T extends string | number, U extends string | number>(
 		sourceEnum: Record<string, T>,

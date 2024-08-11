@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
 import { Observable, switchMap } from 'rxjs';
-import { AnimeDetailed } from '@js-camp/core/models/anime-detailed.model';
+import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
@@ -17,9 +17,9 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { HeaderComponent } from '../header/header.component';
 
-import { ImagePopupComponent } from './components/image-popup/image-popup.component';
+import { ImageDialogComponent } from './components/image-dialog/image-dialog.component';
 
-/** Main app component. */
+/** Anime details page component. */
 @Component({
 	selector: 'camp-anime-details',
 	templateUrl: './anime-details.component.html',
@@ -41,17 +41,17 @@ import { ImagePopupComponent } from './components/image-popup/image-popup.compon
 })
 export class AnimeDetailsComponent {
 
-	/** 1. */
-	protected readonly animeDetails$: Observable<AnimeDetailed>;
+	/** Anime details object. */
+	protected readonly animeDetails$: Observable<AnimeDetails>;
+
+	/** Angular DOM sanitizer. */
+	protected readonly sanitizer = inject(DomSanitizer);
 
 	private readonly animeApiService = inject(AnimeApiService);
 
 	private readonly route = inject(ActivatedRoute);
 
 	private readonly dialog = inject(MatDialog);
-
-	/** 1. */
-	protected readonly sanitizer = inject(DomSanitizer);
 
 	public constructor() {
 		this.animeDetails$ = this.route.paramMap.pipe(
@@ -63,12 +63,12 @@ export class AnimeDetailsComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param imageUrl 1.
-	 * @param imageTitle 1.
+	 * Opens a dialog box with a full-size image of the anime.
+	 * @param imageUrl Anime image url.
+	 * @param imageTitle Anime image title.
 	 */
 	protected openImageDialog(imageUrl: string, imageTitle: string): void {
-		this.dialog.open(ImagePopupComponent, {
+		this.dialog.open(ImageDialogComponent, {
 			data: {
 				imageUrl,
 				imageTitle,

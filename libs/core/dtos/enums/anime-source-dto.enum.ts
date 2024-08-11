@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime source DTO. */
 export enum AnimeSourceDto {
 	FourKomaManga = 'FOUR_KOMA_MANGA',
 	Book = 'BOOK',

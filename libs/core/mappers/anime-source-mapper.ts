@@ -5,8 +5,8 @@ import { AnimeSourceDto } from '../dtos/enums/anime-source-dto.enum';
 export namespace AnimeSourceMapper {
 
 	/**
-	 * Converts anime sort parameters from a dto object to a model.
-	 * @param dto Anime sort parameters dto.
+	 * Converts anime source from a dto object to a model.
+	 * @param dto Anime source dto.
 	 */
 	export function fromDto(dto: AnimeSourceDto): AnimeSource {
 		const statusMap = EnumUtils.createEnumMap(AnimeSourceDto, AnimeSource);

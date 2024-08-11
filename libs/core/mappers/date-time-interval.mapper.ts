@@ -4,7 +4,7 @@ import { DateTimeIntervalDto } from '../dtos/date-time-interval.dto';
 export namespace DateTimeIntervalMapper {
 
 	/**
-	 * Maps user login data from a model to a dto object.
+	 * Maps date-time interval from a model to a dto object.
 	 * @param dto User login object model.
 	 */
 	export function fromDto(dto: DateTimeIntervalDto): DateTimeInterval {

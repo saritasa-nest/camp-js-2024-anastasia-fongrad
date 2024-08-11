@@ -1,15 +1,15 @@
 import { Immerable, OmitImmerable } from './immerable.model';
 
-/** Genre. */
+/** Anime studio. */
 export class AnimeStudio extends Immerable {
 
-	/** Id. */
+	/** Studio id. */
 	public readonly id: number;
 
-	/** Name. */
+	/** Studio name. */
 	public readonly name: string;
 
-	/** DTO type. */
+	/** Studio logo url. */
 	public readonly imageUrl: string;
 
 	public constructor(data: AnimeStudioConstructorData) {

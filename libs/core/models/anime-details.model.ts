@@ -8,8 +8,8 @@ import { AnimeRating } from './enums/anime-rating.enum';
 import { AnimeSource } from './enums/anime-source.enum';
 import { AnimeSeason } from './enums/anime-season.enum';
 
-/** Anime model. */
-export class AnimeDetailed extends Immerable {
+/** Anime details model. */
+export class AnimeDetails extends Immerable {
 
 	/** Anime id. */
 	public readonly id: number;
@@ -17,7 +17,7 @@ export class AnimeDetailed extends Immerable {
 	/** Anime preview image URL. */
 	public readonly imageUrl: string;
 
-	/** 1. */
+	/** YouTube trailer url. */
 	public readonly trailerUrl: string;
 
 	/** Anime English title. */
@@ -29,31 +29,31 @@ export class AnimeDetailed extends Immerable {
 	/** Anime type. */
 	public readonly type: AnimeType;
 
-	/** Anime airing status. */
+	/** Anime status. */
 	public readonly status: AnimeStatus;
 
-	/** 1. */
+	/** Anime rating. */
 	public readonly rating: AnimeRating;
 
-	/** 1. */
+	/** Anime source. */
 	public readonly source: AnimeSource;
 
-	/** 1. */
+	/** Anime season. */
 	public readonly season: AnimeSeason;
 
-	/** 1. */
+	/** Anime synopsis. */
 	public readonly synopsis: string;
 
-	/** 1. */
-	public readonly isAiring: boolean;
+	/** Anime airing status. */
+	public readonly airingStatus: 'on air' | 'off air';
 
-	/** 1. */
+	/** Anime airing dates. */
 	public readonly airingDates: DateTimeInterval;
 
-	/** 1. */
+	/** A list of anime studios. */
 	public readonly studios: readonly AnimeStudio[];
 
-	/** 1. */
+	/** A list of anime genres. */
 	public readonly genres: readonly AnimeGenre[];
 
 	public constructor(data: AnimeDetailedConstructorData) {
@@ -69,11 +69,11 @@ export class AnimeDetailed extends Immerable {
 		this.source = data.source;
 		this.season = data.season;
 		this.synopsis = data.synopsis;
-		this.isAiring = data.isAiring;
+		this.airingStatus = data.airingStatus;
 		this.airingDates = data.airingDates;
 		this.studios = data.studios;
 		this.genres = data.genres;
 	}
 }
 
-type AnimeDetailedConstructorData = OmitImmerable<AnimeDetailed>;
+type AnimeDetailedConstructorData = OmitImmerable<AnimeDetails>;

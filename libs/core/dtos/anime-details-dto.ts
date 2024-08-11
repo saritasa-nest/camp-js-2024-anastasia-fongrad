@@ -7,8 +7,8 @@ import { AnimeRatingDto } from './enums/anime-rating-dto.enum';
 import { AnimeSourceDto } from './enums/anime-source-dto.enum';
 import { AnimeSeasonDto } from './enums/anime-season-dto.enum';
 
-/** Anime DTO. */
-export type AnimeDetailedDto = {
+/** Anime details DTO. */
+export type AnimeDetailsDto = {
 
 	/** Id of the current anime. */
 	readonly id: number;
@@ -34,10 +34,10 @@ export type AnimeDetailedDto = {
 	/** Anime preview. */
 	readonly image: string;
 
-	/** 1. */
+	/** YouTube trailer id. */
 	readonly trailer_youtube_id: string;
 
-	/** 1. */
+	/** Anime airing status. */
 	readonly airing: boolean;
 
 	/** Anime airing dates. */
@@ -46,10 +46,10 @@ export type AnimeDetailedDto = {
 	/** Anime type. */
 	readonly type: AnimeTypeDto;
 
-	/** Anime airing status. */
+	/** Anime status. */
 	readonly status: AnimeStatusDto;
 
-	/** 1. */
+	/** Anime source. */
 	readonly source: AnimeSourceDto;
 
 	/** Total anime score. */
@@ -58,36 +58,36 @@ export type AnimeDetailedDto = {
 	/** User anime score. */
 	readonly user_score: number | null;
 
-	/** 1. */
+	/** Anime rating. */
 	readonly rating: AnimeRatingDto;
 
-	/** 1. */
+	/** Anime season. */
 	readonly season: AnimeSeasonDto;
 
-	/** 1. */
+	/** Anime synopsis. */
 	readonly synopsis: string;
 
-	/** 1. */
+	/** Anime background. */
 	readonly background: string;
 
-	/** 1. */
+	/** Anime broadcast day. */
 	readonly broadcast_day: number;
 
-	/** 1. */
+	/** Anime broadcast time. */
 	readonly broadcast_time: string;
 
-	/** 1. */
+	/** Anime broadcast timezone. */
 	readonly broadcast_timezone: string;
 
-	/** A list of released studios. */
+	/** A list of anime studio ids. */
 	readonly studios: readonly number[];
 
-	/** 1. */
+	/** A list of anime studio objects. */
 	readonly studios_data: readonly AnimeStudioDto[];
 
-	/** A list of anime genres. */
+	/** A list of anime genre ids. */
 	readonly genres: readonly number[];
 
-	/** 1. */
+	/** A list of anime genre objects. */
 	readonly genres_data: readonly AnimeGenreDto[];
 };
