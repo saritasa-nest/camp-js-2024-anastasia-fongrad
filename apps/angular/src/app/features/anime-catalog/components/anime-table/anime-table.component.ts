@@ -117,4 +117,15 @@ export class AnimeTableComponent {
 	protected showDetails(anime: Anime): void {
 		this.router.navigate(['/anime', anime.id]);
 	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 * @param anime 1.
+	 */
+	protected onRowKeydown(event: KeyboardEvent, anime: Anime) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			this.showDetails(anime);
+		}
+	}
 }

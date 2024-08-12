@@ -10,8 +10,17 @@
 							<mat-card-title>{{ animeDetails.titleJapanese }}</mat-card-title>
 						</mat-card-header>
 						<div class="image-container">
-							<img mat-card-image [src]="animeDetails.imageUrl" [alt]="animeDetails.titleJapanese" (click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)" class="anime-details__image">
-							<button mat-icon-button class="zoom-button" type="button" (click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)">
+							<img mat-card-image class="anime-details__image"
+								[src]="animeDetails.imageUrl"
+								[alt]="animeDetails.titleJapanese"
+								(click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)"
+								tabindex="0"
+								(keydown)="onImageKeydown($event, animeDetails.imageUrl, animeDetails.titleJapanese)"
+								>
+							<button mat-icon-button class="zoom-button"
+								type="button"
+								(click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)"
+							>
 								<mat-icon>zoom_in</mat-icon>
 							</button>
 						</div>
@@ -69,7 +78,12 @@
 								<mat-card-title>Watch Trailer</mat-card-title>
 							</mat-card-header>
 							<div class="anime-details__video">
-								<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(animeDetails.trailerUrl)" frameborder="0" allowfullscreen></iframe>
+								<iframe
+									[title]="animeDetails.synopsis"
+									[src]="sanitizer.bypassSecurityTrustResourceUrl(animeDetails.trailerUrl)"
+									frameborder="0"
+									allowfullscreen
+								></iframe>
 							</div>
 						</mat-card>
 					}

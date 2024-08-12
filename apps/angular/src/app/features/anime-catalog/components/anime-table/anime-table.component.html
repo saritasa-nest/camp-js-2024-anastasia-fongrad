@@ -60,7 +60,7 @@
 			</ng-container>
 
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showDetails(row)"></tr>
+			<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showDetails(row)" tabindex="0" (keydown)="onRowKeydown($event, row)"></tr>
 		</table>
 	}
 </div>

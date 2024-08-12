@@ -85,4 +85,16 @@ export class AnimeDetailsComponent {
 	protected navigateBack(): void {
 		this.location.back();
 	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 * @param imageUrl 1.
+	 * @param titleJapanese 1.
+	 */
+	protected onImageKeydown(event: KeyboardEvent, imageUrl: string, titleJapanese: string) {
+		if (event.key === 'Enter' || event.key === ' ') {
+			this.openImageDialog(imageUrl, titleJapanese);
+		}
+	}
 }
