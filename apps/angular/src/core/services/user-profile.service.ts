@@ -11,7 +11,7 @@ import { AppUrlConfig } from './app-url-config.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class UserProfileApiService {
+export class UserProfileService {
 
 	private readonly http = inject(HttpClient);
 

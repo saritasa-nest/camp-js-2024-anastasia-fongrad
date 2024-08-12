@@ -8,7 +8,7 @@ import { UserProfile } from '@js-camp/core/models/user-profile.model';
 import { Observable } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
-import { UserProfileApiService } from '@js-camp/angular/core/services/user-profile-api.service';
+import { UserProfileService } from '@js-camp/angular/core/services/user-profile.service';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { AuthorizationTokenService } from '@js-camp/angular/core/services/authorization-token.service';
 
@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit {
 
 	private readonly authService = inject(AuthorizationService);
 
-	private readonly userProfileService = inject(UserProfileApiService);
+	private readonly userProfileService = inject(UserProfileService);
 
 	private readonly tokenService = inject(AuthorizationTokenService);
 

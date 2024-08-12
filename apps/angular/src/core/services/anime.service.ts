@@ -21,7 +21,7 @@ import { AppUrlConfig } from './app-url-config.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class AnimeApiService {
+export class AnimeService {
 
 	private readonly http: HttpClient = inject(HttpClient);
 

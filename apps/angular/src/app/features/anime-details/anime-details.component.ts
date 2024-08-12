@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
-import { Observable, switchMap } from 'rxjs';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { Observable, switchMap, tap, of } from 'rxjs';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { CommonModule, Location } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
@@ -44,12 +44,12 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
 export class AnimeDetailsComponent {
 
 	/** Anime details object. */
-	protected readonly animeDetails$: Observable<AnimeDetails>;
+	protected readonly animeDetails$: Observable<AnimeDetails | null>;
 
 	/** Angular DOM sanitizer. */
 	protected readonly sanitizer = inject(DomSanitizer);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private readonly animeApiService = inject(AnimeService);
 
 	private readonly route = inject(ActivatedRoute);
 
@@ -60,8 +60,11 @@ export class AnimeDetailsComponent {
 	public constructor() {
 		this.animeDetails$ = this.route.paramMap.pipe(
 			switchMap(params => {
-				const id = Number(params.get('id'));
-				return this.animeApiService.getDetails(id);
+				const id = params.get('id');
+				if (id) {
+					return this.animeApiService.getDetails(Number(id));
+				}
+				return of(null);
 			}),
 		);
 	}
