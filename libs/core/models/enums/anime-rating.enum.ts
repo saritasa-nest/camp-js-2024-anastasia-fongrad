@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime rating. */
 export enum AnimeRating {
 	AllAges = '0+',
 	Children = 'Children',

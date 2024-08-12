@@ -93,3 +93,9 @@ body {
 .mat-mdc-form-field .mdc-text-field__input {
   --mdc-filled-text-field-input-text-color: var(--on-surface);
 }
+
+.mat-mdc-row:hover .mat-mdc-cell {
+  border-color: var(--surface-overlay);
+  background-color: var(--accent-overlay);
+  cursor: pointer;
+}

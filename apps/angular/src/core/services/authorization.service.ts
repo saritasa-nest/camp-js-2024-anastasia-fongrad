@@ -68,7 +68,7 @@ export class AuthorizationService {
 		this.tokenService.clearToken();
 	}
 
-	/** 1. */
+	/** Checks if a user is authorized in a system. */
 	public isAuthorized(): Observable<boolean> {
 		return this.verify().pipe(
 			map(() => true),

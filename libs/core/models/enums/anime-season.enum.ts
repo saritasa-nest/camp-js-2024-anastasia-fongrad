@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime season. */
 export enum AnimeSeason {
 	Summer = 'sumer',
 	Winter = 'winter',

@@ -26,13 +26,6 @@
   gap: var(--space-2);
 }
 
-.anime-details__trailer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-6);
-}
-
 .anime-details__video {
   position: relative;
   width: 100%;
@@ -49,10 +42,17 @@
   height: 100%;
 }
 
-.example-card {
+.anime-details__card {
   width: 80%;
   margin: 0 auto;
   color: black;
+}
+
+.anime-details__trailer {
+  width: 100%;
+  margin: 0 auto;
+  color: black;
+  margin-bottom: var(--space-20);
 }
 
 .example-card-footer {

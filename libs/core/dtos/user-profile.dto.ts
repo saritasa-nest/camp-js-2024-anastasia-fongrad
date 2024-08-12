@@ -1,13 +1,13 @@
 /** User profile dto. */
 export type UserProfileDto = {
 
-	/** 1. */
+	/** User's email address. */
 	readonly email: string;
 
-	/** 1. */
+	/** User's first name. */
 	readonly first_name: string;
 
-	/** 1. */
+	/** User's last name. */
 	readonly last_name: string;
 
 	/** User's profile avatar. */

@@ -1,4 +1,4 @@
-/** 1. */
+/** Represents anime source. */
 export enum AnimeSource {
 	FourKomaManga = 'four koma manga',
 	Book = 'book',

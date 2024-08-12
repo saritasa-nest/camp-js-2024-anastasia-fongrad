@@ -8,7 +8,6 @@ import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
-import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 
@@ -71,9 +70,6 @@ export class AnimeTableComponent {
 
 	/** An array that determines anime table columns order. */
 	protected readonly displayedColumns = Object.values(this.animeColumnIds);
-
-	/** 1. */
-	protected readonly selectionModel = new SelectionModel<Anime>(false);
 
 	/** Stream containing anime data from the server. */
 	@Input()

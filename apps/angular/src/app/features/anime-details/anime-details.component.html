@@ -2,10 +2,10 @@
 <main class="main">
 	<section class="main__anime-details anime-details">
 		<div class="anime-details__container container">
-			<div class="anime-details__content">
-				@if (animeDetails$ | async; as animeDetails) {
+			@if (animeDetails$ | async; as animeDetails) {
+				<div class="anime-details__content">
 					<button mat-raised-button type="button" (click)="navigateBack()">Go Back</button>
-					<mat-card class="example-card" appearance="outlined">
+					<mat-card class="anime-details__card" appearance="outlined">
 						<mat-card-header>
 							<mat-card-title>{{ animeDetails.titleJapanese }}</mat-card-title>
 						</mat-card-header>
@@ -21,23 +21,23 @@
 							}
 							<p>{{ animeDetails.synopsis }}</p>
 							@if (animeDetails.airingDates) {
-								<div class="dates" matTooltip="Airing dates">
-									<mat-icon>calendar_today</mat-icon>
+								<div class="dates">
+									<mat-icon matTooltip="Airing dates">calendar_today</mat-icon>
 									<p>{{ animeDetails.airingDates.start | date | empty }} - {{ animeDetails.airingDates.end | date | empty }}</p>
 								</div>
 							}
-							@if (animeDetails.studios) {
+							@if (animeDetails.studios.length !== 0) {
 								Production:
 								<mat-list>
 									@for (studio of animeDetails.studios; track studio.id) {
-									<mat-list-item>
-										<img matListItemIcon [src]="studio.imageUrl" [alt]="studio.name"/>
-										<p matListItemTitle>{{ studio.name }}</p>
-									</mat-list-item>
+										<mat-list-item>
+											<img matListItemIcon [src]="studio.imageUrl" [alt]="studio.name"/>
+											<p matListItemTitle>{{ studio.name }}</p>
+										</mat-list-item>
 									}
 								</mat-list>
 							}
-							@if (animeDetails.genres) {
+							@if (animeDetails.genres.length !== 0) {
 								<div class="genres">
 									<div class="genres-title">
 										Genres:
@@ -62,21 +62,24 @@
 							</mat-chip-set>
 						</mat-card-footer>
 					</mat-card>
+				</div>
 					@if (animeDetails.trailerUrl) {
-						<div class="anime-details__trailer">
-							<h2 class="anime-details__trailer-title">Watch trailer</h2>
+						<mat-card class="anime-details__trailer">
+							<mat-card-header>
+								<mat-card-title>Watch Trailer</mat-card-title>
+							</mat-card-header>
 							<div class="anime-details__video">
 								<iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(animeDetails.trailerUrl)" frameborder="0" allowfullscreen></iframe>
 							</div>
-						</div>
+						</mat-card>
 					}
+
 				}
-				@else {
-					<div class="main__empty">
-						<mat-progress-bar mode="indeterminate"></mat-progress-bar>
-					</div>
-				}
-			</div>
+			@else {
+				<div class="main__empty">
+					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				</div>
+			}
 		</div>
 	</section>
 </main>

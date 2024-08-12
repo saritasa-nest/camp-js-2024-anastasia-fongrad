@@ -5,7 +5,7 @@ import { Observable, map } from 'rxjs';
 import { AppRoutes } from '../utils/enums/app-routes.enum';
 import { AuthorizationService } from '../services/authorization.service';
 
-/** A guard that determines whether the user can access a page. */
+/** A guard that prevents unauthenticated users from accessing pages. */
 @Injectable({
 	providedIn: 'root',
 })
