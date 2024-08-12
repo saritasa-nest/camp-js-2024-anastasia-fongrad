@@ -87,12 +87,12 @@ export class AnimeDetailsComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
-	 * @param imageUrl 1.
-	 * @param titleJapanese 1.
+	 * Handles card image keyboard events.
+	 * @param event Card image's keyboard event.
+	 * @param imageUrl Card image url.
+	 * @param titleJapanese Card image title.
 	 */
-	protected onImageKeydown(event: KeyboardEvent, imageUrl: string, titleJapanese: string) {
+	protected onImageKeydown(event: KeyboardEvent, imageUrl: string, titleJapanese: string): void {
 		if (event.key === 'Enter' || event.key === ' ') {
 			this.openImageDialog(imageUrl, titleJapanese);
 		}

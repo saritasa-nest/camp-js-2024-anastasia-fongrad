@@ -111,19 +111,19 @@ export class AnimeTableComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param anime 1.
+	 * Navigates to the anime details page.
+	 * @param anime Selected anime to navigate to.
 	 */
 	protected showDetails(anime: Anime): void {
 		this.router.navigate(['/anime', anime.id]);
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
-	 * @param anime 1.
+	 * Handles table's keyboard events.
+	 * @param event Table's keyboard event.
+	 * @param anime Selected anime.
 	 */
-	protected onRowKeydown(event: KeyboardEvent, anime: Anime) {
+	protected onRowKeydown(event: KeyboardEvent, anime: Anime): void {
 		if (event.key === 'Enter' || event.key === ' ') {
 			this.showDetails(anime);
 		}
