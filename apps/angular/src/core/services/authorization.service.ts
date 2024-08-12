@@ -68,7 +68,7 @@ export class AuthorizationService {
 		this.tokenService.clearToken();
 	}
 
-	/** 1. */
+	/** Checks if a user is authorized in a system. */
 	public isAuthorized(): Observable<boolean> {
 		return this.verify().pipe(
 			map(() => true),
@@ -98,18 +98,10 @@ export class AuthorizationService {
 	/** Verifies users access token. */
 	public verify(): Observable<void | ServerError[]> {
 		return this.tokenService.getAccessToken().pipe(
-			switchMap(accessToken => {
-				if (!accessToken) {
-					return of(undefined);
-				}
-				return this.http.post<void>(
-					this.appUrlConfig.paths.tokenVerify,
-					{ token: accessToken },
-				).pipe(
-					map(() => undefined),
-					catchError((error: unknown) => this.parseError(error)),
-				);
-			}),
+			switchMap(accessToken => this.http.post<void>(
+				this.appUrlConfig.paths.tokenVerify,
+				{ token: accessToken },
+			)),
 		);
 	}
 }
