@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { AuthorizationToken } from '@js-camp/core/models/authorization-token.model';
 import { Observable, of, Subject } from 'rxjs';
 
+/** Access token key in the local storage. */
+const ACCESS_TOKEN_KEY = 'accessToken';
+
+/** Refresh token key in the local storage. */
+const REFRESH_TOKEN_KEY = 'refreshToken';
+
 /** Works with user authorization tokens. */
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthorizationTokenService {
-
-	private readonly accessTokenKey = 'accessToken';
-
-	private readonly refreshTokenKey = 'refreshToken';
 
 	private readonly tokenChangeSubject$ = new Subject<void>();
 
@@ -19,27 +21,27 @@ export class AuthorizationTokenService {
 	 * @param token User authorization token.
 	 */
 	public saveToken(token: AuthorizationToken): void {
-		localStorage.setItem(this.accessTokenKey, token.accessToken);
-		localStorage.setItem(this.refreshTokenKey, token.refreshToken);
+		localStorage.setItem(ACCESS_TOKEN_KEY, token.accessToken);
+		localStorage.setItem(REFRESH_TOKEN_KEY, token.refreshToken);
 		this.tokenChangeSubject$.next();
 	}
 
 	/** Gets an access authorization token. */
 	public getAccessToken(): Observable<string | null> {
-		const accessToken = localStorage.getItem(this.accessTokenKey);
+		const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
 		return of(accessToken);
 	}
 
 	/** Gets a refresh authorization token. */
 	public getRefreshToken(): Observable<string | null> {
-		const refreshToken = localStorage.getItem(this.refreshTokenKey);
+		const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
 		return of(refreshToken);
 	}
 
 	/** Clears information about an authorization token. */
 	public clearToken(): void {
-		localStorage.removeItem(this.accessTokenKey);
-		localStorage.removeItem(this.refreshTokenKey);
+		localStorage.removeItem(ACCESS_TOKEN_KEY);
+		localStorage.removeItem(REFRESH_TOKEN_KEY);
 		this.tokenChangeSubject$.next();
 	}
 
