@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { Observable, switchMap, tap, of } from 'rxjs';
+import { Observable, switchMap, of } from 'rxjs';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { CommonModule, Location } from '@angular/common';
 import { MatListModule } from '@angular/material/list';

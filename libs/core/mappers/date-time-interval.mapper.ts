@@ -1,5 +1,6 @@
 import { DateTimeInterval } from '../models/date-time-interval.model';
 import { DateTimeIntervalDto } from '../dtos/date-time-interval.dto';
+
 import { DateTimeMapper } from './date-time-mapper';
 
 export namespace DateTimeIntervalMapper {
