@@ -1,4 +1,4 @@
-import { Component, inject, Input, Output, EventEmitter, DestroyRef, OnInit } from '@angular/core';
+import { Component, inject, Input, Output, EventEmitter, DestroyRef, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -27,6 +27,7 @@ import { AnimeFilterForm } from './anime-filter-form.model';
 		CommonModule,
 		ReactiveFormsModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeFilterFormComponent implements OnInit {
 

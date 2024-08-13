@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
 import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -27,6 +27,7 @@ import { AnimeFilterFormComponent } from './components/anime-filter-form/anime-f
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeCatalogComponent {
 

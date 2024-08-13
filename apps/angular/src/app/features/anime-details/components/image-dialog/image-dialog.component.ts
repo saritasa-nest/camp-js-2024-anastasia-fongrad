@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
@@ -17,6 +17,7 @@ import { ImageDialog } from './image-dialog.model';
 		MatDialogContent,
 		MatButton,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageDialogComponent {
 

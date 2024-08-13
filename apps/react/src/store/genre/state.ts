@@ -1,10 +1,10 @@
-import { Genre } from '@js-camp/core/models/anime-genre.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 
 /** Genres state. */
 export type GenresState = {
 
 	/** Genres list. */
-	readonly genres: Genre[];
+	readonly genres: AnimeGenre[];
 
 	/** Error. */
 	readonly error?: string;

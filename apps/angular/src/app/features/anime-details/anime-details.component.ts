@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterModule, ActivatedRoute } from '@angular/router';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { Observable, switchMap, of } from 'rxjs';
@@ -40,6 +40,7 @@ import { ImageDialogComponent } from './components/image-dialog/image-dialog.com
 		MatButtonModule,
 		EmptyPipe,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDetailsComponent {
 

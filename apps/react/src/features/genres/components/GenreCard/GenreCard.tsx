@@ -1,12 +1,12 @@
 import { memo, FC } from 'react';
-import { Genre } from '@js-camp/core/models/genre';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 
 import styles from './GenreCard.module.css';
 
 type Props = {
 
 	/** Genre. */
-	readonly genre: Genre;
+	readonly genre: AnimeGenre;
 };
 
 /** Card with genre data. */

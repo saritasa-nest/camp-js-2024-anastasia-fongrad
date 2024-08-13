@@ -1,5 +1,5 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
@@ -59,6 +59,8 @@ function mapColumnToSortParameter(column: AnimeTableColumnIds | null): AnimeSort
 		DatePipe,
 		MatSortModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class AnimeTableComponent {
 
