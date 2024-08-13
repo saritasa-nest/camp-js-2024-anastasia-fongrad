@@ -99,3 +99,28 @@ body {
   background-color: var(--accent-overlay);
   cursor: pointer;
 }
+
+.mdc-evolution-chip__text-label {
+  --mdc-chip-label-text-color: var(--on-surface);
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) {
+  --mdc-chip-elevated-container-color: var(--surface);
+}
+
+.mat-mdc-card-outlined {
+  --mdc-outlined-card-container-color: var(--accent);
+}
+
+.mat-mdc-raised-button:not(:disabled) {
+  --mdc-protected-button-label-text-color: var(--on-accent);
+  --mdc-protected-button-container-color: var(--accent-overlay);
+}
+
+.mdc-list-item__primary-text {
+  --mdc-list-list-item-label-text-color: var(--on-accent);
+}
+
+.mat-mdc-card {
+  --mdc-elevated-card-container-color: var(--accent);
+}

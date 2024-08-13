@@ -45,13 +45,13 @@
 .anime-details__card {
   width: 80%;
   margin: 0 auto;
-  color: black;
+  color: var(--on-accent);
 }
 
 .anime-details__trailer {
   width: 100%;
   margin: 0 auto;
-  color: black;
+  color: var(--on-accent);
   margin-bottom: var(--space-20);
 }
 
@@ -83,7 +83,7 @@
 .image-container {
   position: relative;
   display: inline-block;
-  background-color: var(--accent);
+  background-color: var(--accent-overlay);
 }
 
 .zoom-button {
