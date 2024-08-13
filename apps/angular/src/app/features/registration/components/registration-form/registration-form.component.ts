@@ -1,4 +1,4 @@
-import { Component, inject, EventEmitter, Output, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnInit, DestroyRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,6 +25,7 @@ import { UserRegistrationForm, RegistrationForm } from './registration-form.mode
 		MatInputModule,
 		CommonModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationFormComponent implements OnInit {
 

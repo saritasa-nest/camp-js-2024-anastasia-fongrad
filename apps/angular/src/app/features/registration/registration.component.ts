@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 		RegistrationFormComponent,
 		RouterModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegistrationComponent {
 
