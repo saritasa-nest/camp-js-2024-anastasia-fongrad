@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { ServerError } from '@js-camp/core/models/server-error.model';
+import { Observable, of, throwError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ServerErrorsMapper } from '@js-camp/core/mappers/server-errors.mapper';
 
 /** Key for server error inside input errors. */
 const SERVER_ERROR_KEY = 'serverError';
@@ -20,27 +23,28 @@ export class FormValidationService {
 
 	/**
 	 * Returns an error message for the current formControl.
-	 * @param form FormGroup to work with.
-	 * @param controlName Name of a form control.
+	 * @param formControl FormGroup to work with.
 	 * @param serverErrors An array of server errors.
 	 */
-	public getErrorMessage(
-		form: FormGroup,
-		controlName: string,
-		serverErrors: ServerError[] | null | void,
-	): string | null {
-		const formField = form.get(controlName);
+	public getControlErrorMessage(formControl: AbstractControl): string | null {
 		for (const errorKey in this.clientErrorMessages) {
-			if (formField?.hasError(errorKey)) {
+			if (formControl.hasError(errorKey)) {
 				return this.clientErrorMessages[errorKey];
 			}
 		}
-		if (serverErrors == null) {
-			return null;
+		if (formControl.hasError(SERVER_ERROR_KEY)) {
+			return formControl.getError(SERVER_ERROR_KEY);
 		}
-		const controlError = serverErrors.find(error => error.controlName === controlName);
-		if (controlError != null) {
-			return controlError.controlErrors[0];
+		return null;
+	}
+
+	/**
+	 * 1.
+	 * @param form 1.
+	 */
+	public getFormErrorMessage(form: FormGroup): string | null {
+		if (form.hasError(SERVER_ERROR_KEY)) {
+			return form.getError(SERVER_ERROR_KEY);
 		}
 		return null;
 	}
@@ -54,15 +58,21 @@ export class FormValidationService {
 		form: FormGroup,
 		serverErrors: ServerError[] | null | void,
 	): void {
+		const formError = serverErrors?.find(error => error.controlName === 'form');
+		if (formError != null) {
+			form.setErrors({ [SERVER_ERROR_KEY]: formError.controlErrors[0] });
+			form.markAsTouched();
+			form.markAsDirty();
+		}
 		Object.keys(form.controls).forEach(key => {
 			const control = form.get(key);
 			if (control == null) {
 				return;
 			}
+			control.markAsTouched();
+			control.markAsDirty();
 			const controlError = serverErrors?.find(error => error.controlName === key);
 			if (controlError != null) {
-				control.setErrors({ [SERVER_ERROR_KEY]: controlError.controlErrors[0] });
-				control.markAsTouched();
 				return;
 			}
 			const existingErrors = control.errors;
@@ -75,5 +85,17 @@ export class FormValidationService {
 				control.setErrors(existingErrors);
 			}
 		});
+	}
+
+	/**
+	 * 1.
+	 * @param error 1.
+	 * @returns 1.
+	 */
+	public parseError(error: unknown): Observable<ServerError[]> {
+		if (error instanceof HttpErrorResponse && error.error?.errors) {
+			return of(ServerErrorsMapper.fromDto(error.error.errors));
+		}
+		return throwError(() => new Error('An unknown error occurred'));
 	}
 }
