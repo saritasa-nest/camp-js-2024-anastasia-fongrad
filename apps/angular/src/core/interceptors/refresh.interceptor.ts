@@ -24,7 +24,7 @@ export class RefreshInterceptor implements HttpInterceptor {
 	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		if (this.isExcludedPath(req.url)) {
+		if (this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
 			return next.handle(req);
 		}
 		return next.handle(req).pipe(
@@ -49,12 +49,5 @@ export class RefreshInterceptor implements HttpInterceptor {
 				);
 			}),
 		);
-	}
-
-	private isExcludedPath(url: string): boolean {
-		return url.includes(this.appUrlConfig.paths.login) ||
-			url.includes(this.appUrlConfig.paths.registration) ||
-			url.includes(this.appUrlConfig.paths.tokenRefresh) ||
-			url.endsWith(this.appUrlConfig.paths.animeCatalog);
 	}
 }

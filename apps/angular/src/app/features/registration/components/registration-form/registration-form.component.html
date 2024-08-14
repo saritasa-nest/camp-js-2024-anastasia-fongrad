@@ -1,31 +1,33 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration__form">
-	<div class="registration__group" >
-		<mat-form-field appearance="fill">
-			<mat-label>First Name</mat-label>
-			<input matInput id="firstName" type="text" formControlName="firstName">
-			<mat-error>{{ getFieldError((registrationErrors$ | async), 'firstName') }}</mat-error>
-		</mat-form-field>
-		<mat-form-field appearance="fill">
-			<mat-label>Last Name</mat-label>
-			<input matInput id="lastName" type="text" formControlName="lastName">
-			<mat-error>{{ getFieldError((registrationErrors$ | async), 'lastName') }}</mat-error>
-		</mat-form-field>
-		<mat-form-field appearance="fill">
-			<mat-label>Email</mat-label>
-			<input matInput id="email" type="email" formControlName="email">
-			<mat-error>{{ getFieldError((registrationErrors$ | async), 'email') }}</mat-error>
-		</mat-form-field>
-		<mat-form-field appearance="fill">
-			<mat-label>Password</mat-label>
-			<input matInput id="password" type="password" formControlName="password">
-			<mat-error>{{ getFieldError((registrationErrors$ | async), 'password') }}</mat-error>
-		</mat-form-field>
-		<mat-form-field appearance="fill">
-			<mat-label>Repeat Password</mat-label>
-			<input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
-			<mat-error>{{ getFieldError((registrationErrors$ | async), 'confirmPassword') }}</mat-error>
-		</mat-form-field>
-		<div class="registration__form-error">{{ getFieldError((registrationErrors$ | async), 'form') }}</div>
-		<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
-	</div>
-</form>
+<div class="registration">
+	<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="registration__form">
+		<div class="registration__group" >
+			<mat-form-field appearance="fill">
+				<mat-label>First Name</mat-label>
+				<input matInput id="firstName" type="text" formControlName="firstName">
+				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.firstName) }}</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Last Name</mat-label>
+				<input matInput id="lastName" type="text" formControlName="lastName">
+				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.lastName) }}</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Email</mat-label>
+				<input matInput id="email" type="email" formControlName="email">
+				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.email) }}</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Password</mat-label>
+				<input matInput id="password" type="password" formControlName="password">
+				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.password) }}</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Repeat Password</mat-label>
+				<input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
+				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.confirmPassword) }}</mat-error>
+			</mat-form-field>
+			<div class="registration__form-error">{{ formValidationService.getFormErrorMessage(registrationForm) }}</div>
+			<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
+		</div>
+	</form>
+</div>

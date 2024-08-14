@@ -8,11 +8,11 @@ export namespace UserProfileMapper {
 	 * @param dto User profile dto object.
 	 */
 	export function fromDto(dto: UserProfileDto): UserProfile {
-		return {
+		return new UserProfile({
 			email: dto.email,
 			firstName: dto.first_name,
 			lastName: dto.last_name,
 			avatar: dto.avatar,
-		};
+		});
 	}
 }

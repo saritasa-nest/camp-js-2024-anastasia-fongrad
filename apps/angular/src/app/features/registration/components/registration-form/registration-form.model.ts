@@ -27,6 +27,19 @@ export namespace UserRegistrationForm {
 	 * @param formBuilder Non nullable form builder.
 	 */
 	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<RegistrationForm> {
+		const passwordControl = formBuilder.control('', [
+			Validators.required,
+			passwordStrong(),
+		]);
+		const confirmPasswordControl = formBuilder.control('', [
+			Validators.required,
+			mustMatch(passwordControl),
+		]);
+
+		// Update the confirmPassword control whenever the password control value changes
+		passwordControl.valueChanges.subscribe(() => {
+			confirmPasswordControl.updateValueAndValidity();
+		});
 		return formBuilder.group({
 			email: formBuilder.control('', [
 				Validators.required,
@@ -34,13 +47,8 @@ export namespace UserRegistrationForm {
 			]),
 			firstName: formBuilder.control('', [Validators.required]),
 			lastName: formBuilder.control('', [Validators.required]),
-			password: formBuilder.control('', [Validators.required]),
-			confirmPassword: formBuilder.control('', [Validators.required]),
-		}, {
-			validators: [
-				passwordStrong('password'),
-				mustMatch('password', 'confirmPassword'),
-			],
+			password: passwordControl,
+			confirmPassword: confirmPasswordControl,
 		});
 	}
 }

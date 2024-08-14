@@ -1,12 +1,11 @@
-import { Component, inject, EventEmitter, Output, OnInit, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, EventEmitter, Output, OnInit, DestroyRef } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { ServerError } from '@js-camp/core/models/server-error.model';
-import { Observable, tap, ReplaySubject } from 'rxjs';
+import { tap, map, catchError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
@@ -28,6 +27,7 @@ import { UserLoginForm, LoginForm } from './login-form.model';
 		EmptyPipe,
 		CommonModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginFormComponent implements OnInit {
 
@@ -38,30 +38,27 @@ export class LoginFormComponent implements OnInit {
 	/** Login form group. */
 	protected readonly loginForm: FormGroup<LoginForm>;
 
-	/** An array of login errors received from the server. */
-	protected readonly loginErrors$: Observable<void | ServerError[]>;
+	/** Form validation service. */
+	protected readonly formValidationService = inject(FormValidationService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly authService = inject(AuthorizationService);
 
-	private readonly formValidationService = inject(FormValidationService);
-
-	private readonly loginErrorsSubject$ = new ReplaySubject<void | ServerError[]>(1);
-
 	private readonly destroyRef = inject(DestroyRef);
+
+	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	public constructor() {
 		this.loginForm = UserLoginForm.initialize(this.formBuilder);
-		this.loginErrors$ = this.loginErrorsSubject$.asObservable();
 	}
 
 	/** Clears form errors on input value change. */
 	public ngOnInit(): void {
-		this.initializeFormValues();
+		this.initializeErrorsReset();
 	}
 
-	private initializeFormValues(): void {
+	private initializeErrorsReset(): void {
 		Object.keys(this.loginForm.controls).forEach(controlName => {
 			const control = this.loginForm.get(controlName);
 			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
@@ -71,18 +68,6 @@ export class LoginFormComponent implements OnInit {
 		});
 	}
 
-	/**
-	 * Requests an error message for the current form field.
-	 * @param serverErrors A list of errors received from a server.
-	 * @param controlName A name of a form field.
-	 */
-	protected getFieldError(
-		serverErrors: ServerError[] | null | void,
-		controlName: string,
-	): string | null {
-		return this.formValidationService.getErrorMessage(this.loginForm, controlName, serverErrors);
-	}
-
 	/** Handles form submit event. */
 	protected onSubmit(): void {
 		if (!this.loginForm?.valid) {
@@ -90,13 +75,15 @@ export class LoginFormComponent implements OnInit {
 		}
 		const formData = this.loginForm.getRawValue();
 		this.authService.login(formData).pipe(
+			map(() => undefined),
+			catchError((error: unknown) => this.formValidationService.parseError(error)),
 			tap(errors => {
 				if (!errors) {
 					this.loginSuccess.emit();
 				} else {
 					this.formValidationService.setFormErrors(this.loginForm, errors);
+					this.changeDetectorRef.markForCheck();
 				}
-				this.loginErrorsSubject$.next(errors);
 			}),
 		)
 			.subscribe();

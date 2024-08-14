@@ -4,8 +4,8 @@ import { AuthorizationTokenDto } from '../dtos/authorization-token.dto';
 export namespace AuthorizationTokenMapper {
 
 	/**
-	 * Maps anime dto to model.
-	 * @param dto Anime dto.
+	 * Maps authorization token from a dto object to a model.
+	 * @param dto Authorization token dto.
 	 */
 	export function fromDto(dto: AuthorizationTokenDto): AuthorizationToken {
 		return {
