@@ -64,4 +64,12 @@ export class HeaderComponent implements OnInit {
 		this.authService.logout();
 		this.router.navigate([AppRoutes.Login]);
 	}
+
+	/**
+	 * Gets a full route to the given page.
+	 * @param route Basic app route.
+	 */
+	protected getFullRoute(route: AppRoutes): string {
+		return `/${route}`;
+	}
 }

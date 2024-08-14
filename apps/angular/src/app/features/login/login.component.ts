@@ -20,13 +20,15 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 })
 export class LoginComponent {
 
-	/** Available app route names. */
-	protected readonly appRoutes = AppRoutes;
-
 	private readonly router = inject(Router);
 
 	/** Called when the user successfully logs in. */
 	protected onLoginSuccess(): void {
 		this.router.navigate([AppRoutes.Home]);
+	}
+
+	/** Gets a full registration route. */
+	protected getRegistrationRoute(): string {
+		return `/${AppRoutes.Registration}`;
 	}
 }

@@ -8,7 +8,7 @@
 					<camp-login-form (loginSuccess)="onLoginSuccess()"/>
 					<div class="auth__switch">
 						Don't have an account?
-						<a [routerLink]="['/' + appRoutes.Registration]">Register</a>
+						<a [routerLink]="[getRegistrationRoute()]">Register</a>
 					</div>
 				</div>
 			</div>
