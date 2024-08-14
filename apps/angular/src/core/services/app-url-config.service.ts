@@ -24,7 +24,6 @@ export class AppUrlConfig {
 		return url.includes(this.paths.login) ||
 			url.includes(this.paths.registration) ||
 			url.includes(this.paths.tokenRefresh) ||
-			url.includes(this.paths.tokenVerify) ||
-			url.includes(this.paths.animeCatalog);
+			url.endsWith(this.paths.animeCatalog);
 	}
 }
