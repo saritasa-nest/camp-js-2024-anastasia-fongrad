@@ -30,7 +30,7 @@ import { AuthorizationTokenService } from '@js-camp/angular/core/services/author
 export class HeaderComponent implements OnInit {
 
 	/** User profile data. */
-	protected userProfile$: Observable<void | UserProfile>;
+	protected userProfile$: Observable<null | UserProfile>;
 
 	/** Available app routes to navigate by. */
 	protected readonly appRoutes = AppRoutes;

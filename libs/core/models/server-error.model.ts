@@ -1,5 +1,3 @@
-import { ErrorMessage } from './enums/error-message.enum';
-
 /** Server errors model. */
 export type ServerError = {
 
@@ -7,5 +5,5 @@ export type ServerError = {
 	readonly controlName: string;
 
 	/** An array of controls error messages. */
-	readonly controlErrors: ErrorMessage[];
+	readonly controlErrors: string[];
 };
