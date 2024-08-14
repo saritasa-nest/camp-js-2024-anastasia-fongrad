@@ -1,14 +1,15 @@
 import { FC } from 'react';
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
-import { genresRoutes } from '../features/genres/routes';
+import { exampleRoutes, genresRoutes } from '../features/genres/routes';
 
 const routes: RouteObject[] = [
 	{
 		path: '*',
-		element: <Navigate to="/genres" />,
+		element: <Navigate to="/example" />,
 	},
 	...genresRoutes,
+	...exampleRoutes,
 ];
 
 /** Root router component. */

@@ -1,7 +1,7 @@
 import { Immerable, OmitImmerable } from './immerable.model';
 
 /** Genre. */
-export class Genre extends Immerable {
+export class AnimeGenre extends Immerable {
 
 	/** Id. */
 	public readonly id: number;
@@ -16,4 +16,4 @@ export class Genre extends Immerable {
 	}
 }
 
-type GenreConstructorData = OmitImmerable<Genre>;
+type GenreConstructorData = OmitImmerable<AnimeGenre>;
