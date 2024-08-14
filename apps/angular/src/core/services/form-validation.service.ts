@@ -11,7 +11,7 @@ const SERVER_ERROR_KEY = 'serverError';
 })
 export class FormValidationService {
 
-	private clientErrorMessages: { [key: string]: string; } = {
+	private clientErrorMessages: Readonly<Record<string, string>> = {
 		required: 'This field is required',
 		email: 'Incorrect email address',
 		strong: 'Password is not strong enough',
@@ -35,11 +35,11 @@ export class FormValidationService {
 				return this.clientErrorMessages[errorKey];
 			}
 		}
-		if (!serverErrors) {
+		if (serverErrors == null) {
 			return null;
 		}
 		const controlError = serverErrors.find(error => error.controlName === controlName);
-		if (controlError) {
+		if (controlError != null) {
 			return controlError.controlErrors[0];
 		}
 		return null;
@@ -56,17 +56,17 @@ export class FormValidationService {
 	): void {
 		Object.keys(form.controls).forEach(key => {
 			const control = form.get(key);
-			if (!control) {
+			if (control == null) {
 				return;
 			}
 			const controlError = serverErrors?.find(error => error.controlName === key);
-			if (controlError) {
+			if (controlError != null) {
 				control.setErrors({ [SERVER_ERROR_KEY]: controlError.controlErrors[0] });
 				control.markAsTouched();
 				return;
 			}
 			const existingErrors = control.errors;
-			if (existingErrors) {
+			if (existingErrors != null) {
 				delete existingErrors[SERVER_ERROR_KEY];
 				if (Object.keys(existingErrors).length === 0) {
 					control.setErrors(null);

@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
 	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		if (this.isExcludedPath(req.url)) {
+		if (this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
 			return next.handle(req);
 		}
 		return this.tokenService.getAccessToken().pipe(
@@ -39,13 +39,5 @@ export class AuthInterceptor implements HttpInterceptor {
 				return next.handle(clonedRequest);
 			}),
 		);
-	}
-
-	private isExcludedPath(url: string): boolean {
-		return url.includes(this.appUrlConfig.paths.login) ||
-			url.includes(this.appUrlConfig.paths.registration) ||
-			url.includes(this.appUrlConfig.paths.tokenRefresh) ||
-			url.includes(this.appUrlConfig.paths.tokenVerify) ||
-			url.includes(this.appUrlConfig.paths.animeCatalog);
 	}
 }

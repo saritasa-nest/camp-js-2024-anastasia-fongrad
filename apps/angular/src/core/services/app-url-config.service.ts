@@ -15,4 +15,17 @@ export class AppUrlConfig {
 		tokenRefresh: 'auth/token/refresh/',
 		tokenVerify: 'auth/token/verify/',
 	} as const;
+
+	/**
+	 * 1.
+	 * @param url 1.
+	 * @returns 1.
+	 */
+	public isAccessibleToUnauthorized(url: string): boolean {
+		return url.includes(this.paths.login) ||
+			url.includes(this.paths.registration) ||
+			url.includes(this.paths.tokenRefresh) ||
+			url.includes(this.paths.tokenVerify) ||
+			url.includes(this.paths.animeCatalog);
+	}
 }

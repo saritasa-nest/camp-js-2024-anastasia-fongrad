@@ -59,10 +59,10 @@ export class LoginFormComponent implements OnInit {
 
 	/** Clears form errors on input value change. */
 	public ngOnInit(): void {
-		this.initializeFormValues();
+		this.initializeErrorsReset();
 	}
 
-	private initializeFormValues(): void {
+	private initializeErrorsReset(): void {
 		Object.keys(this.loginForm.controls).forEach(controlName => {
 			const control = this.loginForm.get(controlName);
 			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))

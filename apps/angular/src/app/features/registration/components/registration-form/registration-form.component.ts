@@ -56,10 +56,10 @@ export class RegistrationFormComponent implements OnInit {
 
 	/** Clears form errors on input value change. */
 	public ngOnInit(): void {
-		this.initializeFormValues();
+		this.initializeErrorsReset();
 	}
 
-	private initializeFormValues(): void {
+	private initializeErrorsReset(): void {
 		Object.keys(this.registrationForm.controls).forEach(controlName => {
 			const control = this.registrationForm.get(controlName);
 			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))

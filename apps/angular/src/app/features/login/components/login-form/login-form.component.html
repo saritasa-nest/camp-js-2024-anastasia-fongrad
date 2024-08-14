@@ -1,14 +1,16 @@
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
-	<mat-form-field appearance="fill">
-		<mat-label>Email</mat-label>
-		<input matInput id="email" type="email" formControlName="email">
-		<mat-error>{{ getFieldError((loginErrors$ | async), 'email') }}</mat-error>
-	</mat-form-field>
-	<mat-form-field appearance="fill">
-		<mat-label>Password</mat-label>
-		<input matInput id="password" type="password" formControlName="password">
-		<mat-error>{{ getFieldError((loginErrors$ | async), 'password') }}</mat-error>
-	</mat-form-field>
-	<div class="login__form-error">{{ getFieldError((loginErrors$ | async), 'form') }}</div>
-	<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
-</form>
+<div class="login">
+	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+		<mat-form-field appearance="fill">
+			<mat-label>Email</mat-label>
+			<input matInput id="email" type="email" formControlName="email">
+			<mat-error>{{ getFieldError((loginErrors$ | async), 'email') }}</mat-error>
+		</mat-form-field>
+		<mat-form-field appearance="fill">
+			<mat-label>Password</mat-label>
+			<input matInput id="password" type="password" formControlName="password">
+			<mat-error>{{ getFieldError((loginErrors$ | async), 'password') }}</mat-error>
+		</mat-form-field>
+		<div class="login__form-error">{{ getFieldError((loginErrors$ | async), 'form') }}</div>
+		<button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid">Login</button>
+	</form>
+</div>
