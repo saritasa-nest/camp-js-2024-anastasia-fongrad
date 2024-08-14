@@ -17,9 +17,8 @@ export class AppUrlConfig {
 	} as const;
 
 	/**
-	 * 1.
-	 * @param url 1.
-	 * @returns 1.
+	 * Checks if given url is accessible to unauthorized.
+	 * @param url Url to check.
 	 */
 	public isAccessibleToUnauthorized(url: string): boolean {
 		return url.includes(this.paths.login) ||

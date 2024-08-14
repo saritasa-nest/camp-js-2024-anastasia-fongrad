@@ -38,7 +38,7 @@ export class LoginFormComponent implements OnInit {
 	/** Login form group. */
 	protected readonly loginForm: FormGroup<LoginForm>;
 
-	/** 1. */
+	/** Form validation service. */
 	protected readonly formValidationService = inject(FormValidationService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -76,7 +76,7 @@ export class LoginFormComponent implements OnInit {
 		const formData = this.loginForm.getRawValue();
 		this.authService.login(formData).pipe(
 			map(() => undefined),
-			catchError(error => this.formValidationService.parseError(error)),
+			catchError((error: unknown) => this.formValidationService.parseError(error)),
 			tap(errors => {
 				if (!errors) {
 					this.loginSuccess.emit();

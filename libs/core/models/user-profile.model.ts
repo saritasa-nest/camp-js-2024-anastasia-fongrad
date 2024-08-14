@@ -1,4 +1,4 @@
-/** 1. */
+/** User profile. */
 export class UserProfile {
 
 	/** User's email. */
@@ -20,7 +20,7 @@ export class UserProfile {
 		this.avatar = data.avatar;
 	}
 
-	/** 1. */
+	/** Returns users full name. */
 	public getFullName(): string {
 		return `${this.firstName} ${this.lastName}`;
 	}

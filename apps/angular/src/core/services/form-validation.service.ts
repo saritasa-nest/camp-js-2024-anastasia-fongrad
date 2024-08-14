@@ -39,8 +39,8 @@ export class FormValidationService {
 	}
 
 	/**
-	 * 1.
-	 * @param form 1.
+	 * Returns an error message for the form.
+	 * @param form Form group.
 	 */
 	public getFormErrorMessage(form: FormGroup): string | null {
 		if (form.hasError(SERVER_ERROR_KEY)) {
@@ -88,9 +88,8 @@ export class FormValidationService {
 	}
 
 	/**
-	 * 1.
-	 * @param error 1.
-	 * @returns 1.
+	 * Parses an error received from the server.
+	 * @param error Servers HttpErrorResponse.
 	 */
 	public parseError(error: unknown): Observable<ServerError[]> {
 		if (error instanceof HttpErrorResponse && error.error?.errors) {

@@ -35,7 +35,7 @@ export class RegistrationFormComponent implements OnInit {
 	/** Registration form group. */
 	protected readonly registrationForm: FormGroup<RegistrationForm>;
 
-	/** 1. */
+	/** Form validation service. */
 	protected readonly formValidationService = inject(FormValidationService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
@@ -73,7 +73,7 @@ export class RegistrationFormComponent implements OnInit {
 		const formData = this.registrationForm.getRawValue();
 		this.registrationService.register(formData).pipe(
 			map(() => undefined),
-			catchError(error => this.formValidationService.parseError(error)),
+			catchError((error: unknown) => this.formValidationService.parseError(error)),
 			tap(errors => {
 				if (!errors) {
 					this.registrationSuccess.emit();
