@@ -3,7 +3,7 @@ import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 
-import { GenreCard } from '../../components/GenreCard';
+import { GenresList } from '../../components/GenreList';
 
 /** Genres page component. */
 const GenresPageComponent: FC = () => {
@@ -19,12 +19,8 @@ const GenresPageComponent: FC = () => {
 		return <div>Loading</div>;
 	}
 
-	return (
-		<>
-			<h1>Genres</h1>
-			{genres.map(genre => <GenreCard key={genre.id} genre={genre} />)}
-		</>
-	);
+	return <GenresList genres={genres} />;
+
 };
 
 /** Genres page component. */
