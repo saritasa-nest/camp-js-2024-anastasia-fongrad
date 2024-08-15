@@ -20,7 +20,7 @@ import { NavigationList } from '../../components/NavigationList';
 
 import styles from './GenrePage.module.css';
 
-/** 1. */
+/** Drawer width in pixels. */
 const DRAWER_WIDTH = 280;
 
 const mainRoutes = [
@@ -35,6 +35,7 @@ const loginRoutes = [
 	{ name: 'Profile', path: '/profile' },
 ];
 
+/** Anime genres page. */
 const GenrePageComponent: FC = () => {
 	const theme = useTheme();
 	const open = useSelector(selectIsDrawerOpen);
@@ -93,5 +94,5 @@ const GenrePageComponent: FC = () => {
 	);
 };
 
-/** 1. */
+/** Memoized version of GenrePageComponent for performance optimization. */
 export const GenrePage = memo(GenrePageComponent);

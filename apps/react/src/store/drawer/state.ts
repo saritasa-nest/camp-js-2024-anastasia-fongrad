@@ -1,11 +1,11 @@
-/** 1. */
+/** Drawer state. */
 export type DrawerState = {
 
-	/** 1. */
+	/** Open drawer state. */
 	open: boolean;
 };
 
-/** 1. */
+/** Initial state for the drawer's slice of the Redux store. */
 export const initialState: DrawerState = {
 	open: false,
 };

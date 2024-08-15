@@ -7,20 +7,19 @@ type GenreListItemProps = {
 	/** Selected state. */
 	readonly selected: boolean;
 
-	/** Genre. */
+	/** Anime genre. */
 	readonly genre: AnimeGenre;
 
 	/** Click handler. */
 	readonly onClick: () => void;
 };
 
-/** Card with genre data. */
+/** List Item with genre data. */
 const GenreListItemComponent: FC<GenreListItemProps> = ({ selected, genre, onClick }: GenreListItemProps) => (
 	<ListItem disablePadding>
 		<ListItemButton
 			onClick={onClick}
 			selected={selected}
-			sx={{ width: '100%' }}
 		>
 			<ListItemText
 				primary={genre.name}
@@ -30,5 +29,5 @@ const GenreListItemComponent: FC<GenreListItemProps> = ({ selected, genre, onCli
 	</ListItem>
 );
 
-/** Memoized version of GenreCardComponent for performance optimization. */
+/** Memoized version of GenreListItemComponent for performance optimization. */
 export const GenreListItem = memo(GenreListItemComponent);

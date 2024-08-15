@@ -7,6 +7,7 @@ import { Box, Typography } from '@mui/material';
 
 import styles from './GenreFilters.module.css';
 
+/** Filters for anime genres. */
 const GenreFiltersComponent: FC = () => (
 	<Box className={styles.filters}>
 		<Typography variant="h5" component="h5" gutterBottom>
@@ -33,5 +34,5 @@ const GenreFiltersComponent: FC = () => (
 	</Box>
 );
 
-/** 1. */
+/** Memoized version of GenreFiltersComponent for performance optimization. */
 export const GenreFilters = memo(GenreFiltersComponent);

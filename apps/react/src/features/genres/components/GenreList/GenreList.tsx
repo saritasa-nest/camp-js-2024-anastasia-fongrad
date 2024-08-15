@@ -11,13 +11,14 @@ import styles from './GenreList.module.css';
 
 type GenresListProps = {
 
-	/** 1. */
+	/** An array of anime genres. */
 	readonly genres: Array<AnimeGenre>;
 
 	/** Click handler. */
 	onGenreClick: (id: number) => void;
 };
 
+/** A list of anime genres. */
 const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? +genreId : undefined);
@@ -52,5 +53,5 @@ const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: Genr
 	);
 };
 
-/** 1. */
+/** Memoized version of GenresListComponent for performance optimization. */
 export const GenresList = memo(GenresListComponent);

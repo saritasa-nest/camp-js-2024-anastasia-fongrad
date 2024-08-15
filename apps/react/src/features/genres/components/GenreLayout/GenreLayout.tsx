@@ -12,6 +12,7 @@ import { GenresList } from '../GenreList';
 
 import styles from './GenreLayout.module.css';
 
+/** Layout component to display genres list and details. */
 const GenreLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
 	const dispatch = useAppDispatch();
@@ -53,5 +54,5 @@ const GenreLayoutComponent: FC = () => {
 	);
 };
 
-/** 1. */
+/** Memoized version of GenreLayoutComponent for performance optimization. */
 export const GenreLayout = memo(GenreLayoutComponent);

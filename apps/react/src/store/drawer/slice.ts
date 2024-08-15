@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { initialState } from './state';
 
-/** 1. */
+/** Slice of the Redux store for managing drawer's open state. */
 export const drawerSlice = createSlice({
 	name: 'drawer',
 	initialState,
@@ -13,7 +13,7 @@ export const drawerSlice = createSlice({
 	},
 });
 
-/** 1. */
+/** Sets new open state. */
 export const { setOpen } = drawerSlice.actions;
 
 export default drawerSlice.reducer;

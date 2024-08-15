@@ -9,13 +9,13 @@ import MailIcon from '@mui/icons-material/Mail';
 
 type NavigationListProps = {
 
-	/** 1. */
+	/** An array of navigation objects. */
 	items: {
 
-		/** 1. */
+		/** Navigation name. */
 		readonly name: string;
 
-		/** 1. */
+		/** Navigation path. */
 		readonly path: string;
 	}[];
 };
@@ -35,5 +35,5 @@ const NavigationListComponent: FC<NavigationListProps> = ({ items }: NavigationL
 	</List>
 );
 
-/** 1. */
+/** Memoized version of NavigationListComponent for performance optimization. */
 export const NavigationList = memo(NavigationListComponent);

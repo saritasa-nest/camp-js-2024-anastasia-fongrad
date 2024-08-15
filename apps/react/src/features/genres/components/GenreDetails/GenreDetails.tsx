@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import styles from './GenreDetails.module.css';
 
+/** Detailed information about an anime genre. */
 const GenreDetailsComponent: FC = () => {
 
 	const { genreId } = useParams<{ genreId: string; }>();
@@ -49,5 +50,5 @@ const GenreDetailsComponent: FC = () => {
 	);
 };
 
-/** 1. */
+/** Memoized version of GenreDetailsComponent for performance optimization. */
 export const GenreDetails = memo(GenreDetailsComponent);
