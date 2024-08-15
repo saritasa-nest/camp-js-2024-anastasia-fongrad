@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { memo, FC } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -6,24 +5,24 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import { ListExample } from '../ListPage/ListPage';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
+import { setOpen } from '@js-camp/react/store/drawer/slice';
+import { Outlet } from 'react-router-dom';
+
+import { NavigationList } from '../../components/NavigationList';
 
 const drawerWidth = 240;
 
 type AppBarProps = MuiAppBarProps & {
+
+	/** 1. */
 	open?: boolean;
 };
 
@@ -56,16 +55,16 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const PersistentDrawerLeft: FC = () => {
 	const theme = useTheme();
-	const [open, setOpen] = React.useState(false);
+	const open = useSelector(selectIsDrawerOpen);
+	const dispatch = useDispatch();
 
 	const handleDrawerOpen = () => {
-		setOpen(true);
+		dispatch(setOpen(true));
 	};
 
 	const handleDrawerClose = () => {
-		setOpen(false);
+		dispatch(setOpen(false));
 	};
-
 	return (
 		<Box sx={{ display: 'flex' }}>
 			<CssBaseline />
@@ -104,35 +103,22 @@ const PersistentDrawerLeft: FC = () => {
 					</IconButton>
 				</DrawerHeader>
 				<Divider />
-				<List>
-					{['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
+				<NavigationList items={[
+					{ name: 'Anime', path: '/example/anime' },
+					{ name: 'Genres', path: '/example/genres' },
+					{ name: 'Studios', path: '/example/studios' },
+				]} />
 				<Divider />
-				<List>
-					{['All mail', 'Trash', 'Spam'].map((text, index) => (
-						<ListItem key={text} disablePadding>
-							<ListItemButton>
-								<ListItemIcon>
-									{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-								</ListItemIcon>
-								<ListItemText primary={text} />
-							</ListItemButton>
-						</ListItem>
-					))}
-				</List>
+				<NavigationList items={[
+					{ name: 'Login', path: '/example/login' },
+					{ name: 'Logout', path: '/example/logout' },
+					{ name: 'Profile', path: '/example/profile' },
+				]}/>
 			</Drawer>
-			<ListExample/>
+			<Outlet context={{ open }} />
 		</Box>
 	);
 };
 
+/** 1. */
 export const ExamplePage = memo(PersistentDrawerLeft);

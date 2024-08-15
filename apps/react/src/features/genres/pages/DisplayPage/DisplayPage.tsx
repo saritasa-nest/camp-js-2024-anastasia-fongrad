@@ -1,16 +1,22 @@
-import * as React from 'react';
 import { memo, FC } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-
+import { useSelector } from 'react-redux';
+import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 
 const drawerWidth = 240;
+
+type MainPageProps = {
+
+	/** 1. */
+	readonly title: string;
+};
 
 const Main = styled('main', { shouldForwardProp: prop => prop !== 'open' })<{
 	open?: boolean;
 }>(({ theme, open }) => ({
 	flexGrow: 1,
-	padding: theme.spacing(10, 3),
+	padding: theme.spacing(3),
 	transition: theme.transitions.create('margin', {
 		easing: theme.transitions.easing.sharp,
 		duration: theme.transitions.duration.leavingScreen,
@@ -29,17 +35,19 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 	display: 'flex',
 	alignItems: 'center',
 	padding: theme.spacing(0, 1),
+
 	// necessary for content to be below app bar
 	...theme.mixins.toolbar,
 	justifyContent: 'flex-end',
 }));
 
-const ListComponent: FC = () => {
-	const [open, setOpen] = React.useState(false);
+const ListComponent: FC<MainPageProps> = ({ title }) => {
+	const open = useSelector(selectIsDrawerOpen);
 
 	return (
 		<Main open={open}>
 			<DrawerHeader />
+			<Typography paragraph>{ title }</Typography>
 			<Typography paragraph>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 				tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
@@ -71,4 +79,5 @@ const ListComponent: FC = () => {
 	);
 };
 
-export const ListExample = memo(ListComponent);
+/** 1. */
+export const DisplayPage = memo(ListComponent);
