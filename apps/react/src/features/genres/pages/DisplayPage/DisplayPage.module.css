@@ -1,7 +1,10 @@
 .main {
   display: flex;
+  gap: var(--space-8);
   flex-grow: 1;
-  padding: 80px 24px;
+
+  /* stylelint-disable-next-line shorthand-property-no-redundant-values */
+  padding: 100px 24px 0 24px;
   transition: margin 225ms cubic-bezier(0.4, 0, 0.6, 1);
   margin-left: -280px;
   height: 100%;
@@ -10,4 +13,9 @@
 .mainOpen {
   transition: margin 195ms cubic-bezier(0.4, 0, 0.2, 1);
   margin-left: 0;
+}
+
+.sidebar {
+  width: 400px;
+  flex-shrink: 0;
 }

@@ -1,9 +1,9 @@
 import { memo, FC } from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
@@ -22,39 +22,6 @@ import styles from './ExamplePage.module.css';
 
 const drawerWidth = 280;
 
-type AppBarProps = MuiAppBarProps & {
-
-	/** 1. */
-	open?: boolean;
-};
-
-const AppBar = styled(MuiAppBar, {
-	shouldForwardProp: prop => prop !== 'open',
-})<AppBarProps>(({ theme, open }) => ({
-	transition: theme.transitions.create(['margin', 'width'], {
-		easing: theme.transitions.easing.sharp,
-		duration: theme.transitions.duration.leavingScreen,
-	}),
-	...(open && {
-		width: `calc(100% - ${drawerWidth}px)`,
-		marginLeft: `${drawerWidth}px`,
-		transition: theme.transitions.create(['margin', 'width'], {
-			easing: theme.transitions.easing.easeOut,
-			duration: theme.transitions.duration.enteringScreen,
-		}),
-	}),
-}));
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-	display: 'flex',
-	alignItems: 'center',
-	padding: theme.spacing(0, 1),
-
-	// necessary for content to be below app bar
-	...theme.mixins.toolbar,
-	justifyContent: 'flex-end',
-}));
-
 const PersistentDrawerLeft: FC = () => {
 	const theme = useTheme();
 	const open = useSelector(selectIsDrawerOpen);
@@ -70,7 +37,7 @@ const PersistentDrawerLeft: FC = () => {
 	return (
 		<Box className={styles.main}>
 			<CssBaseline />
-			<AppBar position="fixed" open={open}>
+			<MuiAppBar className={`${styles.appBar} ${open ? styles.appBarOpen : ''}`}>
 				<Toolbar>
 					<IconButton
 						color="inherit"
@@ -82,14 +49,13 @@ const PersistentDrawerLeft: FC = () => {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap component="div">
-						Persistent drawer
+						Anime App
 					</Typography>
 				</Toolbar>
-			</AppBar>
+			</MuiAppBar>
 			<Drawer
+				className={styles.drawer}
 				sx={{
-					'width': drawerWidth,
-					'flexShrink': 0,
 					'& .MuiDrawer-paper': {
 						width: drawerWidth,
 						boxSizing: 'border-box',
@@ -99,11 +65,11 @@ const PersistentDrawerLeft: FC = () => {
 				anchor="left"
 				open={open}
 			>
-				<DrawerHeader>
+				<div className={styles.drawerHeader}>
 					<IconButton onClick={handleDrawerClose}>
 						{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
 					</IconButton>
-				</DrawerHeader>
+				</div>
 				<Divider />
 				<NavigationList items={[
 					{ name: 'Anime', path: '/example/anime' },

@@ -3,3 +3,39 @@
   height: 100vh;
   max-height: 100vh;
 }
+
+.appBar {
+  transition: margin 225ms cubic-bezier(0.4, 0, 0.6, 1), width 225ms cubic-bezier(0.4, 0, 0.6, 1);
+  position: fixed;
+}
+
+.appBarOpen {
+  width: calc(100% - 280px);
+  margin-left: 280px;
+  transition: margin 195ms cubic-bezier(0.4, 0, 0.2, 1), width 195ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  justify-content: flex-end;
+}
+
+.iconButton {
+  margin-right: 16px;
+}
+
+.iconButtonHidden {
+  display: none;
+}
+
+.drawer {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.drawerPaper {
+  width: 280px;
+  box-sizing: border-box;
+}

@@ -1,5 +1,8 @@
 import { memo, FC } from 'react';
 import Typography from '@mui/material/Typography';
+import { Button } from '@mui/material';
+
+import styles from './GenreDetails.module.css';
 
 type MainPageProps = {
 
@@ -39,6 +42,10 @@ const GenreDetailsComponent: FC<MainPageProps> = ({ title }) => (
 				eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
 				posuere sollicitudin aliquam ultrices sagittis orci a.
 		</Typography>
+		<div className={styles.buttons}>
+			<Button variant="outlined">Edit</Button>
+			<Button variant="outlined" color="error">Delete</Button>
+		</div>
 	</div>
 );
 

@@ -11,8 +11,6 @@ import { GenreDetails } from '../../components/GenreDetails';
 
 import styles from './DisplayPage.module.css';
 
-const listWidth = 500;
-
 type MainPageProps = {
 
 	/** 1. */
@@ -40,10 +38,11 @@ const ListComponent: FC<MainPageProps> = ({ title }) => {
 	return (
 		<Box>
 			<main className={`${styles.main} ${open ? styles.mainOpen : ''}`}>
-				<Box sx={{ width: listWidth, flexShrink: 0 }}>
+				<Box className={styles.sidebar}>
 					<GenresList
 						genres={genres}
 						onGenreClick={handleGenreClick}
+						title={title}
 					/>
 				</Box>
 				<GenreDetails title={title}/>
