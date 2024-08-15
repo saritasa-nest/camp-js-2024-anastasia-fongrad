@@ -1,1 +1,1 @@
-export { ExamplePage } from './GenrePage';
+export { GenrePage } from './GenrePage';

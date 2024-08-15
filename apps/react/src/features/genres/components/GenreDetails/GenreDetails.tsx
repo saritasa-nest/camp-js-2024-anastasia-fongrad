@@ -5,20 +5,14 @@ import { useParams } from 'react-router-dom';
 
 import styles from './GenreDetails.module.css';
 
-type MainPageProps = {
-
-	/** 1. */
-	readonly title: string;
-};
-
-const GenreDetailsComponent: FC<MainPageProps> = ({ title }) => {
+const GenreDetailsComponent: FC = () => {
 
 	const { genreId } = useParams<{ genreId: string; }>();
 
 	return (
 		<div>
 			<Typography variant="h5" component="div" gutterBottom>
-				{ `${title} ${genreId}` }
+				{ `Genre ${genreId}` }
 			</Typography>
 			<Typography paragraph>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

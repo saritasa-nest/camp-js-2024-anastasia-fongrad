@@ -7,28 +7,26 @@ import { Box, Typography } from '@mui/material';
 
 import styles from './GenreFilters.module.css';
 
-type GenresFiltersProps = {
-
-	/** 1. */
-	readonly title: string;
-};
-
-/** 1. */
-const GenreFiltersComponent: FC<GenresFiltersProps> = ({ title }) => (
+const GenreFiltersComponent: FC = () => (
 	<Box className={styles.filters}>
-		<Typography variant="h5" component="div" gutterBottom>
+		<Typography variant="h5" component="h5" gutterBottom>
 			Filters
 		</Typography>
 		<Paper
 			component="form"
-			sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '100%' }}
+			className={styles.form}
 		>
 			<InputBase
-				sx={{ ml: 1, flex: 1 }}
-				placeholder={ `Search ${title} ...` }
+				className={styles.inputBase}
+				placeholder={ `Search Genres ...` }
 				inputProps={{ 'aria-label': 'search google maps' }}
 			/>
-			<IconButton type="button" sx={{ p: '10px' }} aria-label="search" color="primary">
+			<IconButton
+				type="button"
+				className={styles.iconButton}
+				aria-label="search"
+				color="primary"
+			>
 				<SearchIcon />
 			</IconButton>
 		</Paper>

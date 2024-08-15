@@ -20,7 +20,7 @@ type NavigationListProps = {
 	}[];
 };
 
-const NavigationListComponent: FC<NavigationListProps> = ({ items }) => (
+const NavigationListComponent: FC<NavigationListProps> = ({ items }: NavigationListProps) => (
 	<List>
 		{items.map((item, index) => (
 			<ListItem key={item.name} disablePadding>

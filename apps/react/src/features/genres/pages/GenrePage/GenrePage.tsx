@@ -20,9 +20,22 @@ import { NavigationList } from '../../components/NavigationList';
 
 import styles from './GenrePage.module.css';
 
-const drawerWidth = 280;
+/** 1. */
+const DRAWER_WIDTH = 280;
 
-const PersistentDrawerLeft: FC = () => {
+const mainRoutes = [
+	{ name: 'Anime', path: '/anime' },
+	{ name: 'Genres', path: '/genres' },
+	{ name: 'Studios', path: '/studios' },
+];
+
+const loginRoutes = [
+	{ name: 'Login', path: '/login' },
+	{ name: 'Logout', path: '/logout' },
+	{ name: 'Profile', path: '/profile' },
+];
+
+const GenrePageComponent: FC = () => {
 	const theme = useTheme();
 	const open = useSelector(selectIsDrawerOpen);
 	const dispatch = useDispatch();
@@ -38,17 +51,17 @@ const PersistentDrawerLeft: FC = () => {
 		<Box className={styles.main}>
 			<CssBaseline />
 			<MuiAppBar className={`${styles.appBar} ${open ? styles.appBarOpen : ''}`}>
-				<Toolbar>
+				<Toolbar className={styles.toolbar}>
 					<IconButton
+						className={`${styles.icon} ${open ? styles.none : ''}`}
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleDrawerOpen}
 						edge="start"
-						sx={{ mr: 2, ...(open && { display: 'none' }) }}
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="div">
+					<Typography variant="h6" noWrap component="h6">
 						Anime App
 					</Typography>
 				</Toolbar>
@@ -57,7 +70,7 @@ const PersistentDrawerLeft: FC = () => {
 				className={styles.drawer}
 				sx={{
 					'& .MuiDrawer-paper': {
-						width: drawerWidth,
+						width: DRAWER_WIDTH,
 						boxSizing: 'border-box',
 					},
 				}}
@@ -71,22 +84,14 @@ const PersistentDrawerLeft: FC = () => {
 					</IconButton>
 				</div>
 				<Divider />
-				<NavigationList items={[
-					{ name: 'Anime', path: '/example/anime' },
-					{ name: 'Genres', path: '/example/genres' },
-					{ name: 'Studios', path: '/example/studios' },
-				]} />
+				<NavigationList items={mainRoutes} />
 				<Divider />
-				<NavigationList items={[
-					{ name: 'Login', path: '/example/login' },
-					{ name: 'Logout', path: '/example/logout' },
-					{ name: 'Profile', path: '/example/profile' },
-				]}/>
+				<NavigationList items={loginRoutes}/>
 			</Drawer>
-			<GenreLayout title='Genres'/>
+			<GenreLayout/>
 		</Box>
 	);
 };
 
 /** 1. */
-export const ExamplePage = memo(PersistentDrawerLeft);
+export const GenrePage = memo(GenrePageComponent);

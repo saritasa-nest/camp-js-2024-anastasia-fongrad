@@ -14,14 +14,11 @@ type GenresListProps = {
 	/** 1. */
 	readonly genres: Array<AnimeGenre>;
 
-	/** 1. */
-	readonly title: string;
-
 	/** Click handler. */
 	onGenreClick: (id: number) => void;
 };
 
-const GenresListComponent: FC<GenresListProps> = ({ genres, title, onGenreClick }) => {
+const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? +genreId : undefined);
 
@@ -32,14 +29,14 @@ const GenresListComponent: FC<GenresListProps> = ({ genres, title, onGenreClick 
 
 	return (
 		<Box className={styles.listContainer}>
-			<GenreFilters title={title}/>
+			<GenreFilters/>
 			<List className={styles.list}>
 				<ListItem disablePadding>
 					<ListItemButton sx={{ width: '100%' }}>
 						<IconButton edge="start" color="inherit" aria-label="add">
 							<AddIcon />
 						</IconButton>
-						<ListItemText primary={`Add ${title}`} />
+						<ListItemText primary='Add Genre'/>
 					</ListItemButton>
 				</ListItem>
 				{genres.map(genre => (

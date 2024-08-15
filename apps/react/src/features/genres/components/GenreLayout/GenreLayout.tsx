@@ -4,20 +4,15 @@ import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import Box from '@mui/material/Box';
+import { Box, ListItemText, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
 
 import { GenresList } from '../GenreList';
 
 import styles from './GenreLayout.module.css';
 
-type MainPageProps = {
-
-	/** 1. */
-	readonly title: string;
-};
-
-const ListComponent: FC<MainPageProps> = ({ title }) => {
+const GenreLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
@@ -40,18 +35,23 @@ const ListComponent: FC<MainPageProps> = ({ title }) => {
 	return (
 		<Box>
 			<main className={`${styles.main} ${open ? styles.mainOpen : ''}`}>
-				<Box className={`${styles.sidebar} ${!genreId ? styles.fullWidth : ''}`}>
+				<Box className={styles.sidebar}>
 					<GenresList
 						genres={genres}
 						onGenreClick={handleGenreClick}
-						title={title}
 					/>
 				</Box>
 				{genreId && <Outlet />}
+				{!genreId && <div className={styles.button}>
+					<IconButton edge="start" color="inherit" aria-label="add">
+						<AddIcon />
+					</IconButton>
+					<ListItemText primary='Add Genre'/>
+				</div>}
 			</main>
 		</Box>
 	);
 };
 
 /** 1. */
-export const GenreLayout = memo(ListComponent);
+export const GenreLayout = memo(GenreLayoutComponent);

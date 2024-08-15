@@ -3,3 +3,19 @@
   flex-direction: column;
   margin: 0 var(--space-5) var(--space-5) 0;
 }
+
+.form {
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.inputBase {
+  margin-left: 1rem;
+  flex: 1;
+}
+
+.iconButton {
+  padding: 10px;
+}
