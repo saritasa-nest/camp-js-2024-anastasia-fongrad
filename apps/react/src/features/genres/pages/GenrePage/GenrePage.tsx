@@ -14,11 +14,11 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { setOpen } from '@js-camp/react/store/drawer/slice';
-import { Outlet } from 'react-router-dom';
 
+import { GenreLayout } from '../../components/GenreLayout';
 import { NavigationList } from '../../components/NavigationList';
 
-import styles from './ExamplePage.module.css';
+import styles from './GenrePage.module.css';
 
 const drawerWidth = 280;
 
@@ -83,7 +83,7 @@ const PersistentDrawerLeft: FC = () => {
 					{ name: 'Profile', path: '/example/profile' },
 				]}/>
 			</Drawer>
-			<Outlet context={{ open }} />
+			<GenreLayout title='Genres'/>
 		</Box>
 	);
 };

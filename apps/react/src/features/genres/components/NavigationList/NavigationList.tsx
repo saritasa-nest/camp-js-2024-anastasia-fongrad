@@ -1,5 +1,4 @@
 import { FC, memo } from 'react';
-import { Link } from 'react-router-dom';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -25,7 +24,7 @@ const NavigationListComponent: FC<NavigationListProps> = ({ items }) => (
 	<List>
 		{items.map((item, index) => (
 			<ListItem key={item.name} disablePadding>
-				<ListItemButton component={Link} to={item.path}>
+				<ListItemButton>
 					<ListItemIcon>
 						{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
 					</ListItemIcon>

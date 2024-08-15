@@ -1,0 +1,1 @@
+export { GenreLayout } from './GenreLayout';

@@ -4,6 +4,9 @@ import { ListItem, ListItemText, ListItemButton } from '@mui/material';
 
 type Props = {
 
+	/** Selected state. */
+	readonly selected: boolean;
+
 	/** Genre. */
 	readonly genre: AnimeGenre;
 
@@ -12,9 +15,13 @@ type Props = {
 };
 
 /** Card with genre data. */
-const GenreListItemComponent: FC<Props> = ({ genre, onClick }: Props) => (
+const GenreListItemComponent: FC<Props> = ({ selected, genre, onClick }: Props) => (
 	<ListItem disablePadding>
-		<ListItemButton onClick={onClick} sx={{ width: '100%' }}>
+		<ListItemButton
+			onClick={onClick}
+			selected={selected}
+			sx={{ width: '100%' }}
+		>
 			<ListItemText
 				primary={genre.name}
 				secondary={`Id - ${genre.id}`}

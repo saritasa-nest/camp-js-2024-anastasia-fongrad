@@ -5,11 +5,11 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import Box from '@mui/material/Box';
+import { useNavigate, Outlet, useParams } from 'react-router-dom';
 
-import { GenresList } from '../../components/GenreList';
-import { GenreDetails } from '../../components/GenreDetails';
+import { GenresList } from '../GenreList';
 
-import styles from './DisplayPage.module.css';
+import styles from './GenreLayout.module.css';
 
 type MainPageProps = {
 
@@ -22,6 +22,8 @@ const ListComponent: FC<MainPageProps> = ({ title }) => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
+	const navigate = useNavigate();
+	const { genreId } = useParams<{ genreId: string; }>();
 
 	useEffect(() => {
 		dispatch(fetchGenres());
@@ -31,25 +33,25 @@ const ListComponent: FC<MainPageProps> = ({ title }) => {
 		return <div>Loading</div>;
 	}
 
-	const handleGenreClick = (_id: number) => {
-		// console.log(id);
+	const handleGenreClick = (id: number) => {
+		navigate(`/genre/${id}`);
 	};
 
 	return (
 		<Box>
 			<main className={`${styles.main} ${open ? styles.mainOpen : ''}`}>
-				<Box className={styles.sidebar}>
+				<Box className={`${styles.sidebar} ${!genreId ? styles.fullWidth : ''}`}>
 					<GenresList
 						genres={genres}
 						onGenreClick={handleGenreClick}
 						title={title}
 					/>
 				</Box>
-				<GenreDetails title={title}/>
+				{genreId && <Outlet />}
 			</main>
 		</Box>
 	);
 };
 
 /** 1. */
-export const DisplayPage = memo(ListComponent);
+export const GenreLayout = memo(ListComponent);

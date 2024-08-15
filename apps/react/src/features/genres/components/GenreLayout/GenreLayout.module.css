@@ -19,3 +19,7 @@
   width: 400px;
   flex-shrink: 0;
 }
+
+.fullWidth {
+  width: 100vh;
+}
