@@ -1,1 +1,0 @@
-export { GenreCard } from './GenreCard';

@@ -18,7 +18,9 @@ import { Outlet } from 'react-router-dom';
 
 import { NavigationList } from '../../components/NavigationList';
 
-const drawerWidth = 240;
+import styles from './ExamplePage.module.css';
+
+const drawerWidth = 280;
 
 type AppBarProps = MuiAppBarProps & {
 
@@ -66,7 +68,7 @@ const PersistentDrawerLeft: FC = () => {
 		dispatch(setOpen(false));
 	};
 	return (
-		<Box sx={{ display: 'flex' }}>
+		<Box className={styles.main}>
 			<CssBaseline />
 			<AppBar position="fixed" open={open}>
 				<Toolbar>
