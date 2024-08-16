@@ -7,12 +7,12 @@ import styles from './AnimeDetails.module.css';
 
 const AnimeDetailsComponent: FC = () => {
 
-	const { genreId } = useParams<{ genreId: string; }>();
+	const { animeId } = useParams<{ animeId: string; }>();
 
 	return (
 		<div>
-			<Typography variant="h5" component="div" gutterBottom>
-				{ `Genre ${genreId}` }
+			<Typography variant="h5" component="h5" gutterBottom>
+				{ `Anime № ${animeId}` }
 			</Typography>
 			<Typography paragraph>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod

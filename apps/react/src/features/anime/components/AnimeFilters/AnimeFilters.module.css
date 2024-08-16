@@ -6,8 +6,19 @@
 
 .filters__form {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--space-4);
   width: 100%;
+}
+
+.filters__sort {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.filters__inputs {
+  display: flex;
+  gap: var(--space-2);
 }
 
 .filters__group {
