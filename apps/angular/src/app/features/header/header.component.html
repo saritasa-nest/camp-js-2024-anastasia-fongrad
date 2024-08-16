@@ -5,7 +5,7 @@
 				<img src="assets/anime-icon.png" height="80" alt="">
 				<span>Anime Catalog App</span>
 			</a>
-			<a [routerLink]="[appRoutes.Home]">Catalog</a>
+			<a [routerLink]="[getFullRoute(appRoutes.Home)]">Catalog</a>
 			@if (userProfile$ | async; as userProfile) {
 				<div class="header__user user">
 					<div class="user__profile" >
@@ -21,8 +21,8 @@
 				<button mat-raised-button type="button" (click)="logout()">Logout</button>
 			}
 			@else {
-				<a [routerLink]="['/' + appRoutes.Registration]">Registration</a>
-				<a [routerLink]="['/' + appRoutes.Login]">Login</a>
+				<a [routerLink]="[getFullRoute(appRoutes.Registration)]">Registration</a>
+				<a [routerLink]="[getFullRoute(appRoutes.Login)]">Login</a>
 			}
 		</div>
 	</header>

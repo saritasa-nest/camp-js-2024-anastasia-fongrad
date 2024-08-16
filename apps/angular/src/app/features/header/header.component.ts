@@ -30,7 +30,7 @@ import { AuthorizationTokenService } from '@js-camp/angular/core/services/author
 export class HeaderComponent implements OnInit {
 
 	/** User profile data. */
-	protected userProfile$: Observable<void | UserProfile>;
+	protected userProfile$: Observable<null | UserProfile>;
 
 	/** Available app routes to navigate by. */
 	protected readonly appRoutes = AppRoutes;
@@ -63,5 +63,13 @@ export class HeaderComponent implements OnInit {
 	protected logout(): void {
 		this.authService.logout();
 		this.router.navigate([AppRoutes.Login]);
+	}
+
+	/**
+	 * Gets a full route to the given page.
+	 * @param route Basic app route.
+	 */
+	protected getFullRoute(route: AppRoutes): string {
+		return `/${route}`;
 	}
 }

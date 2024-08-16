@@ -1,5 +1,3 @@
-import { ErrorMessageDto } from './enums/error-message-dto.enum';
-
 /** Server error dto. */
 export type ServerErrorDto = {
 
@@ -10,5 +8,5 @@ export type ServerErrorDto = {
 	readonly code: string;
 
 	/** Server error detailed message. */
-	readonly detail: ErrorMessageDto;
+	readonly detail: string;
 };

@@ -60,7 +60,7 @@ export class RegistrationFormComponent implements OnInit {
 			const control = this.registrationForm.get(controlName);
 			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
 				.subscribe(() => {
-					control.setErrors(null);
+					this.formValidationService.clearServerErrors(control);
 				});
 		});
 	}

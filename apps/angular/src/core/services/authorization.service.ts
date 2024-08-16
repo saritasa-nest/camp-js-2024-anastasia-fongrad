@@ -60,8 +60,13 @@ export class AuthorizationService {
 
 	/** Checks if a user is authorized in a system. */
 	public isAuthorized(): Observable<boolean> {
-		return this.verify().pipe(
-			map(() => true),
+		return this.tokenService.getAccessToken().pipe(
+			switchMap(accessToken => {
+				if (accessToken === null) {
+					return of(false);
+				}
+				return of(true);
+			}),
 			catchError(() => of(false)),
 		);
 	}

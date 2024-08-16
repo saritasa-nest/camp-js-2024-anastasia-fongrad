@@ -23,7 +23,7 @@ export class FormValidationService {
 
 	/**
 	 * Returns an error message for the current formControl.
-	 * @param formControl FormGroup to work with.
+	 * @param formControl AbstractControl to work with.
 	 * @param serverErrors An array of server errors.
 	 */
 	public getControlErrorMessage(formControl: AbstractControl): string | null {
@@ -73,18 +73,29 @@ export class FormValidationService {
 			control.markAsDirty();
 			const controlError = serverErrors?.find(error => error.controlName === key);
 			if (controlError != null) {
-				return;
-			}
-			const existingErrors = control.errors;
-			if (existingErrors != null) {
-				delete existingErrors[SERVER_ERROR_KEY];
-				if (Object.keys(existingErrors).length === 0) {
-					control.setErrors(null);
-					return;
-				}
+				const existingErrors = control.errors ?? {};
+				existingErrors[SERVER_ERROR_KEY] = controlError.controlErrors[0];
 				control.setErrors(existingErrors);
+			} else {
+				this.clearServerErrors(control);
 			}
 		});
+	}
+
+	/**
+	 * Clears server errors for a form control.
+	 * @param formControl AbstractControl to work with.
+	 */
+	public clearServerErrors(formControl: AbstractControl): void {
+		const existingErrors = formControl.errors;
+		if (existingErrors) {
+			delete existingErrors[SERVER_ERROR_KEY];
+			if (Object.keys(existingErrors).length === 0) {
+				formControl.setErrors(null);
+			} else {
+				formControl.setErrors(existingErrors);
+			}
+		}
 	}
 
 	/**

@@ -22,9 +22,6 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 })
 export class RegistrationComponent {
 
-	/** Available app route names. */
-	protected readonly appRoutes = AppRoutes;
-
 	private readonly dialog = inject(MatDialog);
 
 	private readonly router = inject(Router);
@@ -33,5 +30,10 @@ export class RegistrationComponent {
 	protected onRegistrationSuccess(): void {
 		this.dialog.open(RegistrationDialogComponent);
 		this.router.navigate([AppRoutes.Login]);
+	}
+
+	/** Gets a full registration route. */
+	protected getLoginRoute(): string {
+		return `/${AppRoutes.Login}`;
 	}
 }
