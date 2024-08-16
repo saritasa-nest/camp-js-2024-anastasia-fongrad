@@ -1,5 +1,5 @@
 import { memo, FC, useState } from 'react';
-import { AnimeGenre } from '@js-camp/core/models/genre.model';
+import { Anime } from '@js-camp/core/models/anime.model';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
@@ -12,13 +12,13 @@ import styles from './AnimeList.module.css';
 type GenresListProps = {
 
 	/** An array of anime genres. */
-	readonly genres: readonly AnimeGenre[];
+	readonly anime: readonly Anime[];
 
 	/** Handles displaying genre details on click. */
 	onGenreClick: (id: number) => void;
 };
 
-const AnimeListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {
+const AnimeListComponent: FC<GenresListProps> = ({ anime, onGenreClick }: GenresListProps) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 
@@ -43,12 +43,12 @@ const AnimeListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: Genre
 						<ListItemText primary='Add Genre'/>
 					</ListItemButton>
 				</ListItem>
-				{genres.map(genre => (
+				{anime.map(animeItem => (
 					<AnimeListItem
-						key={genre.id}
-						genre={genre}
-						onClick={() => handleGenreClick(genre.id)}
-						selected={genre.id === selectedGenreId}
+						key={animeItem.id}
+						anime={animeItem}
+						onClick={() => handleGenreClick(animeItem.id)}
+						selected={animeItem.id === selectedGenreId}
 					/>
 				))}
 			</List>

@@ -2,8 +2,8 @@ import { memo, FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { selectAnime, selectAreAnimeLoading } from '@js-camp/react/store/anime/selectors';
+import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
@@ -15,13 +15,13 @@ import styles from './AnimeLayout.module.css';
 const AnimeLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
 	const dispatch = useAppDispatch();
-	const genres = useAppSelector(selectGenres);
-	const isLoading = useAppSelector(selectAreGenresLoading);
+	const anime = useAppSelector(selectAnime);
+	const isLoading = useAppSelector(selectAreAnimeLoading);
 	const navigate = useNavigate();
-	const { genreId } = useParams<{ genreId: string; }>();
+	const { animeId } = useParams<{ animeId: string; }>();
 
 	useEffect(() => {
-		dispatch(fetchGenres());
+		dispatch(fetchAnime());
 	}, [dispatch]);
 
 	if (isLoading) {
@@ -36,11 +36,11 @@ const AnimeLayoutComponent: FC = () => {
 		<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
 			<Box className={styles.layout__sidebar}>
 				<AnimeList
-					genres={genres}
+					anime={anime}
 					onGenreClick={handleGenreClick}
 				/>
 			</Box>
-			{genreId ? <Outlet /> : <div className={styles.layout__empty}>
+			{animeId ? <Outlet /> : <div className={styles.layout__empty}>
 				<div className={styles.layout__button}>
 					<IconButton
 						edge="start"
