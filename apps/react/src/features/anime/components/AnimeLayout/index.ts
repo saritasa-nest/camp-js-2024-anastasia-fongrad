@@ -1,0 +1,1 @@
+export { AnimeLayout } from './AnimeLayout';
