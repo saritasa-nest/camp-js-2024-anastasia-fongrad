@@ -40,7 +40,7 @@ const AnimeListComponent: FC<GenresListProps> = ({ anime, onGenreClick }: Genres
 						>
 							<AddIcon />
 						</IconButton>
-						<ListItemText primary='Add Genre'/>
+						<ListItemText primary='Add Anime'/>
 					</ListItemButton>
 				</ListItem>
 				{anime.map(animeItem => (
