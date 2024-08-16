@@ -16,7 +16,7 @@
 }
 
 .layout__sidebar {
-  width: var(--list-width);
+  width: var(--anime-list-width);
   flex-shrink: 0;
 }
 

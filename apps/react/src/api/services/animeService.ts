@@ -11,7 +11,6 @@ export namespace AnimeService {
 
 	/** Fetches a list of genres. */
 	export async function fetchAnime(): Promise<Anime[]> {
-		console.log(url);
 		const { data } = await http.get<PaginationDto<AnimeDto>>(url);
 		return data.results.map(dto => AnimeMapper.fromDto(dto));
 	}
