@@ -34,16 +34,19 @@ const GenreLayoutComponent: FC = () => {
 
 	return (
 		<Box>
-			<main className={`${styles.main} ${open ? styles.mainOpen : ''}`}>
-				<Box className={styles.sidebar}>
+			<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
+				<Box className={styles.layout__sidebar}>
 					<GenresList
 						genres={genres}
 						onGenreClick={handleGenreClick}
 					/>
 				</Box>
-				{genreId && <Outlet />}
-				{!genreId && <div className={styles.button}>
-					<IconButton edge="start" color="inherit" aria-label="add">
+				{genreId ? <Outlet /> : <div className={styles.layout__button}>
+					<IconButton
+						edge="start"
+						color="inherit"
+						aria-label="add"
+					>
 						<AddIcon />
 					</IconButton>
 					<ListItemText primary='Add Genre'/>

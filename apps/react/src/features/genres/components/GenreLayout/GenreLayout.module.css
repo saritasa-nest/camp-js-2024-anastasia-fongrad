@@ -1,4 +1,4 @@
-.main {
+.layout {
   display: flex;
   gap: var(--space-8);
   flex-grow: 1;
@@ -8,17 +8,17 @@
   height: 100%;
 }
 
-.mainOpen {
+.layout_open {
   transition: margin 195ms cubic-bezier(0.4, 0, 0.2, 1);
   margin-left: 0;
 }
 
-.sidebar {
+.layout__sidebar {
   width: var(--list-width);
   flex-shrink: 0;
 }
 
-.button {
+.layout__button {
   display: flex;
   align-items: center;
   justify-content: center;

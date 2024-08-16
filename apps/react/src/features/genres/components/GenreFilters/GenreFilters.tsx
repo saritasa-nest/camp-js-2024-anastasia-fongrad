@@ -9,21 +9,25 @@ import styles from './GenreFilters.module.css';
 
 const GenreFiltersComponent: FC = () => (
 	<Box className={styles.filters}>
-		<Typography variant="h5" component="h5" gutterBottom>
+		<Typography
+			variant="h5"
+			component="h5"
+			gutterBottom
+		>
 			Filters
 		</Typography>
 		<Paper
 			component="form"
-			className={styles.form}
+			className={styles.filters__form}
 		>
 			<InputBase
-				className={styles.inputBase}
+				className={styles['filters__input-base']}
 				placeholder='Search Genres ...'
 				aria-label='search genres'
 			/>
 			<IconButton
 				type="button"
-				className={styles.iconButton}
+				className={styles['filters__icon-button']}
 				aria-label="search"
 				color="primary"
 			>

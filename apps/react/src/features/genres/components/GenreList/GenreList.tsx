@@ -14,7 +14,7 @@ type GenresListProps = {
 	/** An array of anime genres. */
 	readonly genres: readonly AnimeGenre[];
 
-	/** Click handler. */
+	/** Handles displaying genre details on click. */
 	onGenreClick: (id: number) => void;
 };
 
@@ -28,12 +28,16 @@ const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: Genr
 	};
 
 	return (
-		<Box className={styles.listContainer}>
+		<Box className={styles['genre-list']}>
 			<GenreFilters/>
-			<List className={styles.list}>
+			<List className={styles['genre-list__items']}>
 				<ListItem disablePadding>
-					<ListItemButton sx={{ width: '100%' }}>
-						<IconButton edge="start" color="inherit" aria-label="add">
+					<ListItemButton>
+						<IconButton
+							edge="start"
+							color="inherit"
+							aria-label="add"
+						>
 							<AddIcon />
 						</IconButton>
 						<ListItemText primary='Add Genre'/>

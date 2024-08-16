@@ -1,5 +1,4 @@
 import { memo, FC } from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,7 +9,6 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { setOpen } from '@js-camp/react/store/drawer/slice';
@@ -36,7 +34,6 @@ const loginRoutes = [
 ];
 
 const GenrePageComponent: FC = () => {
-	const theme = useTheme();
 	const open = useSelector(selectIsDrawerOpen);
 	const dispatch = useDispatch();
 
@@ -50,10 +47,10 @@ const GenrePageComponent: FC = () => {
 	return (
 		<Box className={styles.main}>
 			<CssBaseline />
-			<MuiAppBar className={`${styles.appBar} ${open ? styles.appBarOpen : ''}`}>
-				<Toolbar className={styles.toolbar}>
+			<MuiAppBar className={`${styles['main__app-bar']} ${open ? styles['main__app-bar_open'] : ''}`}>
+				<Toolbar className={styles.main__toolbar}>
 					<IconButton
-						className={`${styles.icon} ${open ? styles.none : ''}`}
+						className={styles['main__toolbar-icon']}
 						color="inherit"
 						aria-label="open drawer"
 						onClick={handleDrawerOpen}
@@ -61,13 +58,17 @@ const GenrePageComponent: FC = () => {
 					>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant="h6" noWrap component="h6">
+					<Typography
+						variant="h6"
+						component="h6"
+						noWrap
+					>
 						Anime App
 					</Typography>
 				</Toolbar>
 			</MuiAppBar>
 			<Drawer
-				className={styles.drawer}
+				className={styles.main__drawer}
 				sx={{
 					'& .MuiDrawer-paper': {
 						width: DRAWER_WIDTH,
@@ -78,9 +79,9 @@ const GenrePageComponent: FC = () => {
 				anchor="left"
 				open={open}
 			>
-				<div className={styles.drawerHeader}>
+				<div className={styles['main__drawer-header']}>
 					<IconButton onClick={handleDrawerClose}>
-						{theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+						<ChevronLeftIcon />
 					</IconButton>
 				</div>
 				<Divider />
