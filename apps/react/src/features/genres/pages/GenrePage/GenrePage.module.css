@@ -37,11 +37,6 @@
   flex-shrink: 0;
 }
 
-.drawerPaper {
-  width: var(--sidebar-width);
-  box-sizing: border-box;
-}
-
 .toolbar {
   height: var(--header-height);
 }

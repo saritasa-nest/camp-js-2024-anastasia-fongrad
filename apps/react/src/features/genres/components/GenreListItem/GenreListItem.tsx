@@ -14,7 +14,6 @@ type GenreListItemProps = {
 	readonly onClick: () => void;
 };
 
-/** List Item with genre data. */
 const GenreListItemComponent: FC<GenreListItemProps> = ({ selected, genre, onClick }: GenreListItemProps) => (
 	<ListItem disablePadding>
 		<ListItemButton
@@ -29,5 +28,5 @@ const GenreListItemComponent: FC<GenreListItemProps> = ({ selected, genre, onCli
 	</ListItem>
 );
 
-/** Memoized version of GenreListItemComponent for performance optimization. */
+/** Genre list item component. */
 export const GenreListItem = memo(GenreListItemComponent);

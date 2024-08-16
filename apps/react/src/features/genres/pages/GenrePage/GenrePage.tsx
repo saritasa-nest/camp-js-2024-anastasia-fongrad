@@ -35,7 +35,6 @@ const loginRoutes = [
 	{ name: 'Profile', path: '/profile' },
 ];
 
-/** Anime genres page. */
 const GenrePageComponent: FC = () => {
 	const theme = useTheme();
 	const open = useSelector(selectIsDrawerOpen);
@@ -94,5 +93,5 @@ const GenrePageComponent: FC = () => {
 	);
 };
 
-/** Memoized version of GenrePageComponent for performance optimization. */
+/** Genre page component. */
 export const GenrePage = memo(GenrePageComponent);

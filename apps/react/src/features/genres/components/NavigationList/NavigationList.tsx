@@ -35,5 +35,5 @@ const NavigationListComponent: FC<NavigationListProps> = ({ items }: NavigationL
 	</List>
 );
 
-/** Memoized version of NavigationListComponent for performance optimization. */
+/** Navigation list component. */
 export const NavigationList = memo(NavigationListComponent);

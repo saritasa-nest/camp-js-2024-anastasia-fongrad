@@ -12,16 +12,15 @@ import styles from './GenreList.module.css';
 type GenresListProps = {
 
 	/** An array of anime genres. */
-	readonly genres: Array<AnimeGenre>;
+	readonly genres: readonly AnimeGenre[];
 
 	/** Click handler. */
 	onGenreClick: (id: number) => void;
 };
 
-/** A list of anime genres. */
 const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {
 	const { genreId } = useParams<{ genreId: string; }>();
-	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? +genreId : undefined);
+	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 
 	const handleGenreClick = (id: number) => {
 		setSelectedGenreId(id);
@@ -53,5 +52,5 @@ const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: Genr
 	);
 };
 
-/** Memoized version of GenresListComponent for performance optimization. */
+/** Genre list component. */
 export const GenresList = memo(GenresListComponent);

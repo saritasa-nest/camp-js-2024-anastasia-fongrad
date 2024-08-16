@@ -7,7 +7,6 @@ import { Box, Typography } from '@mui/material';
 
 import styles from './GenreFilters.module.css';
 
-/** Filters for anime genres. */
 const GenreFiltersComponent: FC = () => (
 	<Box className={styles.filters}>
 		<Typography variant="h5" component="h5" gutterBottom>
@@ -19,8 +18,8 @@ const GenreFiltersComponent: FC = () => (
 		>
 			<InputBase
 				className={styles.inputBase}
-				placeholder={ `Search Genres ...` }
-				inputProps={{ 'aria-label': 'search google maps' }}
+				placeholder='Search Genres ...'
+				aria-label='search genres'
 			/>
 			<IconButton
 				type="button"
@@ -34,5 +33,5 @@ const GenreFiltersComponent: FC = () => (
 	</Box>
 );
 
-/** Memoized version of GenreFiltersComponent for performance optimization. */
+/** Genre filters component. */
 export const GenreFilters = memo(GenreFiltersComponent);
