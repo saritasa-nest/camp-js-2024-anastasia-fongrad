@@ -33,15 +33,15 @@ const GenreLayoutComponent: FC = () => {
 	};
 
 	return (
-		<Box>
-			<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
-				<Box className={styles.layout__sidebar}>
-					<GenresList
-						genres={genres}
-						onGenreClick={handleGenreClick}
-					/>
-				</Box>
-				{genreId ? <Outlet /> : <div className={styles.layout__button}>
+		<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
+			<Box className={styles.layout__sidebar}>
+				<GenresList
+					genres={genres}
+					onGenreClick={handleGenreClick}
+				/>
+			</Box>
+			{genreId ? <Outlet /> : <div className={styles.layout__empty}>
+				<div className={styles.layout__button}>
 					<IconButton
 						edge="start"
 						color="inherit"
@@ -50,9 +50,10 @@ const GenreLayoutComponent: FC = () => {
 						<AddIcon />
 					</IconButton>
 					<ListItemText primary='Add Genre'/>
-				</div>}
-			</main>
-		</Box>
+				</div>
+			</div>
+			}
+		</main>
 	);
 };
 

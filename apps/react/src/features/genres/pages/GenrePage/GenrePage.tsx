@@ -72,7 +72,6 @@ const GenrePageComponent: FC = () => {
 				sx={{
 					'& .MuiDrawer-paper': {
 						width: DRAWER_WIDTH,
-						boxSizing: 'border-box',
 					},
 				}}
 				variant="persistent"

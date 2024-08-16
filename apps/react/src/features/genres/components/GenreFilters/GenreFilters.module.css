@@ -12,10 +12,10 @@
 }
 
 .filters__input-base {
-  margin-left: 1rem;
+  margin-left: var(--space-2);
   flex: 1;
 }
 
 .filters__icon-button {
-  padding: 10px;
+  padding: var(--space-4);
 }
