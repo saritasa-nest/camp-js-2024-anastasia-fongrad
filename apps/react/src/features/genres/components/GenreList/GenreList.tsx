@@ -15,7 +15,7 @@ type GenresListProps = {
 	readonly genres: readonly AnimeGenre[];
 
 	/** Handles displaying genre details on click. */
-	onGenreClick: (id: number) => void;
+	readonly onGenreClick: (id: number) => void;
 };
 
 const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {

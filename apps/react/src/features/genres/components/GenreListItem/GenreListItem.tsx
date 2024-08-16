@@ -10,7 +10,7 @@ type GenreListItemProps = {
 	/** Anime genre. */
 	readonly genre: AnimeGenre;
 
-	/** Click handler. */
+	/** Handles displaying genre details on click. */
 	readonly onClick: () => void;
 };
 
