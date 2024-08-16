@@ -15,4 +15,17 @@ export namespace AnimeStatusMapper {
 		};
 		return statusMap[dto];
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: AnimeStatus): AnimeStatusDto {
+		const statusMap: Record<AnimeStatus, AnimeStatusDto> = {
+			[AnimeStatus.Airing]: AnimeStatusDto.Airing,
+			[AnimeStatus.Finished]: AnimeStatusDto.Finished,
+			[AnimeStatus.NotYetAired]: AnimeStatusDto.NotYetAired,
+		};
+		return statusMap[model];
+	}
 }

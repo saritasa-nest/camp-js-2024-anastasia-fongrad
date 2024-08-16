@@ -12,4 +12,13 @@ export namespace AnimeSourceMapper {
 		const statusMap = EnumUtils.createEnumMap(AnimeSourceDto, AnimeSource);
 		return statusMap[dto];
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: AnimeSource): AnimeSourceDto {
+		const statusMap = EnumUtils.createEnumMap(AnimeSource, AnimeSourceDto);
+		return statusMap[model];
+	}
 }

@@ -12,4 +12,13 @@ export namespace AnimeSeasonMapper {
 		const statusMap = EnumUtils.createEnumMap(AnimeSeasonDto, AnimeSeason);
 		return statusMap[dto];
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: AnimeSeason): AnimeSeasonDto {
+		const statusMap = EnumUtils.createEnumMap(AnimeSeason, AnimeSeasonDto);
+		return statusMap[model];
+	}
 }

@@ -11,4 +11,12 @@ export namespace DateTimeMapper {
 		}
 		return null;
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: Date): string {
+		return model.toISOString();
+	}
 }

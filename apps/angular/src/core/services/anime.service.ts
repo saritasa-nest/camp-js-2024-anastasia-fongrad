@@ -13,7 +13,7 @@ import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details-dto';
-import { AnimeDetailedMapper } from '@js-camp/core/mappers/anime-details.mapper';
+import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
 
 import { AppUrlConfig } from './app-url-config.service';
 
@@ -49,7 +49,29 @@ export class AnimeService {
 		const url = this.appUrlConfig.getDetailsPath(id);
 		const result$ = this.http.get<AnimeDetailsDto>(url);
 		return result$.pipe(
-			map((response: AnimeDetailsDto) => AnimeDetailedMapper.fromDto(response)),
+			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),
 		);
+	}
+
+	/**
+	 * 1.
+	 * @param animeDetails 1.
+	 */
+	public add(animeDetails: AnimeDetails): Observable<AnimeDetails> {
+		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
+		const url = this.appUrlConfig.paths.animeCatalog;
+		const result$ = this.http.post<AnimeDetailsDto>(url, dtoParameters);
+		return result$.pipe(
+			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),
+		);
+	}
+
+	/**
+	 * 1.
+	 * @param id 1.
+	 */
+	public deleteById(id: AnimeDetails['id']): Observable<void> {
+		const url = this.appUrlConfig.getDetailsPath(id);
+		return this.http.delete<void>(url);
 	}
 }

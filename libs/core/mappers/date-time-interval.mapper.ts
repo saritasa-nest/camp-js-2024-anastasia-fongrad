@@ -15,4 +15,15 @@ export namespace DateTimeIntervalMapper {
 			end: dto.end ? DateTimeMapper.fromDto(dto.end) : null,
 		};
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: DateTimeInterval): DateTimeIntervalDto {
+		return {
+			start: model.start ? DateTimeMapper.toDto(model.start) : null,
+			end: model.end ? DateTimeMapper.toDto(model.end) : null,
+		};
+	}
 }
