@@ -62,8 +62,8 @@ export class AnimeDetailsComponent {
 		this.animeDetails$ = this.route.paramMap.pipe(
 			switchMap(params => {
 				const id = params.get('id');
-				if (id) {
-					return this.animeApiService.getDetails(Number(id));
+				if (id !== null) {
+					return this.animeApiService.getById(Number(id));
 				}
 				return of(null);
 			}),
