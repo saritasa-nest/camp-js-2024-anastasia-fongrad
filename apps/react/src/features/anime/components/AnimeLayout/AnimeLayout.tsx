@@ -7,6 +7,7 @@ import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { Loader } from '@js-camp/react/components/Loader';
 
 import { AnimeList } from '../AnimeList';
 
@@ -25,7 +26,7 @@ const AnimeLayoutComponent: FC = () => {
 	}, [dispatch]);
 
 	if (isLoading) {
-		return <div>Loading</div>;
+		return <Loader />;
 	}
 
 	const handleGenreClick = (id: number) => {
