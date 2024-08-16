@@ -1,8 +1,8 @@
 import { memo, FC, Fragment } from 'react';
 import { Anime } from '@js-camp/core/models/anime.model';
-import { ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar, Typography } from '@mui/material';
+import { Chip, Tooltip, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 
-type GenreListItemProps = {
+type AnimeListItemProps = {
 
 	/** Selected state. */
 	readonly selected: boolean;
@@ -14,7 +14,7 @@ type GenreListItemProps = {
 	readonly onClick: () => void;
 };
 
-const AnimeListItemComponent: FC<GenreListItemProps> = ({ selected, anime, onClick }: GenreListItemProps) => (
+const AnimeListItemComponent: FC<AnimeListItemProps> = ({ selected, anime, onClick }: AnimeListItemProps) => (
 	<ListItem disablePadding alignItems="flex-start">
 		<ListItemButton
 			onClick={onClick}
@@ -30,20 +30,14 @@ const AnimeListItemComponent: FC<GenreListItemProps> = ({ selected, anime, onCli
 			</ListItemAvatar>
 			<ListItemText
 				primary={anime.titleJapanese}
-				secondary={
-					<Fragment>
-						<Typography
-							sx={{ display: 'inline' }}
-							component="span"
-							variant="body2"
-							color="text.primary"
-						>
-							Ali Connors
-						</Typography>
-						{" — I'll be in your neighborhood doing errands this…"}
-					</Fragment>
-				  }
+				secondary={anime.titleEnglish}
 			/>
+			<Tooltip title="Anime status" placement="top" arrow>
+				<Chip variant="outlined" label={anime.status} />
+			</Tooltip>
+			<Tooltip title="Anime type" placement="top" arrow>
+				<Chip color="primary" variant="outlined" label={anime.type} />
+			</Tooltip>
 		</ListItemButton>
 	</ListItem>
 );
