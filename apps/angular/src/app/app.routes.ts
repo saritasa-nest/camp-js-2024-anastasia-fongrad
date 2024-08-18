@@ -36,6 +36,12 @@ export const appRoutes: Routes = [
 		canActivate: [NotLoggedInGuard],
 	},
 	{
+		path: AppRoutes.EditForm,
+		loadComponent: () =>
+			import('../app/features/anime-management/anime-edit/anime-edit.component').then(c => c.AnimeEditComponent),
+		canActivate: [NotLoggedInGuard],
+	},
+	{
 		path: '**',
 		redirectTo: '/',
 	},

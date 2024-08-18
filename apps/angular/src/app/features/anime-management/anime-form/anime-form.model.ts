@@ -32,6 +32,18 @@ export type AnimeDetailsForm = {
 
 	/** 1. */
 	readonly season: FormControl<AnimeSeason>;
+
+	/** 1. */
+	readonly synopsis: FormControl<string>;
+
+	/** 1. */
+	readonly airingStatus: FormControl<boolean>;
+
+	/** 1. */
+	readonly airingStartDate: FormControl<string>;
+
+	/** 1. */
+	readonly airingEndDate: FormControl<string>;
 };
 
 /** 1. */
@@ -75,6 +87,10 @@ export namespace AnimeDetailsForm {
 			rating: formBuilder.control(DEFAULT_RATING, [Validators.required]),
 			season: formBuilder.control(DEFAULT_SEASON, [Validators.required]),
 			source: formBuilder.control(DEFAULT_SOURCE, [Validators.required]),
+			synopsis: formBuilder.control(''),
+			airingStatus: formBuilder.control(false, [Validators.required]),
+			airingStartDate: formBuilder.control(''),
+			airingEndDate: formBuilder.control(''),
 		});
 	}
 }
