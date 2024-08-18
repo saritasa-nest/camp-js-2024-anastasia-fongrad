@@ -30,6 +30,12 @@ export const appRoutes: Routes = [
 		canActivate: [NotLoggedInGuard],
 	},
 	{
+		path: AppRoutes.CreateForm,
+		loadComponent: () =>
+			import('../app/features/anime-management/anime-create/anime-create.component').then(c => c.AnimeCreateComponent),
+		canActivate: [NotLoggedInGuard],
+	},
+	{
 		path: '**',
 		redirectTo: '/',
 	},

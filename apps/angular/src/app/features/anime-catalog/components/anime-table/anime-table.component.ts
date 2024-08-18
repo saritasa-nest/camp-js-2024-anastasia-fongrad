@@ -1,4 +1,6 @@
 import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
@@ -19,6 +21,7 @@ enum AnimeTableColumnIds {
 	StartDate = 'aired__startswith',
 	Type = 'type',
 	Status = 'status',
+	Delete = 'delete',
 }
 
 /** Anime table column names. */
@@ -29,6 +32,7 @@ enum AnimeTableColumnNames {
 	StartDate = 'Start Date',
 	Type = 'Type',
 	Status = 'Status',
+	Delete = '',
 }
 
 /**
@@ -52,6 +56,8 @@ function mapColumnToSortParameter(column: AnimeTableColumnIds | null): AnimeSort
 	standalone: true,
 	imports: [
 		MatTableModule,
+		MatButtonModule,
+		MatIconModule,
 		CommonModule,
 		NgOptimizedImage,
 		MatChipsModule,
@@ -129,5 +135,13 @@ export class AnimeTableComponent {
 		if (event.key === 'Enter' || event.key === ' ') {
 			this.showDetails(anime);
 		}
+	}
+
+	/**
+	 * 1.
+	 * @param _element 1.
+	 */
+	protected deleteRow(_element: Anime): number {
+		return 1;
 	}
 }

@@ -59,6 +59,15 @@
 				</td>
 			</ng-container>
 
+			<ng-container matColumnDef="delete">
+				<th mat-header-cell *matHeaderCellDef></th>
+				<td mat-cell *matCellDef="let element">
+					<button type="button" mat-icon-button (click)="deleteRow(element)">
+						<mat-icon>delete</mat-icon>
+					</button>
+				</td>
+			</ng-container>
+
 			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 			<tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showDetails(row)" tabindex="0" (keydown)="onRowKeydown($event, row)"></tr>
 		</table>
