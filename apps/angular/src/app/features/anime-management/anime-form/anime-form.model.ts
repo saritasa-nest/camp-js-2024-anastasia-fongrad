@@ -2,7 +2,9 @@ import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@ang
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
 import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
-import { DEFAULT_STATUS, DEFAULT_TYPE, DEFAULT_RATING } from '@js-camp/core/utils/anime-constants';
+import { DEFAULT_STATUS, DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
+import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
+import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 
 /** Login form type. */
 export type AnimeDetailsForm = {
@@ -17,13 +19,19 @@ export type AnimeDetailsForm = {
 	readonly titleJapanese: FormControl<string>;
 
 	/** 1. */
-	readonly type: FormControl<AnimeType[]>;
+	readonly type: FormControl<AnimeType>;
 
 	/** 1. */
-	readonly status: FormControl<AnimeStatus[]>;
+	readonly status: FormControl<AnimeStatus>;
 
 	/** 1. */
-	readonly rating: FormControl<AnimeRating[]>;
+	readonly rating: FormControl<AnimeRating>;
+
+	/** 1. */
+	readonly source: FormControl<AnimeSource>;
+
+	/** 1. */
+	readonly season: FormControl<AnimeSeason>;
 };
 
 /** 1. */
@@ -65,6 +73,8 @@ export namespace AnimeDetailsForm {
 			type: formBuilder.control(DEFAULT_TYPE, [Validators.required]),
 			status: formBuilder.control(DEFAULT_STATUS, [Validators.required]),
 			rating: formBuilder.control(DEFAULT_RATING, [Validators.required]),
+			season: formBuilder.control(DEFAULT_SEASON, [Validators.required]),
+			source: formBuilder.control(DEFAULT_SOURCE, [Validators.required]),
 		});
 	}
 }

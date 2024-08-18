@@ -34,7 +34,7 @@ export class AnimeService {
 	public getAll(parameters: Partial<AnimeQueryParameters>): Observable<Pagination<Anime>> {
 		const dtoParameters = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(parameters));
 		const httpParams = new HttpParams({ fromObject: dtoParameters });
-		const url = this.appUrlConfig.paths.animeCatalog;
+		const url = this.appUrlConfig.paths.animeList;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto<AnimeDto, Anime>(response, AnimeMapper.fromDto)),
@@ -59,7 +59,7 @@ export class AnimeService {
 	 */
 	public add(animeDetails: AnimeDetails): Observable<AnimeDetails> {
 		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
-		const url = this.appUrlConfig.paths.animeCatalog;
+		const url = this.appUrlConfig.paths.animeList;
 		const result$ = this.http.post<AnimeDetailsDto>(url, dtoParameters);
 		return result$.pipe(
 			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),

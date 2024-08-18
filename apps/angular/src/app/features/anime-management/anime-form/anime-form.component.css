@@ -1,6 +1,19 @@
-.login__form {
+.main__form {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.form__left,
+.form__right {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 700px;
+  max-width: 500px;
+}
+
+.airing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 500px;
 }

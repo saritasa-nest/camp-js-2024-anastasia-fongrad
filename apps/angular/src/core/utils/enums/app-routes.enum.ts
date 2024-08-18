@@ -4,6 +4,6 @@ export enum AppRoutes {
 	Registration = 'registration',
 	Login = 'login',
 	AnimeDetails = 'anime/:id',
-	CreateForm = 'anime/create',
-	EditForm = 'anime/edit/:id',
+	CreateForm = 'create',
+	EditForm = 'edit/:id',
 }

@@ -1,12 +1,15 @@
-.login__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  max-width: 700px;
+.auth__content {
+  margin: var(--space-20) 0;
 }
 
-.login__form-error {
-  color: var(--error-color);
-  font-size: var(--body-small);
-  line-height: var(--body-small-line-height);
+.auth__header {
+  font-size: var(--title);
+  line-height: var(--title-line-height);
+  font-weight: var(--text-semibold);
+}
+
+.auth__login-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
 }

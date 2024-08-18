@@ -14,4 +14,16 @@ export namespace AnimeStudioMapper {
 			imageUrl: dto.image,
 		});
 	}
+
+	/**
+	 * 1.
+	 * @param model 1.
+	 */
+	export function toDto(model: Partial<AnimeStudio>): Partial<AnimeStudioDto> {
+		return {
+			id: model.id,
+			name: model.name,
+			image: model.imageUrl,
+		};
+	}
 }

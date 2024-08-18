@@ -8,7 +8,9 @@ export class AppUrlConfig {
 
 	/** An object tat contains app routes.  */
 	public readonly paths = {
-		animeCatalog: 'anime/anime/',
+		animeList: 'anime/anime/',
+		genresList: 'anime/genres/',
+		studiosList: 'anime/studios/',
 		login: 'auth/login/',
 		registration: 'auth/register/',
 		userProfile: 'users/profile/',
@@ -24,7 +26,7 @@ export class AppUrlConfig {
 		return url.includes(this.paths.login) ||
 			url.includes(this.paths.registration) ||
 			url.includes(this.paths.tokenRefresh) ||
-			url.endsWith(this.paths.animeCatalog);
+			url.endsWith(this.paths.animeList);
 	}
 
 	/**
@@ -32,6 +34,6 @@ export class AppUrlConfig {
 	 * @param id Anime id.
 	 */
 	public getDetailsPath(id: number): string {
-		return `${this.paths.animeCatalog}${id}/`;
+		return `${this.paths.animeList}${id}/`;
 	}
 }

@@ -1,17 +1,95 @@
 <form [formGroup]="animeDetailsForm" class="main__form">
-	<mat-form-field class="main__type-select" appearance="fill">
-		<mat-label>Anime type</mat-label>
-		<mat-select formControlName="type" multiple>
-			@for (option of selectTypes; track option) {
-				<mat-option [value]="option">{{ option }}</mat-option>
-			}
-		</mat-select>
-	</mat-form-field>
-	<div class="main__search-group">
+	<div class="form__left">
 		<mat-form-field appearance="fill">
-			<mat-label>Search</mat-label>
-			<input matInput formControlName="titleEnglish" placeholder="Search anime..." type="search">
+			<mat-label>Trailer Url</mat-label>
+			<input matInput formControlName="trailerUrl">
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>English Title</mat-label>
+			<input matInput formControlName="titleEnglish">
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Japanese Title</mat-label>
+			<input matInput formControlName="titleJapanese">
+		</mat-form-field>
+
+		<mat-form-field class="example-full-width">
+			<mat-label>Anime Synopsis</mat-label>
+			<textarea matInput></textarea>
+		</mat-form-field>
+
+		<button mat-raised-button type="button">Add Anime</button>
+	</div>
+	<div class="form__right">
+		<mat-form-field class="main__type-select" appearance="fill">
+			<mat-label>Anime Type</mat-label>
+			<mat-select formControlName="type">
+				@for (option of selectTypes; track option) {
+					<mat-option [value]="option">{{ option }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="main__type-select" appearance="fill">
+			<mat-label>Anime Status</mat-label>
+			<mat-select formControlName="status">
+				@for (option of selectStatuses; track option) {
+					<mat-option [value]="option">{{ option }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="main__type-select" appearance="fill">
+			<mat-label>Anime Rating</mat-label>
+			<mat-select formControlName="type">
+				@for (option of selectRatings; track option) {
+					<mat-option [value]="option">{{ option }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="main__type-select" appearance="fill">
+			<mat-label>Anime Season</mat-label>
+			<mat-select formControlName="season">
+				@for (option of selectSeasons; track option) {
+					<mat-option [value]="option">{{ option }}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="main__type-select" appearance="fill">
+			<mat-label>Anime Source</mat-label>
+			<mat-select formControlName="source">
+				@for (option of selectSources; track option) {
+					<mat-option [value]="option">{{ option }}</mat-option>
+				}
+			</mat-select>
 		</mat-form-field>
 	</div>
-	<button mat-raised-button type="button">Add Anime</button>
+	<div class="airing">
+		<div class="airing__toggle">
+			<mat-button-toggle-group class="main__toggle" name="fontStyle" aria-label="Font Style">
+				<mat-button-toggle value="bold">Airing</mat-button-toggle>
+				<mat-button-toggle value="underline">Not airing</mat-button-toggle>
+			</mat-button-toggle-group>
+		</div>
+
+		<mat-form-field>
+			<mat-label>Start Airing Date</mat-label>
+			<input matInput [matDatepicker]="picker">
+			<mat-hint>MM/DD/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-label>End Airing Date</mat-label>
+			<input matInput [matDatepicker]="picker">
+			<mat-hint>MM/DD/YYYY</mat-hint>
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+	</div>
 </form>

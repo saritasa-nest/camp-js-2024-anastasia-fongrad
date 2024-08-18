@@ -1,15 +1,20 @@
-import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
-import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
-import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
+import { inject, Component, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { inject, Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
+import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
+import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
+import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
+import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
 
-import { AnimeDetailsForm } from './animme-form.model';
+import { AnimeDetailsForm } from './anime-form.model';
 
 /** 1. */
 @Component({
@@ -17,11 +22,14 @@ import { AnimeDetailsForm } from './animme-form.model';
 	templateUrl: './anime-form.component.html',
 	styleUrls: ['./anime-form.component.css'],
 	standalone: true,
+	providers: [provideNativeDateAdapter()],
 	imports: [
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
 		MatButtonModule,
+		MatDatepickerModule,
+		MatButtonToggleModule,
 		CommonModule,
 		ReactiveFormsModule,
 	],
@@ -40,6 +48,12 @@ export class AnimeDetailsFormComponent {
 
 	/** 1. */
 	protected readonly selectRatings = Object.values(AnimeRating);
+
+	/** 1. */
+	protected readonly selectSeasons = Object.values(AnimeSeason);
+
+	/** 1. */
+	protected readonly selectSources = Object.values(AnimeSource);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 

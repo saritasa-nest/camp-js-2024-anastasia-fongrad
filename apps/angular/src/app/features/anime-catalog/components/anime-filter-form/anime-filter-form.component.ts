@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
-import { DEFAULT_SEARCH_QUERY, DEFAULT_TYPE } from '@js-camp/core/utils/anime-constants';
+import { DEFAULT_SEARCH_QUERY, DEFAULT_TYPES } from '@js-camp/core/utils/anime-constants';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -64,7 +64,7 @@ export class AnimeFilterFormComponent implements OnInit {
 		if (this.animeFiltersForm) {
 			this.animeFiltersForm.patchValue({
 				searchQuery: this.searchQuery ?? DEFAULT_SEARCH_QUERY,
-				animeTypes: this.animeTypes ?? DEFAULT_TYPE,
+				animeTypes: this.animeTypes ?? DEFAULT_TYPES,
 			});
 		}
 		this.subscribeToFormChange();
@@ -74,7 +74,7 @@ export class AnimeFilterFormComponent implements OnInit {
 		return AnimeFilterForm.initialize({
 			formBuilder: this.formBuilder,
 			searchInitialValue: DEFAULT_SEARCH_QUERY,
-			typesInitialValue: DEFAULT_TYPE,
+			typesInitialValue: DEFAULT_TYPES,
 		});
 	}
 
