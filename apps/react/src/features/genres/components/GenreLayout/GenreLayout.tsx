@@ -7,7 +7,7 @@ import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 
 import { GenresList } from '../GenreList';
 
@@ -18,12 +18,7 @@ const GenreLayoutComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
-	const navigate = useNavigate();
 	const { genreId } = useParams<{ genreId: string; }>();
-
-	const handleGenreClick = (id: number) => {
-		navigate(`/genre/${id}`);
-	};
 
 	useEffect(() => {
 		dispatch(fetchGenres());
@@ -38,7 +33,6 @@ const GenreLayoutComponent: FC = () => {
 			<Box className={styles.layout__sidebar}>
 				<GenresList
 					genres={genres}
-					onGenreClick={handleGenreClick}
 				/>
 			</Box>
 			{genreId ? <Outlet /> : <div className={styles.layout__empty}>

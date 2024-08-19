@@ -1,9 +1,7 @@
 import { memo, FC } from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, FormControl, InputLabel, InputAdornment, OutlinedInput } from '@mui/material';
 
 import styles from './GenreFilters.module.css';
 
@@ -16,24 +14,23 @@ const GenreFiltersComponent: FC = () => (
 		>
 			Filters
 		</Typography>
-		<Paper
-			component="form"
-			className={styles.filters__form}
-		>
-			<InputBase
-				className={styles['filters__input-base']}
-				placeholder='Search Genres ...'
-				aria-label='search genres'
+		<FormControl variant="outlined">
+			<InputLabel htmlFor="outlined-adornment-search">Search</InputLabel>
+			<OutlinedInput
+				id="outlined-adornment-search"
+				endAdornment={
+					<InputAdornment position="end">
+						<IconButton
+							aria-label="search"
+							edge="end"
+						>
+							<SearchIcon />
+						</IconButton>
+					</InputAdornment>
+				}
+				label="Search"
 			/>
-			<IconButton
-				type="button"
-				className={styles['filters__icon-button']}
-				aria-label="search"
-				color="primary"
-			>
-				<SearchIcon />
-			</IconButton>
-		</Paper>
+		</FormControl>
 	</Box>
 );
 
