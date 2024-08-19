@@ -1,4 +1,4 @@
-import { memo, FC } from 'react';
+import { memo, forwardRef } from 'react';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { Chip, Tooltip, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 
@@ -14,8 +14,9 @@ type Props = {
 	readonly onClick: () => void;
 };
 
-const AnimeListItemComponent: FC<Props> = ({ selected, anime, onClick }: Props) => (
-	<ListItem disablePadding alignItems="flex-start">
+// eslint-disable-next-line max-len
+const AnimeListItemComponent = forwardRef<HTMLLIElement, Props>(({ selected, anime, onClick }: Props, ref) => (
+	<ListItem ref={ref} disablePadding alignItems="flex-start">
 		<ListItemButton
 			onClick={onClick}
 			selected={selected}
@@ -40,7 +41,7 @@ const AnimeListItemComponent: FC<Props> = ({ selected, anime, onClick }: Props) 
 			</Tooltip>
 		</ListItemButton>
 	</ListItem>
-);
+));
 
 /** Genre list item component. */
 export const AnimeListItem = memo(AnimeListItemComponent);

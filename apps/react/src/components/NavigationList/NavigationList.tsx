@@ -29,7 +29,7 @@ const NavigationListComponent: FC<Props> = ({ items, currentPage, onClick }: Pro
 				<ListItemButton
 					component={NavLink}
 					to={item.path}
-					onClick={onClick(item.name)}
+					onClick={() => onClick(item.name)}
 					selected={item.name === currentPage}
 				>
 					<ListItemIcon>

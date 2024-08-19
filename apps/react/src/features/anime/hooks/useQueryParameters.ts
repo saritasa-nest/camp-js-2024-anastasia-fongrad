@@ -27,6 +27,13 @@ export const useQueryParameters = () => {
 		navigate({ search: queryString.stringify(newParams) });
 	};
 
+	const changePageIndex = (pageIndex: number) => {
+		const params: Partial<AnimeQueryParameters> = {
+			pageIndex,
+		};
+		setQueryParameters(params);
+	};
+
 	const changeSearchParameter = (searchQuery: string) => {
 		const params: Partial<AnimeQueryParameters> = {
 			searchQuery,
@@ -55,5 +62,6 @@ export const useQueryParameters = () => {
 		changeFilterParameters,
 		changeSortParameter,
 		changeSearchParameter,
+		changePageIndex,
 	};
 };
