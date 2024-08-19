@@ -1,9 +1,8 @@
-import { memo, FC, useEffect } from 'react';
+import { memo, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { useAppSelector } from '@js-camp/react/store';
 import { selectAnime, selectAreAnimeLoading } from '@js-camp/react/store/anime/selectors';
-import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
@@ -15,15 +14,10 @@ import styles from './AnimeLayout.module.css';
 
 const AnimeLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
-	const dispatch = useAppDispatch();
 	const anime = useAppSelector(selectAnime);
 	const isLoading = useAppSelector(selectAreAnimeLoading);
 	const navigate = useNavigate();
 	const { animeId } = useParams<{ animeId: string; }>();
-
-	useEffect(() => {
-		dispatch(fetchAnime());
-	}, [dispatch]);
 
 	if (isLoading) {
 		return <Loader />;
@@ -50,7 +44,7 @@ const AnimeLayoutComponent: FC = () => {
 					>
 						<AddIcon />
 					</IconButton>
-					<ListItemText primary='Add Genre'/>
+					<ListItemText primary='Add Anime'/>
 				</div>
 			</div>
 			}

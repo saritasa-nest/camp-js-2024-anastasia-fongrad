@@ -1,74 +1,74 @@
 import { memo, FC, useState } from 'react';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import { SortButton } from '@js-camp/react/components/SortButton/SortButton';
-import { Box, InputAdornment, TextField, Typography, Select, SelectChangeEvent, InputLabel, FormControl, MenuItem, Checkbox, OutlinedInput, ListItemText } from '@mui/material';
+import Box from '@mui/material/Box';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Checkbox from '@mui/material/Checkbox';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import ListItemText from '@mui/material/ListItemText';
+import IconButton from '@mui/material/IconButton';
+import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
+import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
+import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
+import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
+import { useAppDispatch } from '@js-camp/react/store';
+import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
+
+import { useQueryParameters } from '../../hooks/useQueryParameters';
 
 import styles from './AnimeFilters.module.css';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
+// eslint-disable-next-line max-lines-per-function
 const AnimeFiltersComponent: FC = () => {
-
-	const [personName, setPersonName] = useState<string[]>([]);
-
-	const [sortTitleOrder, setSortTitleOrder] = useState(0);
-
-	const [sortStatusOrder, setSortStatusOrder] = useState(0);
+	const {
+		getQueryParameters,
+		changeSortParameter,
+		changeFilterParameters,
+		changeSearchParameter,
+	} = useQueryParameters();
+	const [animeType, setAnimeType] = useState<AnimeType[]>([]);
+	const [searchQuery, setSearchQuery] = useState('');
+	const [sortTitleOrder, setSortTitleOrder] = useState(AnimeSortDirections.Empty);
+	const [sortStatusOrder, setSortStatusOrder] = useState(AnimeSortDirections.Empty);
+	const dispatch = useAppDispatch();
+	const animeTypes = Object.values(AnimeType);
 
 	const sortItemsByTitle = () => {
-		if (sortTitleOrder === 0) {
-			setSortTitleOrder(1);
-		} else if (sortTitleOrder === 1) {
-			setSortTitleOrder(2);
-		} else {
-			setSortTitleOrder(0);
-		}
+		setSortTitleOrder(sortTitleOrder);
+		const sortParameter: AnimeSortParameter = {
+			parameterName: AnimeSortField.EnglishTitle,
+			direction: sortTitleOrder,
+		};
+		changeSortParameter(sortParameter);
 	};
 
 	const sortItemsByStatus = () => {
-		if (sortStatusOrder === 0) {
-			setSortStatusOrder(1);
-		} else if (sortStatusOrder === 1) {
-			setSortStatusOrder(2);
-		} else {
-			setSortStatusOrder(0);
-		}
+		setSortStatusOrder(sortTitleOrder);
+		const sortParameter: AnimeSortParameter = {
+			parameterName: AnimeSortField.Status,
+			direction: sortTitleOrder,
+		};
+		changeSortParameter(sortParameter);
 	};
 
-
-	const handleMultiChange = (event: SelectChangeEvent<typeof personName>) => {
-		const {
-		target: { value },
-		} = event;
-		setPersonName(
-			typeof value === 'string' ? value.split(',') : value,
-		);
+	const handleMultiChange = (event: SelectChangeEvent<AnimeType[]>) => {
+		const { target: { value } } = event;
+		const newValue = typeof value === 'string' ? value.split(',') as AnimeType[] : value;
+		setAnimeType(newValue);
+		changeFilterParameters(newValue);
 	};
+
+	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchQuery(event.target.value);
+		changeSearchParameter(event.target.value);
+	};
+
+	dispatch(fetchAnime(getQueryParameters()));
 
 	return (
 		<Box className={styles.filters}>
@@ -85,6 +85,8 @@ const AnimeFiltersComponent: FC = () => {
 						<InputLabel htmlFor="outlined-adornment-password">Search</InputLabel>
 						<OutlinedInput
 							id="outlined-adornment-password"
+							value={searchQuery}
+							onChange={handleSearchChange}
 							endAdornment={
 								<InputAdornment position="end">
 									<IconButton
@@ -93,7 +95,7 @@ const AnimeFiltersComponent: FC = () => {
 									>
 										<SearchIcon />
 									</IconButton>
-							</InputAdornment>
+								</InputAdornment>
 							}
 						/>
 					</FormControl>
@@ -103,18 +105,17 @@ const AnimeFiltersComponent: FC = () => {
 							labelId="demo-multiple-checkbox-label"
 							id="demo-multiple-checkbox"
 							multiple
-							value={personName}
+							value={animeType}
 							onChange={handleMultiChange}
 							input={<OutlinedInput label="Tag" />}
-							renderValue={(selected) => selected.join(', ')}
-							MenuProps={MenuProps}
+							renderValue={selected => selected.join(', ')}
 						>
-						{names.map((name) => (
-							<MenuItem key={name} value={name}>
-							<Checkbox checked={personName.indexOf(name) > -1} />
-							<ListItemText primary={name} />
-							</MenuItem>
-						))}
+							{animeTypes.map(type => (
+								<MenuItem key={type} value={type}>
+									<Checkbox checked={animeType.includes(type)} />
+									<ListItemText primary={type} />
+								</MenuItem>
+							))}
 						</Select>
 					</FormControl>
 				</div>

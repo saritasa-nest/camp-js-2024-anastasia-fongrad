@@ -1,6 +1,7 @@
 import { FC, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
 import { Loader } from './components/Loader';
 
 import { RootRouter } from './routes/RootRouter';

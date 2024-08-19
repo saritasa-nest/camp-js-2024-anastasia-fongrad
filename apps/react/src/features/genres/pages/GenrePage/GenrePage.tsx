@@ -16,7 +16,7 @@ import { setOpen } from '@js-camp/react/store/drawer/slice';
 
 import { GenreLayout } from '../../components/GenreLayout';
 import { NavigationList } from '../../components/NavigationList';
-import { NavigationProps } from '../../utils/navigationProps';
+import { NavigationProps } from '../../../../utils/navigationProps';
 
 import styles from './GenrePage.module.css';
 

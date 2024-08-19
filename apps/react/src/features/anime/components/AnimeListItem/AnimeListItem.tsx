@@ -1,4 +1,4 @@
-import { memo, FC, Fragment } from 'react';
+import { memo, FC } from 'react';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { Chip, Tooltip, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 

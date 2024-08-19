@@ -7,17 +7,12 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
+import { NavigationProps } from '../../../../utils/navigationProps';
+
 type Props = {
 
 	/** An array of navigation objects. */
-	items: {
-
-		/** Navigation name. */
-		readonly name: string;
-
-		/** Navigation path. */
-		readonly path: string;
-	}[];
+	readonly items: readonly NavigationProps[];
 };
 
 const NavigationListComponent: FC<Props> = ({ items }: Props) => (
