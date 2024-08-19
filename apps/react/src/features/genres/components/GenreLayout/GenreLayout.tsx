@@ -7,7 +7,7 @@ import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { useNavigate, Outlet, useParams, useSearchParams } from 'react-router-dom';
 
 import { GenresList } from '../GenreList';
 
@@ -20,14 +20,15 @@ const GenreLayoutComponent: FC = () => {
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const navigate = useNavigate();
 	const { genreId } = useParams<{ genreId: string; }>();
-
+	const [searchParams] = useSearchParams();
 	const handleGenreClick = (id: number) => {
 		navigate(`/genre/${id}`);
+		console.log(genres)
 	};
 
 	useEffect(() => {
 		dispatch(fetchGenres());
-	}, [dispatch]);
+	}, [dispatch, searchParams]);
 
 	if (isLoading) {
 		return <div>Loading</div>;
