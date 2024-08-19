@@ -9,31 +9,32 @@ import { GenreFilters } from "../GenreFilters";
 
 import styles from "./GenreList.module.css";
 import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
-import { selectAreGenresLoading, selectGenresError, selectGenresHasNext } from "@js-camp/react/store/genre/selectors";
+import {
+	selectAreGenresLoading,
+	selectGenres,
+	selectGenresError,
+	selectGenresHasNext,
+} from "@js-camp/react/store/genre/selectors";
 import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
 
 type Props = {
 	/** An array of anime genres. */
-	readonly genres: readonly AnimeGenre[];
+	// readonly genres: readonly AnimeGenre[];
 
 	/** Displaying genre details on click handler. */
 	readonly onGenreClick: (id: number) => void;
 };
 
-const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
+const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
+	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
 	const [pageNumber, setPageNumber] = useState(0);
 	const observer = useRef<IntersectionObserver>();
-
-	// console.log(1, isLoading);
-	// console.log(2, error);
-	// console.log(3, pageNumber);
-	// console.log(4, hasMore);
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
@@ -51,7 +52,6 @@ const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
 		},
 		[hasMore]
 	);
-
 	const handleGenreClick = useCallback(
 		(id: number) => {
 			setSelectedGenreId(id);
@@ -59,10 +59,9 @@ const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
 		},
 		[onGenreClick]
 	);
-	// console.log(2)
-	// 	useEffect(() => {
-	// 	dispatch(fetchGenres());
-	// }, [pageNumber, dispatch]);
+	useEffect(() => {
+		dispatch(fetchGenres());
+	}, [pageNumber, dispatch]);
 
 	return (
 		<Box className={styles["genre-list"]}>
@@ -80,7 +79,7 @@ const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
 					if (genres.length === index + 1) {
 						return (
 							<GenreListItem
-								key={genre.id}
+								key={index}
 								genre={genre}
 								ref={lastGenreElementRef}
 								onClick={() => handleGenreClick(genre.id)}
@@ -90,7 +89,7 @@ const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
 					}
 					return (
 						<GenreListItem
-							key={genre.id}
+							key={index}
 							genre={genre}
 							onClick={() => handleGenreClick(genre.id)}
 							selected={genre.id === selectedGenreId}

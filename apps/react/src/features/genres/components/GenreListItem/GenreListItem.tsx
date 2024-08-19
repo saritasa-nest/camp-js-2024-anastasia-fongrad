@@ -1,9 +1,8 @@
-import { memo, FC } from 'react';
-import { AnimeGenre } from '@js-camp/core/models/genre.model';
-import { ListItem, ListItemText, ListItemButton } from '@mui/material';
+import { memo, FC, forwardRef } from "react";
+import { AnimeGenre } from "@js-camp/core/models/genre.model";
+import { ListItem, ListItemText, ListItemButton } from "@mui/material";
 
 type Props = {
-
 	/** Selected state. */
 	readonly selected: boolean;
 
@@ -14,19 +13,13 @@ type Props = {
 	readonly onClick: () => void;
 };
 
-const GenreListItemComponent: FC<Props> = ({ selected, genre, onClick }: Props) => (
-	<ListItem disablePadding>
-		<ListItemButton
-			onClick={onClick}
-			selected={selected}
-		>
-			<ListItemText
-				primary={genre.name}
-				secondary={`Id - ${genre.id}`}
-			/>
+const GenreListItemComponent: FC<Props> = forwardRef<HTMLLIElement, Props>(({ selected, genre, onClick }, ref) => (
+	<ListItem disablePadding ref={ref}>
+		<ListItemButton onClick={onClick} selected={selected}>
+			<ListItemText primary={genre.name} secondary={`Id - ${genre.id}`} />
 		</ListItemButton>
 	</ListItem>
-);
+));
 
 /** Genre list item component. */
 export const GenreListItem = memo(GenreListItemComponent);
