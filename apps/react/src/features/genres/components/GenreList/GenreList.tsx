@@ -13,19 +13,15 @@ type Props = {
 
 	/** An array of anime genres. */
 	readonly genres: readonly AnimeGenre[];
-
-	/** Displaying genre details on click handler. */
-	readonly onGenreClick: (id: number) => void;
 };
 
-const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
+const GenresListComponent: FC<Props> = ({ genres }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 
 	const handleGenreClick = useCallback((id: number) => {
 		setSelectedGenreId(id);
-		onGenreClick(id);
-	}, [onGenreClick]);
+	}, []);
 
 	return (
 		<Box className={styles['genre-list']}>

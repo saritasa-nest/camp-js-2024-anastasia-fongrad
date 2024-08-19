@@ -1,100 +1,56 @@
-import { memo, FC } from 'react';
+import { memo, FC, useEffect } from 'react';
 import { clsx } from 'clsx';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
-import { setOpen } from '@js-camp/react/store/drawer/slice';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre/selectors';
+import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { Box, ListItemText, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { Outlet, useParams } from 'react-router-dom';
 
-import { GenreLayout } from '../../components/GenreLayout';
-import { NavigationList } from '../../components/NavigationList';
-import { NavigationProps } from '../../../../utils/navigationProps';
+import { GenresList } from '../../components/GenreList';
 
 import styles from './GenrePage.module.css';
 
-/** Drawer width in pixels. */
-const DRAWER_WIDTH = 280;
-
-const mainRoutes: NavigationProps[] = [
-	{ name: 'Anime', path: '/anime' },
-	{ name: 'Genres', path: '/genres' },
-	{ name: 'Studios', path: '/studios' },
-];
-
-const loginRoutes: NavigationProps[] = [
-	{ name: 'Login', path: '/login' },
-	{ name: 'Logout', path: '/logout' },
-	{ name: 'Profile', path: '/profile' },
-];
-
 const GenrePageComponent: FC = () => {
 	const isDrawerOpen = useSelector(selectIsDrawerOpen);
-	const dispatch = useDispatch();
+	const dispatch = useAppDispatch();
+	const genres = useAppSelector(selectGenres);
+	const isLoading = useAppSelector(selectAreGenresLoading);
+	const { genreId } = useParams<{ genreId: string; }>();
 
-	const handleDrawerOpen = () => {
-		dispatch(setOpen(true));
-	};
+	useEffect(() => {
+		dispatch(fetchGenres());
+	}, [dispatch]);
 
-	const handleDrawerClose = () => {
-		dispatch(setOpen(false));
-	};
+	if (isLoading) {
+		return <div>Loading</div>;
+	}
 
 	return (
-		<Box className={styles.main}>
-			<CssBaseline />
-			<MuiAppBar className={clsx(styles['main__app-bar'], isDrawerOpen && styles['main__app-bar_open'])}>
-				<Toolbar className={styles.main__toolbar}>
+		<main className={clsx(styles.layout, isDrawerOpen && styles.layout_open)}>
+			<Box className={styles.layout__sidebar}>
+				<GenresList
+					genres={genres}
+				/>
+			</Box>
+			{genreId ? <Outlet /> : <div className={styles.layout__empty}>
+				<div className={styles.layout__button}>
 					<IconButton
-						className={styles['main__toolbar-icon']}
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
 						edge="start"
+						color="inherit"
+						aria-label="add"
 					>
-						<MenuIcon />
+						<AddIcon />
 					</IconButton>
-					<Typography
-						variant="h6"
-						component="h6"
-						noWrap
-					>
-						Anime App
-					</Typography>
-				</Toolbar>
-			</MuiAppBar>
-			<Drawer
-				className={styles.main__drawer}
-				sx={{
-					'& .MuiDrawer-paper': {
-						width: DRAWER_WIDTH,
-					},
-				}}
-				variant="persistent"
-				anchor="left"
-				open={isDrawerOpen}
-			>
-				<div className={styles['main__drawer-header']}>
-					<IconButton onClick={handleDrawerClose}>
-						<ChevronLeftIcon />
-					</IconButton>
+					<ListItemText primary='Add Genre'/>
 				</div>
-				<Divider />
-				<NavigationList items={mainRoutes} />
-				<Divider />
-				<NavigationList items={loginRoutes}/>
-			</Drawer>
-			<GenreLayout/>
-		</Box>
+			</div>
+			}
+		</main>
 	);
 };
 
-/** Genre page component. */
+/** Genre layout component. */
 export const GenrePage = memo(GenrePageComponent);
