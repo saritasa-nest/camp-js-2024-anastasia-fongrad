@@ -7,7 +7,7 @@ import { AnimeSortDirections } from '../models/enums/anime-sort-directions.enum'
 export const START_PAGE_INDEX = 0;
 
 /** Default maximum number of items per page. */
-export const DEFAULT_PAGE_SIZE = 5;
+export const DEFAULT_PAGE_SIZE = 25;
 
 /** Default search query. */
 export const DEFAULT_SEARCH_QUERY = '';

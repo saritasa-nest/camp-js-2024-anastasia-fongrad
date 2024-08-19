@@ -1,4 +1,4 @@
-import { memo, FC, useState } from 'react';
+import { memo, FC, useState, useRef, useCallback } from 'react';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -8,6 +8,8 @@ import { AnimeListItem } from '../AnimeListItem';
 import { AnimeFilters } from '../AnimeFilters';
 
 import styles from './AnimeList.module.css';
+
+const DEFAULT_PAGE_NUMBER = 1;
 
 type Props = {
 
@@ -21,6 +23,8 @@ type Props = {
 const AnimeListComponent: FC<Props> = ({ anime, onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
+	const [pageNumber, setPageNumber] = useState(DEFAULT_PAGE_NUMBER);
+	const observer = useRef<IntersectionObserver>();
 
 	const handleGenreClick = (id: number) => {
 		setSelectedGenreId(id);

@@ -16,8 +16,6 @@ import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
 import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
-import { useAppDispatch } from '@js-camp/react/store';
-import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 
 import { useQueryParameters } from '../../hooks/useQueryParameters';
 
@@ -26,7 +24,6 @@ import styles from './AnimeFilters.module.css';
 // eslint-disable-next-line max-lines-per-function
 const AnimeFiltersComponent: FC = () => {
 	const {
-		getQueryParameters,
 		changeSortParameter,
 		changeFilterParameters,
 		changeSearchParameter,
@@ -35,7 +32,6 @@ const AnimeFiltersComponent: FC = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [sortTitleOrder, setSortTitleOrder] = useState(AnimeSortDirections.Empty);
 	const [sortStatusOrder, setSortStatusOrder] = useState(AnimeSortDirections.Empty);
-	const dispatch = useAppDispatch();
 	const animeTypes = Object.values(AnimeType);
 
 	const sortItemsByTitle = () => {
@@ -67,8 +63,6 @@ const AnimeFiltersComponent: FC = () => {
 		setSearchQuery(event.target.value);
 		changeSearchParameter(event.target.value);
 	};
-
-	dispatch(fetchAnime(getQueryParameters()));
 
 	return (
 		<Box className={styles.filters}>

@@ -13,3 +13,9 @@ export const selectAreAnimeLoading = createSelector(
 	(state: RootState) => state.anime.isLoading,
 	isLoading => isLoading,
 );
+
+/** Select genres has more state. */
+export const selectAnimeHasMore = createSelector(
+	(state: RootState) => state.anime.hasMore,
+	hasMore => hasMore,
+);

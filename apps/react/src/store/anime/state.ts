@@ -6,6 +6,9 @@ export type AnimeState = {
 	/** Genres list. */
 	readonly anime: Anime[];
 
+	/** Whether genres list has more genres. */
+	readonly hasMore: boolean;
+
 	/** Error. */
 	readonly error?: string;
 
@@ -17,4 +20,5 @@ export type AnimeState = {
 export const initialState: AnimeState = {
 	isLoading: false,
 	anime: [],
+	hasMore: false,
 };
