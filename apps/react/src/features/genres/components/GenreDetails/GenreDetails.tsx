@@ -11,7 +11,7 @@ const GenreDetailsComponent: FC = () => {
 
 	return (
 		<div>
-			<Typography variant="h5" component="div" gutterBottom>
+			<Typography variant="h5" component="h5" gutterBottom>
 				{ `Genre ${genreId}` }
 			</Typography>
 			<Typography paragraph>

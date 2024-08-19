@@ -1,4 +1,5 @@
 import { memo, FC } from 'react';
+import { clsx } from 'clsx';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -35,7 +36,7 @@ const loginRoutes: NavigationProps[] = [
 ];
 
 const GenrePageComponent: FC = () => {
-	const iDrawerOpen = useSelector(selectIsDrawerOpen);
+	const isDrawerOpen = useSelector(selectIsDrawerOpen);
 	const dispatch = useDispatch();
 
 	const handleDrawerOpen = () => {
@@ -45,10 +46,11 @@ const GenrePageComponent: FC = () => {
 	const handleDrawerClose = () => {
 		dispatch(setOpen(false));
 	};
+
 	return (
 		<Box className={styles.main}>
 			<CssBaseline />
-			<MuiAppBar className={`${styles['main__app-bar']} ${iDrawerOpen ? styles['main__app-bar_open'] : ''}`}>
+			<MuiAppBar className={clsx(styles['main__app-bar'], isDrawerOpen && styles['main__app-bar_open'])}>
 				<Toolbar className={styles.main__toolbar}>
 					<IconButton
 						className={styles['main__toolbar-icon']}
@@ -77,7 +79,7 @@ const GenrePageComponent: FC = () => {
 				}}
 				variant="persistent"
 				anchor="left"
-				open={iDrawerOpen}
+				open={isDrawerOpen}
 			>
 				<div className={styles['main__drawer-header']}>
 					<IconButton onClick={handleDrawerClose}>

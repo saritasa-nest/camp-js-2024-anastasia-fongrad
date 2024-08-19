@@ -9,13 +9,13 @@ import MailIcon from '@mui/icons-material/Mail';
 
 import { NavigationProps } from '../../utils/navigationProps';
 
-type NavigationListProps = {
+type Props = {
 
 	/** An array of navigation objects. */
 	readonly items: readonly NavigationProps[];
 };
 
-const NavigationListComponent: FC<NavigationListProps> = ({ items }: NavigationListProps) => (
+const NavigationListComponent: FC<Props> = ({ items }: Props) => (
 	<List>
 		{items.map((item, index) => (
 			<ListItem key={item.name} disablePadding>

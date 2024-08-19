@@ -41,6 +41,7 @@
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "1.9.3",
     "axios": "^1.4.0",
+    "clsx": "^2.1.1",
     "core-js": "^3.30.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",

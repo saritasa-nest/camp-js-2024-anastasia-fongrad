@@ -2,7 +2,7 @@ import { memo, FC } from 'react';
 import { AnimeGenre } from '@js-camp/core/models/genre.model';
 import { ListItem, ListItemText, ListItemButton } from '@mui/material';
 
-type GenreListItemProps = {
+type Props = {
 
 	/** Selected state. */
 	readonly selected: boolean;
@@ -10,11 +10,11 @@ type GenreListItemProps = {
 	/** Anime genre. */
 	readonly genre: AnimeGenre;
 
-	/** Handles displaying genre details on click. */
+	/** Displaying genre details on click handler. */
 	readonly onClick: () => void;
 };
 
-const GenreListItemComponent: FC<GenreListItemProps> = ({ selected, genre, onClick }: GenreListItemProps) => (
+const GenreListItemComponent: FC<Props> = ({ selected, genre, onClick }: Props) => (
 	<ListItem disablePadding>
 		<ListItemButton
 			onClick={onClick}
