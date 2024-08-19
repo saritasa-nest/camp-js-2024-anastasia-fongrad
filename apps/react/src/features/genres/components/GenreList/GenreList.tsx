@@ -1,4 +1,4 @@
-import { memo, FC, useState } from 'react';
+import { memo, FC, useState, useCallback } from 'react';
 import { AnimeGenre } from '@js-camp/core/models/genre.model';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -9,23 +9,23 @@ import { GenreFilters } from '../GenreFilters';
 
 import styles from './GenreList.module.css';
 
-type GenresListProps = {
+type Props = {
 
 	/** An array of anime genres. */
 	readonly genres: readonly AnimeGenre[];
 
-	/** Handles displaying genre details on click. */
-	onGenreClick: (id: number) => void;
+	/** Displaying genre details on click handler. */
+	readonly onGenreClick: (id: number) => void;
 };
 
-const GenresListComponent: FC<GenresListProps> = ({ genres, onGenreClick }: GenresListProps) => {
+const GenresListComponent: FC<Props> = ({ genres, onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 
-	const handleGenreClick = (id: number) => {
+	const handleGenreClick = useCallback((id: number) => {
 		setSelectedGenreId(id);
 		onGenreClick(id);
-	};
+	}, [onGenreClick]);
 
 	return (
 		<Box className={styles['genre-list']}>

@@ -18,6 +18,6 @@ export const genreRoutes: RouteObject[] = [
 	},
 	{
 		path: '*',
-		element: <Navigate to="ExamplePage" />,
+		element: <Navigate to="GenrePage" />,
 	},
 ];

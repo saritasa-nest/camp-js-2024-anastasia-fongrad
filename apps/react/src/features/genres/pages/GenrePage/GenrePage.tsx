@@ -1,4 +1,5 @@
 import { memo, FC } from 'react';
+import { clsx } from 'clsx';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,26 +16,27 @@ import { setOpen } from '@js-camp/react/store/drawer/slice';
 
 import { GenreLayout } from '../../components/GenreLayout';
 import { NavigationList } from '../../components/NavigationList';
+import { NavigationProps } from '../../utils/navigationProps';
 
 import styles from './GenrePage.module.css';
 
 /** Drawer width in pixels. */
 const DRAWER_WIDTH = 280;
 
-const mainRoutes = [
+const mainRoutes: NavigationProps[] = [
 	{ name: 'Anime', path: '/anime' },
 	{ name: 'Genres', path: '/genres' },
 	{ name: 'Studios', path: '/studios' },
 ];
 
-const loginRoutes = [
+const loginRoutes: NavigationProps[] = [
 	{ name: 'Login', path: '/login' },
 	{ name: 'Logout', path: '/logout' },
 	{ name: 'Profile', path: '/profile' },
 ];
 
 const GenrePageComponent: FC = () => {
-	const open = useSelector(selectIsDrawerOpen);
+	const isDrawerOpen = useSelector(selectIsDrawerOpen);
 	const dispatch = useDispatch();
 
 	const handleDrawerOpen = () => {
@@ -44,10 +46,11 @@ const GenrePageComponent: FC = () => {
 	const handleDrawerClose = () => {
 		dispatch(setOpen(false));
 	};
+
 	return (
 		<Box className={styles.main}>
 			<CssBaseline />
-			<MuiAppBar className={`${styles['main__app-bar']} ${open ? styles['main__app-bar_open'] : ''}`}>
+			<MuiAppBar className={clsx(styles['main__app-bar'], isDrawerOpen && styles['main__app-bar_open'])}>
 				<Toolbar className={styles.main__toolbar}>
 					<IconButton
 						className={styles['main__toolbar-icon']}
@@ -76,7 +79,7 @@ const GenrePageComponent: FC = () => {
 				}}
 				variant="persistent"
 				anchor="left"
-				open={open}
+				open={isDrawerOpen}
 			>
 				<div className={styles['main__drawer-header']}>
 					<IconButton onClick={handleDrawerClose}>

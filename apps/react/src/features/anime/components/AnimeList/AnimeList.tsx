@@ -9,7 +9,7 @@ import { AnimeFilters } from '../AnimeFilters';
 
 import styles from './AnimeList.module.css';
 
-type AnimeListProps = {
+type Props = {
 
 	/** An array of anime genres. */
 	readonly anime: readonly Anime[];
@@ -18,7 +18,7 @@ type AnimeListProps = {
 	onGenreClick: (id: number) => void;
 };
 
-const AnimeListComponent: FC<AnimeListProps> = ({ anime, onGenreClick }: AnimeListProps) => {
+const AnimeListComponent: FC<Props> = ({ anime, onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 

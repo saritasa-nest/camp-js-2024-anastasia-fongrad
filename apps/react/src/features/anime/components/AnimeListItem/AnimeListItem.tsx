@@ -2,7 +2,7 @@ import { memo, FC, Fragment } from 'react';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { Chip, Tooltip, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 
-type AnimeListItemProps = {
+type Props = {
 
 	/** Selected state. */
 	readonly selected: boolean;
@@ -14,7 +14,7 @@ type AnimeListItemProps = {
 	readonly onClick: () => void;
 };
 
-const AnimeListItemComponent: FC<AnimeListItemProps> = ({ selected, anime, onClick }: AnimeListItemProps) => (
+const AnimeListItemComponent: FC<Props> = ({ selected, anime, onClick }: Props) => (
 	<ListItem disablePadding alignItems="flex-start">
 		<ListItemButton
 			onClick={onClick}

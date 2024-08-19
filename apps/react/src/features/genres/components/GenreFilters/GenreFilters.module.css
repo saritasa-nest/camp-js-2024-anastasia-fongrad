@@ -5,7 +5,7 @@
 }
 
 .filters__form {
-  padding: 2px 4px;
+  padding: var(--space-base);
   display: flex;
   align-items: center;
   width: 100%;

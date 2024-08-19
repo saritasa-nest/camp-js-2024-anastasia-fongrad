@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
-type NavigationListProps = {
+type Props = {
 
 	/** An array of navigation objects. */
 	items: {
@@ -20,7 +20,7 @@ type NavigationListProps = {
 	}[];
 };
 
-const NavigationListComponent: FC<NavigationListProps> = ({ items }: NavigationListProps) => (
+const NavigationListComponent: FC<Props> = ({ items }: Props) => (
 	<List>
 		{items.map((item, index) => (
 			<ListItem key={item.name} disablePadding>
