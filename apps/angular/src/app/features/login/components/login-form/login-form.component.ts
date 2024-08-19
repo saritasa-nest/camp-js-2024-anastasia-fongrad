@@ -59,18 +59,13 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		Object.keys(this.loginForm.controls).forEach(controlName => {
-			const control = this.loginForm.get(controlName);
-			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(() => {
-					control.setErrors(null);
-				});
-		});
+		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => this.loginForm.updateValueAndValidity());
 	}
 
 	/** Handles form submit event. */
 	protected onSubmit(): void {
-		if (!this.loginForm?.valid) {
+		if (this.loginForm?.invalid) {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();

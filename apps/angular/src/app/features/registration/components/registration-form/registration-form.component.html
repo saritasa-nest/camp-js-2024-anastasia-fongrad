@@ -3,31 +3,31 @@
 		<div class="registration__group" >
 			<mat-form-field appearance="fill">
 				<mat-label>First Name</mat-label>
-				<input matInput id="firstName" type="text" formControlName="firstName">
+				<input matInput type="text" formControlName="firstName">
 				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.firstName) }}</mat-error>
 			</mat-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Last Name</mat-label>
-				<input matInput id="lastName" type="text" formControlName="lastName">
+				<input matInput type="text" formControlName="lastName">
 				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.lastName) }}</mat-error>
 			</mat-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Email</mat-label>
-				<input matInput id="email" type="email" formControlName="email">
+				<input matInput type="email" formControlName="email">
 				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.email) }}</mat-error>
 			</mat-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Password</mat-label>
-				<input matInput id="password" type="password" formControlName="password">
+				<input matInput type="password" formControlName="password">
 				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.password) }}</mat-error>
 			</mat-form-field>
 			<mat-form-field appearance="fill">
 				<mat-label>Repeat Password</mat-label>
-				<input matInput id="confirmPassword" type="password" formControlName="confirmPassword">
+				<input matInput type="password" formControlName="confirmPassword">
 				<mat-error>{{ formValidationService.getControlErrorMessage(registrationForm.controls.confirmPassword) }}</mat-error>
 			</mat-form-field>
 			<div class="registration__form-error">{{ formValidationService.getFormErrorMessage(registrationForm) }}</div>
-			<button mat-raised-button color="primary" type="submit" [disabled]="!registrationForm.valid">Register</button>
+			<button mat-raised-button color="primary" type="submit">Register</button>
 		</div>
 	</form>
 </div>

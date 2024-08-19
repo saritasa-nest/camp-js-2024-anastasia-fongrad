@@ -47,7 +47,7 @@ export class RegistrationFormComponent implements OnInit {
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	public constructor() {
-		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
+		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder, this.destroyRef);
 	}
 
 	/** Clears form errors on input value change. */
@@ -56,18 +56,13 @@ export class RegistrationFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		Object.keys(this.registrationForm.controls).forEach(controlName => {
-			const control = this.registrationForm.get(controlName);
-			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(() => {
-					this.formValidationService.clearServerErrors(control);
-				});
-		});
+		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => this.registrationForm.updateValueAndValidity());
 	}
 
 	/** Handles form submit event. */
 	protected onSubmit(): void {
-		if (!this.registrationForm?.valid) {
+		if (this.registrationForm?.invalid) {
 			return;
 		}
 		const formData = this.registrationForm.getRawValue();
