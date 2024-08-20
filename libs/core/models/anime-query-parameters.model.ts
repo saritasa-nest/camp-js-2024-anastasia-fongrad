@@ -1,6 +1,5 @@
 import { AnimeType } from './enums/anime-type.enum';
 import { AnimeSortParameter } from './anime-sort-parameter.model';
-import { AnimeMultiSortParameter } from './anime-multi-sort-parameter.model';
 
 /** Anime query parameters model. */
 export type AnimeQueryParameters = {
@@ -19,7 +18,4 @@ export type AnimeQueryParameters = {
 
 	/** Ordering parameters object to sort anime by. */
 	readonly animeSort: AnimeSortParameter;
-
-	/** 1. */
-	readonly animeMultiSort: AnimeMultiSortParameter;
 };
