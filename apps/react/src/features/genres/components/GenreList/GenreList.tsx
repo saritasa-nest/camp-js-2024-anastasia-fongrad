@@ -1,7 +1,7 @@
 import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import { GenreListItem } from "../GenreListItem";
 import { GenreFilters } from "../GenreFilters";
@@ -15,6 +15,7 @@ import {
 	selectGenresHasNext,
 } from "@js-camp/react/store/genre/selectors";
 import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
+import { getQueryParams } from "@js-camp/react/utils/getQueryParams";
 
 type Props = {
 	/** An array of anime genres. */
@@ -26,23 +27,28 @@ type Props = {
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string }>();
+	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
-	const [nextUrl, setNextUrl] = useState('');
 	const observer = useRef<IntersectionObserver>();
+	const { search } = getQueryParams(searchParams);
+	console.log(search);
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
-
 			if (node) {
 				observer.current = new IntersectionObserver((entries) => {
 					if (entries[0].isIntersecting && hasMore) {
-						// setPageNumber((prev) => prev + 1);
-						setNextUrl(hasMore);
+						dispatch(
+							fetchGenres({
+								nextCursor: hasMore,
+								search,
+							})
+						);
 						observer.current?.disconnect();
 					}
 				});
@@ -60,8 +66,13 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		[onGenreClick]
 	);
 	useEffect(() => {
-		dispatch(fetchGenres(hasMore));
-	}, [nextUrl, dispatch]);
+		dispatch(
+			fetchGenres({
+				nextCursor: hasMore,
+				search,
+			})
+		);
+	}, [search]);
 
 	return (
 		<Box className={styles["genre-list"]}>
