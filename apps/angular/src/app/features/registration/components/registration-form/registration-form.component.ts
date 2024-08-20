@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { tap, catchError, map } from 'rxjs';
+import { tap, catchError, debounceTime, switchMap, EMPTY } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
@@ -56,8 +56,15 @@ export class RegistrationFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		this.registrationForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => this.registrationForm.updateValueAndValidity());
+		this.registrationForm.valueChanges.pipe(
+			debounceTime(300),
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(() => {
+				if (this.registrationForm) {
+					this.registrationForm.updateValueAndValidity();
+				}
+			});
 	}
 
 	/** Handles form submit event. */
@@ -67,17 +74,15 @@ export class RegistrationFormComponent implements OnInit {
 		}
 		const formData = this.registrationForm.getRawValue();
 		this.registrationService.register(formData).pipe(
-			map(() => undefined),
-			catchError((error: unknown) => this.formValidationService.parseError(error)),
-			tap(errors => {
-				if (!errors) {
-					this.registrationSuccess.emit();
-				} else {
+			catchError((error: unknown) => this.formValidationService.parseError(error).pipe(
+				tap(errors => {
 					this.formValidationService.setFormErrors(this.registrationForm, errors);
 					this.changeDetectorRef.markForCheck();
-				}
-			}),
+				}),
+				switchMap(() => EMPTY),
+			)),
+			takeUntilDestroyed(this.destroyRef),
 		)
-			.subscribe();
+			.subscribe(() => this.registrationSuccess.emit());
 	}
 }

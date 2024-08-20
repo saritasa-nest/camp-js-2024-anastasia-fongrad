@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { tap, map, catchError } from 'rxjs';
+import { tap, catchError, debounceTime, switchMap, EMPTY } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
@@ -59,8 +59,15 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		this.loginForm.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => this.loginForm.updateValueAndValidity());
+		this.loginForm.valueChanges.pipe(
+			debounceTime(300),
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(() => {
+				if (this.loginForm.dirty) {
+					this.loginForm.updateValueAndValidity();
+				}
+			});
 	}
 
 	/** Handles form submit event. */
@@ -70,17 +77,15 @@ export class LoginFormComponent implements OnInit {
 		}
 		const formData = this.loginForm.getRawValue();
 		this.authService.login(formData).pipe(
-			map(() => undefined),
-			catchError((error: unknown) => this.formValidationService.parseError(error)),
-			tap(errors => {
-				if (!errors) {
-					this.loginSuccess.emit();
-				} else {
+			catchError((error: unknown) => this.formValidationService.parseError(error).pipe(
+				tap(errors => {
 					this.formValidationService.setFormErrors(this.loginForm, errors);
 					this.changeDetectorRef.markForCheck();
-				}
-			}),
+				}),
+				switchMap(() => EMPTY),
+			)),
+			takeUntilDestroyed(this.destroyRef),
 		)
-			.subscribe();
+			.subscribe(() => this.loginSuccess.emit());
 	}
 }
