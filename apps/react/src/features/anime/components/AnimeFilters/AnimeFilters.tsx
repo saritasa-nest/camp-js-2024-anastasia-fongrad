@@ -13,9 +13,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
-import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
-import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum';
+import { useAppDispatch } from '@js-camp/react/store';
+import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
+import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
 
 import { useQueryParameters } from '../../hooks/useQueryParameters';
 
@@ -27,29 +28,36 @@ const AnimeFiltersComponent: FC = () => {
 		changeSortParameter,
 		changeFilterParameters,
 		changeSearchParameter,
+		getQueryParameters,
 	} = useQueryParameters();
-	const [animeType, setAnimeType] = useState<AnimeType[]>([]);
-	const [searchQuery, setSearchQuery] = useState('');
-	const [sortTitleOrder, setSortTitleOrder] = useState(AnimeSortDirections.Empty);
-	const [sortStatusOrder, setSortStatusOrder] = useState(AnimeSortDirections.Empty);
+	const initialQueryParameters = getQueryParameters();
+	const [animeType, setAnimeType] = useState<AnimeType[]>(initialQueryParameters.animeTypes ?? []);
+	const [searchQuery, setSearchQuery] = useState(initialQueryParameters.searchQuery ?? '');
+	const [sortTitleOrder, setSortTitleOrder] =
+		useState(initialQueryParameters?.animeMultiSort?.animeTitleDirection ?? AnimeSortDirections.Empty);
+	const [sortStatusOrder, setSortStatusOrder] =
+		useState(initialQueryParameters?.animeMultiSort?.animeStatusDirection ?? AnimeSortDirections.Empty);
 	const animeTypes = Object.values(AnimeType);
+	const dispatch = useAppDispatch();
 
 	const sortItemsByTitle = () => {
 		setSortTitleOrder(sortTitleOrder);
-		const sortParameter: AnimeSortParameter = {
-			parameterName: AnimeSortField.EnglishTitle,
-			direction: sortTitleOrder,
+		const animeMultiSort: AnimeMultiSortParameter = {
+			animeTitleDirection: sortTitleOrder,
+			animeStatusDirection: sortStatusOrder,
 		};
-		changeSortParameter(sortParameter);
+		changeSortParameter(animeMultiSort);
+		dispatch(fetchAnime(getQueryParameters()));
 	};
 
 	const sortItemsByStatus = () => {
 		setSortStatusOrder(sortTitleOrder);
-		const sortParameter: AnimeSortParameter = {
-			parameterName: AnimeSortField.Status,
-			direction: sortTitleOrder,
+		const animeMultiSort: AnimeMultiSortParameter = {
+			animeTitleDirection: sortTitleOrder,
+			animeStatusDirection: sortStatusOrder,
 		};
-		changeSortParameter(sortParameter);
+		changeSortParameter(animeMultiSort);
+		dispatch(fetchAnime(getQueryParameters()));
 	};
 
 	const handleMultiChange = (event: SelectChangeEvent<AnimeType[]>) => {
@@ -57,11 +65,13 @@ const AnimeFiltersComponent: FC = () => {
 		const newValue = typeof value === 'string' ? value.split(',') as AnimeType[] : value;
 		setAnimeType(newValue);
 		changeFilterParameters(newValue);
+		dispatch(fetchAnime(getQueryParameters()));
 	};
 
 	const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchQuery(event.target.value);
 		changeSearchParameter(event.target.value);
+		dispatch(fetchAnime(getQueryParameters()));
 	};
 
 	return (
@@ -76,28 +86,29 @@ const AnimeFiltersComponent: FC = () => {
 			<form className={styles.filters__form}>
 				<div className={styles.filters__inputs}>
 					<FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-						<InputLabel htmlFor="outlined-adornment-password">Search</InputLabel>
+						<InputLabel htmlFor="search-input">Search</InputLabel>
 						<OutlinedInput
-							id="outlined-adornment-password"
+							id="search-input"
 							value={searchQuery}
 							onChange={handleSearchChange}
 							endAdornment={
 								<InputAdornment position="end">
 									<IconButton
-										aria-label="toggle password visibility"
+										aria-label="search"
 										edge="end"
 									>
 										<SearchIcon />
 									</IconButton>
 								</InputAdornment>
 							}
+							label="Search"
 						/>
 					</FormControl>
 					<FormControl sx={{ m: 1, width: 300 }}>
-						<InputLabel id="demo-multiple-checkbox-label">Type</InputLabel>
+						<InputLabel id="type-select-multiple-label">Type</InputLabel>
 						<Select
-							labelId="demo-multiple-checkbox-label"
-							id="demo-multiple-checkbox"
+							labelId="type-select-multiple-label"
+							id="type-select-multiple"
 							multiple
 							value={animeType}
 							onChange={handleMultiChange}

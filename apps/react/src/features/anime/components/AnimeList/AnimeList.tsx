@@ -42,7 +42,7 @@ const AnimeListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	useEffect(() => {
 		changePageIndex(pageNumber);
 		dispatch(fetchAnime(getQueryParameters()));
-	}, [pageNumber]);
+	}, [pageNumber, dispatch]);
 
 	const lastGenreElementRef = useCallback((node: HTMLLIElement | null) => {
 		observer.current?.disconnect();

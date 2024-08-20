@@ -3,7 +3,7 @@ import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameter
 import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
 import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
-import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
+import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import queryString from 'query-string';
 
@@ -51,9 +51,9 @@ export const useQueryParameters = () => {
 		setQueryParameters(params);
 	};
 
-	const changeSortParameter = (animeSort: AnimeSortParameter) => {
+	const changeSortParameter = (animeMultiSort: AnimeMultiSortParameter) => {
 		const params: Partial<AnimeQueryParameters> = {
-			animeSort,
+			animeMultiSort,
 		};
 		setQueryParameters(params);
 	};

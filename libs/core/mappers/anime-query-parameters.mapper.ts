@@ -3,10 +3,19 @@ import { AnimeQueryParameters } from '../models/anime-query-parameters.model';
 import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
 import { AnimeType } from '../models/enums/anime-type.enum';
 import { EnumUtils } from '../utils/enum-utils';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, PARAMETER_SEPARATOR, DEFAULT_SEARCH_QUERY, DEFAULT_SORT_PARAM, DEFAULT_TYPE } from '../utils/anime-constants';
+import {
+	START_PAGE_INDEX,
+	DEFAULT_PAGE_SIZE,
+	PARAMETER_SEPARATOR,
+	DEFAULT_SEARCH_QUERY,
+	DEFAULT_SORT_PARAM,
+	DEFAULT_MULTI_SORT_PARAM,
+	DEFAULT_TYPE,
+} from '../utils/anime-constants';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';
+import { AnimeMultiSortParameterMapper } from './anime-multi-sort-parameter.mapper';
 
 export namespace AnimeQueryParametersMapper {
 
@@ -16,7 +25,10 @@ export namespace AnimeQueryParametersMapper {
 	 */
 	export function toDto(model: Partial<AnimeQueryParameters>): Partial<AnimeQueryParametersDto> {
 		const pageSize = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
-		const ordering = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : undefined;
+		let ordering = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : undefined;
+		if (model.animeMultiSort) {
+			ordering = AnimeMultiSortParameterMapper.toDto(model.animeMultiSort);
+		}
 		const types = model.animeTypes ? model.animeTypes.map(type => AnimeTypeMapper.toDto(type)).join(PARAMETER_SEPARATOR) : undefined;
 		const offset = model.pageIndex ? model.pageIndex * pageSize : START_PAGE_INDEX;
 		const limit = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
@@ -46,12 +58,14 @@ export namespace AnimeQueryParametersMapper {
 		const pageIndex = dto.limit && dto.offset ? dto.offset / dto.limit : START_PAGE_INDEX;
 		const limitPerPage = dto.limit ?? DEFAULT_PAGE_SIZE;
 		const searchQuery = dto.search ?? DEFAULT_SEARCH_QUERY;
+		const animeMultiSort = dto.ordering ? AnimeMultiSortParameterMapper.fromDto(dto.ordering) : DEFAULT_MULTI_SORT_PARAM;
 		return {
 			pageIndex,
 			limitPerPage,
 			animeTypes,
 			searchQuery,
 			animeSort,
+			animeMultiSort,
 		};
 	}
 }
