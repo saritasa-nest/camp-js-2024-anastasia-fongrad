@@ -8,20 +8,22 @@ import MenuItem from '@mui/material/MenuItem';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 
+import styles from './AnimeFilter.module.css';
+
 type Props = {
 
-	/** 1. */
+	/** Selected anime types. */
 	readonly animeType: AnimeType[];
 
-	/** 1. */
+	/** Handles filter changes. */
 	readonly handleFiltersChange: (event: SelectChangeEvent<AnimeType[]>) => void;
 
-	/** 1. */
+	/** Available anime type options. */
 	readonly animeTypes: AnimeType[];
 };
 
 const AnimeFilterComponent: FC<Props> = ({ animeType, handleFiltersChange, animeTypes }: Props) => (
-	<FormControl sx={{ m: 1, width: 300 }}>
+	<FormControl className={styles['anime-filter']}>
 		<InputLabel id="type-select-multiple-label">Type</InputLabel>
 		<Select
 			labelId="type-select-multiple-label"
@@ -42,5 +44,5 @@ const AnimeFilterComponent: FC<Props> = ({ animeType, handleFiltersChange, anime
 	</FormControl>
 );
 
-/** 1. */
+/** Anime Filter Component. */
 export const AnimeFilter = memo(AnimeFilterComponent);

@@ -1,8 +1,5 @@
 /** Anime query parameters DTO. */
-export type AnimeListCursorQueryParametersDto = {
-
-	/** 1. */
-	readonly cursor?: string;
+export type AnimeFilteringParametersDto = {
 
 	/** Anime types to filter by. */
 	readonly type__in?: string;

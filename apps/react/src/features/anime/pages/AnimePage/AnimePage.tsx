@@ -42,5 +42,5 @@ const AnimePageComponent: FC = () => {
 	);
 };
 
-/** Genre layout component. */
+/** Anime page. */
 export const AnimePage = memo(AnimePageComponent);

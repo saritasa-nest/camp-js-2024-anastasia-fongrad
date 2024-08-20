@@ -1,24 +1,24 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AnimeListCursorQueryParameters } from '@js-camp/core/models/anime-list-cursor-query-parameters.model';
-import { AnimeListCursorQueryParametersDto } from '@js-camp/core/dtos/anime-list-cursor-query-parameters.dto';
-import { AnimeListCursorQueryParametersMapper } from '@js-camp/core/mappers/anime-list-cursor-query-parameters.mapper';
+import { AnimeFilteringParameters } from '@js-camp/core/models/anime-filtering-parameters.model';
+import { AnimeFilteringParametersDto } from '@js-camp/core/dtos/anime-filtering-parameters.dto';
+import { AnimeFilteringParametersMapper } from '@js-camp/core/mappers/anime-filtering-parameters.mapper';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import queryString from 'query-string';
 
-/** 1. */
+/** Custom useQueryParameters hook. */
 export const useQueryParameters = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const getQueryParameters = (): Partial<AnimeListCursorQueryParameters> => {
+	const getQueryParameters = (): Partial<AnimeFilteringParameters> => {
 		const params = queryString.parse(location.search);
-		return AnimeListCursorQueryParametersMapper.fromDto(params as Partial<AnimeListCursorQueryParametersDto>);
+		return AnimeFilteringParametersMapper.fromDto(params as Partial<AnimeFilteringParametersDto>);
 	};
 
-	const setQueryParameters = (animeQueryParameters: Partial<AnimeListCursorQueryParameters>) => {
+	const setQueryParameters = (animeQueryParameters: Partial<AnimeFilteringParameters>) => {
 		const currentParams = queryString.parse(location.search);
 		const mappedQueryParams = ObjectUtils.removeEmptyFields(
-			AnimeListCursorQueryParametersMapper.toDto(animeQueryParameters),
+			AnimeFilteringParametersMapper.toDto(animeQueryParameters),
 		);
 		const newParams = {
 			...currentParams,

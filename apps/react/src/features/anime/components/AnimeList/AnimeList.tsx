@@ -86,5 +86,5 @@ const AnimeListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	);
 };
 
-/** Genre list component. */
+/** Anime list component. */
 export const AnimeList = memo(AnimeListComponent);

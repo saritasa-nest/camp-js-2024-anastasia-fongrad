@@ -8,7 +8,7 @@ import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-direc
 import { useAppDispatch } from '@js-camp/react/store';
 import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
-import { AnimeListCursorQueryParameters } from '@js-camp/core/models/anime-list-cursor-query-parameters.model';
+import { AnimeFilteringParameters } from '@js-camp/core/models/anime-filtering-parameters.model';
 
 import { AnimeFilter } from '../AnimeFilter/AnimeFilter';
 import { AnimeSearch } from '../AnimeSearch';
@@ -18,18 +18,16 @@ import { useQueryParameters } from '../../hooks/useQueryParameters';
 import styles from './AnimeFilters.module.css';
 
 const AnimeFiltersComponent: FC = () => {
-	const {
-		setQueryParameters,
-		getQueryParameters,
-	} = useQueryParameters();
-
+	const { setQueryParameters, getQueryParameters } = useQueryParameters();
 	const initialQueryParameters = getQueryParameters();
+
 	const [animeType, setAnimeType] = useState<AnimeType[]>(initialQueryParameters.animeTypes ?? []);
 	const [searchQuery, setSearchQuery] = useState(initialQueryParameters.searchQuery ?? '');
 	const [sortTitleOrder, setSortTitleOrder] =
 		useState(initialQueryParameters?.animeMultiSort?.animeTitleDirection ?? AnimeSortDirections.Empty);
 	const [sortStatusOrder, setSortStatusOrder] =
 		useState(initialQueryParameters?.animeMultiSort?.animeStatusDirection ?? AnimeSortDirections.Empty);
+
 	const animeTypes = Object.values(AnimeType);
 	const dispatch = useAppDispatch();
 
@@ -78,7 +76,7 @@ const AnimeFiltersComponent: FC = () => {
 			animeTitleDirection: sortTitleOrder,
 			animeStatusDirection: sortStatusOrder,
 		};
-		const queryParameters: Partial<AnimeListCursorQueryParameters> = {
+		const queryParameters: Partial<AnimeFilteringParameters> = {
 			animeMultiSort,
 			animeTypes: animeType,
 			searchQuery,
@@ -120,12 +118,12 @@ const AnimeFiltersComponent: FC = () => {
 				<div className={styles.filters__sort}>
 					<SortButton
 						title='Sort by Title'
-						sortOrder={sortTitleOrder}
+						sortDirection={sortTitleOrder}
 						sortItems={sortItemsByTitle}
 					/>
 					<SortButton
 						title='Sort by Status'
-						sortOrder={sortStatusOrder}
+						sortDirection={sortStatusOrder}
 						sortItems={sortItemsByStatus}
 					/>
 				</div>
@@ -134,5 +132,5 @@ const AnimeFiltersComponent: FC = () => {
 	);
 };
 
-/** Genre filters component. */
+/** Anime filters component. */
 export const AnimeFilters = memo(AnimeFiltersComponent);

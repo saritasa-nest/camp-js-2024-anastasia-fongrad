@@ -49,5 +49,5 @@ const AnimeDetailsComponent: FC = () => {
 	);
 };
 
-/** Genre details component. */
+/** Anime details component. */
 export const AnimeDetails = memo(AnimeDetailsComponent);

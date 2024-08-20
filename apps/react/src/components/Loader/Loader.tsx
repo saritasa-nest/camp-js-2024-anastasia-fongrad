@@ -9,5 +9,5 @@ const LoaderComponent: FC = () => (
 	</Box>
 );
 
-/** Genre filters component. */
+/** App loader component. */
 export const Loader = memo(LoaderComponent);

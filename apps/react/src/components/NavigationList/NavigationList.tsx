@@ -7,7 +7,6 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import { NavLink } from 'react-router-dom';
-
 import { NavigationProps } from '@js-camp/react/utils/navigationProps';
 
 type Props = {
@@ -15,10 +14,10 @@ type Props = {
 	/** An array of navigation objects. */
 	readonly items: readonly NavigationProps[];
 
-	/** 1. */
+	/** Page that user is currently seeing. */
 	readonly currentPage: string;
 
-	/** 1. */
+	/** Handles pages navigation. */
 	readonly onClick: (name: string) => void;
 };
 

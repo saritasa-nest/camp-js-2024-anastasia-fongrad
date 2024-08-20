@@ -22,7 +22,7 @@ export const DEFAULT_SORT_PARAM: AnimeSortParameter = {
 	direction: AnimeSortDirections.Empty,
 };
 
-/** 1. */
+/** Default multi sort parameter. */
 export const DEFAULT_MULTI_SORT_PARAM: AnimeMultiSortParameter = {
 	animeTitleDirection: AnimeSortDirections.Empty,
 	animeStatusDirection: AnimeSortDirections.Empty,

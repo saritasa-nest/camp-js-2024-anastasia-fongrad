@@ -6,17 +6,19 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
+import styles from './AnimeSearch.module.css';
+
 type Props = {
 
-	/** 1. */
+	/** Search value. */
 	readonly searchQuery: string;
 
-	/** 1. */
+	/** Handles users search. */
 	readonly handleSearchChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const AnimeSearchComponent: FC<Props> = ({ searchQuery, handleSearchChange }: Props) => (
-	<FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+	<FormControl className={styles['anime-search']} variant="outlined">
 		<InputLabel htmlFor="search-input">Search</InputLabel>
 		<OutlinedInput
 			id="search-input"
@@ -37,5 +39,5 @@ const AnimeSearchComponent: FC<Props> = ({ searchQuery, handleSearchChange }: Pr
 	</FormControl>
 );
 
-/** 1. */
+/** Anime search component. */
 export const AnimeSearch = memo(AnimeSearchComponent);

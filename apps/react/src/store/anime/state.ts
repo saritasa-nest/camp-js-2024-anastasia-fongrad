@@ -1,22 +1,22 @@
 import { Anime } from '@js-camp/core/models/anime.model';
 
-/** Genres state. */
+/** Anime state. */
 export type AnimeState = {
 
-	/** Genres list. */
+	/** Anime list. */
 	readonly anime: Anime[];
 
 	/** Error. */
 	readonly error?: string;
 
-	/** Whether the genres are loading or not. */
+	/** Whether anime data is loading or not. */
 	readonly isLoading: boolean;
 
-	/** 1. */
+	/** Url to get the next anime page. */
 	readonly nextPage?: string;
 };
 
-/** Initial state for the genres slice of the Redux store. */
+/** Initial state for the anime slice of the Redux store. */
 export const initialState: AnimeState = {
 	isLoading: false,
 	anime: [],

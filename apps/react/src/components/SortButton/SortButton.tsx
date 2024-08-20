@@ -5,23 +5,23 @@ import SortIcon from '@mui/icons-material/Sort';
 import { Button } from '@mui/material';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
 
-type SortButtonProps = {
+type Props = {
 
-	/** An array of anime genres. */
-	readonly sortOrder: AnimeSortDirections;
+	/** Current sort direction. */
+	readonly sortDirection: AnimeSortDirections;
 
-	/** Handles displaying genre details on click. */
+	/** Handles sorting objects. */
 	readonly sortItems: () => void;
 
-	/** 1. */
+	/** Buttons title. */
 	readonly title: string;
 };
 
-const SortButtonComponent: FC<SortButtonProps> = ({ sortOrder, sortItems, title }) => {
+const SortButtonComponent: FC<Props> = ({ sortDirection, sortItems, title }) => {
 	const getSortIcon = () => {
-		if (sortOrder === AnimeSortDirections.Ascending) {
+		if (sortDirection === AnimeSortDirections.Ascending) {
 			return <ArrowUpwardIcon />;
-		} else if (sortOrder === AnimeSortDirections.Descending) {
+		} else if (sortDirection === AnimeSortDirections.Descending) {
 			return <ArrowDownwardIcon />;
 		}
 		return <SortIcon />;

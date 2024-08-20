@@ -1,11 +1,11 @@
 import { AnimeSortDirections } from './enums/anime-sort-directions.enum';
 
-/** 1. */
+/** Anime multi sort model parameter. */
 export type AnimeMultiSortParameter = {
 
-	/** 1. */
+	/** Sorting by title direction. */
 	readonly animeTitleDirection: AnimeSortDirections;
 
-	/** 1. */
+	/** Sorting by status direction. */
 	readonly animeStatusDirection: AnimeSortDirections;
 };

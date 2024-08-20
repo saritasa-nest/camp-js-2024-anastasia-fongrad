@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchAnime } from './dispatchers';
 import { initialState } from './state';
 
-/** Slice of the Redux store for managing genres data. */
+/** Slice of the Redux store for managing anime data. */
 export const animeSlice = createSlice({
 	name: 'anime',
 	initialState,

@@ -2,10 +2,7 @@ import { AnimeType } from './enums/anime-type.enum';
 import { AnimeMultiSortParameter } from './anime-multi-sort-parameter.model';
 
 /** Anime query parameters model. */
-export type AnimeListCursorQueryParameters = {
-
-	/** 1. */
-	readonly cursor?: string;
+export type AnimeFilteringParameters = {
 
 	/** Anime types to filter by. */
 	readonly animeTypes: AnimeType[];
@@ -13,6 +10,6 @@ export type AnimeListCursorQueryParameters = {
 	/** A query to search anime by a title. */
 	readonly searchQuery: string;
 
-	/** 1. */
+	/** Anime sort directions object. */
 	readonly animeMultiSort: AnimeMultiSortParameter;
 };

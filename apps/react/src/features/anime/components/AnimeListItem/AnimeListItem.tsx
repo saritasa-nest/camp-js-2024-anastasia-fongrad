@@ -43,5 +43,5 @@ const AnimeListItemComponent = forwardRef<HTMLLIElement, Props>(({ selected, ani
 	</ListItem>
 ));
 
-/** Genre list item component. */
+/** Anime list item component. */
 export const AnimeListItem = memo(AnimeListItemComponent);
