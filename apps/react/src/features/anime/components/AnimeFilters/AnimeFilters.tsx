@@ -1,17 +1,8 @@
-import { memo, FC, useState, useEffect, useCallback } from 'react';
-import SearchIcon from '@mui/icons-material/Search';
+import { memo, FC, useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { SortButton } from '@js-camp/react/components/SortButton/SortButton';
 import Box from '@mui/material/Box';
-import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import IconButton from '@mui/material/IconButton';
+import { SelectChangeEvent } from '@mui/material/Select';
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
 import { useAppDispatch } from '@js-camp/react/store';
@@ -19,11 +10,13 @@ import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
 import { AnimeListCursorQueryParameters } from '@js-camp/core/models/anime-list-cursor-query-parameters.model';
 
+import { AnimeFilter } from '../AnimeFilter/AnimeFilter';
+import { AnimeSearch } from '../AnimeSearch';
+
 import { useQueryParameters } from '../../hooks/useQueryParameters';
 
 import styles from './AnimeFilters.module.css';
 
-// eslint-disable-next-line max-lines-per-function
 const AnimeFiltersComponent: FC = () => {
 	const {
 		setQueryParameters,
@@ -76,7 +69,7 @@ const AnimeFiltersComponent: FC = () => {
 		setAnimeType(newValue);
 	}, []);
 
-	const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
 		setSearchQuery(event.target.value);
 	}, []);
 
@@ -114,44 +107,15 @@ const AnimeFiltersComponent: FC = () => {
 			</Typography>
 			<form className={styles.filters__form}>
 				<div className={styles.filters__inputs}>
-					<FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-						<InputLabel htmlFor="search-input">Search</InputLabel>
-						<OutlinedInput
-							id="search-input"
-							value={searchQuery}
-							onChange={handleSearchChange}
-							endAdornment={
-								<InputAdornment position="end">
-									<IconButton
-										aria-label="search"
-										edge="end"
-									>
-										<SearchIcon />
-									</IconButton>
-								</InputAdornment>
-							}
-							label="Search"
-						/>
-					</FormControl>
-					<FormControl sx={{ m: 1, width: 300 }}>
-						<InputLabel id="type-select-multiple-label">Type</InputLabel>
-						<Select
-							labelId="type-select-multiple-label"
-							id="type-select-multiple"
-							multiple
-							value={animeType}
-							onChange={handleMultiChange}
-							input={<OutlinedInput label="Tag" />}
-							renderValue={selected => selected.join(', ')}
-						>
-							{animeTypes.map(type => (
-								<MenuItem key={type} value={type}>
-									<Checkbox checked={animeType.includes(type)} />
-									<ListItemText primary={type} />
-								</MenuItem>
-							))}
-						</Select>
-					</FormControl>
+					<AnimeSearch
+						searchQuery={searchQuery}
+						handleSearchChange={handleSearchChange}
+					/>
+					<AnimeFilter
+						animeType={animeType}
+						animeTypes={animeTypes}
+						handleFiltersChange={handleMultiChange}
+					/>
 				</div>
 				<div className={styles.filters__sort}>
 					<SortButton
