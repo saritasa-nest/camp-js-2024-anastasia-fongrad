@@ -64,5 +64,6 @@ export const useQueryParameters = () => {
 		changeSortParameter,
 		changeSearchParameter,
 		changePageIndex,
+		setQueryParameters,
 	};
 };
