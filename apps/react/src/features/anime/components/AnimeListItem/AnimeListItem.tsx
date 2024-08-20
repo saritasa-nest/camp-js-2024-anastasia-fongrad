@@ -34,10 +34,10 @@ const AnimeListItemComponent = forwardRef<HTMLLIElement, Props>(({ selected, ani
 				secondary={anime.titleEnglish}
 			/>
 			<Tooltip title="Anime status" placement="top" arrow>
-				<Chip variant="outlined" label={anime.status} />
+				<Chip variant="outlined" label={anime.status ?? '--'} />
 			</Tooltip>
 			<Tooltip title="Anime type" placement="top" arrow>
-				<Chip color="primary" variant="outlined" label={anime.type} />
+				<Chip color="primary" variant="outlined" label={anime.type ?? '--'} />
 			</Tooltip>
 		</ListItemButton>
 	</ListItem>

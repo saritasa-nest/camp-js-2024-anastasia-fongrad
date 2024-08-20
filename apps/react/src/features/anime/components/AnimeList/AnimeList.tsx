@@ -84,14 +84,12 @@ const AnimeListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 					if (anime.length === index + 1) {
 						return <AnimeListItem
 							ref={lastGenreElementRef}
-							key={animeItem.id}
 							anime={animeItem}
 							onClick={() => handleGenreClick(animeItem.id)}
 							selected={animeItem.id === selectedGenreId}
 						/>;
 					}
 					return <AnimeListItem
-						key={animeItem.id}
 						anime={animeItem}
 						onClick={() => handleGenreClick(animeItem.id)}
 						selected={animeItem.id === selectedGenreId}

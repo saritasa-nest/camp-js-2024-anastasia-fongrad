@@ -49,7 +49,10 @@ export namespace AnimeQueryParametersMapper {
 	 * @param dto Anime query parameters dto.
 	 */
 	export function fromDto(dto: Partial<AnimeQueryParametersDto>): AnimeQueryParameters {
-		const animeSort = dto.ordering ? AnimeSortParameterMapper.fromDto(dto.ordering) : DEFAULT_SORT_PARAM;
+		let animeSort = DEFAULT_SORT_PARAM;
+		if (dto.ordering && !dto.ordering.includes(PARAMETER_SEPARATOR)) {
+			animeSort = AnimeSortParameterMapper.fromDto(dto.ordering);
+		}
 		const animeTypes = dto.type__in ? dto.type__in.split(PARAMETER_SEPARATOR).map(type => {
 			const typeName = EnumUtils.fromString(type, AnimeTypeDto);
 			return typeName ? AnimeTypeMapper.fromDto(typeName) : undefined;

@@ -40,8 +40,19 @@ const AnimeFiltersComponent: FC = () => {
 	const animeTypes = Object.values(AnimeType);
 	const dispatch = useAppDispatch();
 
+	const getNext = (sortDirection: AnimeSortDirections): AnimeSortDirections => {
+		switch (sortDirection) {
+			case AnimeSortDirections.Ascending:
+				return AnimeSortDirections.Descending;
+			case AnimeSortDirections.Descending:
+				return AnimeSortDirections.Empty;
+			default:
+				return AnimeSortDirections.Ascending;
+		}
+	};
+
 	const sortItemsByTitle = () => {
-		setSortTitleOrder(sortTitleOrder);
+		setSortTitleOrder(getNext(sortTitleOrder));
 		const animeMultiSort: AnimeMultiSortParameter = {
 			animeTitleDirection: sortTitleOrder,
 			animeStatusDirection: sortStatusOrder,
@@ -51,7 +62,7 @@ const AnimeFiltersComponent: FC = () => {
 	};
 
 	const sortItemsByStatus = () => {
-		setSortStatusOrder(sortTitleOrder);
+		setSortStatusOrder(getNext(sortStatusOrder));
 		const animeMultiSort: AnimeMultiSortParameter = {
 			animeTitleDirection: sortTitleOrder,
 			animeStatusDirection: sortStatusOrder,
