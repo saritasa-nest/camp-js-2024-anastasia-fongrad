@@ -6,19 +6,18 @@ export type AnimeState = {
 	/** Genres list. */
 	readonly anime: Anime[];
 
-	/** Whether genres list has more genres. */
-	readonly hasMore: boolean;
-
 	/** Error. */
 	readonly error?: string;
 
 	/** Whether the genres are loading or not. */
 	readonly isLoading: boolean;
+
+	/** 1. */
+	readonly nextPage?: string;
 };
 
 /** Initial state for the genres slice of the Redux store. */
 export const initialState: AnimeState = {
 	isLoading: false,
 	anime: [],
-	hasMore: false,
 };

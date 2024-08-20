@@ -1,9 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
-import { AnimeQueryParametersDto } from '@js-camp/core/dtos/anime-query-parameters.dto';
-import { AnimeQueryParametersMapper } from '@js-camp/core/mappers/anime-query-parameters.mapper';
-import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
-import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
+import { AnimeListCursorQueryParameters } from '@js-camp/core/models/anime-list-cursor-query-parameters.model';
+import { AnimeListCursorQueryParametersDto } from '@js-camp/core/dtos/anime-list-cursor-query-parameters.dto';
+import { AnimeListCursorQueryParametersMapper } from '@js-camp/core/mappers/anime-list-cursor-query-parameters.mapper';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import queryString from 'query-string';
 
@@ -12,14 +10,16 @@ export const useQueryParameters = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-	const getQueryParameters = (): Partial<AnimeQueryParameters> => {
+	const getQueryParameters = (): Partial<AnimeListCursorQueryParameters> => {
 		const params = queryString.parse(location.search);
-		return AnimeQueryParametersMapper.fromDto(params as Partial<AnimeQueryParametersDto>);
+		return AnimeListCursorQueryParametersMapper.fromDto(params as Partial<AnimeListCursorQueryParametersDto>);
 	};
 
-	const setQueryParameters = (animeQueryParameters: Partial<AnimeQueryParameters>) => {
+	const setQueryParameters = (animeQueryParameters: Partial<AnimeListCursorQueryParameters>) => {
 		const currentParams = queryString.parse(location.search);
-		const mappedQueryParams = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(animeQueryParameters));
+		const mappedQueryParams = ObjectUtils.removeEmptyFields(
+			AnimeListCursorQueryParametersMapper.toDto(animeQueryParameters),
+		);
 		const newParams = {
 			...currentParams,
 			...mappedQueryParams,
@@ -27,43 +27,8 @@ export const useQueryParameters = () => {
 		navigate({ search: queryString.stringify(newParams) });
 	};
 
-	const changePageIndex = (pageIndex: number) => {
-		const params: Partial<AnimeQueryParameters> = {
-			limitPerPage: 25,
-			pageIndex,
-		};
-		setQueryParameters(params);
-	};
-
-	const changeSearchParameter = (searchQuery: string) => {
-		const params: Partial<AnimeQueryParameters> = {
-			searchQuery,
-			pageIndex: 0,
-		};
-		setQueryParameters(params);
-	};
-
-	const changeFilterParameters = (animeTypes: AnimeType[]) => {
-		const params: Partial<AnimeQueryParameters> = {
-			animeTypes,
-			pageIndex: 0,
-		};
-		setQueryParameters(params);
-	};
-
-	const changeSortParameter = (animeMultiSort: AnimeMultiSortParameter) => {
-		const params: Partial<AnimeQueryParameters> = {
-			animeMultiSort,
-		};
-		setQueryParameters(params);
-	};
-
 	return {
 		getQueryParameters,
-		changeFilterParameters,
-		changeSortParameter,
-		changeSearchParameter,
-		changePageIndex,
 		setQueryParameters,
 	};
 };

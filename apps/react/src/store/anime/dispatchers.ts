@@ -7,3 +7,9 @@ export const fetchAnime = createAsyncThunk(
 	'anime/fetch',
 	(parameters: Partial<AnimeQueryParameters>) => AnimeService.fetchAnime(parameters),
 );
+
+/** 1. */
+export const fetchAnimeNext = createAsyncThunk(
+	'anime/fetch',
+	(nextUrl: string) => AnimeService.fetchAnimeByUrl(nextUrl),
+);

@@ -17,7 +17,7 @@ import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-direc
 import { useAppDispatch } from '@js-camp/react/store';
 import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
-import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
+import { AnimeListCursorQueryParameters } from '@js-camp/core/models/anime-list-cursor-query-parameters.model';
 
 import { useQueryParameters } from '../../hooks/useQueryParameters';
 
@@ -85,7 +85,7 @@ const AnimeFiltersComponent: FC = () => {
 			animeTitleDirection: sortTitleOrder,
 			animeStatusDirection: sortStatusOrder,
 		};
-		const queryParameters: Partial<AnimeQueryParameters> = {
+		const queryParameters: Partial<AnimeListCursorQueryParameters> = {
 			animeMultiSort,
 			animeTypes: animeType,
 			searchQuery,

@@ -13,7 +13,7 @@ import {
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeMultiSortParameterMapper } from './anime-multi-sort-parameter.mapper';
 
-export namespace AnimeQueryParametersMapper {
+export namespace AnimeListCursorQueryParametersMapper {
 
 	/**
 	 * Converts query parameters from a model to a dto object.

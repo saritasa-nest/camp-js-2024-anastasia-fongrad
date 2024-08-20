@@ -15,7 +15,7 @@ export const animeSlice = createSlice({
 		.addCase(fetchAnime.fulfilled, (state, action) => {
 			const isScrolled = action.payload.previousPage != null;
 			state.anime = [...(isScrolled ? state.anime : []), ...action.payload.results];
-			state.hasMore = action.payload.nextPage != null;
+			state.nextPage = action.payload.nextPage ?? undefined;
 			state.isLoading = false;
 		})
 		.addCase(fetchAnime.rejected, (state, action) => {
