@@ -1,5 +1,4 @@
 import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
-import { AnimeGenre } from "@js-camp/core/models/genre.model";
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useParams } from "react-router-dom";
@@ -33,7 +32,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
-	const [pageNumber, setPageNumber] = useState(0);
+	const [nextUrl, setNextUrl] = useState('');
 	const observer = useRef<IntersectionObserver>();
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
@@ -42,7 +41,8 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 			if (node) {
 				observer.current = new IntersectionObserver((entries) => {
 					if (entries[0].isIntersecting && hasMore) {
-						setPageNumber((prev) => prev + 1);
+						// setPageNumber((prev) => prev + 1);
+						setNextUrl(hasMore);
 						observer.current?.disconnect();
 					}
 				});
@@ -60,8 +60,8 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		[onGenreClick]
 	);
 	useEffect(() => {
-		dispatch(fetchGenres());
-	}, [pageNumber, dispatch]);
+		dispatch(fetchGenres(hasMore));
+	}, [nextUrl, dispatch]);
 
 	return (
 		<Box className={styles["genre-list"]}>

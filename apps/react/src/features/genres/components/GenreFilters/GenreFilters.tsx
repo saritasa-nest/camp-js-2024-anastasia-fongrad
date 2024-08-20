@@ -8,6 +8,7 @@ import { Box, Typography } from '@mui/material';
 import styles from './GenreFilters.module.css';
 
 const GenreFiltersComponent: FC = () => (
+	// const { queryParamsValue, handleQueryParamsValue } = useQ
 	<Box className={styles.filters}>
 		<Typography
 			variant="h5"

@@ -13,3 +13,5 @@ export type PaginationDto<T> = {
 	/** Array of items requested. */
 	readonly results: readonly T[];
 };
+
+export type PaginationListCursorDto<T> = Omit<PaginationDto<T>, 'count'>;

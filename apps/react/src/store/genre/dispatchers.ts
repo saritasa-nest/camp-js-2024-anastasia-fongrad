@@ -3,4 +3,4 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { GenresService } from '../../api/services/genreService';
 
 /** Async thunk action for fetching genres. */
-export const fetchGenres = createAsyncThunk('genres/fetch', () => GenresService.fetchGenres());
+export const fetchGenres = createAsyncThunk('genres/fetch', (params: string | null) => GenresService.fetchGenres(params));
