@@ -1,6 +1,6 @@
-import { BaseFilterParams } from "./base-filter-params.model";
+import { BaseFilterParamsDto } from './base-filter-params.dto';
 
-export namespace GenresFilterParams {
+export namespace GenresFilterParamsDto {
 	export type Ordering = Readonly<{
 		ordering: string | null;
 	}>;
@@ -19,5 +19,5 @@ export namespace GenresFilterParams {
 		type: string | null;
 	}>;
 	/** Combined. */
-	export type Combined = BaseFilterParams.Search & Ordering & Type;
+	export type Combined = BaseFilterParamsDto.Combined & Ordering & Type;
 }

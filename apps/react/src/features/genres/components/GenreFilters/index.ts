@@ -1,1 +1,0 @@
-export { GenreFilters } from './GenreFilters';

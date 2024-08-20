@@ -4,8 +4,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { useParams, useSearchParams } from "react-router-dom";
 
 import { GenreListItem } from "../GenreListItem";
-import { GenreFilters } from "../GenreFilters";
-
+import { GenreSearch } from "../GenreSearch";
+import { GenresFilter } from "../GenresFilter";
 import styles from "./GenreList.module.css";
 import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
 import {
@@ -34,21 +34,16 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
+	const [hasNext, setHasNext] = useState<string | null>(null);
+	const wrapperElementRef = useRef<HTMLElement>(null);
 	const observer = useRef<IntersectionObserver>();
-	const { search } = getQueryParams(searchParams);
-	console.log(search);
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
 			if (node) {
 				observer.current = new IntersectionObserver((entries) => {
 					if (entries[0].isIntersecting && hasMore) {
-						dispatch(
-							fetchGenres({
-								nextCursor: hasMore,
-								search,
-							})
-						);
+						setHasNext(hasMore);
 						observer.current?.disconnect();
 					}
 				});
@@ -65,19 +60,35 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		},
 		[onGenreClick]
 	);
+	const { search, sort, filter } = getQueryParams(searchParams);
+
+	const dispatchGenres = useCallback(
+		(next: string | null) =>
+			dispatch(
+				fetchGenres({
+					search,
+					sort,
+					filter,
+					cursor: next,
+				})
+			),
+		[search, sort, filter]
+	);
+
 	useEffect(() => {
-		dispatch(
-			fetchGenres({
-				nextCursor: hasMore,
-				search,
-			})
-		);
-	}, [search]);
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
+		setHasNext(null);
+	}, [searchParams]);
+
+	useEffect(() => {
+		dispatchGenres(hasNext);
+	}, [hasNext, search]);
 
 	return (
 		<Box className={styles["genre-list"]}>
-			<GenreFilters />
-			<List className={styles["genre-list__items"]}>
+			<GenreSearch />
+			<GenresFilter />
+			<List className={styles["genre-list__items"]} ref={wrapperElementRef}>
 				<ListItem disablePadding>
 					<ListItemButton>
 						<IconButton edge="start" color="inherit" aria-label="add">

@@ -1,4 +1,4 @@
-export namespace BaseFilterParams {
+export namespace BaseFilterParamsDto {
 	export type NextCursor = Readonly<{
 		cursor: string | null;
 	}>;

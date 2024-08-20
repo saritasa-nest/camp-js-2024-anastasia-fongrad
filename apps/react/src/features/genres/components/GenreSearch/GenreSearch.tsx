@@ -5,12 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import { Box, Typography } from "@mui/material";
 
-import styles from "./GenreFilters.module.css";
+import styles from "./GenreSearch.module.css";
 import { useSearchParams } from "react-router-dom";
 
-const GenreFiltersComponent: FC = () => {
+const GenreSearchComponent: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const [queryParamsValue, setQueryParamsValue] = useState('');
+	const [queryParamsValue, setQueryParamsValue] = useState("");
 
 	/**
 	 * Handle query params.
@@ -40,7 +40,7 @@ const GenreFiltersComponent: FC = () => {
 	return (
 		<Box className={styles.filters}>
 			<Typography variant="h5" component="h5" gutterBottom>
-				Filters
+				Search
 			</Typography>
 			<Paper component="form" className={styles.filters__form}>
 				<InputBase
@@ -59,4 +59,4 @@ const GenreFiltersComponent: FC = () => {
 };
 
 /** Genre filters component. */
-export const GenreFilters = memo(GenreFiltersComponent);
+export const GenreSearch = memo(GenreSearchComponent);
