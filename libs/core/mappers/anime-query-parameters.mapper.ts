@@ -15,9 +15,10 @@ export namespace AnimeQueryParametersMapper {
 	 * @param model Anime query parameters.
 	 */
 	export function toDto(model: Partial<AnimeQueryParameters>): Partial<AnimeQueryParametersDto> {
+		const pageSize = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
 		const ordering = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : undefined;
 		const types = model.animeTypes ? model.animeTypes.map(type => AnimeTypeMapper.toDto(type)).join(PARAMETER_SEPARATOR) : undefined;
-		const offset = model.pageIndex && model.limitPerPage ? model.pageIndex * model.limitPerPage : START_PAGE_INDEX;
+		const offset = model.pageIndex ? model.pageIndex * pageSize : START_PAGE_INDEX;
 		const limit = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
 		return {
 			limit,

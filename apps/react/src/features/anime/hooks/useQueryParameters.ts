@@ -29,6 +29,7 @@ export const useQueryParameters = () => {
 
 	const changePageIndex = (pageIndex: number) => {
 		const params: Partial<AnimeQueryParameters> = {
+			limitPerPage: 25,
 			pageIndex,
 		};
 		setQueryParameters(params);
