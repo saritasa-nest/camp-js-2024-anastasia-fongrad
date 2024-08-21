@@ -15,15 +15,14 @@
 			<input matInput formControlName="titleJapanese">
 		</mat-form-field>
 
-		<mat-form-field class="example-full-width">
+		<mat-form-field>
 			<mat-label>Anime Synopsis</mat-label>
-			<textarea formControlName="synopsis" matInput></textarea>
+			<textarea class="form__synopsis" formControlName="synopsis" matInput></textarea>
 		</mat-form-field>
-
-		<button mat-raised-button type="button">Add Anime</button>
 	</div>
+	<mat-divider class="form__divider"/>
 	<div class="form__right">
-		<mat-form-field class="main__type-select" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-label>Anime Type</mat-label>
 			<mat-select formControlName="type">
 				@for (option of selectTypes; track option) {
@@ -32,7 +31,7 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="main__type-select" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-label>Anime Status</mat-label>
 			<mat-select formControlName="status">
 				@for (option of selectStatuses; track option) {
@@ -41,7 +40,7 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="main__type-select" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-label>Anime Rating</mat-label>
 			<mat-select formControlName="type">
 				@for (option of selectRatings; track option) {
@@ -50,7 +49,7 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="main__type-select" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-label>Anime Season</mat-label>
 			<mat-select formControlName="season">
 				@for (option of selectSeasons; track option) {
@@ -59,7 +58,7 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="main__type-select" appearance="fill">
+		<mat-form-field appearance="fill">
 			<mat-label>Anime Source</mat-label>
 			<mat-select formControlName="source">
 				@for (option of selectSources; track option) {
@@ -68,7 +67,8 @@
 			</mat-select>
 		</mat-form-field>
 	</div>
-	<div class="airing">
+	<mat-divider class="form__divider"/>
+	<div class="form__airing airing">
 		<div class="airing__toggle">
 			<mat-button-toggle-group
 				class="main__toggle"
@@ -103,4 +103,43 @@
 			<mat-datepicker #endPicker></mat-datepicker>
 		</mat-form-field>
 	</div>
+	<mat-divider class="form__divider"/>
+	<div class="form__multi-filters">
+		<div class="form__genres">
+			<mat-form-field class="form__chip-list">
+				<mat-label>Favorite Fruits</mat-label>
+				<mat-chip-grid #chipGrid aria-label="Fruit selection">
+					@for (fruit of fruits(); track $index) {
+						<mat-chip-row (removed)="remove(fruit)">
+							{{fruit}}
+							<button type="button" matChipRemove [attr.aria-label]="'remove ' + fruit">
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip-row>
+					}
+				</mat-chip-grid>
+				<input
+					name="currentFruit"
+					placeholder="New Fruit..."
+					#fruitInput
+					[matChipInputFor]="chipGrid"
+					[matAutocomplete]="auto"
+					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+					(matChipInputTokenEnd)="add($event)"
+				/>
+				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+					@for (fruit of filteredFruits(); track fruit) {
+						<mat-option [value]="fruit">{{fruit}}</mat-option>
+					}
+				</mat-autocomplete>
+			</mat-form-field>
+			<a mat-fab extended
+				class='anime-details__edit'
+			>
+				<mat-icon>edit</mat-icon>
+				Add Genre
+			</a>
+		</div>
+	</div>
+	<button class="form__submit" mat-raised-button type="submit">Add Anime</button>
 </form>

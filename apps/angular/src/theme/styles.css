@@ -86,7 +86,7 @@ body {
   --mat-paginator-container-text-color: var(--on-accent);
 }
 
-.main__type-select .mat-mdc-select {
+.mat-mdc-select {
   --mat-select-enabled-trigger-text-color: var(--on-surface);
 }
 
@@ -123,4 +123,12 @@ body {
 
 .mat-mdc-card {
   --mdc-elevated-card-container-color: var(--accent);
+}
+
+.mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__action--trailing {
+  --mdc-chip-with-trailing-icon-trailing-icon-color: var(--on-surface);
+}
+
+.mat-datepicker-toggle {
+  --mat-datepicker-toggle-icon-color: var(--on-surface);
 }

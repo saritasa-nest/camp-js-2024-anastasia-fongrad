@@ -1,6 +1,7 @@
 .main__form {
   display: flex;
-  gap: var(--space-6);
+  flex-direction: column;
+  max-width: 700px;
 }
 
 .form__left,
@@ -8,12 +9,37 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  max-width: 500px;
 }
 
-.airing {
+.form__right {
+  margin-top: var(--space-6);
+}
+
+.form__airing {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
-  max-width: 500px;
+  gap: var(--space-5);
+  max-width: 400px;
+  margin: var(--space-6) 0;
+}
+
+.form__synopsis {
+  min-height: 180px;
+}
+
+.form__genres {
+  display: flex;
+  align-items: center;
+}
+
+.form__chip-list {
+  width: 500px;
+}
+
+.mat-divider {
+  --mat-divider-color: var(--accent);
+}
+
+.form__multi-filters {
+  margin-top: var(--space-6);
 }
