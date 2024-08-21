@@ -3,6 +3,7 @@ import { BaseQueryParams } from '../model/base-query-params.model';
 
 /** Base filter params mappers. */
 export namespace BaseFilterParamsMapper {
+
 	/**
 	 * Mapping from query params to filter prams.
 	 * @param queryParams Query params.

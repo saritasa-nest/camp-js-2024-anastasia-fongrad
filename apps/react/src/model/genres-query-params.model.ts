@@ -2,6 +2,7 @@ import { BaseQueryParams } from './base-query-params.model';
 
 /** Genres query params. */
 export namespace GenresQueryParams {
+
 	/** Sort field. */
 	export enum SortField {
 		Name = 'name',
@@ -16,6 +17,7 @@ export namespace GenresQueryParams {
 
 	/** Sort. */
 	export type Sort = Readonly<{
+
 		/** Sort. */
 		sort: string | null;
 	}>;
@@ -30,6 +32,7 @@ export namespace GenresQueryParams {
 
 	/** Filter. */
 	export type Filter = Readonly<{
+
 		/** Filter. */
 		filter: string | null;
 	}>;

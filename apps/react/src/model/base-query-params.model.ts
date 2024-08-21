@@ -3,8 +3,10 @@ export namespace BaseQueryParams {
 	export type NextCursor = Readonly<{
 		nextCursor: string | null;
 	}>;
+
 	/** Search. */
 	export type Search = Readonly<{
+
 		/** Search. */
 		search: string | null;
 	}>;

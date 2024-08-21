@@ -1,8 +1,9 @@
-import { memo, FC, forwardRef } from "react";
-import { AnimeGenre } from "@js-camp/core/models/genre.model";
-import { ListItem, ListItemText, ListItemButton } from "@mui/material";
+import { memo, FC, forwardRef } from 'react';
+import { AnimeGenre } from '@js-camp/core/models/genre.model';
+import { ListItem, ListItemText, ListItemButton } from '@mui/material';
 
 type Props = {
+
 	/** Selected state. */
 	readonly selected: boolean;
 

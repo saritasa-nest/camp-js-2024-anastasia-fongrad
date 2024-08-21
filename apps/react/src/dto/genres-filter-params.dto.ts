@@ -15,9 +15,11 @@ export namespace GenresFilterParamsDto {
 
 	/** Type. */
 	export type Type = Readonly<{
+
 		/** Type. */
 		type: string | null;
 	}>;
+
 	/** Combined. */
 	export type Combined = BaseFilterParamsDto.Combined & Ordering & Type;
 }

@@ -8,9 +8,9 @@ export const genresSlice = createSlice({
 	name: 'genres',
 	initialState,
 	reducers: {},
-	extraReducers: (builder) =>
+	extraReducers: builder =>
 		builder
-			.addCase(fetchGenres.pending, (state) => {
+			.addCase(fetchGenres.pending, state => {
 				state.isLoading = true;
 			})
 			.addCase(fetchGenres.fulfilled, (state, action) => {

@@ -2,8 +2,10 @@ export namespace BaseFilterParamsDto {
 	export type NextCursor = Readonly<{
 		cursor: string | null;
 	}>;
+
 	/** Search. */
 	export type Search = Readonly<{
+
 		/** Search. */
 		search: string | null;
 	}>;

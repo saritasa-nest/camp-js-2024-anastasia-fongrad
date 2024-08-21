@@ -10,7 +10,7 @@ export const store = configureStore({
 		genres: genresSlice.reducer,
 		drawer: drawerSlice.reducer,
 	},
-	middleware: (getDefaultMiddleware) =>
+	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({
 			// We need to disable this check to allow ES6 classes in Redux.
 			// You can find more info about this middleware in docs:
