@@ -9,6 +9,7 @@ import { useAppDispatch } from '@js-camp/react/store';
 import { fetchAnime } from '@js-camp/react/store/anime/dispatchers';
 import { AnimeMultiSortParameter } from '@js-camp/core/models/anime-multi-sort-parameter.model';
 import { AnimeFilteringParameters } from '@js-camp/core/models/anime-filtering-parameters.model';
+import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 
 import { AnimeFilter } from '../AnimeFilter/AnimeFilter';
 import { AnimeSearch } from '../AnimeSearch';
@@ -63,8 +64,14 @@ const AnimeFiltersComponent: FC = () => {
 
 	const handleMultiChange = useCallback((event: SelectChangeEvent<AnimeType[]>) => {
 		const { target: { value } } = event;
-		const newValue = typeof value === 'string' ? value.split(',') as AnimeType[] : value;
-		setAnimeType(newValue);
+		if (typeof value === 'string') {
+			const newValue = value.split(',')
+				.map(item => EnumUtils.fromString(item, AnimeType))
+				.filter((item): item is AnimeType => item !== null);
+			setAnimeType(newValue);
+			return;
+		}
+		setAnimeType(value);
 	}, []);
 
 	const handleSearchChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {

@@ -1,9 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AnimeFilteringParameters } from '@js-camp/core/models/anime-filtering-parameters.model';
-import { AnimeFilteringParametersDto } from '@js-camp/core/dtos/anime-filtering-parameters.dto';
 import { AnimeFilteringParametersMapper } from '@js-camp/core/mappers/anime-filtering-parameters.mapper';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import queryString from 'query-string';
+
+import { isAnimeFilteringParametersDto } from '../utils/typeGuards';
 
 /** Custom useQueryParameters hook. */
 export const useQueryParameters = () => {
@@ -12,7 +13,10 @@ export const useQueryParameters = () => {
 
 	const getQueryParameters = (): Partial<AnimeFilteringParameters> => {
 		const params = queryString.parse(location.search);
-		return AnimeFilteringParametersMapper.fromDto(params as Partial<AnimeFilteringParametersDto>);
+		if (isAnimeFilteringParametersDto(params)) {
+			return AnimeFilteringParametersMapper.fromDto(params);
+		}
+		throw new Error('Invalid query parameters');
 	};
 
 	const setQueryParameters = (animeQueryParameters: Partial<AnimeFilteringParameters>) => {
