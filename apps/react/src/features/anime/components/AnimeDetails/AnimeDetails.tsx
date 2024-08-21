@@ -11,7 +11,11 @@ const AnimeDetailsComponent: FC = () => {
 
 	return (
 		<div>
-			<Typography variant="h5" component="h5" gutterBottom>
+			<Typography
+				variant="h5"
+				component="h5"
+				gutterBottom
+			>
 				{ `Anime № ${animeId}` }
 			</Typography>
 			<Typography paragraph>

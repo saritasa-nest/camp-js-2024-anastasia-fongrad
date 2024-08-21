@@ -35,7 +35,10 @@ const AnimeFilterComponent: FC<Props> = ({ animeType, handleFiltersChange, anime
 			renderValue={selected => selected.join(', ')}
 		>
 			{animeTypes.map(type => (
-				<MenuItem key={type} value={type}>
+				<MenuItem
+					key={type}
+					value={type}
+				>
 					<Checkbox checked={animeType.includes(type)} />
 					<ListItemText primary={type} />
 				</MenuItem>

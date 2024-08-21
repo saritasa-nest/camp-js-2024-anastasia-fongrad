@@ -10,6 +10,6 @@ export const fetchAnime = createAsyncThunk(
 
 /** Async thunk action for fetching the next anime page. */
 export const fetchAnimeNext = createAsyncThunk(
-	'anime/fetch',
+	'anime/next',
 	(nextUrl: string) => AnimeService.fetchAnimeByUrl(nextUrl),
 );

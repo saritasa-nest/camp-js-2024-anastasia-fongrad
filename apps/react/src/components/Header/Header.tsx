@@ -88,9 +88,17 @@ const HeaderComponent: FC = () => {
 					</IconButton>
 				</div>
 				<Divider />
-				<NavigationList items={mainRoutes} currentPage={currentPage} onClick={handleNavigation}/>
+				<NavigationList
+					items={mainRoutes}
+					currentPage={currentPage}
+					onClick={handleNavigation}
+				/>
 				<Divider />
-				<NavigationList items={loginRoutes} currentPage={currentPage} onClick={handleNavigation}/>
+				<NavigationList
+					items={loginRoutes}
+					currentPage={currentPage}
+					onClick={handleNavigation}
+				/>
 			</Drawer>
 		</>
 	);

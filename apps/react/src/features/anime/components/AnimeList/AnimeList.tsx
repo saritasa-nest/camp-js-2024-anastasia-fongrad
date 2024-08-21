@@ -60,6 +60,7 @@ const AnimeListComponent: FC = () => {
 				{anime.map((animeItem, index) => {
 					if (anime.length === index + 1) {
 						return <AnimeListItem
+							key={animeItem.id}
 							ref={lastGenreElementRef}
 							anime={animeItem}
 							onClick={() => handleGenreClick(animeItem.id)}
@@ -67,6 +68,7 @@ const AnimeListComponent: FC = () => {
 						/>;
 					}
 					return <AnimeListItem
+						key={animeItem.id}
 						anime={animeItem}
 						onClick={() => handleGenreClick(animeItem.id)}
 						selected={animeItem.id === selectedGenreId}
