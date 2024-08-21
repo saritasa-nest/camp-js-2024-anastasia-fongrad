@@ -23,9 +23,9 @@ const AnimeFiltersComponent: FC = () => {
 
 	const [animeType, setAnimeType] = useState<AnimeType[]>(initialQueryParameters.animeTypes ?? []);
 	const [searchQuery, setSearchQuery] = useState(initialQueryParameters.searchQuery ?? '');
-	const [sortTitleOrder, setSortTitleOrder] =
+	const [sortTitleDirection, setSortTitleDirection] =
 		useState(initialQueryParameters?.animeMultiSort?.animeTitleDirection ?? AnimeSortDirections.Empty);
-	const [sortStatusOrder, setSortStatusOrder] =
+	const [sortStatusDirection, setSortStatusDirection] =
 		useState(initialQueryParameters?.animeMultiSort?.animeStatusDirection ?? AnimeSortDirections.Empty);
 
 	const animeTypes = Object.values(AnimeType);
@@ -35,8 +35,8 @@ const AnimeFiltersComponent: FC = () => {
 	const memoizedSetQueryParameters = useCallback(
 		setQueryParameters,
 		[
-			sortStatusOrder,
-			sortTitleOrder,
+			sortStatusDirection,
+			sortTitleDirection,
 			animeType,
 			searchQuery,
 		],
@@ -54,12 +54,12 @@ const AnimeFiltersComponent: FC = () => {
 	};
 
 	const sortItemsByTitle = useCallback(() => {
-		setSortTitleOrder(getNext(sortTitleOrder));
-	}, []);
+		setSortTitleDirection(getNext(sortTitleDirection));
+	}, [sortTitleDirection]);
 
 	const sortItemsByStatus = useCallback(() => {
-		setSortStatusOrder(getNext(sortStatusOrder));
-	}, []);
+		setSortStatusDirection(getNext(sortStatusDirection));
+	}, [sortStatusDirection]);
 
 	const handleMultiChange = useCallback((event: SelectChangeEvent<AnimeType[]>) => {
 		const { target: { value } } = event;
@@ -73,8 +73,8 @@ const AnimeFiltersComponent: FC = () => {
 
 	useEffect(() => {
 		const animeMultiSort: AnimeMultiSortParameter = {
-			animeTitleDirection: sortTitleOrder,
-			animeStatusDirection: sortStatusOrder,
+			animeTitleDirection: sortTitleDirection,
+			animeStatusDirection: sortStatusDirection,
 		};
 		const queryParameters: Partial<AnimeFilteringParameters> = {
 			animeMultiSort,
@@ -83,8 +83,8 @@ const AnimeFiltersComponent: FC = () => {
 		};
 		memoizedSetQueryParameters(queryParameters);
 	}, [
-		sortTitleOrder,
-		sortStatusOrder,
+		sortTitleDirection,
+		sortStatusDirection,
 		animeType,
 		searchQuery,
 		memoizedSetQueryParameters,
@@ -118,12 +118,12 @@ const AnimeFiltersComponent: FC = () => {
 				<div className={styles.filters__sort}>
 					<SortButton
 						title='Sort by Title'
-						sortDirection={sortTitleOrder}
+						sortDirection={sortTitleDirection}
 						sortItems={sortItemsByTitle}
 					/>
 					<SortButton
 						title='Sort by Status'
-						sortDirection={sortStatusOrder}
+						sortDirection={sortStatusDirection}
 						sortItems={sortItemsByStatus}
 					/>
 				</div>

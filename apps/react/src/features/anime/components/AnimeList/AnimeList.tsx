@@ -12,13 +12,7 @@ import { AnimeFilters } from '../AnimeFilters';
 
 import styles from './AnimeList.module.css';
 
-type Props = {
-
-	/** Handles displaying genre details on click. */
-	onGenreClick: (id: number) => void;
-};
-
-const AnimeListComponent: FC<Props> = ({ onGenreClick }: Props) => {
+const AnimeListComponent: FC = () => {
 	const { genreId } = useParams<{ genreId: string; }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const isLoading = useAppSelector(selectAreAnimeLoading);
@@ -30,7 +24,6 @@ const AnimeListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 
 	const handleGenreClick = useCallback((id: number) => {
 		setSelectedGenreId(id);
-		onGenreClick(id);
 	}, []);
 
 	const lastGenreElementRef = useCallback((node: HTMLLIElement | null) => {
