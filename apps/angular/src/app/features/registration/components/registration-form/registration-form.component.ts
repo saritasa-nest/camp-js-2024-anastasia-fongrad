@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { tap, catchError, debounceTime, switchMap, EMPTY } from 'rxjs';
+import { catchError, debounceTime, EMPTY } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
@@ -61,9 +61,7 @@ export class RegistrationFormComponent implements OnInit {
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe(() => {
-				if (this.registrationForm) {
-					this.registrationForm.updateValueAndValidity();
-				}
+				this.registrationForm.updateValueAndValidity({ emitEvent: false });
 			});
 	}
 
@@ -74,13 +72,12 @@ export class RegistrationFormComponent implements OnInit {
 		}
 		const formData = this.registrationForm.getRawValue();
 		this.registrationService.register(formData).pipe(
-			catchError((error: unknown) => this.formValidationService.parseError(error).pipe(
-				tap(errors => {
-					this.formValidationService.setFormErrors(this.registrationForm, errors);
-					this.changeDetectorRef.markForCheck();
-				}),
-				switchMap(() => EMPTY),
-			)),
+			catchError((error: unknown) => {
+				const errors = this.formValidationService.parseError(error);
+				this.formValidationService.setFormErrors(this.registrationForm, errors);
+				this.changeDetectorRef.markForCheck();
+				return EMPTY;
+			}),
 			takeUntilDestroyed(this.destroyRef),
 		)
 			.subscribe(() => this.registrationSuccess.emit());
