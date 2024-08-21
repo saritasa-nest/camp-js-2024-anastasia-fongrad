@@ -101,4 +101,12 @@ export class AnimeDetailsComponent {
 			this.openImageDialog(imageUrl, titleJapanese);
 		}
 	}
+
+	/**
+	 * 1.
+	 * @param id 1.
+	 */
+	protected getAnimeEditPath(id: number): string {
+		return `/edit/${id}`;
+	}
 }

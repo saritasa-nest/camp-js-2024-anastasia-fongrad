@@ -13,8 +13,9 @@ import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
 import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
 import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
+import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 
-import { AnimeDetailsForm } from './anime-form.model';
+import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 
 /** 1. */
 @Component({
@@ -58,10 +59,25 @@ export class AnimeDetailsFormComponent {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	public constructor() {
-		this.animeDetailsForm = this.initializeFiltersForm();
+		this.animeDetailsForm = this.initializeAnimeDetailsForm();
 	}
 
-	private initializeFiltersForm(): FormGroup<AnimeDetailsForm> {
-		return AnimeDetailsForm.initialize(this.formBuilder);
+	private initializeAnimeDetailsForm(): FormGroup<AnimeDetailsForm> {
+		const formParams: AnimeDetailsFormParams = {
+			formBuilder: this.formBuilder,
+			trailerUrlInitialValue: '',
+			titleEnglishInitialValue: '',
+			titleJapaneseInitialValue: '',
+			typesInitialValue: DEFAULT_TYPE,
+			statusInitialValue: DEFAULT_STATUS,
+			ratingInitialValue: DEFAULT_RATING,
+			sourceInitialValue: DEFAULT_SOURCE,
+			seasonInitialValue: DEFAULT_SEASON,
+			synopsisInitialValue: '',
+			airingStatusInitialValue: false,
+			airingStartInitialValue: '',
+			airingEndInitialValue: '',
+		};
+		return AnimeDetailsForm.initialize(formParams);
 	}
 }

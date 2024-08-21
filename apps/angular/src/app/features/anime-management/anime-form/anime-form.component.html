@@ -70,26 +70,37 @@
 	</div>
 	<div class="airing">
 		<div class="airing__toggle">
-			<mat-button-toggle-group class="main__toggle" name="fontStyle" aria-label="Font Style">
-				<mat-button-toggle value="bold">Airing</mat-button-toggle>
-				<mat-button-toggle value="underline">Not airing</mat-button-toggle>
+			<mat-button-toggle-group
+				class="main__toggle"
+				name="fontStyle"
+				aria-label="Font Style"
+				formControlName="airingStatus"
+			>
+				<mat-button-toggle [value]="true">Airing</mat-button-toggle>
+				<mat-button-toggle [value]="false">Not airing</mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
 
 		<mat-form-field>
 			<mat-label>Start Airing Date</mat-label>
-			<input matInput [matDatepicker]="picker">
+			<input matInput
+				[matDatepicker]="startPicker"
+				formControlName="airingStartDate"
+			>
 			<mat-hint>MM/DD/YYYY</mat-hint>
-			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-			<mat-datepicker #picker></mat-datepicker>
+			<mat-datepicker-toggle matIconSuffix [for]="startPicker"/>
+			<mat-datepicker #startPicker></mat-datepicker>
 		</mat-form-field>
 
 		<mat-form-field>
 			<mat-label>End Airing Date</mat-label>
-			<input matInput [matDatepicker]="picker">
+			<input matInput
+				[matDatepicker]="endPicker"
+				formControlName="airingEndDate"
+			>
 			<mat-hint>MM/DD/YYYY</mat-hint>
-			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-			<mat-datepicker #picker></mat-datepicker>
+			<mat-datepicker-toggle matIconSuffix [for]="endPicker"/>
+			<mat-datepicker #endPicker></mat-datepicker>
 		</mat-form-field>
 	</div>
 </form>

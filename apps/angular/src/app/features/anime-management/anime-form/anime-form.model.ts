@@ -2,7 +2,6 @@ import { FormControl, NonNullableFormBuilder, FormGroup, Validators } from '@ang
 import { AnimeType } from '@js-camp/core/models/enums/anime-type.enum';
 import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
 import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
-import { DEFAULT_STATUS, DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
 import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 
@@ -62,35 +61,80 @@ export type AnimeDetailsFormParams = {
 	readonly titleJapaneseInitialValue: string;
 
 	/** Initial value for types form control. */
-	readonly typesInitialValue: AnimeType[];
+	readonly typesInitialValue: AnimeType;
 
 	/** Initial value for search form control. */
-	readonly statusInitialValue: AnimeStatus[];
+	readonly statusInitialValue: AnimeStatus;
 
 	/** 1. */
-	readonly ratingInitialValue: AnimeRating[];
+	readonly ratingInitialValue: AnimeRating;
+
+	/** 1. */
+	readonly sourceInitialValue: AnimeSource;
+
+	/** 1. */
+	readonly seasonInitialValue: AnimeSeason;
+
+	/** 1. */
+	readonly synopsisInitialValue: string;
+
+	/** 1. */
+	readonly airingStatusInitialValue: boolean;
+
+	/** 1. */
+	readonly airingStartInitialValue: string;
+
+	/** 1. */
+	readonly airingEndInitialValue: string;
 };
 
 export namespace AnimeDetailsForm {
 
 	/**
 	 * Initializes a login form using FormBuilder.
-	 * @param formBuilder Form builder object.
+	 * @param animeDetailsParams Form builder object.
 	 */
-	export function initialize(formBuilder: NonNullableFormBuilder): FormGroup<AnimeDetailsForm> {
-		return formBuilder.group({
-			trailerUrl: formBuilder.control('', [Validators.required]),
-			titleEnglish: formBuilder.control('', [Validators.required]),
-			titleJapanese: formBuilder.control('', [Validators.required]),
-			type: formBuilder.control(DEFAULT_TYPE, [Validators.required]),
-			status: formBuilder.control(DEFAULT_STATUS, [Validators.required]),
-			rating: formBuilder.control(DEFAULT_RATING, [Validators.required]),
-			season: formBuilder.control(DEFAULT_SEASON, [Validators.required]),
-			source: formBuilder.control(DEFAULT_SOURCE, [Validators.required]),
-			synopsis: formBuilder.control(''),
-			airingStatus: formBuilder.control(false, [Validators.required]),
-			airingStartDate: formBuilder.control(''),
-			airingEndDate: formBuilder.control(''),
+	export function initialize(animeDetailsParams: AnimeDetailsFormParams): FormGroup<AnimeDetailsForm> {
+		return animeDetailsParams.formBuilder.group({
+			trailerUrl: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.trailerUrlInitialValue,
+				[Validators.required],
+			),
+			titleEnglish: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.titleEnglishInitialValue,
+				[Validators.required],
+			),
+			titleJapanese: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.titleJapaneseInitialValue,
+				[Validators.required],
+			),
+			type: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.typesInitialValue,
+				[Validators.required],
+			),
+			status: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.statusInitialValue,
+				[Validators.required],
+			),
+			rating: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.ratingInitialValue,
+				[Validators.required],
+			),
+			season: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.seasonInitialValue,
+				[Validators.required],
+			),
+			source: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.sourceInitialValue,
+				[Validators.required],
+			),
+			synopsis: animeDetailsParams.formBuilder.control(animeDetailsParams.synopsisInitialValue),
+			airingStatus: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.airingStatusInitialValue,
+				[Validators.required],
+			),
+			airingStartDate: animeDetailsParams.formBuilder.control(animeDetailsParams.airingStartInitialValue),
+			airingEndDate: animeDetailsParams.formBuilder.control(animeDetailsParams.airingEndInitialValue),
 		});
 	}
 }

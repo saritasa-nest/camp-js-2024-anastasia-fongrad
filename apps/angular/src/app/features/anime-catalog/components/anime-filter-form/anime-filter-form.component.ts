@@ -3,8 +3,6 @@ import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
 import { DEFAULT_SEARCH_QUERY, DEFAULT_TYPES } from '@js-camp/core/utils/anime-constants';
@@ -24,8 +22,6 @@ import { AnimeFilterForm } from './anime-filter-form.model';
 		MatFormFieldModule,
 		MatSelectModule,
 		MatInputModule,
-		MatButtonModule,
-		MatIconModule,
 		CommonModule,
 		ReactiveFormsModule,
 	],

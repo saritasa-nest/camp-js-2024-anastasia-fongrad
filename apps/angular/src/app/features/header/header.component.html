@@ -6,6 +6,7 @@
 				<span>Anime Catalog App</span>
 			</a>
 			<a [routerLink]="[getFullRoute(appRoutes.Home)]">Catalog</a>
+			<a [routerLink]="[getFullRoute(appRoutes.CreateForm)]">Create Anime</a>
 			@if (userProfile$ | async; as userProfile) {
 				<div class="header__user user">
 					<div class="user__profile" >

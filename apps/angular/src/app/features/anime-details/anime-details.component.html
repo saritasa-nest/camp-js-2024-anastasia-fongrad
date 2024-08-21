@@ -35,6 +35,13 @@
 									<p>{{ animeDetails.airingDates.start | date | empty }} - {{ animeDetails.airingDates.end | date | empty }}</p>
 								</div>
 							}
+							<a mat-fab extended
+								class='anime-details__edit'
+								routerLink={{getAnimeEditPath(animeDetails.id)}}
+							>
+								<mat-icon>edit</mat-icon>
+								Edit
+							</a>
 							@if (animeDetails.studios.length !== 0) {
 								Production:
 								<mat-list>

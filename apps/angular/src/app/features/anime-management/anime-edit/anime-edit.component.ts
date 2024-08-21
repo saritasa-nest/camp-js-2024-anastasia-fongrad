@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
-import { RouterModule } from '@angular/router';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { Observable, switchMap, of } from 'rxjs';
+import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { AnimeDetailsFormComponent } from '../anime-form/anime-form.component';
 
@@ -17,4 +20,23 @@ import { AnimeDetailsFormComponent } from '../anime-form/anime-form.component';
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeEditComponent {}
+export class AnimeEditComponent {
+	/** 1. */
+	protected readonly animeDetails$: Observable<AnimeDetails | null>;
+
+	private readonly route = inject(ActivatedRoute);
+
+	private readonly animeService = inject(AnimeService);
+
+	public constructor() {
+		this.animeDetails$ = this.route.paramMap.pipe(
+			switchMap(params => {
+				const id = params.get('id');
+				if (id !== null) {
+					return this.animeService.getById(Number(id));
+				}
+				return of(null);
+			}),
+		);
+	}
+}
