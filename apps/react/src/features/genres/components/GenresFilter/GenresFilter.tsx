@@ -1,4 +1,4 @@
-import { memo, FC, useState, ChangeEvent } from "react";
+import { memo, FC, useState, ChangeEvent, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import InputBase from "@mui/material/InputBase";
 import IconButton from "@mui/material/IconButton";
@@ -11,16 +11,7 @@ import useQueryParams from "../../hooks/useQueryParams";
 const GenresFilterComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams();
 	const searchParams = getQueryParamByKey("search");
-	const [queryParamsValue, setQueryParamsValue] = useState('');
-
-	/**
-	 * Handle query params.
-	 * @param value Query params value.
-	 */
-	function handleQueryParams(): void {
-		const searchValue = queryParamsValue.length > 0 ? queryParamsValue : null;
-		setQueryParams({ search: searchValue });
-	}
+	const [queryParamsValue, setQueryParamsValue] = useState(searchParams || "");
 
 	/**
 	 * Handle query params value.
@@ -28,9 +19,15 @@ const GenresFilterComponent: FC = () => {
 	 */
 	function handleQueryParamsValue(event: ChangeEvent<HTMLInputElement>): void {
 		event.preventDefault();
-		handleQueryParams();
-		setQueryParamsValue(event.target.value)
+		setQueryParamsValue(event.target.value);
 	}
+
+	// Update the query params whenever the input value changes
+	useEffect(() => {
+		const searchValue = queryParamsValue.length > 0 ? queryParamsValue : null;
+		setQueryParams({ search: searchValue });
+	}, [queryParamsValue]);
+
 	return (
 		<Box className={styles.filters}>
 			<Typography variant="h5" component="h5" gutterBottom>

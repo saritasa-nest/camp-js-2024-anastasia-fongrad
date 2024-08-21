@@ -1,29 +1,28 @@
-import { memo, FC, useState, useCallback, useRef, useEffect } from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
+import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useParams, useSearchParams } from "react-router-dom";
 
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
 
 import {
 	selectAreGenresLoading,
 	selectGenres,
 	selectGenresError,
 	selectGenresHasNext,
-} from '@js-camp/react/store/genre/selectors';
+} from "@js-camp/react/store/genre/selectors";
 
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
 
-import { getQueryParams } from '@js-camp/react/utils/getQueryParams';
+import { getQueryParams } from "@js-camp/react/utils/getQueryParams";
 
-import { GenreListItem } from '../GenreListItem';
-import { GenreSearch } from '../GenreSearch';
-import { GenresFilter } from '../GenresFilter';
+import { GenreListItem } from "../GenreListItem";
+import { GenreSearch } from "../GenreSearch";
+import { GenresFilter } from "../GenresFilter";
 
-import styles from './GenreList.module.css';
+import styles from "./GenreList.module.css";
 
 type Props = {
-
 	/** An array of anime genres. */
 	// readonly genres: readonly AnimeGenre[];
 
@@ -32,7 +31,7 @@ type Props = {
 };
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
-	const { genreId } = useParams<{ genreId: string; }>();
+	const { genreId } = useParams<{ genreId: string }>();
 	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
@@ -40,14 +39,13 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
-	const [hasNext, setHasNext] = useState<string | null>(null);
 	const wrapperElementRef = useRef<HTMLElement>(null);
 	const observer = useRef<IntersectionObserver>();
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
 			if (node) {
-				observer.current = new IntersectionObserver(entries => {
+				observer.current = new IntersectionObserver((entries) => {
 					if (entries[0].isIntersecting && hasMore) {
 						dispatchGenres(hasMore);
 						observer.current?.disconnect();
@@ -57,14 +55,14 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 				observer.current.observe(node);
 			}
 		},
-		[hasMore],
+		[hasMore]
 	);
 	const handleGenreClick = useCallback(
 		(id: number) => {
 			setSelectedGenreId(id);
 			onGenreClick(id);
 		},
-		[onGenreClick],
+		[onGenreClick]
 	);
 	const { search, sort, filter } = getQueryParams(searchParams);
 
@@ -76,21 +74,21 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 					sort,
 					filter,
 					cursor: next,
-				}),
+				})
 			),
-		[search, sort, filter],
+		[search, sort, filter]
 	);
 
 	useEffect(() => {
-		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
-		dispatchGenres(hasMore);
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
+		dispatchGenres();
 	}, [searchParams]);
 
 	return (
-		<Box className={styles['genre-list']}>
+		<Box className={styles["genre-list"]}>
 			<GenreSearch />
 			<GenresFilter />
-			<List className={styles['genre-list__items']} ref={wrapperElementRef}>
+			<List className={styles["genre-list__items"]} ref={wrapperElementRef}>
 				<ListItem disablePadding>
 					<ListItemButton>
 						<IconButton edge="start" color="inherit" aria-label="add">
