@@ -1,4 +1,4 @@
-import { inject, Component, ChangeDetectionStrategy } from '@angular/core';
+import { inject, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
 import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
 import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
+import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 
 import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
@@ -36,10 +37,14 @@ import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeDetailsFormComponent {
+export class AnimeDetailsFormComponent implements OnChanges {
+
+	/** 1. */
+	@Input()
+	public animeDetails?: AnimeDetails;
 
 	/** Reactive anime filter form. */
-	protected readonly animeDetailsForm: FormGroup<AnimeDetailsForm>;
+	protected animeDetailsForm: FormGroup<AnimeDetailsForm>;
 
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes = Object.values(AnimeType);
@@ -60,6 +65,31 @@ export class AnimeDetailsFormComponent {
 
 	public constructor() {
 		this.animeDetailsForm = this.initializeAnimeDetailsForm();
+	}
+
+	/**
+	 * 1.
+	 * @param changes 1.
+	 */
+	public ngOnChanges(changes: SimpleChanges): void {
+		if (changes['animeDetails'] && this.animeDetails) {
+			const startDate = this.animeDetails.airingDates.start?.toISOString().split('T')[0];
+			const endDate = this.animeDetails.airingDates.end?.toISOString().split('T')[0];
+			this.animeDetailsForm.patchValue({
+				trailerUrl: this.animeDetails.trailerUrl,
+				titleEnglish: this.animeDetails.titleEnglish,
+				titleJapanese: this.animeDetails.titleJapanese,
+				type: this.animeDetails.type,
+				status: this.animeDetails.status,
+				rating: this.animeDetails.rating,
+				source: this.animeDetails.source,
+				season: this.animeDetails.season,
+				synopsis: this.animeDetails.synopsis,
+				airingStatus: this.animeDetails.airingStatus === 'on air',
+				airingStartDate: startDate ?? '',
+				airingEndDate: endDate ?? '',
+			});
+		}
 	}
 
 	private initializeAnimeDetailsForm(): FormGroup<AnimeDetailsForm> {

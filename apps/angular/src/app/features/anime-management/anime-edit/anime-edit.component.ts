@@ -4,6 +4,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { Observable, switchMap, of } from 'rxjs';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { CommonModule } from '@angular/common';
 
 import { AnimeDetailsFormComponent } from '../anime-form/anime-form.component';
 
@@ -17,6 +18,7 @@ import { AnimeDetailsFormComponent } from '../anime-form/anime-form.component';
 		HeaderComponent,
 		AnimeDetailsFormComponent,
 		RouterModule,
+		CommonModule,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
