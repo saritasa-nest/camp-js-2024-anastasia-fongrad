@@ -30,6 +30,7 @@
 .form__genres {
   display: flex;
   align-items: center;
+  gap: var(--space-5);
 }
 
 .form__chip-list {

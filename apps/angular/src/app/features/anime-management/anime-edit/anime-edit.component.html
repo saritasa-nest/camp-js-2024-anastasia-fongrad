@@ -3,12 +3,20 @@
 	<section class="main__auth auth">
 		<div class="auth__container container">
 			@if(animeDetails$ | async; as animeDetails) {
-				<div class="auth__content">
-					<div class="auth__login-group">
-						<h1 class="auth__header">Edit Anime</h1>
-						<camp-anime-form [animeDetails]='animeDetails'/>
-					</div>
-				</div>
+				@if(animeGenres$ | async; as animeGenres) {
+					@if(animeStudios$ | async; as animeStudios) {
+						<div class="auth__content">
+							<div class="auth__login-group">
+								<h1 class="auth__header">Edit Anime</h1>
+								<camp-anime-form
+									[animeDetails]='animeDetails'
+									[animeGenres]='animeGenres'
+									[animeStudios]='animeStudios'
+								/>
+							</div>
+						</div>
+					}
+				}
 			}
 		</div>
 	</section>

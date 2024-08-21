@@ -110,7 +110,7 @@
 				<mat-label>Favorite Fruits</mat-label>
 				<mat-chip-grid #chipGrid aria-label="Fruit selection">
 					@for (fruit of fruits(); track $index) {
-						<mat-chip-row (removed)="remove(fruit)">
+						<mat-chip-row (removed)="removeFruit(fruit)">
 							{{fruit}}
 							<button type="button" matChipRemove [attr.aria-label]="'remove ' + fruit">
 								<mat-icon>cancel</mat-icon>
@@ -125,9 +125,9 @@
 					[matChipInputFor]="chipGrid"
 					[matAutocomplete]="auto"
 					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-					(matChipInputTokenEnd)="add($event)"
+					(matChipInputTokenEnd)="addFruit($event)"
 				/>
-				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
 					@for (fruit of filteredFruits(); track fruit) {
 						<mat-option [value]="fruit">{{fruit}}</mat-option>
 					}
@@ -139,6 +139,43 @@
 				<mat-icon>edit</mat-icon>
 				Add Genre
 			</a>
+		</div>
+		<div class="form__studios">
+			<mat-form-field class="form__chip-list">
+				<mat-label>Favorite Studios</mat-label>
+				<mat-chip-grid #chipGridNew aria-label="Studio selection">
+					@for (studio of selectedStudios; track $index) {
+						<mat-chip-row (removed)="removeStudio(studio)">
+							@if (studio.imageUrl) {
+								<img matChipAvatar [src]="studio.imageUrl" alt="{{studio.name}}">
+							}
+							{{studio.name}}
+							<button type="button" matChipRemove [attr.aria-label]="'remove ' + studio.name">
+								<mat-icon>cancel</mat-icon>
+							</button>
+						</mat-chip-row>
+					}
+				</mat-chip-grid>
+				<input
+					name="currentStudio"
+					placeholder="New Studio..."
+					#studioInput
+					[matChipInputFor]="chipGridNew"
+					[matAutocomplete]="autoNew"
+					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+					(matChipInputTokenEnd)="addStudio($event)"
+				/>
+				<mat-autocomplete #autoNew="matAutocomplete" (optionSelected)="selectedStudio($event)">
+					@for (studio of filteredStudios$ | async; track $index) {
+						<mat-option [value]="studio.name">
+							@if (studio.imageUrl) {
+								<img [src]="studio.imageUrl" [alt]="studio.name" width="24" height="24">
+							}
+							{{studio.name}}
+						</mat-option>
+					}
+				</mat-autocomplete>
+			</mat-form-field>
 		</div>
 	</div>
 	<button class="form__submit" mat-raised-button type="submit">Add Anime</button>

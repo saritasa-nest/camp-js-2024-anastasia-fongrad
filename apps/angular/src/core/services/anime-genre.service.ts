@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -20,16 +20,26 @@ export class AnimeGenreService {
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
-	/**
-	 * Gets paginated anime data from the server.
-	 * @param parameters Query parameters for the request.
-	 */
-	public getAll(): Observable<Pagination<AnimeGenre>> {
+	/** 1. */
+	public getPaginated(): Observable<Pagination<AnimeGenre>> {
 		const url = this.appUrlConfig.paths.genresList;
 		const result$ = this.http.get<PaginationDto<AnimeGenreDto>>(url);
 		return result$.pipe(
 			map((response: PaginationDto<AnimeGenreDto>) =>
 				PaginationMapper.fromDto<AnimeGenreDto, AnimeGenre>(response, AnimeGenreMapper.fromDto)),
+		);
+	}
+
+	/** 1. */
+	public getAll(): Observable<AnimeGenre[]> {
+		return this.getPaginated().pipe(
+			switchMap((pagination: Pagination<AnimeGenre>) => {
+				const url = `${this.appUrlConfig.paths.genresList}?limit=${pagination.totalCount}`;
+				return this.http.get<PaginationDto<AnimeGenreDto>>(url).pipe(
+					map((response: PaginationDto<AnimeGenreDto>) =>
+						response.results.map(AnimeGenreMapper.fromDto)),
+				);
+			}),
 		);
 	}
 

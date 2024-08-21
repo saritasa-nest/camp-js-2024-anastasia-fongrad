@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
@@ -24,12 +24,25 @@ export class AnimeStudioService {
 	 * Gets paginated anime data from the server.
 	 * @param parameters Query parameters for the request.
 	 */
-	public getAll(): Observable<Pagination<AnimeStudio>> {
+	public getPaginated(): Observable<Pagination<AnimeStudio>> {
 		const url = this.appUrlConfig.paths.studiosList;
 		const result$ = this.http.get<PaginationDto<AnimeStudioDto>>(url);
 		return result$.pipe(
 			map((response: PaginationDto<AnimeStudioDto>) =>
 				PaginationMapper.fromDto<AnimeStudioDto, AnimeStudio>(response, AnimeStudioMapper.fromDto)),
+		);
+	}
+
+	/** 1. */
+	public getAll(): Observable<AnimeStudio[]> {
+		return this.getPaginated().pipe(
+			switchMap((pagination: Pagination<AnimeStudio>) => {
+				const url = `${this.appUrlConfig.paths.studiosList}?limit=${pagination.totalCount}`;
+				return this.http.get<PaginationDto<AnimeStudioDto>>(url).pipe(
+					map((response: PaginationDto<AnimeStudioDto>) =>
+						response.results.map(AnimeStudioMapper.fromDto)),
+				);
+			}),
 		);
 	}
 

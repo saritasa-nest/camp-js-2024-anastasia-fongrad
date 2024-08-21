@@ -1,7 +1,7 @@
-import { inject, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, model, signal, computed, Signal } from '@angular/core';
+import { inject, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder, FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,11 +15,14 @@ import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
 import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
 import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
+import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Observable, map, startWith } from 'rxjs';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 
 import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
@@ -53,6 +56,14 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	@Input()
 	public animeDetails?: AnimeDetails;
 
+	/** 1. */
+	@Input()
+	public animeStudios?: AnimeStudio[];
+
+	/** 1. */
+	@Input()
+	public animeGenres?: AnimeGenre[];
+
 	/** Reactive anime filter form. */
 	protected animeDetailsForm: FormGroup<AnimeDetailsForm>;
 
@@ -72,30 +83,40 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	protected readonly selectSources = Object.values(AnimeSource);
 
 	/** 1. */
-	protected separatorKeysCodes: number[] = [ENTER, COMMA];
+	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly announcer = inject(LiveAnnouncer);
 
 	/** 1. */
-	protected readonly fruits = signal(['Lemon']);
+	protected readonly filteredStudios$: Observable<AnimeStudio[]>;
 
 	/** 1. */
-	protected readonly allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+	protected readonly filteredGenres$: Observable<AnimeGenre[]>;
 
 	/** 1. */
-	protected readonly currentFruit = model('');
+	protected readonly selectedStudios: AnimeStudio[] = [];
 
 	/** 1. */
-	protected readonly filteredFruits: Signal<string[]>;
+	protected readonly selectedGenres: AnimeGenre[] = [];
+
+	/** 1. */
+	protected readonly studioCtrl = new FormControl();
+
+	/** 1. */
+	protected readonly genreCtrl = new FormControl();
 
 	public constructor() {
 		this.animeDetailsForm = this.initializeAnimeDetailsForm();
-		this.filteredFruits = computed(() => {
-			const currentFruit = this.currentFruit().toLowerCase();
-			return currentFruit ? this.allFruits.filter(fruit => fruit.toLowerCase().includes(currentFruit)) : this.allFruits.slice();
-		});
+		this.filteredGenres$ = this.genreCtrl.valueChanges.pipe(
+			startWith(''),
+			map((genre: string | null) => genre ? this.filterGenre(genre) : (this.animeGenres?.slice() ?? [])),
+		);
+		this.filteredStudios$ = this.studioCtrl.valueChanges.pipe(
+			startWith(''),
+			map((studio: string | null) => studio ? this.filterStudio(studio) : (this.animeStudios?.slice() ?? [])),
+		);
 	}
 
 	/**
@@ -146,37 +167,91 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	 * 1.
 	 * @param event 1.
 	 */
-	protected add(event: MatChipInputEvent): void {
+	protected addStudio(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
 		if (value) {
-			this.fruits.update(fruits => [...fruits, value]);
+			const existingStudio = this.animeStudios?.find(studio => studio.name.toLowerCase() === value.toLowerCase());
+			if (existingStudio && !this.selectedStudios.some(studio => studio.id === existingStudio.id)) {
+				this.selectedStudios.push(existingStudio);
+			}
 		}
-		this.currentFruit.set('');
+		event.chipInput?.clear();
+		this.studioCtrl.setValue(null);
 	}
 
 	/**
 	 * 1.
-	 * @param fruit 1.
+	 * @param studio 1.
 	 */
-	protected remove(fruit: string): void {
-		this.fruits.update(fruits => {
-			const index = fruits.indexOf(fruit);
-			if (index < 0) {
-				return fruits;
-			}
-			fruits.splice(index, 1);
-			this.announcer.announce(`Removed ${fruit}`);
-			return [...fruits];
-		});
+	protected removeStudio(studio: AnimeStudio): void {
+		const index = this.selectedStudios.indexOf(studio);
+		if (index >= 0) {
+			this.selectedStudios.splice(index, 1);
+			this.announcer.announce(`Removed ${studio.name}`);
+		}
 	}
 
 	/**
 	 * 1.
 	 * @param event 1.
 	 */
-	protected selected(event: MatAutocompleteSelectedEvent): void {
-		this.fruits.update(fruits => [...fruits, event.option.viewValue]);
-		this.currentFruit.set('');
-		event.option.deselect();
+	protected selectedStudio(event: MatAutocompleteSelectedEvent): void {
+		const value = event.option.viewValue;
+		const existingStudio = this.animeStudios?.find(studio => studio.name.toLowerCase() === value.toLowerCase());
+		if (existingStudio && !this.selectedStudios.some(studio => studio.id === existingStudio.id)) {
+			this.selectedStudios.push(existingStudio);
+		}
+		this.studioCtrl.setValue(null);
+	}
+
+	private filterStudio(value: string): AnimeStudio[] {
+		const filterValue = value.toLowerCase();
+		return this.animeStudios?.filter(studio => studio.name.toLowerCase().includes(filterValue)) ?? [];
+	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	protected addGenre(event: MatChipInputEvent): void {
+		const value = (event.value || '').trim();
+		if (value) {
+			const existingGenre = this.animeGenres?.find(genre => genre.name.toLowerCase() === value.toLowerCase());
+			if (existingGenre && !this.selectedStudios.some(genre => genre.id === existingGenre.id)) {
+				this.selectedGenres.push(existingGenre);
+			}
+		}
+		event.chipInput?.clear();
+		this.studioCtrl.setValue(null);
+	}
+
+	/**
+	 * 1.
+	 * @param genre 1.
+	 */
+	protected removeGenre(genre: AnimeGenre): void {
+		const index = this.selectedGenres.indexOf(genre);
+		if (index >= 0) {
+			this.selectedStudios.splice(index, 1);
+			this.announcer.announce(`Removed ${genre.name}`);
+		}
+	}
+
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	protected selectedGenre(event: MatAutocompleteSelectedEvent): void {
+		const value = event.option.viewValue;
+		const existingGenre = this.animeGenres?.find(genre => genre.name.toLowerCase() === value.toLowerCase());
+		if (existingGenre && !this.selectedGenres.some(genre => genre.id === existingGenre.id)) {
+			this.selectedGenres.push(existingGenre);
+		}
+		this.studioCtrl.setValue(null);
+	}
+
+	private filterGenre(value: string): AnimeGenre[] {
+		const filterValue = value.toLowerCase();
+		return this.animeGenres?.filter(genre => genre.name.toLowerCase().includes(filterValue)) ?? [];
 	}
 }
