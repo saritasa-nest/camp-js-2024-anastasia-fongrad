@@ -7,13 +7,18 @@ import { initialState } from './state';
 export const studiosSlice = createSlice({
 	name: 'studios',
 	initialState,
-	reducers: {},
+	reducers: {
+		incrementPageNumber(state) {
+			state.pageNumber += 1;
+		},
+	},
 	extraReducers: builder => builder
 		.addCase(fetchStudios.pending, state => {
 			state.isLoading = true;
 		})
 		.addCase(fetchStudios.fulfilled, (state, action) => {
-			state.studios = action.payload;
+			const previousStudios = state.studios;
+			state.studios = [...previousStudios, ...action.payload];
 			state.isLoading = false;
 		})
 		.addCase(fetchStudios.rejected, (state, action) => {
@@ -23,3 +28,6 @@ export const studiosSlice = createSlice({
 			state.isLoading = false;
 		}),
 });
+
+/** Studios slice actions. */
+export const { incrementPageNumber } = studiosSlice.actions;

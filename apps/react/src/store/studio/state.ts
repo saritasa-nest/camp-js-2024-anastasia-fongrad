@@ -11,10 +11,14 @@ export type StudiosState = {
 
 	/** Whether the studios are loading or not. */
 	readonly isLoading: boolean;
+
+	/** Number of current page. */
+	readonly pageNumber: number;
 };
 
 /** Initial state for the studios slice of the Redux store. */
 export const initialState: StudiosState = {
 	isLoading: false,
+	pageNumber: 0,
 	studios: [],
 };

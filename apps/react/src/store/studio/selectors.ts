@@ -13,3 +13,9 @@ export const selectAreStudiosLoading = createSelector(
 	(state: RootState) => state.studios.isLoading,
 	isLoading => isLoading,
 );
+
+/** Selects studios page number. */
+export const selectStudiosPageNumber = createSelector(
+	(state: RootState) => state.studios.pageNumber,
+	pageNumber => pageNumber,
+);

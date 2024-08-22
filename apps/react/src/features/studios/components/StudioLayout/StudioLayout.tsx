@@ -1,9 +1,8 @@
-import { memo, FC, useEffect } from 'react';
+import { memo, FC } from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
-import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectAreStudiosLoading, selectStudios } from '@js-camp/react/store/studio/selectors';
+import { useAppSelector } from '@js-camp/react/store';
+import { selectAreStudiosLoading } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
@@ -14,15 +13,9 @@ import styles from './StudioLayout.module.css';
 
 const StudioLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
-	const dispatch = useAppDispatch();
-	const studios = useAppSelector(selectStudios);
 	const isLoading = useAppSelector(selectAreStudiosLoading);
 	const navigate = useNavigate();
 	const { studioId } = useParams<{ studioId: string; }>();
-
-	useEffect(() => {
-		dispatch(fetchStudios());
-	}, [dispatch]);
 
 	if (isLoading) {
 		return <div>Loading</div>;
@@ -35,24 +28,20 @@ const StudioLayoutComponent: FC = () => {
 	return (
 		<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
 			<Box className={styles.layout__sidebar}>
-				<StudiosList
-					studios={studios}
-					onStudioClick={handleStudioClick}
-				/>
+				<StudiosList onStudioClick={handleStudioClick} />
 			</Box>
-			{studioId ? <Outlet /> : <div className={styles.layout__empty}>
-				<div className={styles.layout__button}>
-					<IconButton
-						edge="start"
-						color="inherit"
-						aria-label="add"
-					>
-						<AddIcon />
-					</IconButton>
-					<ListItemText primary='Add Studio'/>
+			{studioId ? (
+				<Outlet />
+			) : (
+				<div className={styles.layout__empty}>
+					<div className={styles.layout__button}>
+						<IconButton edge="start" color="inherit" aria-label="add">
+							<AddIcon />
+						</IconButton>
+						<ListItemText primary="Add Studio" />
+					</div>
 				</div>
-			</div>
-			}
+			)}
 		</main>
 	);
 };
