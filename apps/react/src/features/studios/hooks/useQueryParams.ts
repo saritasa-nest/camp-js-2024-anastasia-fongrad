@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 
 import { queryStringToObject } from '../utils/queryStringToObject';
 import { objectToQueryString } from '../utils/objectToQueryString';
@@ -14,7 +15,7 @@ export function useQueryParams() {
 
 	const queryParams = useMemo(() => queryStringToObject(search), [search]);
 
-	const setQueryParams = (params: Readonly<Record<string, string>>) => {
+	const setQueryParams = (params: StudioQueryParameters) => {
 		navigate({ pathname: location.pathname, search: objectToQueryString(params) });
 	};
 

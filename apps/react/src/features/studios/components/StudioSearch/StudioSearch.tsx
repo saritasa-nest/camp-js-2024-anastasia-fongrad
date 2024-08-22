@@ -1,9 +1,8 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import { ChangeEvent, FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { changeSearchValue, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
-import { selectSearchValue } from '@js-camp/react/store/studio/selectors';
+import { useAppDispatch } from '@js-camp/react/store';
+import { resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 
 import { useQueryParams } from '../../hooks/useQueryParams';
 
@@ -13,17 +12,20 @@ const StudioSearchComponent: FC = () => {
 	const [inputValue, setInputValue] = useState('');
 	const dispatch = useAppDispatch();
 	const { queryParams, setQueryParams } = useQueryParams();
-	const searchValue = useAppSelector(selectSearchValue) ?? queryParams.get('search');
+	const searchValue = queryParams.get('search');
 
 	const handleInputValueChange = (event: ChangeEvent) => {
 		setInputValue((event.target as HTMLInputElement).value);
 	};
 
 	const handleSearchButtonClick = () => {
-		dispatch(changeSearchValue(inputValue.length > 0 ? inputValue : null));
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
-		setQueryParams({ ...Object.fromEntries(queryParams), search: inputValue });
+		setQueryParams({
+			...Object.fromEntries(queryParams),
+			search: inputValue.length > 0 ? inputValue : undefined,
+			cursor: undefined,
+		});
 	};
 
 	return (<Paper component="form" className={styles.filters__form}>

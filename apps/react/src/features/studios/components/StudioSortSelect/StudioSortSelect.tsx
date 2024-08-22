@@ -1,33 +1,26 @@
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { selectSortDirection, selectSorting } from '@js-camp/react/store/studio/selectors';
-import { changeSortDirection, changeSorting, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
+import { useAppDispatch } from '@js-camp/react/store';
+import { changeSorting, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 import {
 	FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent,
 	Tooltip,
 } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { FC, memo, useEffect } from 'react';
+import { FC, memo } from 'react';
 
 import { useQueryParams } from '../../hooks/useQueryParams';
+import { sortValueFromQueryParams } from '../../utils/sortValueFromQueryParams';
+import { queryFromSortValue } from '../../utils/queryFromSortValue';
 
 import styles from './StudioSortSelect.module.css';
 
 const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
-	const sortValue = useAppSelector(selectSorting) ?? '';
-	const sortDirection = useAppSelector(selectSortDirection);
-
 	const { queryParams, setQueryParams } = useQueryParams();
-
-	useEffect(() => {
-		const ordering = queryParams.get('ordering');
-		if (ordering !== null) {
-			const firstChar = ordering[0];
-			dispatch(changeSorting(firstChar === '-' ? ordering.slice(1) : ordering));
-			dispatch(changeSortDirection(firstChar === '-' ? 'desc' : 'asc'));
-		}
-	}, [dispatch, queryParams]);
+	const ordering = queryParams.get('ordering');
+	const { sortValue, sortDirection } = ordering !== null ?
+		sortValueFromQueryParams(ordering) :
+		{ sortValue: null, sortDirection: null };
 
 	const handleSortChange = (event: SelectChangeEvent) => {
 		dispatch(changeSorting(event.target.value));
@@ -36,16 +29,20 @@ const StudioSortSelectComponent: FC = () => {
 		setQueryParams({
 			...Object.fromEntries(queryParams),
 			ordering: sortDirection === 'asc' ? event.target.value : `-${event.target.value}`,
+			cursor: undefined,
 		});
 	};
 
 	const handleDirectionChange = () => {
-		dispatch(changeSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'));
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
 		setQueryParams({
 			...Object.fromEntries(queryParams),
-			ordering: sortDirection === 'asc' ? sortValue : `-${sortValue}`,
+			ordering: queryFromSortValue({
+				sortValue: sortValue ?? undefined,
+				sortDirection: sortDirection === 'asc' ? 'desc' : 'asc',
+			}),
+			cursor: undefined,
 		});
 	};
 

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import {
-	selectCursor, selectHasMoreData, selectSearchValue, selectSortDirection, selectSorting, selectStudios,
+	selectCursor, selectHasMoreData, selectIsPaginationEvent, selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,30 +21,33 @@ const StudioLayoutComponent: FC = () => {
 	const navigate = useNavigate();
 	const { studioId } = useParams<{ studioId: string; }>();
 	const dispatch = useAppDispatch();
-	const sorting = useAppSelector(selectSorting) ?? undefined;
-	const sortDirection = useAppSelector(selectSortDirection);
-	const searchValue = useAppSelector(selectSearchValue) ?? undefined;
 	const studios = useAppSelector(selectStudios);
 	const cursor = useAppSelector(selectCursor) ?? undefined;
 	const hasMoreData = useAppSelector(selectHasMoreData);
+	const isPaginationEvent = useAppSelector(selectIsPaginationEvent);
 
 	const { queryParams, setQueryParams } = useQueryParams();
 
 	const params = {
 		ordering: queryParams.get('ordering') ?? undefined,
-		search: searchValue ?? queryParams.get('search') ?? undefined,
+		search: queryParams.get('search') ?? undefined,
 		cursor: cursor ?? queryParams.get('cursor') ?? undefined,
 	};
 
 	useEffect(() => {
-		if (hasMoreData) {
+		setQueryParams({
+			...queryParams,
+			ordering: queryParams.get('ordering') ?? undefined,
+			search: queryParams.get('search') ?? undefined,
+			cursor: cursor ?? queryParams.get('cursor') ?? undefined,
+		});
+	}, [cursor, queryParams]);
+
+	useEffect(() => {
+		if (!isPaginationEvent || isPaginationEvent && hasMoreData) {
 			dispatch(fetchStudios(params));
-			setQueryParams({
-				...queryParams,
-				...JSON.parse(JSON.stringify(params)),
-			});
 		}
-	}, [dispatch, sorting, sortDirection, searchValue, cursor]);
+	}, [dispatch, queryParams]);
 
 	const handleStudioClick = (id: number) => {
 		navigate(`/studio/${id}`);
