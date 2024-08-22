@@ -14,7 +14,6 @@ export namespace EnumUtils {
 		}
 		const enumValue = Object.values(enumeration).find((value): value is TValue => value === enumValueAsString);
 		if (enumValue === undefined) {
-			console.warn(`There is no this enum value ${enumValueAsString}`);
 			return null;
 		}
 		return enumValue;

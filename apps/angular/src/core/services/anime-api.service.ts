@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
@@ -22,7 +22,7 @@ export class AnimeApiService {
 
 	private readonly http: HttpClient = inject(HttpClient);
 
-	private readonly apiUrlService = inject(AppUrlConfig);
+	private readonly appUrlConfig = inject(AppUrlConfig);
 
 	/**
 	 * Gets paginated anime data from the server.
@@ -31,14 +31,10 @@ export class AnimeApiService {
 	public getAll(parameters: Partial<AnimeQueryParameters>): Observable<Pagination<Anime>> {
 		const dtoParameters = ObjectUtils.removeEmptyFields(AnimeQueryParametersMapper.toDto(parameters));
 		const httpParams = new HttpParams({ fromObject: dtoParameters });
-		const url = this.apiUrlService.paths.animeCatalog;
+		const url = this.appUrlConfig.paths.animeCatalog;
 		const result$ = this.http.get<PaginationDto<AnimeDto>>(url, { params: httpParams });
 		return result$.pipe(
 			map((response: PaginationDto<AnimeDto>) => PaginationMapper.fromDto<AnimeDto, Anime>(response, AnimeMapper.fromDto)),
-			catchError((error: unknown): Observable<Pagination<Anime>> => {
-				console.error(error);
-				return throwError(() => error);
-			}),
 		);
 	}
 }
