@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { selectSortDirection, selectSorting } from '@js-camp/react/store/studio/selectors';
-import { changeSortDirection, changeSorting } from '@js-camp/react/store/studio/slice';
+import { changeSortDirection, changeSorting, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 import {
 	FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent,
 	Tooltip,
@@ -18,10 +18,14 @@ const StudioSortSelectComponent: FC = () => {
 
 	const handleSortChange = (event: SelectChangeEvent) => {
 		dispatch(changeSorting(event.target.value));
+		dispatch(resetCursor());
+		dispatch(setPaginationEvent(false));
 	};
 
 	const handleDirectionChange = () => {
 		dispatch(changeSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'));
+		dispatch(resetCursor());
+		dispatch(setPaginationEvent(false));
 	};
 
 	return (

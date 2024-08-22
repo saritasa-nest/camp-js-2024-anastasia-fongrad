@@ -20,12 +20,6 @@ export const selectCursor = createSelector(
 	cursor => cursor,
 );
 
-/** Selects next cursor. */
-export const selectNextCursor = createSelector(
-	(state: RootState) => state.studios.nextCursor,
-	nextCursor => nextCursor,
-);
-
 /** Selects studio list sort direction. */
 export const selectSortDirection = createSelector(
 	(state: RootState) => state.studios.sortDirection,
@@ -42,4 +36,10 @@ export const selectSorting = createSelector(
 export const selectSearchValue = createSelector(
 	(state: RootState) => state.studios.searchValue,
 	searchValue => searchValue,
+);
+
+/** Selects is need data. */
+export const selectIsNeedData = createSelector(
+	(state: RootState) => state.studios.isPaginationEvent,
+	isPaginationEvent => isPaginationEvent,
 );

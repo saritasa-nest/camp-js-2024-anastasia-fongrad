@@ -2,7 +2,7 @@ import { IconButton, InputBase, Paper } from '@mui/material';
 import { ChangeEvent, FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { changeSearchValue } from '@js-camp/react/store/studio/slice';
+import { changeSearchValue, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 import { selectSearchValue } from '@js-camp/react/store/studio/selectors';
 
 import styles from './StudioSearch.module.css';
@@ -17,7 +17,9 @@ const StudioSearchComponent: FC = () => {
 	};
 
 	const handleSearchButtonClick = () => {
-		dispatch(changeSearchValue(inputValue));
+		dispatch(changeSearchValue(inputValue.length > 0 ? inputValue : null));
+		dispatch(resetCursor());
+		dispatch(setPaginationEvent(false));
 	};
 
 	return (<Paper component="form" className={styles.filters__form}>

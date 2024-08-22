@@ -29,6 +29,9 @@ export type StudiosState = {
 
 	/** Studio name search value. */
 	readonly searchValue: string | null;
+
+	/** Is studio pagination event. */
+	readonly isPaginationEvent: boolean;
 };
 
 /** Initial state for the studios slice of the Redux store. */
@@ -41,4 +44,5 @@ export const initialState: StudiosState = {
 	sorting: null,
 	studios: [],
 	searchValue: null,
+	isPaginationEvent: false,
 };

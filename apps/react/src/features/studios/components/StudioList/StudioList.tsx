@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
 import { AnimeStudio } from '@js-camp/core/models/studio.model';
+import { setPaginationEvent, updateCursor } from '@js-camp/react/store/studio/slice';
 
 import { StudioFilters } from '../StudioFilters';
 import { StudioListItem } from '../StudioListItem';
@@ -30,7 +31,8 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: 
 	useEffect(() => {
 		const observer = new IntersectionObserver(entries => {
 			if (entries[0].isIntersecting) {
-				// dispatch(fetchStudios({ ordering: sorting, search: searchValue, cursor: nextCursor }));
+				dispatch(updateCursor());
+				dispatch(setPaginationEvent(true));
 			}
 		}, { threshold: 1 });
 

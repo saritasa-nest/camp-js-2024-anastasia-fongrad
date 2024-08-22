@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import {
-	selectAreStudiosLoading, selectSearchValue, selectSortDirection, selectSorting,
+	selectAreStudiosLoading, selectCursor, selectSearchValue, selectSortDirection, selectSorting,
 	selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
@@ -14,6 +14,7 @@ import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { StudiosList } from '../StudioList';
 
 import styles from './StudioLayout.module.css';
+
 const StudioLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
 	const isLoading = useAppSelector(selectAreStudiosLoading);
@@ -24,10 +25,13 @@ const StudioLayoutComponent: FC = () => {
 	const sortDirection = useAppSelector(selectSortDirection);
 	const searchValue = useAppSelector(selectSearchValue) ?? undefined;
 	const studios = useAppSelector(selectStudios);
+	const cursor = useAppSelector(selectCursor) ?? undefined;
 
 	useEffect(() => {
-		dispatch(fetchStudios({ ordering: sortDirection === 'asc' ? sorting : `-${sorting}`, search: searchValue }));
-	}, [dispatch, sorting, sortDirection, searchValue]);
+		dispatch(fetchStudios({
+			ordering: sortDirection === 'asc' ? sorting : `-${sorting}`, search: searchValue, cursor,
+		}));
+	}, [dispatch, sorting, sortDirection, searchValue, cursor]);
 
 	if (isLoading) {
 		return <div>Loading</div>;
