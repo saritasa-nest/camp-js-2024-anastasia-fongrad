@@ -3,12 +3,12 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import {
-	selectAreStudiosLoading, selectCursor, selectSearchValue, selectSortDirection, selectSorting,
+	selectAreStudiosLoading, selectCursor, selectHasMoreData, selectSearchValue, selectSortDirection, selectSorting,
 	selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { useNavigate, Outlet, useParams, createSearchParams } from 'react-router-dom';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 
 import { StudiosList } from '../StudioList';
@@ -26,11 +26,22 @@ const StudioLayoutComponent: FC = () => {
 	const searchValue = useAppSelector(selectSearchValue) ?? undefined;
 	const studios = useAppSelector(selectStudios);
 	const cursor = useAppSelector(selectCursor) ?? undefined;
+	const hasMoreData = useAppSelector(selectHasMoreData);
+
+	const params = {
+		ordering: sortDirection === 'asc' ? sorting : `-${sorting}`,
+		search: searchValue,
+		cursor,
+	};
 
 	useEffect(() => {
-		dispatch(fetchStudios({
-			ordering: sortDirection === 'asc' ? sorting : `-${sorting}`, search: searchValue, cursor,
-		}));
+		if (hasMoreData) {
+			dispatch(fetchStudios(params));
+			navigate({
+				pathname: '/studio/',
+				search: createSearchParams(JSON.parse(JSON.stringify(params))).toString(),
+			});
+		}
 	}, [dispatch, sorting, sortDirection, searchValue, cursor]);
 
 	if (isLoading) {

@@ -35,6 +35,7 @@ export const studiosSlice = createSlice({
 			const { results, nextCursor } = action.payload;
 			state.studios = state.isPaginationEvent ? [...state.studios, ...results] : [...results];
 			state.nextCursor = nextCursor;
+			state.hasMoreData = nextCursor !== null;
 			state.isLoading = false;
 			state.isPaginationEvent = false;
 		})

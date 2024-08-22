@@ -12,9 +12,6 @@ export type StudiosState = {
 	/** Whether the studios are loading or not. */
 	readonly isLoading: boolean;
 
-	/** Pointer to previous page. */
-	readonly previousCursor: string | null;
-
 	/** Pointer to current page. */
 	readonly cursor: string | null;
 
@@ -32,12 +29,14 @@ export type StudiosState = {
 
 	/** Is studio pagination event. */
 	readonly isPaginationEvent: boolean;
+
+	/** Has more studios data. */
+	readonly hasMoreData: boolean;
 };
 
 /** Initial state for the studios slice of the Redux store. */
 export const initialState: StudiosState = {
 	isLoading: false,
-	previousCursor: null,
 	cursor: null,
 	nextCursor: null,
 	sortDirection: 'asc',
@@ -45,4 +44,5 @@ export const initialState: StudiosState = {
 	studios: [],
 	searchValue: null,
 	isPaginationEvent: false,
+	hasMoreData: true,
 };

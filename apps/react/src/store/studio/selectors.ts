@@ -38,8 +38,8 @@ export const selectSearchValue = createSelector(
 	searchValue => searchValue,
 );
 
-/** Selects is need data. */
-export const selectIsNeedData = createSelector(
-	(state: RootState) => state.studios.isPaginationEvent,
-	isPaginationEvent => isPaginationEvent,
+/** Selects has more data value. */
+export const selectHasMoreData = createSelector(
+	(state: RootState) => state.studios.hasMoreData,
+	hasMoreData => hasMoreData,
 );
