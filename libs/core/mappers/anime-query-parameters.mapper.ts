@@ -3,7 +3,14 @@ import { AnimeQueryParameters } from '../models/anime-query-parameters.model';
 import { AnimeTypeDto } from '../dtos/enums/anime-type-dto.enum';
 import { AnimeType } from '../models/enums/anime-type.enum';
 import { EnumUtils } from '../utils/enum-utils';
-import { START_PAGE_INDEX, DEFAULT_PAGE_SIZE, PARAMETER_SEPARATOR, DEFAULT_SEARCH_QUERY, DEFAULT_SORT_PARAM, DEFAULT_TYPE } from '../utils/anime-constants';
+import {
+	START_PAGE_INDEX,
+	DEFAULT_PAGE_SIZE,
+	PARAMETER_SEPARATOR,
+	DEFAULT_SEARCH_QUERY,
+	DEFAULT_SORT_PARAM,
+	DEFAULT_TYPE,
+} from '../utils/anime-constants';
 
 import { AnimeTypeMapper } from './anime-type.mapper';
 import { AnimeSortParameterMapper } from './anime-sort-parameter.mapper';
@@ -15,9 +22,10 @@ export namespace AnimeQueryParametersMapper {
 	 * @param model Anime query parameters.
 	 */
 	export function toDto(model: Partial<AnimeQueryParameters>): Partial<AnimeQueryParametersDto> {
+		const pageSize = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
 		const ordering = model.animeSort ? AnimeSortParameterMapper.toDto(model.animeSort) : undefined;
 		const types = model.animeTypes ? model.animeTypes.map(type => AnimeTypeMapper.toDto(type)).join(PARAMETER_SEPARATOR) : undefined;
-		const offset = model.pageIndex && model.limitPerPage ? model.pageIndex * model.limitPerPage : START_PAGE_INDEX;
+		const offset = model.pageIndex ? model.pageIndex * pageSize : START_PAGE_INDEX;
 		const limit = model.limitPerPage ?? DEFAULT_PAGE_SIZE;
 		return {
 			limit,

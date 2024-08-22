@@ -1,3 +1,5 @@
+const DASH_SYMBOL = '\u2014';
+
 /** Represents anime type in the model. */
 export enum AnimeType{
 	TV = 'TV',
@@ -7,5 +9,5 @@ export enum AnimeType{
 	ONA = 'ONA',
 	Music = 'music',
 	PromotionalVideos = 'promotional videos',
-	Unknown = '',
+	Unknown = DASH_SYMBOL,
 }

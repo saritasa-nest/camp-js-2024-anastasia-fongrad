@@ -1,0 +1,1 @@
+export { AnimeFilter } from './AnimeFilter';

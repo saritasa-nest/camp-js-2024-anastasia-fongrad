@@ -4,12 +4,14 @@ import {
 } from 'react-redux';
 
 import { genresSlice } from './genre/slice';
+import { animeSlice } from './anime/slice';
 import { drawerSlice } from './drawer/slice';
 
 /** The Redux store of the application. */
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
+		anime: animeSlice.reducer,
 		drawer: drawerSlice.reducer,
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware({
