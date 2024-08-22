@@ -1,5 +1,5 @@
 import { memo, FC, useState, MouseEvent } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,12 +9,43 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import FormHelperText from '@mui/material/FormHelperText';
+
+type RegistrationFormValues = z.infer<typeof validationSchema>;
+
+const defaultRegistrationFormValues: RegistrationFormValues = {
+	email: '',
+	firstName: '',
+	lastName: '',
+	password: '',
+	passwordConfirm: '',
+};
+
+const validationSchema = z.object({
+	email: z.string().email({ message: 'Invalid email address' }),
+	firstName: z.string().min(1, { message: 'First name is required' }),
+	lastName: z.string().min(1, { message: 'Last name is required' }),
+	password: z.string().min(6, { message: 'Password must be at least 6 characters long' }),
+	passwordConfirm: z.string().min(6, { message: 'Please re-type your password' }),
+}).refine(data => data.password === data.passwordConfirm, {
+	message: 'Passwords do not match',
+	path: ['passwordConfirm'],
+});
 
 import styles from './RegistrationForm.module.css';
 
+// eslint-disable-next-line max-lines-per-function
 const RegistrationFormComponent: FC = () => {
-	const { register, handleSubmit, formState: { errors } } = useForm();
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const { register, handleSubmit, formState: { errors }, control } = useForm({
+		defaultValues: defaultRegistrationFormValues,
+		resolver: zodResolver(validationSchema),
+	});
+
+	const submitForm: SubmitHandler<RegistrationFormValues> = data => {
+		console.log(data);
+	};
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [showRetypePassword, setShowRetypePassword] = useState(false);
@@ -32,89 +63,113 @@ const RegistrationFormComponent: FC = () => {
 
 	return (
 		<Box component="form"
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(submitForm)}
 			className={styles.form}
 		>
-			<TextField
-				margin="normal"
-				required
-				fullWidth
-				id="email"
-				label="Email Address"
-				autoComplete="email"
-				autoFocus
-				{...register('email', { required: 'Email is required' })}
-				error={!!errors.email}
-			/>
-			<TextField
-				margin="normal"
-				id="first_name"
-				label="First Name"
-				required
-				fullWidth
-				autoComplete="given-name"
-				{...register('first_name', { required: 'First name is required' })}
-				error={!!errors.first_name}
-			/>
-			<TextField
-				margin="normal"
-				required
-				fullWidth
-				id="last_name"
-				label="Last Name"
-				autoComplete="family-name"
-				{...register('last_name', { required: 'Last name is required' })}
-				error={!!errors.last_name}
-			/>
-			<FormControl className={styles['form-control']}>
-				<InputLabel htmlFor="new_password">Password</InputLabel>
-				<OutlinedInput
-					id="new_password"
-					type={showPassword ? 'text' : 'password'}
+			<Controller
+				name="email"
+				control={control}
+				render={({ field }) => <TextField
+					{...field}
+					label="Email"
+					InputLabelProps={{ required: true }}
 					fullWidth
-					required
-					autoComplete="new-password"
-					{...register('new-password', { required: 'Password is required' })}
-					endAdornment={
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="toggle password visibility"
-								onClick={handleClickShowPassword}
-								onMouseDown={handleMouseDownPassword}
-								edge="end"
-							>
-								{showPassword ? <VisibilityOff /> : <Visibility />}
-							</IconButton>
-						</InputAdornment>
-					}
-					label="Password"
-					error={!!errors.new_password}
-				/>
-			</FormControl>
-			<FormControl className={styles['form-control']}>
-				<InputLabel htmlFor="retype_password">Re-type Password</InputLabel>
-				<OutlinedInput
-					id="retype_password"
-					type={showRetypePassword ? 'text' : 'password'}
-					required
-					autoComplete="retype-password"
-					{...register('retype-password', { required: 'Re-type password is required' })}
-					endAdornment={
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="toggle re-type password visibility"
-								onClick={handleClickShowRetypePassword}
-								onMouseDown={handleMouseDownRetypePassword}
-								edge="end"
-							>
-								{showRetypePassword ? <VisibilityOff /> : <Visibility />}
-							</IconButton>
-						</InputAdornment>
-					}
-					label="Re-type Password"
-					error={!!errors.retype_password}
-				/>
-			</FormControl>
+					error={errors.email != null}
+					helperText={errors?.email?.message}
+					className={styles['form-control']}
+				/>}
+			/>
+			<Controller
+				name="firstName"
+				control={control}
+				render={({ field }) => <TextField
+					{...field}
+					label="First Name"
+					InputLabelProps={{ required: true }}
+					fullWidth
+					error={errors.firstName != null}
+					helperText={errors?.firstName?.message}
+					className={styles['form-control']}
+				/>}
+			/>
+			<Controller
+				name="lastName"
+				control={control}
+				render={({ field }) => <TextField
+					{...field}
+					label="Last Name"
+					InputLabelProps={{ required: true }}
+					fullWidth
+					error={errors.lastName != null}
+					helperText={errors?.lastName?.message}
+					className={styles['form-control']}
+				/>}
+			/>
+			<Controller
+				name='password'
+				control={control}
+				render={({ field }) => <FormControl
+					className={styles['form-control']}
+					error={errors.password != null}
+				>
+					<InputLabel htmlFor="new_password">Password</InputLabel>
+					<OutlinedInput
+						{...field}
+						type={showPassword ? 'text' : 'password'}
+						fullWidth
+						autoComplete="new-password"
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={handleClickShowPassword}
+									onMouseDown={handleMouseDownPassword}
+									edge="end"
+								>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						}
+						label="Password"
+					/>
+					{errors.password && (
+						<FormHelperText>{errors.password.message}</FormHelperText>
+					)}
+				</FormControl>
+				}
+			/>
+			<Controller
+				name='passwordConfirm'
+				control={control}
+				render={({ field }) => <FormControl
+					className={styles['form-control']}
+					error={errors.passwordConfirm != null}
+				>
+					<InputLabel htmlFor="retype_password">Re-type Password</InputLabel>
+					<OutlinedInput
+						{...field}
+						type={showRetypePassword ? 'text' : 'password'}
+						autoComplete="retype-password"
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle re-type password visibility"
+									onClick={handleClickShowRetypePassword}
+									onMouseDown={handleMouseDownRetypePassword}
+									edge="end"
+								>
+									{showRetypePassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						}
+						label="Re-type Password"
+					/>
+					{errors.passwordConfirm && (
+						<FormHelperText>{errors.passwordConfirm.message}</FormHelperText>
+					)}
+				</FormControl>
+				}
+			/>
 			<Button
 				type="submit"
 				fullWidth

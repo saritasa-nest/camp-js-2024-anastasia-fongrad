@@ -1,6 +1,6 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["**/*.ts", "../../libs"],
+  "include": ["**/*.ts", "../../libs", "src/features/auth/components/ControlledTextInput/ControlledTextInput.tsx"],
   "compilerOptions": {
     "types": ["node"]
   }

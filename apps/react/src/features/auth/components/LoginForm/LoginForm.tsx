@@ -1,4 +1,4 @@
-import { memo, FC, useState, MouseEvent} from 'react';
+import { memo, FC, useState, MouseEvent } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -37,7 +37,7 @@ const LoginFormComponent: FC = () => {
 				label="Email Address"
 				autoComplete="email"
 				autoFocus
-				{...register('email', { required: 'Email is required' })}
+				{ ...register('email', { required: 'Email is required' })}
 				error={!!errors.email}
 			/>
 			<FormControl className={styles['form-control']}>
