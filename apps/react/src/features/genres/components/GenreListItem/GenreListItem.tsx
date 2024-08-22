@@ -1,5 +1,5 @@
 import { memo, FC } from 'react';
-import { AnimeGenre } from '@js-camp/core/models/genre.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { ListItem, ListItemText, ListItemButton } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 

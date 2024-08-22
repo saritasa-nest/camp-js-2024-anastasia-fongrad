@@ -1,5 +1,5 @@
 import { memo, FC, useState, useCallback } from 'react';
-import { AnimeGenre } from '@js-camp/core/models/genre.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
