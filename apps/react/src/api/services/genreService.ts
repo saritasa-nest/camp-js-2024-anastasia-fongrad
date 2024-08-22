@@ -13,15 +13,13 @@ import { GenresFilterParamsMapper } from '@js-camp/react/mapper/genres-filter-pa
 const url = 'anime/genres/list-cursor/';
 
 export namespace GenresService {
-
 	/**
 	 * Fetches a list of genres.
 	 * @param params
 	 */
 	export async function fetchGenres(params: GenresQueryParams.Combined): Promise<PaginationListCursor<AnimeGenre>> {
 		const dtoParam = GenresFilterParamsMapper.toDto(params);
-		console.log("dtoParam",dtoParam)
-		const { data } = await http.get<PaginationListCursorDto<GenreDto>>(url, { params });
+		const { data } = await http.get<PaginationListCursorDto<GenreDto>>(url, { params: dtoParam });
 		return PaginationListCursorMapper.fromDto(data, GenreMapper.fromDto);
 	}
 }

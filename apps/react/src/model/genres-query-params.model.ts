@@ -11,8 +11,8 @@ export namespace GenresQueryParams {
 
 	/** Sort direction. */
 	export enum SortDirection {
-		Ascending = 'ascending',
-		Descending = 'descending',
+		Ascending = 'asc',
+		Descending = 'desc',
 	}
 
 	/** Sort. */
@@ -20,6 +20,9 @@ export namespace GenresQueryParams {
 
 		/** Sort. */
 		sort: string | null;
+
+		/** Sort Direction. */
+		direction: string | null;
 	}>;
 
 	/** Filter type. */

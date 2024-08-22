@@ -1,26 +1,29 @@
-import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
-import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { useParams, useSearchParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
+import { memo, FC, useState, useCallback, useRef, useEffect } from 'react';
+import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 
-import useQueryParams from "../../hooks/useQueryParams";
+import useQueryParams from '../../hooks/useQueryParams';
 
 import {
 	selectAreGenresLoading,
 	selectGenres,
 	selectGenresError,
 	selectGenresHasNext,
-} from "@js-camp/react/store/genre/selectors";
+} from '@js-camp/react/store/genre/selectors';
 
-import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
-import { GenreListItem } from "../GenreListItem";
-import { GenreSearch } from "../GenreSearch";
-import { GenresFilter } from "../GenresFilter";
+import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 
-import styles from "./GenreList.module.css";
+import { GenreListItem } from '../GenreListItem';
+import { GenreSearch } from '../GenreSearch';
+import { GenresFilter } from '../GenresFilter';
+
+import styles from './GenreList.module.css';
+import { GenresSort } from '../GenresSort';
 
 type Props = {
+
 	/** An array of anime genres. */
 	// readonly genres: readonly AnimeGenre[];
 
@@ -29,7 +32,7 @@ type Props = {
 };
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
-	const { genreId } = useParams<{ genreId: string }>();
+	const { genreId } = useParams<{ genreId: string; }>();
 	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
@@ -44,7 +47,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
 			if (node) {
-				observer.current = new IntersectionObserver((entries) => {
+				observer.current = new IntersectionObserver(entries => {
 					if (entries[0].isIntersecting && hasMore) {
 						dispatchGenres(hasMore);
 						observer.current?.disconnect();
@@ -54,45 +57,47 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 				observer.current.observe(node);
 			}
 		},
-		[hasMore]
+		[hasMore],
 	);
 	const handleGenreClick = useCallback(
 		(id: number) => {
 			setSelectedGenreId(id);
 			onGenreClick(id);
 		},
-		[onGenreClick]
+		[onGenreClick],
 	);
-	const { search, sort, filter } = getQueryParamsByKeys(["search", "sort", "filter"]);
+	const { search, filter, sortField, sortDirection } = getQueryParamsByKeys(['search', 'filter', 'sortField', 'sortDirection']);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
 				fetchGenres({
 					search,
-					sort,
 					filter,
+					sort: sortField,
+					direction: sortDirection,
 					nextCursor: next,
-				})
+				}),
 			),
-		[search, sort, filter]
+		[search, filter, sortField, sortDirection],
 	);
 
 	useEffect(() => {
-		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
 		dispatchGenres(null);
 	}, [searchParams]);
 
 	return (
-		<Box className={styles["genre-list"]}>
+		<Box className={styles['genre-list']}>
 			<GenreSearch />
 			<GenresFilter />
-			<List className={styles["genre-list__items"]} ref={wrapperElementRef}>
+			<GenresSort/>
+			<List className={styles['genre-list__items']} ref={wrapperElementRef}>
 				<ListItem disablePadding>
 					<ListItemButton>
-						<IconButton edge="start" color="inherit" aria-label="add">
+						<IconButton edge='start' color='inherit' aria-label='add'>
 							<AddIcon />
 						</IconButton>
-						<ListItemText primary="Add Genre" />
+						<ListItemText primary='Add Genre' />
 					</ListItemButton>
 				</ListItem>
 				{genres.map((genre, index) => {

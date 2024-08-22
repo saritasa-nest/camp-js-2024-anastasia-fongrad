@@ -19,23 +19,21 @@ export namespace GenresFilterParamsMapper {
 	 * @param queryParams Query params.
 	 */
 	export function toDto(queryParams: GenresQueryParams.Combined): GenresFilterParamsDto.Combined {
-		const { nextCursor, search, sort, filter } = queryParams;
-		console.log('filter: ', filter);
+		const { nextCursor, search, sort, direction, filter } = queryParams;
 		let ordering: string | null = null;
 		let types: string | null = null;
 
-		if (sort) {
-			const [field, direction] = sort.split('-');
-			ordering = `${direction === 'ascending' ? '' : '-'}${field}`;
+		if (sort && direction) {
+			ordering = `${direction === 'asc' ? '' : '-'}${sort}`;
 		}
 
 		if (filter) {
 			types = filter
 				.split(',')
-				.map((type) => FILTER_MAPPING_FROM_QUERY_PARAMS[type as GenresQueryParams.FilterType])
+				.map(type => FILTER_MAPPING_FROM_QUERY_PARAMS[type as GenresQueryParams.FilterType])
 				.join(',');
 		}
 
-		return { ...BaseFilterParamsMapper.toDto({ search, nextCursor }), ordering, type: types };
+		return { ...BaseFilterParamsMapper.toDto({ search, nextCursor }), ordering, type__in: types };
 	}
 }

@@ -1,4 +1,4 @@
-import { memo, FC, useState, useEffect } from "react";
+import { memo, FC, useState, useEffect } from 'react';
 import {
 	Select,
 	MenuItem,
@@ -9,22 +9,23 @@ import {
 	SelectChangeEvent,
 	Button,
 	Typography,
-} from "@mui/material";
-import { GenresQueryParams } from "@js-camp/react/model/genres-query-params.model";
-import useQueryParams from "../../hooks/useQueryParams";
+} from '@mui/material';
+import { GenresQueryParams } from '@js-camp/react/model/genres-query-params.model';
+
+import useQueryParams from '../../hooks/useQueryParams';
 const filters = [
-	{ value: GenresQueryParams.FilterType.Genres, label: "Genres" },
-	{ value: GenresQueryParams.FilterType.ExplicitGenres, label: "Explicit genres" },
-	{ value: GenresQueryParams.FilterType.Themes, label: "Themes" },
-	{ value: GenresQueryParams.FilterType.Demographics, label: "Demographics" },
+	{ value: GenresQueryParams.FilterType.Genres, label: 'Genres' },
+	{ value: GenresQueryParams.FilterType.ExplicitGenres, label: 'Explicit genres' },
+	{ value: GenresQueryParams.FilterType.Themes, label: 'Themes' },
+	{ value: GenresQueryParams.FilterType.Demographics, label: 'Demographics' },
 ];
 const GenresFilterComponent: FC = () => {
-		const { getQueryParamByKey, setQueryParams } = useQueryParams();
-	const searchParams = getQueryParamByKey("filter") == null ? [] : getQueryParamByKey('filter')?.split(',');
-	const [selectedFilters, setSelectedFilters] = useState<string[]>(searchParams);
+	const { getQueryParamByKey, setQueryParams } = useQueryParams();
+	const searchParams = getQueryParamByKey('filter') == null ? [] : getQueryParamByKey('filter')?.split(',');
+	const [selectedFilters, setSelectedFilters] = useState<string[] | undefined>(searchParams);
 	const handleChange = (event: SelectChangeEvent<string[]>) => {
 		const { value } = event.target;
-		const newSelectedFilters = typeof value === "string" ? value.split(",") : value;
+		const newSelectedFilters = typeof value === 'string' ? value.split(',') : value;
 		setSelectedFilters(newSelectedFilters);
 	};
 
@@ -38,26 +39,26 @@ const GenresFilterComponent: FC = () => {
 	}, [selectedFilters]);
 	return (
 		<FormControl>
-			<InputLabel id="multiple-filters-select-label">Select Filters</InputLabel>
+			<InputLabel id='multiple-filters-select-label'>Select Filters</InputLabel>
 			<Select
-				labelId="multiple-filters-select-label"
+				labelId='multiple-filters-select-label'
 				multiple
 				value={selectedFilters}
 				onChange={handleChange}
 				renderValue={(selected) => (
 					<Typography noWrap>
-						{selected.map((val) => filters.find((filter) => filter.value === val)?.label).join(", ")}
+						{selected.map((val) => filters.find((filter) => filter.value === val)?.label).join(', ')}
 					</Typography>
 				)}
 			>
 				{filters.map((filter) => (
-					<MenuItem key={filter.value} value={filter.value}>
+					<MenuItem key={filter.value} value={filter.value} data-direction='dasdasdas' asddasdasdasdaadasdassdsa='asdasdas' heeleerdsf='dasd'>
 						<Checkbox checked={selectedFilters.indexOf(filter.value) > -1} />
 						<ListItemText primary={filter.label} />
 					</MenuItem>
 				))}
 				<MenuItem>
-					<Button onClick={handleReset} variant="outlined" color="secondary" style={{ marginTop: "10px" }}>
+					<Button onClick={handleReset} variant='outlined' color='secondary' style={{ marginTop: '10px' }}>
 						Reset
 					</Button>
 				</MenuItem>

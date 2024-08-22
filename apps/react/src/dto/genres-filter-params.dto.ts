@@ -17,7 +17,7 @@ export namespace GenresFilterParamsDto {
 	export type Type = Readonly<{
 
 		/** Type. */
-		type: string | null;
+		type__in: string | null;
 	}>;
 
 	/** Combined. */
