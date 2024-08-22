@@ -1,0 +1,8 @@
+.form {
+  max-width: 500px;
+}
+
+.form-control {
+  width: 100%;
+  margin: var(--space-2) 0;
+}
