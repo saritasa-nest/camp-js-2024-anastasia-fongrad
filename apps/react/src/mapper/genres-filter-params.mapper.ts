@@ -14,15 +14,15 @@ const FILTER_MAPPING_FROM_QUERY_PARAMS: Readonly<FilterMappingFromQueryParams> =
 
 /** Genres filter params mappers. */
 export namespace GenresFilterParamsMapper {
-
 	/**
 	 * Mapping from query params to filter prams.
 	 * @param queryParams Query params.
 	 */
-	export function fromQueryParams(queryParams: GenresQueryParams.Combined): GenresFilterParamsDto.Combined {
+	export function toDto(queryParams: GenresQueryParams.Combined): GenresFilterParamsDto.Combined {
 		const { nextCursor, search, sort, filter } = queryParams;
+		console.log('filter: ', filter);
 		let ordering: string | null = null;
-		let type: string | null = null;
+		let types: string | null = null;
 
 		if (sort) {
 			const [field, direction] = sort.split('-');
@@ -30,9 +30,12 @@ export namespace GenresFilterParamsMapper {
 		}
 
 		if (filter) {
-			type = FILTER_MAPPING_FROM_QUERY_PARAMS[filter as GenresQueryParams.FilterType];
+			types = filter
+				.split(',')
+				.map((type) => FILTER_MAPPING_FROM_QUERY_PARAMS[type as GenresQueryParams.FilterType])
+				.join(',');
 		}
 
-		return { ...BaseFilterParamsMapper.fromQueryParams({ search, nextCursor }), ordering, type };
+		return { ...BaseFilterParamsMapper.toDto({ search, nextCursor }), ordering, type: types };
 	}
 }

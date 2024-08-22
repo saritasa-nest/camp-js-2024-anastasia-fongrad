@@ -33,7 +33,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
-	const { getQueryParamsByKeys} = useQueryParams();
+	const { getQueryParamsByKeys } = useQueryParams();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
@@ -63,7 +63,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		},
 		[onGenreClick]
 	);
-	const { search, sort, filter } = getQueryParamsByKeys(['search', 'sort', 'filter']);
+	const { search, sort, filter } = getQueryParamsByKeys(["search", "sort", "filter"]);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
@@ -71,14 +71,13 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 					search,
 					sort,
 					filter,
-					cursor: next,
+					nextCursor: next,
 				})
 			),
 		[search, sort, filter]
 	);
 
 	useEffect(() => {
-		console.log(getQueryParamsByKeys(['search', 'sort', 'filter']));
 		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
 		dispatchGenres(null);
 	}, [searchParams]);
