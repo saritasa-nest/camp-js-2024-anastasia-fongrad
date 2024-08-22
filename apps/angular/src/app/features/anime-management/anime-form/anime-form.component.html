@@ -107,42 +107,44 @@
 	<div class="form__multi-filters">
 		<div class="form__genres">
 			<mat-form-field class="form__chip-list">
-				<mat-label>Favorite Fruits</mat-label>
-				<mat-chip-grid #chipGrid aria-label="Fruit selection">
-					@for (fruit of fruits(); track $index) {
-						<mat-chip-row (removed)="removeFruit(fruit)">
-							{{fruit}}
-							<button type="button" matChipRemove [attr.aria-label]="'remove ' + fruit">
+				<mat-label>Anime Genres</mat-label>
+				<mat-chip-grid #chipGrid aria-label="Genre selection">
+					@for (genre of selectedGenres; track $index) {
+						<mat-chip-row (removed)="removeGenre(genre)">
+							{{genre.name}}
+							<button type="button" matChipRemove [attr.aria-label]="'remove ' + genre.name">
 								<mat-icon>cancel</mat-icon>
 							</button>
 						</mat-chip-row>
 					}
 				</mat-chip-grid>
 				<input
-					name="currentFruit"
-					placeholder="New Fruit..."
-					#fruitInput
+					name="currentGenre"
+					placeholder="New Genre..."
+					#genreInput
 					[matChipInputFor]="chipGrid"
 					[matAutocomplete]="auto"
 					[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-					(matChipInputTokenEnd)="addFruit($event)"
+					(matChipInputTokenEnd)="addGenre($event)"
 				/>
-				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFruit($event)">
-					@for (fruit of filteredFruits(); track fruit) {
-						<mat-option [value]="fruit">{{fruit}}</mat-option>
+				<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedGenre($event)">
+					@for (genre of filteredGenres$ | async; track $index) {
+						<mat-option [value]="genre.name">
+							{{genre.name}}
+						</mat-option>
 					}
 				</mat-autocomplete>
 			</mat-form-field>
 			<a mat-fab extended
-				class='anime-details__edit'
+				class='anime-details__add-genre'
 			>
-				<mat-icon>edit</mat-icon>
+				<mat-icon>add</mat-icon>
 				Add Genre
 			</a>
 		</div>
 		<div class="form__studios">
 			<mat-form-field class="form__chip-list">
-				<mat-label>Favorite Studios</mat-label>
+				<mat-label>Anime Studios</mat-label>
 				<mat-chip-grid #chipGridNew aria-label="Studio selection">
 					@for (studio of selectedStudios; track $index) {
 						<mat-chip-row (removed)="removeStudio(studio)">
@@ -176,6 +178,12 @@
 					}
 				</mat-autocomplete>
 			</mat-form-field>
+			<a mat-fab extended
+				class='anime-details__add-studio'
+			>
+				<mat-icon>add</mat-icon>
+				Add Studio
+			</a>
 		</div>
 	</div>
 	<button class="form__submit" mat-raised-button type="submit">Add Anime</button>

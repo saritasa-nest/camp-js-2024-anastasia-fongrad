@@ -27,9 +27,9 @@
   min-height: 180px;
 }
 
-.form__genres {
+.form__genres,
+.form__studios {
   display: flex;
-  align-items: center;
   gap: var(--space-5);
 }
 
