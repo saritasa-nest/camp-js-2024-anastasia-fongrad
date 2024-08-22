@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import {
-	selectAreStudiosLoading, selectCursor, selectHasMoreData, selectSearchValue, selectSortDirection, selectSorting,
-	selectStudios,
+	selectCursor, selectHasMoreData, selectSearchValue, selectSortDirection, selectSorting, selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -17,7 +16,6 @@ import styles from './StudioLayout.module.css';
 
 const StudioLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
-	const isLoading = useAppSelector(selectAreStudiosLoading);
 	const navigate = useNavigate();
 	const { studioId } = useParams<{ studioId: string; }>();
 	const dispatch = useAppDispatch();
@@ -38,15 +36,11 @@ const StudioLayoutComponent: FC = () => {
 		if (hasMoreData) {
 			dispatch(fetchStudios(params));
 			navigate({
-				pathname: '/studio/',
+				pathname: window.location.pathname,
 				search: createSearchParams(JSON.parse(JSON.stringify(params))).toString(),
 			});
 		}
 	}, [dispatch, sorting, sortDirection, searchValue, cursor]);
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
 
 	const handleStudioClick = (id: number) => {
 		navigate(`/studio/${id}`);

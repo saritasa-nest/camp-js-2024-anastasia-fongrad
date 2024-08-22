@@ -45,7 +45,7 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: 
 				observer.unobserve(observerRef.current);
 			}
 		};
-	}, [observerRef, dispatch]);
+	}, [dispatch]);
 
 	const handleStudioClick = (id: number) => {
 		setSelectedStudioId(id);
