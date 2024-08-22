@@ -1,3 +1,4 @@
+import { StudioSortDirection } from '@js-camp/core/models/enums/studio-sort-direction.enum';
 import { StudioSort } from '@js-camp/core/models/studio-sort.model';
 
 /**
@@ -9,12 +10,12 @@ export function sortValueFromQueryParams(param: string): StudioSort {
 	if (firstChar === '-') {
 		return {
 			sortValue: param.slice(1),
-			sortDirection: 'desc',
+			sortDirection: StudioSortDirection.Descending,
 		};
 	}
 
 	return {
 		sortValue: param,
-		sortDirection: 'asc',
+		sortDirection: StudioSortDirection.Ascending,
 	};
 }

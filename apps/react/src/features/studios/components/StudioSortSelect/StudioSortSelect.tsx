@@ -1,12 +1,10 @@
 import { useAppDispatch } from '@js-camp/react/store';
 import { resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
-import {
-	FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent,
-	Tooltip,
-} from '@mui/material';
+import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { FC, memo } from 'react';
+import { StudioSortDirection } from '@js-camp/core/models/enums/studio-sort-direction.enum';
 
 import { useQueryParams } from '../../hooks/useQueryParams';
 import { sortValueFromQueryParams } from '../../utils/sortValueFromQueryParams';
@@ -18,16 +16,15 @@ const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const { queryParams, setQueryParams } = useQueryParams();
 	const ordering = queryParams.get('ordering');
-	const { sortValue, sortDirection } = ordering !== null ?
-		sortValueFromQueryParams(ordering) :
-		{ sortValue: null, sortDirection: null };
+	const { sortValue, sortDirection } =
+		ordering !== null ? sortValueFromQueryParams(ordering) : { sortValue: null, sortDirection: null };
 
 	const handleSortChange = (event: SelectChangeEvent) => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
 		setQueryParams({
 			...Object.fromEntries(queryParams),
-			ordering: sortDirection === 'asc' ? event.target.value : `-${event.target.value}`,
+			ordering: sortDirection === StudioSortDirection.Descending ? `-${event.target.value}` : event.target.value,
 			cursor: undefined,
 		});
 	};
@@ -39,7 +36,10 @@ const StudioSortSelectComponent: FC = () => {
 			...Object.fromEntries(queryParams),
 			ordering: queryFromSortValue({
 				sortValue: sortValue ?? undefined,
-				sortDirection: sortDirection === 'asc' ? 'desc' : 'asc',
+				sortDirection:
+					sortDirection === StudioSortDirection.Descending ?
+						StudioSortDirection.Ascending :
+						StudioSortDirection.Descending,
 			}),
 			cursor: undefined,
 		});
@@ -65,11 +65,11 @@ const StudioSortSelectComponent: FC = () => {
 					<IconButton
 						aria-label="delete"
 						className={styles['order-button']}
-						color='primary'
+						color="primary"
 						onClick={handleDirectionChange}
 						disabled={sortValue === null}
 					>
-						{sortDirection === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+						{sortDirection === StudioSortDirection.Descending ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
 					</IconButton>
 				</span>
 			</Tooltip>
