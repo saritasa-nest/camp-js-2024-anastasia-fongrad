@@ -47,7 +47,7 @@ const StudiosListComponent: FC<StudiosListProps> = ({ onStudioClick }: StudiosLi
 				observer.unobserve(observerRef.current);
 			}
 		};
-	}, [observerRef, dispatch]);
+	}, [observerRef, dispatch, pageNumber]);
 
 	const handleStudioClick = (id: number) => {
 		setSelectedStudioId(id);

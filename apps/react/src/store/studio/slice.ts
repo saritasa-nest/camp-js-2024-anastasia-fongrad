@@ -11,14 +11,16 @@ export const studiosSlice = createSlice({
 		incrementPageNumber(state) {
 			state.pageNumber += 1;
 		},
+		changeSorting(state, action) {
+			state.sorting = action.payload;
+		},
 	},
 	extraReducers: builder => builder
 		.addCase(fetchStudios.pending, state => {
 			state.isLoading = true;
 		})
 		.addCase(fetchStudios.fulfilled, (state, action) => {
-			const previousStudios = state.studios;
-			state.studios = [...previousStudios, ...action.payload];
+			state.studios = action.payload;
 			state.isLoading = false;
 		})
 		.addCase(fetchStudios.rejected, (state, action) => {
@@ -30,4 +32,4 @@ export const studiosSlice = createSlice({
 });
 
 /** Studios slice actions. */
-export const { incrementPageNumber } = studiosSlice.actions;
+export const { incrementPageNumber, changeSorting } = studiosSlice.actions;

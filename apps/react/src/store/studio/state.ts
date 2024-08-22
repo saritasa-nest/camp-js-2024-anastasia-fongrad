@@ -14,11 +14,15 @@ export type StudiosState = {
 
 	/** Number of current page. */
 	readonly pageNumber: number;
+
+	/** List sorting. */
+	readonly sorting: string | null;
 };
 
 /** Initial state for the studios slice of the Redux store. */
 export const initialState: StudiosState = {
 	isLoading: false,
 	pageNumber: 0,
+	sorting: null,
 	studios: [],
 };

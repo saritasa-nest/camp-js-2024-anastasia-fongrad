@@ -19,3 +19,9 @@ export const selectStudiosPageNumber = createSelector(
 	(state: RootState) => state.studios.pageNumber,
 	pageNumber => pageNumber,
 );
+
+/** Selects studio list sorting. */
+export const selectSorting = createSelector(
+	(state: RootState) => state.studios.sorting,
+	sorting => sorting,
+);
