@@ -2,8 +2,9 @@ import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useParams, useSearchParams } from "react-router-dom";
-
 import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
+
+import useQueryParams from "../../hooks/useQueryParams";
 
 import {
 	selectAreGenresLoading,
@@ -13,9 +14,6 @@ import {
 } from "@js-camp/react/store/genre/selectors";
 
 import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
-
-import { getQueryParams } from "@js-camp/react/utils/getQueryParams";
-
 import { GenreListItem } from "../GenreListItem";
 import { GenreSearch } from "../GenreSearch";
 import { GenresFilter } from "../GenresFilter";
@@ -35,6 +33,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
+	const { getQueryParamsByKeys} = useQueryParams();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const error = useAppSelector(selectGenresError);
@@ -64,8 +63,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		},
 		[onGenreClick]
 	);
-	const { search, sort, filter } = getQueryParams(searchParams);
-
+	const { search, sort, filter } = getQueryParamsByKeys(['search', 'sort', 'filter']);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
@@ -80,8 +78,9 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	);
 
 	useEffect(() => {
+		console.log(getQueryParamsByKeys(['search', 'sort', 'filter']));
 		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
-		dispatchGenres();
+		dispatchGenres(null);
 	}, [searchParams]);
 
 	return (

@@ -23,7 +23,7 @@ const GenreSearchComponent: FC = () => {
 
 	// Update the query params whenever the input value changes
 	useEffect(() => {
-		const searchValue = queryParamsValue.length > 0 ? queryParamsValue : null;
+		const searchValue = queryParamsValue != null ? queryParamsValue : null;
 		setQueryParams({ search: searchValue });
 	}, [queryParamsValue]);
 

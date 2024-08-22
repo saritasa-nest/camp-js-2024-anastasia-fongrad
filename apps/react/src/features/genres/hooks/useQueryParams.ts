@@ -11,7 +11,16 @@ export default function useQueryParams<T>() {
 
 	const getQueryParamByKey = (key: string) => {
 		const params = new URLSearchParams(search);
-		return params.get(key) ?? '';
+		return params.get(key) ?? null;
+	};
+
+	const getQueryParamsByKeys = (keys: string[]) => {
+		const params: { [key: string]: string | null; } = {};
+		keys.map(key => {
+			const param = getQueryParamByKey(key);
+			params[key] = param;
+		});
+		return params;
 	};
 
 	/**
@@ -20,11 +29,7 @@ export default function useQueryParams<T>() {
 	 * @param targetPath Targeted path to direct.
 	 * @param replace Replace the current path or not.
 	 */
-	function updateSearchParams(
-		params: Partial<T>,
-		targetPath: string = pathname,
-		replace?: boolean
-	): void {
+	function updateSearchParams(params: Partial<T>, targetPath: string = pathname, replace?: boolean): void {
 		const newSearchParams = new URLSearchParams(search);
 
 		Object.entries(params).forEach(([key, value]) => {
@@ -44,7 +49,9 @@ export default function useQueryParams<T>() {
 	return {
 		queryParams: urlQueryObject,
 		getQueryParamByKey,
+		getQueryParamsByKeys,
 		setQueryParams: (params: Partial<T>): void => updateSearchParams(params),
-		directToPathWithQueryParams: (params: Partial<T>, pathName: string): void => updateSearchParams(params, pathName, false),
+		directToPathWithQueryParams: (params: Partial<T>, pathName: string): void =>
+			updateSearchParams(params, pathName, false),
 	};
 }
