@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { ServerError } from '@js-camp/core/models/server-error.model';
-import { Observable, of, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ServerErrorsMapper } from '@js-camp/core/mappers/server-errors.mapper';
 
@@ -102,10 +101,10 @@ export class FormValidationService {
 	 * Parses an error received from the server.
 	 * @param error Servers HttpErrorResponse.
 	 */
-	public parseError(error: unknown): Observable<ServerError[]> {
+	public parseError(error: unknown): ServerError[] {
 		if (error instanceof HttpErrorResponse && error.error?.errors) {
-			return of(ServerErrorsMapper.fromDto(error.error.errors));
+			return ServerErrorsMapper.fromDto(error.error.errors);
 		}
-		return throwError(() => new Error('An unknown error occurred'));
+		throw new Error('An unknown error occurred');
 	}
 }

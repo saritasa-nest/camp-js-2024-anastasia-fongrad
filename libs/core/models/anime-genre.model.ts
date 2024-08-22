@@ -9,11 +9,11 @@ export class AnimeGenre extends Immerable {
 	/** Name. */
 	public readonly name: string;
 
-	public constructor(data: AnimeGenreConstructorData) {
+	public constructor(data: GenreConstructorData) {
 		super();
 		this.id = data.id;
 		this.name = data.name;
 	}
 }
 
-type AnimeGenreConstructorData = OmitImmerable<AnimeGenre>;
+type GenreConstructorData = OmitImmerable<AnimeGenre>;
