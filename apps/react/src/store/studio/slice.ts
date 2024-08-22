@@ -8,15 +8,6 @@ export const studiosSlice = createSlice({
 	name: 'studios',
 	initialState,
 	reducers: {
-		changeSortDirection(state, action) {
-			state.sortDirection = action.payload;
-		},
-		changeSorting(state, action) {
-			state.sorting = action.payload;
-		},
-		changeSearchValue(state, action) {
-			state.searchValue = action.payload;
-		},
 		updateCursor(state) {
 			state.cursor = state.nextCursor;
 		},
@@ -48,6 +39,4 @@ export const studiosSlice = createSlice({
 });
 
 /** Studios slice actions. */
-export const {
-	changeSortDirection, changeSorting, changeSearchValue, updateCursor, resetCursor, setPaginationEvent,
-} = studiosSlice.actions;
+export const { updateCursor, resetCursor, setPaginationEvent } = studiosSlice.actions;

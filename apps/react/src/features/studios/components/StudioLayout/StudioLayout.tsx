@@ -9,6 +9,7 @@ import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
+import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 
 import { useQueryParams } from '../../hooks/useQueryParams';
 
@@ -28,7 +29,7 @@ const StudioLayoutComponent: FC = () => {
 
 	const { queryParams, setQueryParams } = useQueryParams();
 
-	const params = {
+	const params: StudioQueryParameters = {
 		ordering: queryParams.get('ordering') ?? undefined,
 		search: queryParams.get('search') ?? undefined,
 		cursor: cursor ?? queryParams.get('cursor') ?? undefined,

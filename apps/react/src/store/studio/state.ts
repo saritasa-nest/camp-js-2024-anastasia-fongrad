@@ -18,15 +18,6 @@ export type StudiosState = {
 	/** Pointer to next page. */
 	readonly nextCursor: string | null;
 
-	/** List sorting. */
-	readonly sorting: string | null;
-
-	/** Sorting direction. */
-	readonly sortDirection: 'asc' | 'desc';
-
-	/** Studio name search value. */
-	readonly searchValue: string | null;
-
 	/** Is studio pagination event. */
 	readonly isPaginationEvent: boolean;
 
@@ -39,10 +30,7 @@ export const initialState: StudiosState = {
 	isLoading: false,
 	cursor: null,
 	nextCursor: null,
-	sortDirection: 'asc',
-	sorting: null,
 	studios: [],
-	searchValue: null,
 	isPaginationEvent: false,
 	hasMoreData: true,
 };
