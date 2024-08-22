@@ -5,12 +5,14 @@ import {
 
 import { genresSlice } from './genre/slice';
 import { drawerSlice } from './drawer/slice';
+import { studiosSlice } from './studio/slice';
 
 /** The Redux store of the application. */
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
 		drawer: drawerSlice.reducer,
+		studios: studiosSlice.reducer,
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware({
 		// We need to disable this check to allow ES6 classes in Redux.
