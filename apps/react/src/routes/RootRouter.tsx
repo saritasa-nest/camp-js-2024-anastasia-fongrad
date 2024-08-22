@@ -3,6 +3,7 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 
 import { genreRoutes } from '../features/genres/routes';
 import { animeRoutes } from '../features/anime/routes';
+import { authRoutes } from '../features/auth/routes';
 
 const routes: RouteObject[] = [
 	{
@@ -11,6 +12,7 @@ const routes: RouteObject[] = [
 	},
 	...genreRoutes,
 	...animeRoutes,
+	...authRoutes,
 ];
 
 /** Root router component. */

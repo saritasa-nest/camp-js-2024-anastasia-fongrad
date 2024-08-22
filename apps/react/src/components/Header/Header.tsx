@@ -27,9 +27,9 @@ const mainRoutes: NavigationProps[] = [
 ];
 
 const loginRoutes: NavigationProps[] = [
-	{ name: 'Login', path: '/anime' },
+	{ name: 'Login', path: '/login' },
+	{ name: 'Registration', path: '/registration' },
 	{ name: 'Logout', path: '/anime' },
-	{ name: 'Profile', path: '/anime' },
 ];
 
 const HeaderComponent: FC = () => {
