@@ -1,5 +1,5 @@
 .filters__form {
-	padding: 2px 4px;
+	padding: 2px var(--space-base);
 	display: flex;
 	align-items: center;
 	width: 100%;

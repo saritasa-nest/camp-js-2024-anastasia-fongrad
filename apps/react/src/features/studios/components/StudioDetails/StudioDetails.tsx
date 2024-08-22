@@ -15,31 +15,18 @@ const StudioDetailsComponent: FC = () => {
 				{ `Studio ${studioId}` }
 			</Typography>
 			<Typography paragraph>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-				tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-				enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-				imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-				Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-				Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-				adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-				nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-				leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-				feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-				consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-				sapien faucibus et molestie ac.
+				It is an animation studio based in wonderful place. Founded in 1800, it has
+				quickly become a powerhouse in the anime industry. The studio is known for
+				its high-quality animation, creative storytelling, and diverse range of projects.
+				From action-packed thrillers to heartwarming slice-of-life stories,
+				this studio has established itself as a studio that pushes the boundaries
+				of animation while always staying true to its artistic vision.
 			</Typography>
 			<Typography paragraph>
-				Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-				eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-				neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-				tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-				sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-				tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-				gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-				et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-				tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-				eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-				posuere sollicitudin aliquam ultrices sagittis orci a.
+				The studio prides itself on its talented team of animators, artists, and writers
+				who are passionate about creating engaging and visually stunning anime experiences.
+				With a strong commitment to innovation and collaboration, this studio continues
+				to produce some of the most memorable and beloved anime titles in the world.
 			</Typography>
 			<div className={styles.buttons}>
 				<Button variant="outlined">Edit</Button>
