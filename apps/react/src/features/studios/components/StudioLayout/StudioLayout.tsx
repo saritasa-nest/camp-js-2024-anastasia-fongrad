@@ -7,8 +7,10 @@ import {
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Outlet, useParams, createSearchParams } from 'react-router-dom';
+import { useNavigate, Outlet, useParams } from 'react-router-dom';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
+
+import { useQueryParams } from '../../hooks/useQueryParams';
 
 import { StudiosList } from '../StudioList';
 
@@ -26,18 +28,20 @@ const StudioLayoutComponent: FC = () => {
 	const cursor = useAppSelector(selectCursor) ?? undefined;
 	const hasMoreData = useAppSelector(selectHasMoreData);
 
+	const { queryParams, setQueryParams } = useQueryParams();
+
 	const params = {
-		ordering: sortDirection === 'asc' ? sorting : `-${sorting}`,
-		search: searchValue,
-		cursor,
+		ordering: queryParams.get('ordering') ?? undefined,
+		search: searchValue ?? queryParams.get('search') ?? undefined,
+		cursor: cursor ?? queryParams.get('cursor') ?? undefined,
 	};
 
 	useEffect(() => {
 		if (hasMoreData) {
 			dispatch(fetchStudios(params));
-			navigate({
-				pathname: window.location.pathname,
-				search: createSearchParams(JSON.parse(JSON.stringify(params))).toString(),
+			setQueryParams({
+				...queryParams,
+				...JSON.parse(JSON.stringify(params)),
 			});
 		}
 	}, [dispatch, sorting, sortDirection, searchValue, cursor]);

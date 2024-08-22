@@ -7,25 +7,46 @@ import {
 } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { FC, memo } from 'react';
+import { FC, memo, useEffect } from 'react';
+
+import { useQueryParams } from '../../hooks/useQueryParams';
 
 import styles from './StudioSortSelect.module.css';
 
 const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
-	const sortValue = useAppSelector(selectSorting);
+	const sortValue = useAppSelector(selectSorting) ?? '';
 	const sortDirection = useAppSelector(selectSortDirection);
+
+	const { queryParams, setQueryParams } = useQueryParams();
+
+	useEffect(() => {
+		const ordering = queryParams.get('ordering');
+		if (ordering !== null) {
+			const firstChar = ordering[0];
+			dispatch(changeSorting(firstChar === '-' ? ordering.slice(1) : ordering));
+			dispatch(changeSortDirection(firstChar === '-' ? 'desc' : 'asc'));
+		}
+	}, [dispatch, queryParams]);
 
 	const handleSortChange = (event: SelectChangeEvent) => {
 		dispatch(changeSorting(event.target.value));
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
+		setQueryParams({
+			...Object.fromEntries(queryParams),
+			ordering: sortDirection === 'asc' ? event.target.value : `-${event.target.value}`,
+		});
 	};
 
 	const handleDirectionChange = () => {
 		dispatch(changeSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'));
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
+		setQueryParams({
+			...Object.fromEntries(queryParams),
+			ordering: sortDirection === 'asc' ? sortValue : `-${sortValue}`,
+		});
 	};
 
 	return (

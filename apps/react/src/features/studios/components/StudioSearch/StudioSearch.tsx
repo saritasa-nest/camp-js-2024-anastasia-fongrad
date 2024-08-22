@@ -5,12 +5,15 @@ import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { changeSearchValue, resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 import { selectSearchValue } from '@js-camp/react/store/studio/selectors';
 
+import { useQueryParams } from '../../hooks/useQueryParams';
+
 import styles from './StudioSearch.module.css';
 
 const StudioSearchComponent: FC = () => {
 	const [inputValue, setInputValue] = useState('');
 	const dispatch = useAppDispatch();
-	const searchValue = useAppSelector(selectSearchValue);
+	const { queryParams, setQueryParams } = useQueryParams();
+	const searchValue = useAppSelector(selectSearchValue) ?? queryParams.get('search');
 
 	const handleInputValueChange = (event: ChangeEvent) => {
 		setInputValue((event.target as HTMLInputElement).value);
@@ -20,6 +23,7 @@ const StudioSearchComponent: FC = () => {
 		dispatch(changeSearchValue(inputValue.length > 0 ? inputValue : null));
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
+		setQueryParams({ ...Object.fromEntries(queryParams), search: inputValue });
 	};
 
 	return (<Paper component="form" className={styles.filters__form}>
