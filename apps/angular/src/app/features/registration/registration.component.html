@@ -1,0 +1,17 @@
+<camp-header/>
+<main class="main">
+	<section class="main__auth auth">
+		<div class="auth__container container">
+			<div class="auth__content">
+				<div class="auth__registration-group">
+					<h1 class="auth__header">Registration</h1>
+					<camp-registration-form (registrationSuccess)="onRegistrationSuccess()"/>
+					<div class="auth__switch">
+						Already have an account?
+						<a [routerLink]="[getLoginRoute()]">Login</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>

@@ -1,0 +1,29 @@
+<mat-toolbar>
+	<header class="header">
+		<div class="header__container container">
+			<a class="header__content" [routerLink]="[appRoutes.Home]">
+				<img class="header__logo" src="assets/anime-icon.png" alt="">
+				<span>Anime Catalog App</span>
+			</a>
+			<a [routerLink]="[getFullRoute(appRoutes.Home)]">Catalog</a>
+			@if (userProfile$ | async; as userProfile) {
+				<div class="header__user user">
+					<div class="user__profile" >
+						<img class="user__avatar" src="assets/user-icon.svg" alt="avatar">
+						<div class="user__info">
+							<div class="user__name">
+								{{ userProfile.getFullName() }}
+							</div>
+							<div class="user__email">{{ userProfile.email }}</div>
+						</div>
+					</div>
+				</div>
+				<button mat-raised-button type="button" (click)="logout()">Logout</button>
+			}
+			@else {
+				<a [routerLink]="[getFullRoute(appRoutes.Registration)]">Registration</a>
+				<a [routerLink]="[getFullRoute(appRoutes.Login)]">Login</a>
+			}
+		</div>
+	</header>
+</mat-toolbar>
