@@ -1,11 +1,8 @@
 /** Studio query parameters model. */
 export type StudioQueryParameters = {
 
-	/** Page number. */
-	readonly pageNumber: number;
-
-	/** Page size. */
-	readonly pageSize: number;
+	/** Pagination cursor value. */
+	readonly cursor?: string;
 
 	/** A query to search studio by name. */
 	readonly search?: string;

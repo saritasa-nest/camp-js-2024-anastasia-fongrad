@@ -1,32 +1,27 @@
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
-import { selectSorting } from '@js-camp/react/store/studio/selectors';
-import { changeSorting } from '@js-camp/react/store/studio/slice';
+import { selectSortDirection, selectSorting } from '@js-camp/react/store/studio/selectors';
+import { changeSortDirection, changeSorting } from '@js-camp/react/store/studio/slice';
 import {
 	FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent,
 	Tooltip,
 } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { FC, memo, useState } from 'react';
+import { FC, memo } from 'react';
 
 import styles from './StudioSortSelect.module.css';
-
-type SortDirection = 'asc' | 'desc';
 
 const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const sortValue = useAppSelector(selectSorting);
-	const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+	const sortDirection = useAppSelector(selectSortDirection);
 
 	const handleSortChange = (event: SelectChangeEvent) => {
-		const ordering = sortDirection === 'asc' ? event.target.value : `-${event.target.value}`;
-		dispatch(changeSorting(ordering));
-		dispatch(fetchStudios({ pageSize: 25, pageNumber: 0, ordering }));
+		dispatch(changeSorting(event.target.value));
 	};
 
 	const handleDirectionChange = () => {
-		setSortDirection(previousValue => previousValue === 'asc' ? 'desc' : 'asc');
+		dispatch(changeSortDirection(sortDirection === 'asc' ? 'desc' : 'asc'));
 	};
 
 	return (
@@ -45,14 +40,17 @@ const StudioSortSelectComponent: FC = () => {
 				</Select>
 			</FormControl>
 			<Tooltip title="Sort direction">
-				<IconButton
-					aria-label="delete"
-					className={styles['order-button']}
-					color='primary'
-					onClick={handleDirectionChange}
-				>
-					{sortDirection === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
-				</IconButton>
+				<span>
+					<IconButton
+						aria-label="delete"
+						className={styles['order-button']}
+						color='primary'
+						onClick={handleDirectionChange}
+						disabled={sortValue === null}
+					>
+						{sortDirection === 'asc' ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+					</IconButton>
+				</span>
 			</Tooltip>
 		</div>
 	);

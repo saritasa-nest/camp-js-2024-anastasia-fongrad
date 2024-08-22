@@ -2,10 +2,8 @@ import { memo, FC, useState, useEffect, useRef } from 'react';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
-import { selectStudios, selectStudiosPageNumber } from '@js-camp/react/store/studio/selectors';
-import { incrementPageNumber } from '@js-camp/react/store/studio/slice';
+import { useAppDispatch } from '@js-camp/react/store';
+import { AnimeStudio } from '@js-camp/core/models/studio.model';
 
 import { StudioFilters } from '../StudioFilters';
 import { StudioListItem } from '../StudioListItem';
@@ -14,27 +12,25 @@ import styles from './StudioList.module.css';
 
 type StudiosListProps = {
 
+	/** Anime studio list. */
+	readonly studios: AnimeStudio[];
+
 	/** Handles displaying studio details on click. */
 	onStudioClick: (id: number) => void;
 };
 
-const DEFAULT_PAGE_SIZE = 25;
-
-const StudiosListComponent: FC<StudiosListProps> = ({ onStudioClick }: StudiosListProps) => {
+const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: StudiosListProps) => {
 	const { studioId } = useParams<{ studioId: string; }>();
 	const [selectedStudioId, setSelectedStudioId] = useState<number | undefined>(studioId ?
 		Number(studioId) :
 		undefined);
 	const observerRef = useRef(null);
 	const dispatch = useAppDispatch();
-	const pageNumber = useAppSelector(selectStudiosPageNumber);
-	const studios = useAppSelector(selectStudios);
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(entries => {
 			if (entries[0].isIntersecting) {
-				dispatch(incrementPageNumber());
-				dispatch(fetchStudios({ pageSize: DEFAULT_PAGE_SIZE, pageNumber }));
+				// dispatch(fetchStudios({ ordering: sorting, search: searchValue, cursor: nextCursor }));
 			}
 		}, { threshold: 1 });
 
@@ -47,7 +43,7 @@ const StudiosListComponent: FC<StudiosListProps> = ({ onStudioClick }: StudiosLi
 				observer.unobserve(observerRef.current);
 			}
 		};
-	}, [observerRef, dispatch, pageNumber]);
+	}, [observerRef, dispatch]);
 
 	const handleStudioClick = (id: number) => {
 		setSelectedStudioId(id);

@@ -9,8 +9,7 @@ export namespace StudioQueryParametersMapper {
 	 */
 	export function fromDto(dto: StudioQueryParametersDto): StudioQueryParameters {
 		return {
-			pageSize: dto.limit,
-			pageNumber: Math.round(dto.offset / dto.limit),
+			cursor: dto.cursor,
 			search: dto.search,
 			ordering: dto.ordering,
 		};
@@ -22,8 +21,7 @@ export namespace StudioQueryParametersMapper {
 	 */
 	export function toDto(model: StudioQueryParameters): StudioQueryParametersDto {
 		return {
-			limit: model.pageSize,
-			offset: model.pageNumber * model.pageSize,
+			cursor: model.cursor,
 			search: model.search,
 			ordering: model.ordering,
 		};

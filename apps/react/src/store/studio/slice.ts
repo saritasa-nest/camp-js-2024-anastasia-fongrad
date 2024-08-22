@@ -8,11 +8,14 @@ export const studiosSlice = createSlice({
 	name: 'studios',
 	initialState,
 	reducers: {
-		incrementPageNumber(state) {
-			state.pageNumber += 1;
+		changeSortDirection(state, action) {
+			state.sortDirection = action.payload;
 		},
 		changeSorting(state, action) {
 			state.sorting = action.payload;
+		},
+		changeSearchValue(state, action) {
+			state.searchValue = action.payload;
 		},
 	},
 	extraReducers: builder => builder
@@ -20,7 +23,11 @@ export const studiosSlice = createSlice({
 			state.isLoading = true;
 		})
 		.addCase(fetchStudios.fulfilled, (state, action) => {
-			state.studios = action.payload;
+			const { results, nextCursor } = action.payload;
+			state.studios = [...results];
+			state.previousCursor = state.cursor;
+			state.cursor = state.nextCursor;
+			state.nextCursor = nextCursor;
 			state.isLoading = false;
 		})
 		.addCase(fetchStudios.rejected, (state, action) => {
@@ -32,4 +39,4 @@ export const studiosSlice = createSlice({
 });
 
 /** Studios slice actions. */
-export const { incrementPageNumber, changeSorting } = studiosSlice.actions;
+export const { changeSortDirection, changeSorting, changeSearchValue } = studiosSlice.actions;

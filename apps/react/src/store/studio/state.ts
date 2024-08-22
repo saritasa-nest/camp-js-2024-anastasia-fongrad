@@ -12,17 +12,33 @@ export type StudiosState = {
 	/** Whether the studios are loading or not. */
 	readonly isLoading: boolean;
 
-	/** Number of current page. */
-	readonly pageNumber: number;
+	/** Pointer to previous page. */
+	readonly previousCursor: string | null;
+
+	/** Pointer to current page. */
+	readonly cursor: string | null;
+
+	/** Pointer to next page. */
+	readonly nextCursor: string | null;
 
 	/** List sorting. */
 	readonly sorting: string | null;
+
+	/** Sorting direction. */
+	readonly sortDirection: 'asc' | 'desc';
+
+	/** Studio name search value. */
+	readonly searchValue: string | null;
 };
 
 /** Initial state for the studios slice of the Redux store. */
 export const initialState: StudiosState = {
 	isLoading: false,
-	pageNumber: 0,
+	previousCursor: null,
+	cursor: null,
+	nextCursor: null,
+	sortDirection: 'asc',
 	sorting: null,
 	studios: [],
+	searchValue: null,
 };
