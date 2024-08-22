@@ -17,7 +17,7 @@ export class AppUrlConfig {
 	} as const;
 
 	/**
-	 * Checks if given url is accessible to unauthorized.
+	 * Checks if given url is accessible to unauthorized users.
 	 * @param url Url to check.
 	 */
 	public isAccessibleToUnauthorized(url: string): boolean {
@@ -25,5 +25,13 @@ export class AppUrlConfig {
 			url.includes(this.paths.registration) ||
 			url.includes(this.paths.tokenRefresh) ||
 			url.endsWith(this.paths.animeCatalog);
+	}
+
+	/**
+	 * Gets a path for anime details.
+	 * @param id Anime id.
+	 */
+	public getDetailsPath(id: number): string {
+		return `${this.paths.animeCatalog}${id}/`;
 	}
 }
