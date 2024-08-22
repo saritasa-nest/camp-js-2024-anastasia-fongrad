@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
-import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
+import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { Observable, switchMap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
