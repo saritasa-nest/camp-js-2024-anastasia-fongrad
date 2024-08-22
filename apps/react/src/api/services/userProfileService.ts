@@ -4,7 +4,7 @@ import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 
 import { http } from '..';
 
-const url = 'anime/genres/';
+const url = 'users/profile/';
 
 export namespace UserProfileService {
 

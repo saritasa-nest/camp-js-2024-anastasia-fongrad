@@ -1,5 +1,5 @@
 import { memo, FC, useState, MouseEvent } from 'react';
-import { FieldValues, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
@@ -9,12 +9,40 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import FormHelperText from '@mui/material/FormHelperText';
+import { AuthService } from '@js-camp/react/api/services/authService';
+
+import { useAuthToken } from '../../hooks/useAuthToken';
 
 import styles from './LoginForm.module.css';
 
+const validationSchema = z.object({
+	email: z.string().min(1, { message: 'Invalid email address' }),
+	password: z.string().min(1, { message: 'Password is required' }),
+});
+
+type LoginFormValues = z.infer<typeof validationSchema>;
+
+const defaultLoginFormValues: LoginFormValues = {
+	email: '',
+	password: '',
+};
+
 const LoginFormComponent: FC = () => {
-	const { register, handleSubmit, formState: { errors } } = useForm();
-	const onSubmit = (data: FieldValues) => console.log(data);
+	const { handleSubmit, formState: { errors }, control } = useForm({
+		defaultValues: defaultLoginFormValues,
+		resolver: zodResolver(validationSchema),
+	});
+
+	const { saveAuthToken } = useAuthToken();
+
+	const submitForm: SubmitHandler<LoginFormValues> = data => {
+		AuthService.login(data).then(
+			token => saveAuthToken(token),
+		);
+	};
 
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -26,45 +54,55 @@ const LoginFormComponent: FC = () => {
 
 	return (
 		<Box component="form"
-			onSubmit={handleSubmit(onSubmit)}
+			onSubmit={handleSubmit(submitForm)}
 			className={styles.form}
 		>
-			<TextField
-				margin="normal"
-				required
-				fullWidth
-				id="email"
-				label="Email Address"
-				autoComplete="email"
-				autoFocus
-				{ ...register('email', { required: 'Email is required' })}
-				error={!!errors.email}
-			/>
-			<FormControl className={styles['form-control']}>
-				<InputLabel htmlFor="new_password">Password</InputLabel>
-				<OutlinedInput
-					id="new_password"
-					type={showPassword ? 'text' : 'password'}
+			<Controller
+				name="email"
+				control={control}
+				render={({ field }) => <TextField
+					{...field}
+					label="Email"
+					InputLabelProps={{ required: true }}
 					fullWidth
-					required
-					autoComplete="new-password"
-					{...register('new-password', { required: 'Password is required' })}
-					endAdornment={
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="toggle password visibility"
-								onClick={handleClickShowPassword}
-								onMouseDown={handleMouseDownPassword}
-								edge="end"
-							>
-								{showPassword ? <VisibilityOff /> : <Visibility />}
-							</IconButton>
-						</InputAdornment>
-					}
-					label="Password"
-					error={!!errors.new_password}
-				/>
-			</FormControl>
+					error={errors.email != null}
+					helperText={errors?.email?.message}
+					className={styles['form-control']}
+				/>}
+			/>
+			<Controller
+				name='password'
+				control={control}
+				render={({ field }) => <FormControl
+					className={styles['form-control']}
+					error={errors.password != null}
+				>
+					<InputLabel htmlFor="new_password">Password</InputLabel>
+					<OutlinedInput
+						{...field}
+						type={showPassword ? 'text' : 'password'}
+						fullWidth
+						autoComplete="new-password"
+						endAdornment={
+							<InputAdornment position="end">
+								<IconButton
+									aria-label="toggle password visibility"
+									onClick={handleClickShowPassword}
+									onMouseDown={handleMouseDownPassword}
+									edge="end"
+								>
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						}
+						label="Password"
+					/>
+					{errors.password && (
+						<FormHelperText>{errors.password.message}</FormHelperText>
+					)}
+				</FormControl>
+				}
+			/>
 			<Button
 				type="submit"
 				fullWidth

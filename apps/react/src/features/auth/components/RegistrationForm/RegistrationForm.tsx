@@ -12,16 +12,11 @@ import IconButton from '@mui/material/IconButton';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
+import { AuthService } from '@js-camp/react/api/services/authService';
 
-type RegistrationFormValues = z.infer<typeof validationSchema>;
+import { AlertDialog } from '../RegistrarionConfirm';
 
-const defaultRegistrationFormValues: RegistrationFormValues = {
-	email: '',
-	firstName: '',
-	lastName: '',
-	password: '',
-	passwordConfirm: '',
-};
+import styles from './RegistrationForm.module.css';
 
 const validationSchema = z.object({
 	email: z.string().email({ message: 'Invalid email address' }),
@@ -34,21 +29,43 @@ const validationSchema = z.object({
 	path: ['passwordConfirm'],
 });
 
-import styles from './RegistrationForm.module.css';
+type RegistrationFormValues = z.infer<typeof validationSchema>;
+
+const defaultRegistrationFormValues: RegistrationFormValues = {
+	email: '',
+	firstName: '',
+	lastName: '',
+	password: '',
+	passwordConfirm: '',
+};
 
 // eslint-disable-next-line max-lines-per-function
 const RegistrationFormComponent: FC = () => {
-	const { register, handleSubmit, formState: { errors }, control } = useForm({
+	const { handleSubmit, formState: { errors }, control } = useForm({
 		defaultValues: defaultRegistrationFormValues,
 		resolver: zodResolver(validationSchema),
 	});
 
 	const submitForm: SubmitHandler<RegistrationFormValues> = data => {
-		console.log(data);
+		const { passwordConfirm, ...registrationData } = data;
+		AuthService.register(registrationData).then(
+			token => console.log(token),
+		);
 	};
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [showRetypePassword, setShowRetypePassword] = useState(false);
+
+	const [open, setOpen] = useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
 
 	const handleClickShowPassword = () => setShowPassword((show: boolean) => !show);
 	const handleClickShowRetypePassword = () => setShowRetypePassword((show: boolean) => !show);
