@@ -14,6 +14,7 @@ export const userProfileSlice = createSlice({
 		})
 		.addCase(fetchUserProfile.fulfilled, (state, action) => {
 			state.userProfile = action.payload;
+			state.isAuthorized = action.payload != null;
 			state.isLoading = false;
 		})
 		.addCase(fetchUserProfile.rejected, (state, action) => {

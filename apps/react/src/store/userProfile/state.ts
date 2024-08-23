@@ -6,6 +6,9 @@ export type UserProfileState = {
 	/** Genres list. */
 	readonly userProfile: UserProfile | null;
 
+	/** 1. */
+	readonly isAuthorized: boolean;
+
 	/** Error. */
 	readonly error?: string;
 
@@ -16,5 +19,6 @@ export type UserProfileState = {
 /** Initial state for the genres slice of the Redux store. */
 export const initialState: UserProfileState = {
 	isLoading: false,
+	isAuthorized: false,
 	userProfile: null,
 };

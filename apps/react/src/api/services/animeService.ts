@@ -7,10 +7,9 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { AnimeFilteringParameters } from '@js-camp/core/models/anime-filtering-parameters.model';
 import { AnimeFilteringParametersMapper } from '@js-camp/core/mappers/anime-filtering-parameters.mapper';
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
+import { AppUrlConfig } from '@js-camp/react/utils/appUrlConfig';
 
 import { http } from '..';
-
-const animeCursorUrl = 'anime/anime/list-cursor/';
 
 export namespace AnimeService {
 
@@ -20,7 +19,10 @@ export namespace AnimeService {
 	 */
 	export async function fetchAnime(parameters: Partial<AnimeFilteringParameters>): Promise<Pagination<Anime>> {
 		const dtoParameters = ObjectUtils.removeEmptyFields(AnimeFilteringParametersMapper.toDto(parameters));
-		const { data } = await http.get<PaginationDto<AnimeDto>>(animeCursorUrl, { params: dtoParameters });
+		const { data } = await http.get<PaginationDto<AnimeDto>>(
+			AppUrlConfig.paths.animeList,
+			{ params: dtoParameters },
+		);
 		return PaginationMapper.fromDto(data, dto => AnimeMapper.fromDto(dto));
 	}
 

@@ -48,6 +48,13 @@ const HeaderComponent: FC = () => {
 	const userProfile = useAppSelector(selectUserProfile);
 	const dispatch = useAppDispatch();
 	const [currentPage, setCurrentPage] = useState<string>('Anime');
+	const [authToken, setAuthToken] = useState(AuthTokenService.getAuthToken());
+
+	const logout = () => {
+		AuthTokenService.removeAuthToken();
+		setAuthToken(null);
+		dispatch(fetchUserProfile());
+	};
 
 	const handleDrawerOpen = () => {
 		dispatch(setOpen(true));
@@ -63,7 +70,7 @@ const HeaderComponent: FC = () => {
 
 	useEffect(() => {
 		dispatch(fetchUserProfile());
-	}, [dispatch]);
+	}, [dispatch, authToken]);
 
 	return (
 		<>
@@ -121,7 +128,7 @@ const HeaderComponent: FC = () => {
 						<ListItemButton
 							component={NavLink}
 							to='/login'
-							onClick={() => AuthTokenService.removeAuthToken()}
+							onClick={logout}
 						>
 							<ListItemIcon>
 								<InboxIcon />

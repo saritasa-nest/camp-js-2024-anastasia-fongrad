@@ -13,3 +13,9 @@ export const selectIsUserProfileLoading = createSelector(
 	(state: RootState) => state.userProfile.isLoading,
 	isLoading => isLoading,
 );
+
+/** 1. */
+export const selectIsUserAuthorized = createSelector(
+	(state: RootState) => state.userProfile.isAuthorized,
+	isAuthorized => isAuthorized,
+);
