@@ -1,4 +1,4 @@
-import { memo, FC, useState, MouseEvent } from 'react';
+import { memo, FC, useState, useEffect, MouseEvent } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -9,13 +9,16 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthService } from '@js-camp/react/api/services/authService';
 import { useNavigate } from 'react-router-dom';
+import { ServerError } from '@js-camp/core/models/server-error.model';
+import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
 
-import { AlertDialog } from '../RegistrarionConfirm';
+import { AlertDialog } from '../AlertDialog';
 
 import styles from './RegistrationForm.module.css';
 
@@ -40,27 +43,51 @@ const defaultRegistrationFormValues: RegistrationFormValues = {
 	passwordConfirm: '',
 };
 
+/**
+ * 1.
+ * @param key 1.
+ */
+function isRegistrationFormField(key: string): key is keyof RegistrationFormValues {
+	return key === 'email' || key === 'password';
+}
+
 // eslint-disable-next-line max-lines-per-function
 const RegistrationFormComponent: FC = () => {
-	const { handleSubmit, formState: { errors }, control } = useForm({
+	const { handleSubmit, formState: { errors }, control, setError } = useForm({
 		defaultValues: defaultRegistrationFormValues,
 		resolver: zodResolver(validationSchema),
 	});
 
 	const [showPassword, setShowPassword] = useState(false);
 	const [showRetypePassword, setShowRetypePassword] = useState(false);
+	const [serverErrors, setServerError] = useState<ServerError[]>([]);
 	const [open, setOpen] = useState(false);
 	const navigate = useNavigate();
 
 	const submitForm: SubmitHandler<RegistrationFormValues> = data => {
 		const { passwordConfirm, ...registrationData } = data;
-		AuthService.register(registrationData).then(
-			_token => {
-				setOpen(true);
-				navigate('/login');
-			},
-		);
+		AuthService.register(registrationData)
+			.then(
+				_token => {
+					setOpen(true);
+					navigate('/login');
+				},
+			)
+			.catch(
+				error => setServerError(ErrorsService.parseError(error)),
+			);
 	};
+
+	useEffect(() => {
+		serverErrors.forEach(error => {
+			if (isRegistrationFormField(error.controlName)) {
+				setError(error.controlName, {
+					type: 'manual',
+					message: error.controlErrors[0],
+				});
+			}
+		});
+	}, [serverErrors]);
 
 	const handleClose = () => {
 		setOpen(false);
@@ -192,6 +219,13 @@ const RegistrationFormComponent: FC = () => {
 				</FormControl>
 				}
 			/>
+			<Typography
+				component="p"
+				gutterBottom
+				className={styles.form__error}
+			>
+				{ serverErrors[0]?.controlName === 'form' && serverErrors[0]?.controlErrors[0]}
+			</Typography>
 			<Button
 				type="submit"
 				fullWidth

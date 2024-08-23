@@ -14,4 +14,7 @@
   --sidebar-width: 280px;
   --list-width: 400px;
   --anime-list-width: 35%;
+
+  /* Colors */
+  --error-color: rgb(192 42 42);
 }

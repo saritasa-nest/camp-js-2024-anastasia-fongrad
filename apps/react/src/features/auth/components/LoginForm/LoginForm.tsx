@@ -1,4 +1,4 @@
-import { memo, FC, useState, MouseEvent } from 'react';
+import { memo, FC, useState, useEffect, MouseEvent } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
@@ -17,6 +18,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthTokenService } from '@js-camp/react/api/services/localStorageService';
 import { useAppDispatch } from '@js-camp/react/store';
 import { fetchUserProfile } from '@js-camp/react/store/userProfile/dispatchers';
+import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
+import { ServerError } from '@js-camp/core/models/server-error.model';
 
 import styles from './LoginForm.module.css';
 
@@ -32,25 +35,49 @@ const defaultLoginFormValues: LoginFormValues = {
 	password: '',
 };
 
+/**
+ * 1.
+ * @param key 1.
+ */
+function isLoginFormField(key: string): key is keyof LoginFormValues {
+	return key in validationSchema.shape;
+}
+
 const LoginFormComponent: FC = () => {
-	const { handleSubmit, formState: { errors }, control } = useForm({
+	const { handleSubmit, formState: { errors }, control, setError } = useForm({
 		defaultValues: defaultLoginFormValues,
 		resolver: zodResolver(validationSchema),
 	});
 
 	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
+	const [serverErrors, setServerError] = useState<ServerError[]>([]);
 	const dispatch = useAppDispatch();
 
 	const submitForm: SubmitHandler<LoginFormValues> = data => {
-		AuthService.login(data).then(
-			token => {
-				AuthTokenService.saveAuthToken(token);
-				dispatch(fetchUserProfile());
-				navigate('/anime');
-			},
-		);
+		AuthService.login(data)
+			.then(
+				token => {
+					AuthTokenService.saveAuthToken(token);
+					dispatch(fetchUserProfile());
+					navigate('/anime');
+				},
+			)
+			.catch(
+				error => setServerError(ErrorsService.parseError(error)),
+			);
 	};
+
+	useEffect(() => {
+		serverErrors.forEach(error => {
+			if (isLoginFormField(error.controlName)) {
+				setError(error.controlName, {
+					type: 'manual',
+					message: error.controlErrors[0],
+				});
+			}
+		});
+	}, [serverErrors]);
 
 	const handleClickShowPassword = () => setShowPassword((show: boolean) => !show);
 
@@ -109,6 +136,13 @@ const LoginFormComponent: FC = () => {
 				</FormControl>
 				}
 			/>
+			<Typography
+				component="p"
+				gutterBottom
+				className={styles.form__error}
+			>
+				{ serverErrors[0]?.controlName === 'form' && serverErrors[0]?.controlErrors[0]}
+			</Typography>
 			<Button
 				type="submit"
 				fullWidth
