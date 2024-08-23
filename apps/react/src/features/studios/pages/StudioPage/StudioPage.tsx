@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { setOpen } from '@js-camp/react/store/drawer/slice';
 import { NavigationList } from '@js-camp/react/components/NavigationList';
+import clsx from 'clsx';
 
 import { StudioLayout } from '../../components/StudioLayout';
 
@@ -47,7 +48,10 @@ const StudioPageComponent: FC = () => {
 	return (
 		<Box className={styles.main}>
 			<CssBaseline />
-			<MuiAppBar className={`${styles['main__app-bar']} ${open ? styles['main__app-bar_open'] : ''}`}>
+			<MuiAppBar className={clsx(
+				styles['main__app-bar'],
+				open && styles['main__app-bar_open'],
+			)}>
 				<Toolbar className={styles.main__toolbar}>
 					<IconButton
 						className={styles['main__toolbar-icon']}

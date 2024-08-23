@@ -1,6 +1,0 @@
-.filters {
-	display: flex;
-	flex-direction: column;
-	margin: 0 var(--space-5) var(--space-5) 0;
-	gap: var(--space-2);
-}

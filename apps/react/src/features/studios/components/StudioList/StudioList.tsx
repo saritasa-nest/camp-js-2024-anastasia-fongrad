@@ -1,13 +1,14 @@
 import { memo, FC, useState, useEffect, useRef } from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
+import { Box, List, ListItem, ListItemButton, ListItemText, IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
 import { AnimeStudio } from '@js-camp/core/models/studio.model';
 import { setPaginationEvent, updateCursor } from '@js-camp/react/store/studio/slice';
 
-import { StudioFilters } from '../StudioFilters';
 import { StudioListItem } from '../StudioListItem';
+import { StudioSortSelect } from '../StudioSortSelect';
+import { StudioSearch } from '../StudioSearch';
 
 import styles from './StudioList.module.css';
 
@@ -54,7 +55,13 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: 
 
 	return (
 		<Box className={styles['genre-list']}>
-			<StudioFilters/>
+			<Box className={styles.filters}>
+				<Typography variant="h5" component="h5" gutterBottom>
+					Filters
+				</Typography>
+				<StudioSortSelect />
+				<StudioSearch />
+			</Box>
 			<List className={styles['genre-list__items']}>
 				<ListItem disablePadding>
 					<ListItemButton>

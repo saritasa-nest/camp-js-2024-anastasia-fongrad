@@ -10,6 +10,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, Outlet, useParams } from 'react-router-dom';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
+import clsx from 'clsx';
 
 import { useQueryParams } from '../../hooks/useQueryParams';
 
@@ -25,7 +26,7 @@ const StudioLayoutComponent: FC = () => {
 	const studios = useAppSelector(selectStudios);
 	const cursor = useAppSelector(selectCursor) ?? undefined;
 	const hasMoreData = useAppSelector(selectHasMoreData);
-	const isPaginationEvent = useAppSelector(selectIsPaginationEvent);
+	const isPagination = useAppSelector(selectIsPaginationEvent);
 
 	const { queryParams, setQueryParams } = useQueryParams();
 
@@ -45,7 +46,7 @@ const StudioLayoutComponent: FC = () => {
 	}, [cursor, queryParams]);
 
 	useEffect(() => {
-		if (!isPaginationEvent || isPaginationEvent && hasMoreData) {
+		if (!isPagination || hasMoreData) {
 			dispatch(fetchStudios(params));
 		}
 	}, [dispatch, queryParams]);
@@ -55,7 +56,10 @@ const StudioLayoutComponent: FC = () => {
 	};
 
 	return (
-		<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
+		<main className={clsx(
+			styles.layout,
+			open && styles.layout_open,
+		)}>
 			<Box className={styles.layout__sidebar}>
 				<StudiosList studios={studios} onStudioClick={handleStudioClick} />
 			</Box>
