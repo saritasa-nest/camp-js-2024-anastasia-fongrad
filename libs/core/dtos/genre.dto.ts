@@ -1,3 +1,5 @@
+import { GenresTypeDto } from "./enums/anime-genres-type.dto.enum";
+
 /** Genre DTO. */
 export type GenreDto = {
 
@@ -20,5 +22,5 @@ export type GenreDto = {
 	readonly modified: string;
 
 	/** DTO type. */
-	readonly type: 'GENRES';
+	readonly type: GenresTypeDto;
 };

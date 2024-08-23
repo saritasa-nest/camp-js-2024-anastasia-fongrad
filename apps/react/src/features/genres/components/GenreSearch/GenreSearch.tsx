@@ -31,19 +31,19 @@ const GenreSearchComponent: FC = () => {
 	}, [queryParamsValue]);
 
 	return (
-		<Box className={styles.filters}>
+		<Box className={styles.search}>
 			<Typography variant='h5' component='h5' gutterBottom>
-				Filters
+				search
 			</Typography>
-			<Paper component='form' className={styles.filters__form}>
+			<Paper component='form' className={styles.search__form}>
 				<InputBase
-					className={styles['filters__input-base']}
+					className={styles['search__input-base']}
 					placeholder='Search Genres ...'
 					aria-label='search genres'
 					value={queryParamsValue}
 					onChange={handleQueryParamsValue}
 				/>
-				<IconButton type='button' className={styles['filters__icon-button']} aria-label='search' color='primary'>
+				<IconButton type='button' className={styles['search__icon-button']} aria-label='search' color='primary'>
 					<SearchIcon />
 				</IconButton>
 			</Paper>
@@ -51,5 +51,5 @@ const GenreSearchComponent: FC = () => {
 	);
 };
 
-/** Genre filters component. */
+/** Genre search component. */
 export const GenreSearch = memo(GenreSearchComponent);

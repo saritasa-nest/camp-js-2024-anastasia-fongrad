@@ -1,6 +1,7 @@
 import { GenreDto } from '../dtos/genre.dto';
 import { AnimeGenre } from '../models/genre.model';
 
+import { AnimeGenresTypeMapper } from './anime-genres-type.mapper';
 export namespace GenreMapper {
 
 	/**
@@ -11,6 +12,7 @@ export namespace GenreMapper {
 		return new AnimeGenre({
 			id: dto.id,
 			name: dto.name,
+			type: AnimeGenresTypeMapper.fromDto(dto.type),
 		});
 	}
 }

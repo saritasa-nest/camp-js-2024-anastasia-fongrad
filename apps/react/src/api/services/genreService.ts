@@ -7,15 +7,17 @@ import { PaginationListCursor } from '@js-camp/core/models/pagination-list-curso
 import { PaginationListCursorMapper } from '@js-camp/core/mappers/pagination-list-cursor.mapper';
 
 import { http } from '..';
+
 import { GenresQueryParams } from '@js-camp/react/model/genres-query-params.model';
 import { GenresFilterParamsMapper } from '@js-camp/react/mapper/genres-filter-params.mapper';
 
 const url = 'anime/genres/list-cursor/';
 
 export namespace GenresService {
+
 	/**
 	 * Fetches a list of genres.
-	 * @param params
+	 * @param params Params from UI.
 	 */
 	export async function fetchGenres(params: GenresQueryParams.Combined): Promise<PaginationListCursor<AnimeGenre>> {
 		const dtoParam = GenresFilterParamsMapper.toDto(params);

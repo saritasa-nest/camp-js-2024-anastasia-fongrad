@@ -3,6 +3,7 @@ import { AnimeGenre } from "@js-camp/core/models/genre.model";
 import { ListItem, ListItemText, ListItemButton } from "@mui/material";
 
 type Props = {
+
 	/** Selected state. */
 	readonly selected: boolean;
 
@@ -16,7 +17,7 @@ type Props = {
 const GenreListItemComponent: FC<Props> = forwardRef<HTMLLIElement, Props>(({ selected, genre, onClick }, ref) => (
 	<ListItem disablePadding ref={ref}>
 		<ListItemButton onClick={onClick} selected={selected}>
-			<ListItemText primary={genre.name} secondary={`Id - ${genre.id}`} />
+			<ListItemText primary={genre.name} secondary={`Type - ${genre.type}`} />
 		</ListItemButton>
 	</ListItem>
 ));
