@@ -16,12 +16,9 @@ type StudiosListProps = {
 
 	/** Anime studio list. */
 	readonly studios: AnimeStudio[];
-
-	/** Handles displaying studio details on click. */
-	onStudioClick: (id: number) => void;
 };
 
-const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: StudiosListProps) => {
+const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProps) => {
 	const { studioId } = useParams<{ studioId: string; }>();
 	const [selectedStudioId, setSelectedStudioId] = useState<number | undefined>(studioId ?
 		Number(studioId) :
@@ -50,7 +47,6 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios, onStudioClick }: 
 
 	const handleStudioClick = (id: number) => {
 		setSelectedStudioId(id);
-		onStudioClick(id);
 	};
 
 	return (

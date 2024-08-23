@@ -1,6 +1,7 @@
 import { memo, FC } from 'react';
 import { ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 import { AnimeStudio } from '@js-camp/core/models/studio.model';
+import { NavLink } from 'react-router-dom';
 
 type StudioListItemProps = {
 
@@ -16,7 +17,12 @@ type StudioListItemProps = {
 
 const StudioListItemComponent: FC<StudioListItemProps> = ({ selected, studio, onClick }: StudioListItemProps) => (
 	<ListItem disablePadding>
-		<ListItemButton onClick={onClick} selected={selected}>
+		<ListItemButton
+			onClick={onClick}
+			component={NavLink}
+			to={`${studio.id}`}
+			selected={selected}
+		>
 			<ListItemAvatar>
 				<Avatar alt={studio.name} src={studio.imageUrl} />
 			</ListItemAvatar>

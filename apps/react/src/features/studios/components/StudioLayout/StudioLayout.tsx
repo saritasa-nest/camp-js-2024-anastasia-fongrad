@@ -7,7 +7,7 @@ import {
 } from '@js-camp/react/store/studio/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useNavigate, Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 import clsx from 'clsx';
@@ -20,7 +20,6 @@ import styles from './StudioLayout.module.css';
 
 const StudioLayoutComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
-	const navigate = useNavigate();
 	const { studioId } = useParams<{ studioId: string; }>();
 	const dispatch = useAppDispatch();
 	const studios = useAppSelector(selectStudios);
@@ -30,11 +29,7 @@ const StudioLayoutComponent: FC = () => {
 
 	const { queryParams, setQueryParams } = useQueryParams();
 
-	const params: StudioQueryParameters = {
-		ordering: queryParams.get('ordering') ?? undefined,
-		search: queryParams.get('search') ?? undefined,
-		cursor: cursor ?? queryParams.get('cursor') ?? undefined,
-	};
+	const params: StudioQueryParameters = Object.fromEntries(queryParams);
 
 	useEffect(() => {
 		setQueryParams({
@@ -43,7 +38,7 @@ const StudioLayoutComponent: FC = () => {
 			search: queryParams.get('search') ?? undefined,
 			cursor: cursor ?? queryParams.get('cursor') ?? undefined,
 		});
-	}, [cursor, queryParams]);
+	}, [cursor]);
 
 	useEffect(() => {
 		if (!isPagination || hasMoreData) {
@@ -51,17 +46,13 @@ const StudioLayoutComponent: FC = () => {
 		}
 	}, [dispatch, queryParams]);
 
-	const handleStudioClick = (id: number) => {
-		navigate(`/studio/${id}`);
-	};
-
 	return (
 		<main className={clsx(
 			styles.layout,
 			open && styles.layout_open,
 		)}>
 			<Box className={styles.layout__sidebar}>
-				<StudiosList studios={studios} onStudioClick={handleStudioClick} />
+				<StudiosList studios={studios} />
 			</Box>
 			{studioId ? (
 				<Outlet />
