@@ -1,5 +1,5 @@
-import { memo, FC, useState, useEffect, useRef } from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemText, IconButton, Typography } from '@mui/material';
+import { memo, FC, useEffect, useRef } from 'react';
+import { List, ListItem, ListItemButton, ListItemText, IconButton, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
@@ -20,9 +20,6 @@ type StudiosListProps = {
 
 const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProps) => {
 	const { studioId } = useParams<{ studioId: string; }>();
-	const [selectedStudioId, setSelectedStudioId] = useState<number | undefined>(studioId ?
-		Number(studioId) :
-		undefined);
 	const observerRef = useRef(null);
 	const dispatch = useAppDispatch();
 
@@ -45,19 +42,15 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProp
 		};
 	}, [dispatch]);
 
-	const handleStudioClick = (id: number) => {
-		setSelectedStudioId(id);
-	};
-
 	return (
-		<Box className={styles['genre-list']}>
-			<Box className={styles.filters}>
+		<div className={styles['genre-list']}>
+			<div className={styles.filters}>
 				<Typography variant="h5" component="h5" gutterBottom>
 					Filters
 				</Typography>
 				<StudioSortSelect />
 				<StudioSearch />
-			</Box>
+			</div>
 			<List className={styles['genre-list__items']}>
 				<ListItem disablePadding>
 					<ListItemButton>
@@ -75,13 +68,12 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProp
 					<StudioListItem
 						key={studio.id}
 						studio={studio}
-						onClick={() => handleStudioClick(studio.id)}
-						selected={studio.id === selectedStudioId}
+						selected={studio.id === Number(studioId)}
 					/>
 				))}
 				<ListItem ref={observerRef} />
 			</List>
-		</Box>
+		</div>
 	);
 };
 

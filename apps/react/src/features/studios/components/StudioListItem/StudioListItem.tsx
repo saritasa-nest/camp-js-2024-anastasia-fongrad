@@ -10,15 +10,11 @@ type StudioListItemProps = {
 
 	/** Anime studio. */
 	readonly studio: AnimeStudio;
-
-	/** Click handler. */
-	readonly onClick: () => void;
 };
 
-const StudioListItemComponent: FC<StudioListItemProps> = ({ selected, studio, onClick }: StudioListItemProps) => (
+const StudioListItemComponent: FC<StudioListItemProps> = ({ selected, studio }: StudioListItemProps) => (
 	<ListItem disablePadding>
 		<ListItemButton
-			onClick={onClick}
 			component={NavLink}
 			to={`${studio.id}`}
 			selected={selected}

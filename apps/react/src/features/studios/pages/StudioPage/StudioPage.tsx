@@ -1,99 +1,73 @@
-import { memo, FC } from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import CssBaseline from '@mui/material/CssBaseline';
-import MuiAppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
+import { memo, FC, useEffect } from 'react';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
-import { setOpen } from '@js-camp/react/store/drawer/slice';
-import { NavigationList } from '@js-camp/react/components/NavigationList';
 import clsx from 'clsx';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { Outlet, useParams } from 'react-router-dom';
+import {
+	selectCursor, selectHasMoreData, selectIsPaginationEvent, selectStudios,
+} from '@js-camp/react/store/studio/selectors';
+import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
+import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
+import { Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-import { StudioLayout } from '../../components/StudioLayout';
+import { useQueryParams } from '../../hooks/useQueryParams';
+
+import { StudiosList } from '../../components/StudioList';
 
 import styles from './StudioPage.module.css';
 
-/** Drawer width in pixels. */
-const DRAWER_WIDTH = 280;
-
-const mainRoutes = [
-	{ name: 'Anime', path: '/anime' },
-	{ name: 'Genres', path: '/genres' },
-	{ name: 'Studios', path: '/studios' },
-];
-
-const loginRoutes = [
-	{ name: 'Login', path: '/login' },
-	{ name: 'Logout', path: '/logout' },
-	{ name: 'Profile', path: '/profile' },
-];
-
 const StudioPageComponent: FC = () => {
 	const open = useSelector(selectIsDrawerOpen);
-	const dispatch = useDispatch();
+	const { studioId } = useParams<{ studioId: string; }>();
+	const dispatch = useAppDispatch();
+	const studios = useAppSelector(selectStudios);
+	const cursor = useAppSelector(selectCursor) ?? undefined;
+	const hasMoreData = useAppSelector(selectHasMoreData);
+	const isPagination = useAppSelector(selectIsPaginationEvent);
 
-	const handleDrawerOpen = () => {
-		dispatch(setOpen(true));
-	};
+	const { queryParams, setQueryParams } = useQueryParams();
 
-	const handleDrawerClose = () => {
-		dispatch(setOpen(false));
-	};
+	const params: StudioQueryParameters = Object.fromEntries(queryParams);
+
+	useEffect(() => {
+		setQueryParams({
+			...queryParams,
+			ordering: queryParams.get('ordering') ?? undefined,
+			search: queryParams.get('search') ?? undefined,
+			cursor: cursor ?? queryParams.get('cursor') ?? undefined,
+		});
+	}, [cursor]);
+
+	useEffect(() => {
+		if (!isPagination || hasMoreData) {
+			dispatch(fetchStudios(params));
+		}
+	}, [dispatch, queryParams]);
+
 	return (
-		<Box className={styles.main}>
-			<CssBaseline />
-			<MuiAppBar className={clsx(
-				styles['main__app-bar'],
-				open && styles['main__app-bar_open'],
-			)}>
-				<Toolbar className={styles.main__toolbar}>
-					<IconButton
-						className={styles['main__toolbar-icon']}
-						color="inherit"
-						aria-label="open drawer"
-						onClick={handleDrawerOpen}
-						edge="start"
-					>
-						<MenuIcon />
-					</IconButton>
-					<Typography
-						variant="h6"
-						component="h6"
-						noWrap
-					>
-						Anime App
-					</Typography>
-				</Toolbar>
-			</MuiAppBar>
-			<Drawer
-				className={styles.main__drawer}
-				sx={{
-					'& .MuiDrawer-paper': {
-						width: DRAWER_WIDTH,
-					},
-				}}
-				variant="persistent"
-				anchor="left"
-				open={open}
-			>
-				<div className={styles['main__drawer-header']}>
-					<IconButton onClick={handleDrawerClose}>
-						<ChevronLeftIcon />
-					</IconButton>
+		<main className={clsx(
+			styles.layout,
+			open && styles.layout_open,
+		)}>
+			<div className={styles.layout__sidebar}>
+				<StudiosList studios={studios} />
+			</div>
+			{studioId ? (
+				<Outlet />
+			) : (
+				<div className={styles.layout__empty}>
+					<div className={styles.layout__button}>
+						<IconButton edge="start" color="inherit" aria-label="add">
+							<AddIcon />
+						</IconButton>
+						<Typography>Add Studio</Typography>
+					</div>
 				</div>
-				<Divider />
-				<NavigationList items={mainRoutes} />
-				<Divider />
-				<NavigationList items={loginRoutes}/>
-			</Drawer>
-			<StudioLayout/>
-		</Box>
+			)}
+		</main>
 	);
 };
 
