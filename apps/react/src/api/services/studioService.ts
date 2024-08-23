@@ -9,7 +9,9 @@ import { ListCursorPagination } from '@js-camp/core/models/list-cursor-paginatio
 
 import { http } from '..';
 
-const url = 'anime/studios/list-cursor/';
+import { AppUrlConfigService } from './appUrlConfigService';
+
+const url = AppUrlConfigService.paths.studioList;
 
 export namespace StudiosService {
 

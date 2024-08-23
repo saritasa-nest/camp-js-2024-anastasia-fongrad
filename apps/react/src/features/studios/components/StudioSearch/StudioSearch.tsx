@@ -28,24 +28,26 @@ const StudioSearchComponent: FC = () => {
 		});
 	};
 
-	return (<Paper component="form" className={styles.filters__form}>
-		<InputBase
-			className={styles['filters__input-base']}
-			placeholder="Search Studios ..."
-			aria-label="search genres"
-			onChange={handleInputValueChange}
-			defaultValue={searchValue ?? ''}
-		/>
-		<IconButton
-			type="button"
-			className={styles['filters__icon-button']}
-			aria-label="search"
-			color="primary"
-			onClick={handleSearchButtonClick}
-		>
-			<SearchIcon />
-		</IconButton>
-	</Paper>);
+	return (
+		<Paper component="form" className={styles.filters__form}>
+			<InputBase
+				className={styles['filters__input-base']}
+				placeholder="Search Studios ..."
+				aria-label="search genres"
+				onChange={handleInputValueChange}
+				defaultValue={searchValue ?? ''}
+			/>
+			<IconButton
+				type="button"
+				className={styles['filters__icon-button']}
+				aria-label="search"
+				color="primary"
+				onClick={handleSearchButtonClick}
+			>
+				<SearchIcon />
+			</IconButton>
+		</Paper>
+	);
 };
 
 /** Studio search component. */

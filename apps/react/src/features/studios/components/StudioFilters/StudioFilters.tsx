@@ -7,13 +7,15 @@ import { StudioSortSelect } from '../StudioSortSelect/StudioSortSelect';
 
 import styles from './StudioFilters.module.css';
 
-const StudioFiltersComponent: FC = () => (<Box className={styles.filters}>
-	<Typography variant="h5" component="h5" gutterBottom>
-		Filters
-	</Typography>
-	<StudioSortSelect />
-	<StudioSearch />
-</Box>);
+const StudioFiltersComponent: FC = () => (
+	<Box className={styles.filters}>
+		<Typography variant="h5" component="h5" gutterBottom>
+			Filters
+		</Typography>
+		<StudioSortSelect />
+		<StudioSearch />
+	</Box>
+);
 
 /** Studio filters component. */
 export const StudioFilters = memo(StudioFiltersComponent);

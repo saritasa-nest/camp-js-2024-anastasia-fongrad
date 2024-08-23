@@ -12,8 +12,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { setOpen } from '@js-camp/react/store/drawer/slice';
+import { NavigationList } from '@js-camp/react/components/NavigationList';
 
-import { NavigationList } from '../../components/NavigationList';
 import { StudioLayout } from '../../components/StudioLayout';
 
 import styles from './StudioPage.module.css';
