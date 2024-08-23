@@ -17,6 +17,12 @@ export const studiosSlice = createSlice({
 		setPaginationEvent(state, action) {
 			state.isPaginationEvent = action.payload;
 		},
+		setSearchValue(state, action) {
+			state.searchValue = action.payload;
+		},
+		setOrdering(state, action) {
+			state.ordering = action.payload;
+		},
 	},
 	extraReducers: builder => builder
 		.addCase(fetchStudios.pending, state => {
@@ -39,4 +45,4 @@ export const studiosSlice = createSlice({
 });
 
 /** Studios slice actions. */
-export const { updateCursor, resetCursor, setPaginationEvent } = studiosSlice.actions;
+export const { updateCursor, resetCursor, setPaginationEvent, setSearchValue, setOrdering } = studiosSlice.actions;

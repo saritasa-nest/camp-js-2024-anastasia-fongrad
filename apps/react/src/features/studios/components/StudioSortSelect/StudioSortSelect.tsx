@@ -1,12 +1,12 @@
 import { useAppDispatch } from '@js-camp/react/store';
-import { resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
+import { resetCursor, setOrdering, setPaginationEvent } from '@js-camp/react/store/studio/slice';
 import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { FC, memo } from 'react';
 import { StudioSortDirection } from '@js-camp/core/models/enums/studio-sort-direction.enum';
+import { useSearchParams } from 'react-router-dom';
 
-import { useQueryParams } from '../../hooks/useQueryParams';
 import { sortValueFromQueryParams } from '../../utils/sortValueFromQueryParams';
 import { queryFromSortValue } from '../../utils/queryFromSortValue';
 
@@ -14,35 +14,29 @@ import styles from './StudioSortSelect.module.css';
 
 const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
-	const { queryParams, setQueryParams } = useQueryParams();
-	const ordering = queryParams.get('ordering');
+	const [searchParams] = useSearchParams();
+	const ordering = searchParams.get('ordering');
 	const { sortValue, sortDirection } =
 		ordering !== null ? sortValueFromQueryParams(ordering) : { sortValue: null, sortDirection: null };
 
 	const handleSortChange = (event: SelectChangeEvent) => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
-		setQueryParams({
-			...Object.fromEntries(queryParams),
-			ordering: sortDirection === StudioSortDirection.Descending ? `-${event.target.value}` : event.target.value,
-			cursor: undefined,
-		});
+		dispatch(setOrdering(sortDirection === StudioSortDirection.Descending ?
+			`-${event.target.value}` :
+			event.target.value));
 	};
 
 	const handleDirectionChange = () => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
-		setQueryParams({
-			...Object.fromEntries(queryParams),
-			ordering: queryFromSortValue({
-				sortValue: sortValue ?? undefined,
-				sortDirection:
-					sortDirection === StudioSortDirection.Descending ?
-						StudioSortDirection.Ascending :
-						StudioSortDirection.Descending,
-			}),
-			cursor: undefined,
-		});
+		dispatch(setOrdering(queryFromSortValue({
+			sortValue: sortValue ?? undefined,
+			sortDirection:
+				sortDirection === StudioSortDirection.Descending ?
+					StudioSortDirection.Ascending :
+					StudioSortDirection.Descending,
+		})));
 	};
 
 	return (

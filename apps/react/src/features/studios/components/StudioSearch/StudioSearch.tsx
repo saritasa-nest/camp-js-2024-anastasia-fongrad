@@ -2,17 +2,16 @@ import { IconButton, InputBase, Paper } from '@mui/material';
 import { ChangeEvent, FC, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from '@js-camp/react/store';
-import { resetCursor, setPaginationEvent } from '@js-camp/react/store/studio/slice';
-
-import { useQueryParams } from '../../hooks/useQueryParams';
+import { resetCursor, setPaginationEvent, setSearchValue } from '@js-camp/react/store/studio/slice';
+import { useSearchParams } from 'react-router-dom';
 
 import styles from './StudioSearch.module.css';
 
 const StudioSearchComponent: FC = () => {
 	const [inputValue, setInputValue] = useState('');
 	const dispatch = useAppDispatch();
-	const { queryParams, setQueryParams } = useQueryParams();
-	const searchValue = queryParams.get('search');
+	const [searchParams] = useSearchParams();
+	const searchValue = searchParams.get('search');
 
 	const handleInputValueChange = (event: ChangeEvent) => {
 		setInputValue((event.target as HTMLInputElement).value);
@@ -21,11 +20,7 @@ const StudioSearchComponent: FC = () => {
 	const handleSearchButtonClick = () => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
-		setQueryParams({
-			...Object.fromEntries(queryParams),
-			search: inputValue.length > 0 ? inputValue : undefined,
-			cursor: undefined,
-		});
+		dispatch(setSearchValue(inputValue.length > 0 ? inputValue : null));
 	};
 
 	return (

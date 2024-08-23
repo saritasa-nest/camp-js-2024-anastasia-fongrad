@@ -23,6 +23,12 @@ export type StudiosState = {
 
 	/** Has more studios data. */
 	readonly hasMoreData: boolean;
+
+	/** Studio search value. */
+	readonly searchValue: string | null;
+
+	/** Studio sorting. */
+	readonly ordering: string | null;
 };
 
 /** Initial state for the studios slice of the Redux store. */
@@ -33,4 +39,6 @@ export const initialState: StudiosState = {
 	studios: [],
 	isPaginationEvent: false,
 	hasMoreData: true,
+	searchValue: null,
+	ordering: null,
 };

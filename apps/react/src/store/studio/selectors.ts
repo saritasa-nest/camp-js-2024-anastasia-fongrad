@@ -25,3 +25,15 @@ export const selectIsPaginationEvent = createSelector(
 	(state: RootState) => state.studios.isPaginationEvent,
 	isPaginationEvent => isPaginationEvent,
 );
+
+/** Selects studio search value. */
+export const selectSearchValue = createSelector(
+	(state: RootState) => state.studios.searchValue,
+	searchValue => searchValue,
+);
+
+/** Selects ordering. */
+export const selectOrdering = createSelector(
+	(state: RootState) => state.studios.ordering,
+	ordering => ordering,
+);

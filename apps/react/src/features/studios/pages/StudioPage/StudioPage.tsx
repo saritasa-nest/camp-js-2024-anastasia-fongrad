@@ -4,16 +4,16 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useSearchParams } from 'react-router-dom';
 import {
-	selectCursor, selectHasMoreData, selectIsPaginationEvent, selectStudios,
+	selectCursor, selectHasMoreData, selectIsPaginationEvent, selectOrdering, selectSearchValue, selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
 import { Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-import { useQueryParams } from '../../hooks/useQueryParams';
+import { composeQueryParams } from '../../utils/composeQueryParams';
 
 import { StudiosList } from '../../components/StudioList';
 
@@ -27,25 +27,27 @@ const StudioPageComponent: FC = () => {
 	const cursor = useAppSelector(selectCursor) ?? undefined;
 	const hasMoreData = useAppSelector(selectHasMoreData);
 	const isPagination = useAppSelector(selectIsPaginationEvent);
+	const searchValue = useAppSelector(selectSearchValue);
+	const ordering = useAppSelector(selectOrdering);
 
-	const { queryParams, setQueryParams } = useQueryParams();
+	const [searchParams, setSearchParams] = useSearchParams();
 
-	const params: StudioQueryParameters = Object.fromEntries(queryParams);
+	const params: StudioQueryParameters = Object.fromEntries(searchParams);
 
 	useEffect(() => {
-		setQueryParams({
-			...queryParams,
-			ordering: queryParams.get('ordering') ?? undefined,
-			search: queryParams.get('search') ?? undefined,
-			cursor: cursor ?? queryParams.get('cursor') ?? undefined,
-		});
-	}, [cursor]);
+		setSearchParams(composeQueryParams({
+			...searchParams,
+			ordering: ordering ?? searchParams.get('ordering') ?? undefined,
+			search: searchValue ?? searchParams.get('search') ?? undefined,
+			cursor: cursor ?? searchParams.get('cursor') ?? undefined,
+		}));
+	}, [cursor, searchValue, ordering]);
 
 	useEffect(() => {
 		if (!isPagination || hasMoreData) {
 			dispatch(fetchStudios(params));
 		}
-	}, [dispatch, queryParams]);
+	}, [dispatch, searchParams]);
 
 	return (
 		<main className={clsx(
