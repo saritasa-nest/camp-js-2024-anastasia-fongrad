@@ -8,10 +8,10 @@ export namespace StudioMapper {
 	 * @param dto Studio dto.
 	 */
 	export function fromDto(dto: StudioDto): AnimeStudio {
-		return new AnimeStudio({
+		return {
 			id: dto.id,
 			name: dto.name,
 			imageUrl: dto.image,
-		});
+		};
 	}
 }

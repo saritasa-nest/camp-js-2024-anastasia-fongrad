@@ -19,6 +19,6 @@ export const studioRoutes: RouteObject[] = [
 	},
 	{
 		path: '*',
-		element: <Navigate to="StudioPage" />,
+		element: <Navigate to="studio" />,
 	},
 ];

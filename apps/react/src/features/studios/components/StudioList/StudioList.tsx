@@ -1,5 +1,5 @@
 import { memo, FC, useEffect, useRef } from 'react';
-import { List, ListItem, ListItemButton, ListItemText, IconButton, Typography } from '@mui/material';
+import { List, ListItem, Typography, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
@@ -51,19 +51,10 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProp
 				<StudioSortSelect />
 				<StudioSearch />
 			</div>
+			<Button variant='text' startIcon={<AddIcon />}>
+				Add Studio
+			</Button>
 			<List className={styles['genre-list__items']}>
-				<ListItem disablePadding>
-					<ListItemButton>
-						<IconButton
-							edge="start"
-							color="inherit"
-							aria-label="add"
-						>
-							<AddIcon />
-						</IconButton>
-						<ListItemText primary='Add studio'/>
-					</ListItemButton>
-				</ListItem>
 				{studios.map(studio => (
 					<StudioListItem
 						key={studio.id}
