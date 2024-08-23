@@ -13,6 +13,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthService } from '@js-camp/react/api/services/authService';
+import { useNavigate } from 'react-router-dom';
 
 import { AlertDialog } from '../RegistrarionConfirm';
 
@@ -46,26 +47,24 @@ const RegistrationFormComponent: FC = () => {
 		resolver: zodResolver(validationSchema),
 	});
 
+	const [showPassword, setShowPassword] = useState(false);
+	const [showRetypePassword, setShowRetypePassword] = useState(false);
+	const [open, setOpen] = useState(false);
+	const navigate = useNavigate();
+
 	const submitForm: SubmitHandler<RegistrationFormValues> = data => {
 		const { passwordConfirm, ...registrationData } = data;
 		AuthService.register(registrationData).then(
-			token => console.log(token),
+			_token => {
+				setOpen(true);
+				navigate('/login');
+			},
 		);
-	};
-
-	const [showPassword, setShowPassword] = useState(false);
-	const [showRetypePassword, setShowRetypePassword] = useState(false);
-
-	const [open, setOpen] = useState(false);
-
-	const handleClickOpen = () => {
-		setOpen(true);
 	};
 
 	const handleClose = () => {
 		setOpen(false);
 	};
-
 
 	const handleClickShowPassword = () => setShowPassword((show: boolean) => !show);
 	const handleClickShowRetypePassword = () => setShowRetypePassword((show: boolean) => !show);
@@ -83,6 +82,12 @@ const RegistrationFormComponent: FC = () => {
 			onSubmit={handleSubmit(submitForm)}
 			className={styles.form}
 		>
+			<AlertDialog
+				open={open}
+				onClose={handleClose}
+				title={'Registration successful'}
+				description={'Now you can log in a system'}
+			/>
 			<Controller
 				name="email"
 				control={control}

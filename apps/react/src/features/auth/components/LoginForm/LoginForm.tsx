@@ -13,8 +13,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthService } from '@js-camp/react/api/services/authService';
-
-import { useAuthToken } from '../../hooks/useAuthToken';
+import { useNavigate } from 'react-router-dom';
+import { AuthTokenService } from '@js-camp/react/api/services/localStorageService';
 
 import styles from './LoginForm.module.css';
 
@@ -36,11 +36,14 @@ const LoginFormComponent: FC = () => {
 		resolver: zodResolver(validationSchema),
 	});
 
-	const { saveAuthToken } = useAuthToken();
+	const navigate = useNavigate();
 
 	const submitForm: SubmitHandler<LoginFormValues> = data => {
 		AuthService.login(data).then(
-			token => saveAuthToken(token),
+			token => {
+				AuthTokenService.saveAuthToken(token);
+				navigate('/anime');
+			},
 		);
 	};
 

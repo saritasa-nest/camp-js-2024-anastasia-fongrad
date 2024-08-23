@@ -13,14 +13,20 @@ const loginUrl = 'auth/login/';
 
 export namespace AuthService {
 
-	/** Fetches a list of genres. */
+	/**
+	 * 1.
+	 * @param loginData 1.
+	 */
 	export async function login(loginData: UserLogin): Promise<AuthorizationToken> {
-		const loginDto = UserLoginMapper.toDto(loginData)
+		const loginDto = UserLoginMapper.toDto(loginData);
 		const { data } = await http.post<AuthorizationTokenDto>(loginUrl, loginDto);
 		return AuthorizationTokenMapper.fromDto(data);
 	}
 
-	/** 1. */
+	/**
+	 * 1.
+	 * @param registrationData 1.
+	 */
 	export async function register(registrationData: UserRegistration): Promise<AuthorizationToken> {
 		const registrationDto = UserRegistrationMapper.toDto(registrationData);
 		const { data } = await http.post<AuthorizationTokenDto>(registrationUrl, registrationDto);

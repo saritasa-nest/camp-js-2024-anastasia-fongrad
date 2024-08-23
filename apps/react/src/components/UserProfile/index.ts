@@ -1,0 +1,1 @@
+export { UserProfileItem } from './UserProfile';
