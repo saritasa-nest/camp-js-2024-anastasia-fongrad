@@ -1,0 +1,16 @@
+<div class="login">
+	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+		<mat-form-field appearance="fill">
+			<mat-label>Email</mat-label>
+			<input matInput type="email" formControlName="email">
+			<mat-error>{{ formValidationService.getControlErrorMessage(loginForm.controls.email) }}</mat-error>
+		</mat-form-field>
+		<mat-form-field appearance="fill">
+			<mat-label>Password</mat-label>
+			<input matInput type="password" formControlName="password">
+			<mat-error>{{ formValidationService.getControlErrorMessage(loginForm.controls.password) }}</mat-error>
+		</mat-form-field>
+		<div class="login__form-error">{{ formValidationService.getFormErrorMessage(loginForm) }}</div>
+		<button mat-raised-button color="primary" type="submit">Login</button>
+	</form>
+</div>

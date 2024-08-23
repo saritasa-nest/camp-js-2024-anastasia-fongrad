@@ -1,0 +1,20 @@
+/** Represents anime source. */
+export enum AnimeSource {
+	FourKomaManga = 'four koma manga',
+	Book = 'book',
+	CardGame = 'card game',
+	Game = 'game',
+	LightNovel = 'light novel',
+	Manga = 'manga',
+	MixedMedia = 'mixed manga',
+	Music = 'music',
+	Novel = 'novel',
+	Original = 'original',
+	PictureBook = 'picture book',
+	Radio = 'radio',
+	VisualNovel = 'visual novel',
+	WebManga = 'web manga',
+	WebNovel = 'web novel',
+	Other = 'other',
+	Unknown = '',
+}

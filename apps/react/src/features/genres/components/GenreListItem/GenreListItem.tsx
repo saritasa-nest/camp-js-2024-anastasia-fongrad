@@ -1,5 +1,5 @@
 import { memo, FC, forwardRef } from 'react';
-import { AnimeGenre } from '@js-camp/core/models/genre.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { ListItem, ListItemText, ListItemButton } from '@mui/material';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 	/** Anime genre. */
 	readonly genre: AnimeGenre;
 
-	/** Displaying genre details on click handler. */
+	/** Select an element on click. */
 	readonly onClick: () => void;
 };
 

@@ -1,5 +1,5 @@
 import { MatTableModule } from '@angular/material/table';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule, NgOptimizedImage, DatePipe } from '@angular/common';
 import { MatChipsModule } from '@angular/material/chips';
@@ -8,8 +8,8 @@ import { AnimeSortField } from '@js-camp/core/models/enums/anime-sort-field.enum
 import { AnimeSortParameter } from '@js-camp/core/models/anime-sort-parameter.model';
 import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
-
-import { EmptyPipe } from '../../../../../shared/pipes/empty.pipe';
+import { Router } from '@angular/router';
+import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 
 /** Anime table column ids. */
 enum AnimeTableColumnIds {
@@ -59,6 +59,8 @@ function mapColumnToSortParameter(column: AnimeTableColumnIds | null): AnimeSort
 		DatePipe,
 		MatSortModule,
 	],
+	changeDetection: ChangeDetectionStrategy.OnPush,
+
 })
 export class AnimeTableComponent {
 
@@ -83,6 +85,8 @@ export class AnimeTableComponent {
 	@Output()
 	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
 
+	private readonly router = inject(Router);
+
 	/**
 	 * Emits sort table event to the parent component.
 	 * @param event Sort table event.
@@ -106,5 +110,24 @@ export class AnimeTableComponent {
 	 */
 	protected trackByAnime(_index: number, anime: Anime): number {
 		return anime.id;
+	}
+
+	/**
+	 * Navigates to the anime details page.
+	 * @param anime Selected anime to navigate to.
+	 */
+	protected showDetails(anime: Anime): void {
+		this.router.navigate(['/anime', anime.id]);
+	}
+
+	/**
+	 * Handles table's keyboard events.
+	 * @param event Table's keyboard event.
+	 * @param anime Selected anime.
+	 */
+	protected onRowKeydown(event: KeyboardEvent, anime: Anime): void {
+		if (event.key === 'Enter' || event.key === ' ') {
+			this.showDetails(anime);
+		}
 	}
 }

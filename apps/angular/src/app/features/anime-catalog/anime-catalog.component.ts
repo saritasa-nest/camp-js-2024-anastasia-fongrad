@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { AnimeTableComponent } from '@js-camp/angular/app/features/anime-catalog/components/anime-table/anime-table.component';
-import { HeaderComponent } from '@js-camp/angular/shared/components/header/header.component';
+import { HeaderComponent } from '@js-camp/angular/app/features/header/header.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { Observable, switchMap } from 'rxjs';
 import { Pagination } from '@js-camp/core/models/pagination.model';
@@ -8,7 +8,7 @@ import { Anime } from '@js-camp/core/models/anime.model';
 import { CommonModule } from '@angular/common';
 import { AnimeQueryParametersService } from '@js-camp/angular/core/services/anime-query-parameters.service';
 import { AnimeQueryParameters } from '@js-camp/core/models/anime-query-parameters.model';
-import { AnimeApiService } from '@js-camp/angular/core/services/anime-api.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { AnimeFilterFormComponent } from './components/anime-filter-form/anime-filter-form.component';
@@ -27,6 +27,7 @@ import { AnimeFilterFormComponent } from './components/anime-filter-form/anime-f
 	styleUrl: './anime-catalog.component.css',
 	templateUrl: './anime-catalog.component.html',
 	standalone: true,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeCatalogComponent {
 
@@ -42,7 +43,7 @@ export class AnimeCatalogComponent {
 	/** A service that works with anime query parameters. */
 	protected readonly routeParameterService = inject(AnimeQueryParametersService);
 
-	private readonly animeApiService = inject(AnimeApiService);
+	private readonly animeApiService = inject(AnimeService);
 
 	public constructor() {
 		this.paginatedAnime$ = this.getPaginatedAnime();

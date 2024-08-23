@@ -1,0 +1,98 @@
+<camp-header/>
+<main class="main">
+	<section class="main__anime-details anime-details">
+		<div class="anime-details__container container">
+			@if (animeDetails$ | async; as animeDetails) {
+				<div class="anime-details__content">
+					<button mat-raised-button type="button" (click)="navigateBack()">Go Back</button>
+					<mat-card class="anime-details__card" appearance="outlined">
+						<mat-card-header>
+							<mat-card-title>{{ animeDetails.titleJapanese }}</mat-card-title>
+						</mat-card-header>
+						<div class="image-container">
+							<img mat-card-image class="anime-details__image"
+								[src]="animeDetails.imageUrl"
+								[alt]="animeDetails.titleJapanese"
+								(click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)"
+								tabindex="0"
+								(keydown)="onImageKeydown($event, animeDetails.imageUrl, animeDetails.titleJapanese)"
+								>
+							<button mat-icon-button class="zoom-button"
+								type="button"
+								(click)="openImageDialog(animeDetails.imageUrl, animeDetails.titleJapanese)"
+							>
+								<mat-icon>zoom_in</mat-icon>
+							</button>
+						</div>
+						<mat-card-content>
+							@if (animeDetails.titleEnglish) {
+								<div class="english-title">{{ animeDetails.titleEnglish }}</div>
+							}
+							<p>{{ animeDetails.synopsis }}</p>
+							@if (animeDetails.airingDates) {
+								<div class="dates">
+									<mat-icon matTooltip="Airing dates">calendar_today</mat-icon>
+									<p>{{ animeDetails.airingDates.start | date | empty }} - {{ animeDetails.airingDates.end | date | empty }}</p>
+								</div>
+							}
+							@if (animeDetails.studios.length !== 0) {
+								Production:
+								<mat-list>
+									@for (studio of animeDetails.studios; track studio.id) {
+										<mat-list-item>
+											<img matListItemIcon [src]="studio.imageUrl" [alt]="studio.name"/>
+											<p matListItemTitle>{{ studio.name }}</p>
+										</mat-list-item>
+									}
+								</mat-list>
+							}
+							@if (animeDetails.genres.length !== 0) {
+								<div class="genres">
+									<div class="genres-title">
+										Genres:
+									</div>
+									<mat-chip-set>
+										@for (genre of animeDetails.genres; track genre.id) {
+											<mat-chip matTooltip="Genre">{{ genre.name }}</mat-chip>
+										}
+									</mat-chip-set>
+								</div>
+							}
+						</mat-card-content>
+						<mat-divider></mat-divider>
+						<mat-card-footer class="example-card-footer">
+							<mat-chip-set aria-label="Chihuahua traits">
+								<mat-chip matTooltip="Type">{{ animeDetails.type | empty }}</mat-chip>
+								<mat-chip matTooltip="Status">{{ animeDetails.status | empty }}</mat-chip>
+								<mat-chip matTooltip="Rating">{{animeDetails.rating | empty }}</mat-chip>
+								<mat-chip matTooltip="Source">{{ animeDetails.source | empty }}</mat-chip>
+								<mat-chip matTooltip="Season">{{ animeDetails.season | empty }}</mat-chip>
+								<mat-chip matTooltip="Is airing">{{ animeDetails.airingStatus }}</mat-chip>
+							</mat-chip-set>
+						</mat-card-footer>
+					</mat-card>
+				</div>
+					@if (animeDetails.trailerUrl) {
+						<mat-card class="anime-details__trailer">
+							<mat-card-header>
+								<mat-card-title>Watch Trailer</mat-card-title>
+							</mat-card-header>
+							<div class="anime-details__video">
+								<iframe
+									[title]="animeDetails.synopsis"
+									[src]="sanitizer.bypassSecurityTrustResourceUrl(animeDetails.trailerUrl)"
+									allowfullscreen
+								></iframe>
+							</div>
+						</mat-card>
+					}
+
+				}
+			@else {
+				<div class="main__empty">
+					<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+				</div>
+			}
+		</div>
+	</section>
+</main>

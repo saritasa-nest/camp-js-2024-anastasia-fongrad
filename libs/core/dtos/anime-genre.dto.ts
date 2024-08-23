@@ -1,7 +1,7 @@
 import { GenresTypeDto } from './enums/anime-genres-type.dto.enum';
 
 /** Genre DTO. */
-export type GenreDto = {
+export type AnimeGenreDto = {
 
 	/** Id. */
 	readonly id: number;
