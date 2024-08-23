@@ -18,7 +18,8 @@ import { useNavigate } from 'react-router-dom';
 import { ServerError } from '@js-camp/core/models/server-error.model';
 import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
 
-import { AlertDialog } from '../AlertDialog';
+import { PasswordField } from '../PasswordField';
+import { AlertDialog } from '../../../../components/AlertDialog';
 
 import styles from './RegistrationForm.module.css';
 
@@ -65,10 +66,12 @@ const RegistrationFormComponent: FC = () => {
 	const navigate = useNavigate();
 
 	const submitForm: SubmitHandler<RegistrationFormValues> = data => {
+		// Disable eslint for unused passwordConfirm
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { passwordConfirm, ...registrationData } = data;
 		AuthService.register(registrationData)
 			.then(
-				_token => {
+				() => {
 					setOpen(true);
 					navigate('/login');
 				},
@@ -125,7 +128,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					error={errors.email != null}
 					helperText={errors?.email?.message}
-					className={styles['form-control']}
+					className={styles.form__control}
 				/>}
 			/>
 			<Controller
@@ -138,7 +141,7 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					error={errors.firstName != null}
 					helperText={errors?.firstName?.message}
-					className={styles['form-control']}
+					className={styles.form__control}
 				/>}
 			/>
 			<Controller
@@ -151,72 +154,33 @@ const RegistrationFormComponent: FC = () => {
 					fullWidth
 					error={errors.lastName != null}
 					helperText={errors?.lastName?.message}
-					className={styles['form-control']}
+					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name='password'
 				control={control}
-				render={({ field }) => <FormControl
-					className={styles['form-control']}
-					error={errors.password != null}
-				>
-					<InputLabel htmlFor="new_password">Password</InputLabel>
-					<OutlinedInput
-						{...field}
-						type={showPassword ? 'text' : 'password'}
-						fullWidth
-						autoComplete="new-password"
-						endAdornment={
-							<InputAdornment position="end">
-								<IconButton
-									aria-label="toggle password visibility"
-									onClick={handleClickShowPassword}
-									onMouseDown={handleMouseDownPassword}
-									edge="end"
-								>
-									{showPassword ? <VisibilityOff /> : <Visibility />}
-								</IconButton>
-							</InputAdornment>
-						}
-						label="Password"
-					/>
-					{errors.password && (
-						<FormHelperText>{errors.password.message}</FormHelperText>
-					)}
-				</FormControl>
+				render={() => <PasswordField
+					showPassword={showPassword}
+					handleClickShowPassword={handleClickShowPassword}
+					handleMouseDownPassword={handleMouseDownPassword}
+					hasError={errors.password != null}
+					errorMessage={errors?.password?.message}
+					label='Password'
+				/>
 				}
 			/>
 			<Controller
 				name='passwordConfirm'
 				control={control}
-				render={({ field }) => <FormControl
-					className={styles['form-control']}
-					error={errors.passwordConfirm != null}
-				>
-					<InputLabel htmlFor="retype_password">Re-type Password</InputLabel>
-					<OutlinedInput
-						{...field}
-						type={showRetypePassword ? 'text' : 'password'}
-						autoComplete="retype-password"
-						endAdornment={
-							<InputAdornment position="end">
-								<IconButton
-									aria-label="toggle re-type password visibility"
-									onClick={handleClickShowRetypePassword}
-									onMouseDown={handleMouseDownRetypePassword}
-									edge="end"
-								>
-									{showRetypePassword ? <VisibilityOff /> : <Visibility />}
-								</IconButton>
-							</InputAdornment>
-						}
-						label="Re-type Password"
-					/>
-					{errors.passwordConfirm && (
-						<FormHelperText>{errors.passwordConfirm.message}</FormHelperText>
-					)}
-				</FormControl>
+				render={() => <PasswordField
+					showPassword={showRetypePassword}
+					handleClickShowPassword={handleClickShowRetypePassword}
+					handleMouseDownPassword={handleMouseDownRetypePassword}
+					hasError={errors.passwordConfirm != null}
+					errorMessage={errors?.passwordConfirm?.message}
+					label='Re-type Password'
+				/>
 				}
 			/>
 			<Typography
@@ -230,7 +194,7 @@ const RegistrationFormComponent: FC = () => {
 				type="submit"
 				fullWidth
 				variant="contained"
-				sx={{ mt: 3, mb: 2 }}
+				className={styles.form__button}
 			>
 				Register
 			</Button>

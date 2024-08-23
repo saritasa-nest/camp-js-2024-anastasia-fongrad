@@ -15,7 +15,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import FormHelperText from '@mui/material/FormHelperText';
 import { AuthService } from '@js-camp/react/api/services/authService';
 import { useNavigate } from 'react-router-dom';
-import { AuthTokenService } from '@js-camp/react/api/services/localStorageService';
+import { AuthTokenService } from '@js-camp/react/api/services/authTokenService';
 import { useAppDispatch } from '@js-camp/react/store';
 import { fetchUserProfile } from '@js-camp/react/store/userProfile/dispatchers';
 import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
@@ -100,14 +100,14 @@ const LoginFormComponent: FC = () => {
 					fullWidth
 					error={errors.email != null}
 					helperText={errors?.email?.message}
-					className={styles['form-control']}
+					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name='password'
 				control={control}
 				render={({ field }) => <FormControl
-					className={styles['form-control']}
+					className={styles.form__control}
 					error={errors.password != null}
 				>
 					<InputLabel htmlFor="new_password">Password</InputLabel>
@@ -147,7 +147,7 @@ const LoginFormComponent: FC = () => {
 				type="submit"
 				fullWidth
 				variant="contained"
-				sx={{ mt: 3, mb: 2 }}
+				className={styles.form__button}
 			>
 				Login
 			</Button>

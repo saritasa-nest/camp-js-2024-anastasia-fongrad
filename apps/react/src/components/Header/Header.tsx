@@ -20,7 +20,7 @@ import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
 import { fetchUserProfile } from '@js-camp/react/store/userProfile/dispatchers';
 import { NavLink } from 'react-router-dom';
 import { selectUserProfile, selectIsUserProfileLoading } from '@js-camp/react/store/userProfile/selectors';
-import { AuthTokenService } from '@js-camp/react/api/services/localStorageService';
+import { AuthTokenService } from '@js-camp/react/api/services/authTokenService';
 
 import { Loader } from '../Loader';
 import { UserProfileItem } from '../UserProfile';

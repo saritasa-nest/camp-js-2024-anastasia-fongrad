@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { fetchUserProfile } from './dispatchers';
 import { initialState } from './state';
 
-/** Slice of the Redux store for managing genres data. */
+/** Slice of the Redux store for managing user profiles. */
 export const userProfileSlice = createSlice({
 	name: 'userProfile',
 	initialState,

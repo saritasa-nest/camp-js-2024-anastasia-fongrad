@@ -4,10 +4,11 @@ import { UserProfileMapper } from '@js-camp/core/mappers/user-profile.mapper';
 import { AppUrlConfig } from '@js-camp/react/utils/appUrlConfig';
 
 import { http } from '..';
+
 export namespace UserProfileService {
 
-	/** Fetches a list of genres. */
-	export async function fetchGenres(): Promise<UserProfile | null> {
+	/** Fetches an user profiles. */
+	export async function fetchUserProfile(): Promise<UserProfile | null> {
 		const { data } = await http.get<UserProfileDto>(AppUrlConfig.paths.userProfile);
 		return UserProfileMapper.fromDto(data);
 	}

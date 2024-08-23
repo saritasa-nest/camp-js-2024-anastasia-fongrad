@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { AppUrlConfig } from '../utils/appUrlConfig';
 
-import { AuthTokenService } from './services/localStorageService';
+import { AuthTokenService } from './services/authTokenService';
 import { AuthService } from './services/authService';
 import { CONFIG } from './config';
 

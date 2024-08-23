@@ -5,8 +5,8 @@ import { isAxiosError } from 'axios';
 export namespace ErrorsService {
 
 	/**
-	 * 1.
-	 * @param error 1.
+	 * Parses server errors object.
+	 * @param error An error received from a server.
 	 */
 	export function parseError(error: unknown): ServerError[] {
 		if (isAxiosError(error) && error.response?.data.errors) {

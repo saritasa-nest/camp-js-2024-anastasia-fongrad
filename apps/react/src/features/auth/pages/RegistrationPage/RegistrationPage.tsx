@@ -22,15 +22,11 @@ const RegistrationPageComponent: FC = () => {
 				<Typography
 					variant="h5"
 					component="h5"
-					gutterBottom
 				>
 					Registration
 				</Typography>
 				<RegistrationForm/>
-				<Typography
-					component="p"
-					gutterBottom
-				>
+				<Typography component="p">
 					Already have an account?
 					<Link
 						component={NavLink}

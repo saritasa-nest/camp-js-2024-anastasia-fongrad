@@ -12,8 +12,8 @@ import { http } from '..';
 export namespace AuthService {
 
 	/**
-	 * 1.
-	 * @param loginData 1.
+	 * Performs user login operation.
+	 * @param loginData Login data received from the form.
 	 */
 	export async function login(loginData: UserLogin): Promise<AuthorizationToken> {
 		const loginDto = UserLoginMapper.toDto(loginData);
@@ -25,8 +25,8 @@ export namespace AuthService {
 	}
 
 	/**
-	 * 1.
-	 * @param registrationData 1.
+	 * Registers new user in a system.
+	 * @param registrationData User registration data received from the form.
 	 */
 	export async function register(registrationData: UserRegistration): Promise<AuthorizationToken> {
 		const registrationDto = UserRegistrationMapper.toDto(registrationData);
@@ -38,8 +38,8 @@ export namespace AuthService {
 	}
 
 	/**
-	 * 1.
-	 * @param refreshToken 1.
+	 * Requests an access token refresh.
+	 * @param refreshToken Refresh token.
 	 */
 	export async function refresh(refreshToken: string): Promise<AuthorizationToken> {
 		const { data } = await http.post<AuthorizationTokenDto>(
@@ -50,8 +50,8 @@ export namespace AuthService {
 	}
 
 	/**
-	 * 1.
-	 * @param accessToken 1.
+	 * Verifies user access token.
+	 * @param accessToken Access token.
 	 */
 	export async function verify(accessToken: string): Promise<void> {
 		const { data } = await http.post<void>(
@@ -62,8 +62,8 @@ export namespace AuthService {
 	}
 
 	/**
-	 * 1.
-	 * @param accessToken 1.
+	 * Checks if a user is authorized in a system.
+	 * @param accessToken Access token.
 	 */
 	export function isAuthorized(accessToken: string): boolean {
 		verify(accessToken)

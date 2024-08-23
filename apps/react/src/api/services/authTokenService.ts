@@ -1,25 +1,25 @@
 import { AuthorizationToken } from '@js-camp/core/models/authorization-token.model';
 
-const tokenKey = 'authToken';
+const TOKEN_KEY = 'authToken';
 
 export namespace AuthTokenService {
 
-	/** 1. */
+	/** Gets an authentication token. */
 	export function getAuthToken(): AuthorizationToken | null {
-		const storedToken = localStorage.getItem(tokenKey);
+		const storedToken = localStorage.getItem(TOKEN_KEY);
 		return storedToken ? JSON.parse(storedToken) : null;
 	}
 
 	/**
-	 * 1.
+	 * Saves an authentication token.
 	 * @param token 1.
 	 */
 	export function saveAuthToken(token: AuthorizationToken): void {
-		localStorage.setItem(tokenKey, JSON.stringify(token));
+		localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
 	}
 
-	/** 1. */
+	/** Clears an authentication token. */
 	export function removeAuthToken(): void {
-		localStorage.removeItem(tokenKey);
+		localStorage.removeItem(TOKEN_KEY);
 	}
 }

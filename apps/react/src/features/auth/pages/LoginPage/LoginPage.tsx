@@ -22,15 +22,11 @@ const LoginPageComponent: FC = () => {
 				<Typography
 					variant="h5"
 					component="h5"
-					gutterBottom
 				>
 					Login
 				</Typography>
 				<LoginForm/>
-				<Typography
-					component="p"
-					gutterBottom
-				>
+				<Typography component="p">
 					Don't have an account?
 					<Link
 						component={NavLink}
@@ -40,7 +36,6 @@ const LoginPageComponent: FC = () => {
 					</Link>
 				</Typography>
 			</Paper>
-
 		</main>
 	);
 };
