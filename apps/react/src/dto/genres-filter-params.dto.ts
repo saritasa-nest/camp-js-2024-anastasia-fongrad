@@ -1,7 +1,11 @@
 import { BaseFilterParamsDto } from './base-filter-params.dto';
 
 export namespace GenresFilterParamsDto {
+
+	/** Ordering type. */
 	export type Ordering = Readonly<{
+
+		/** Ordering. */
 		ordering: string | null;
 	}>;
 

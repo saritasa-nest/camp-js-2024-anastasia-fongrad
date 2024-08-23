@@ -83,7 +83,7 @@ const GenresSortComponent: FC = () => {
 						</MenuItem>
 					))}
 					<MenuItem>
-						<Button onClick={handleReset} variant='outlined' color='secondary' style={{ marginTop: '10px' }}>
+						<Button onClick={handleReset} variant='outlined' color='secondary'>
 							Reset
 						</Button>
 					</MenuItem>

@@ -1,6 +1,10 @@
 /** Base query params. */
 export namespace BaseQueryParams {
+
+	/** Next cursor. */
 	export type NextCursor = Readonly<{
+
+		/** Next cursor. */
 		nextCursor: string | null;
 	}>;
 
@@ -10,5 +14,7 @@ export namespace BaseQueryParams {
 		/** Search. */
 		search: string | null;
 	}>;
+
+	/** Base query params combined. */
 	export type Combined = NextCursor & Search;
 }

@@ -51,13 +51,13 @@ const GenresFilterComponent: FC = () => {
 					multiple
 					value={selectedFilters}
 					onChange={handleChange}
-					renderValue={(selected) => (
+					renderValue={selected => (
 						<Typography noWrap>
-							{selected.map((val) => filters.find((filter) => filter.value === val)?.label).join(', ')}
+							{selected.map(val => filters.find(filter => filter.value === val)?.label).join(', ')}
 						</Typography>
 					)}
 				>
-					{filters.map((filter) => (
+					{filters.map(filter => (
 						<MenuItem key={filter.value} value={filter.value}>
 							<Checkbox checked={selectedFilters.includes(filter.value)} />
 							<ListItemText primary={filter.label} />

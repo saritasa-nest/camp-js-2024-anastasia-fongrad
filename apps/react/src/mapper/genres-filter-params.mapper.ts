@@ -14,6 +14,7 @@ const FILTER_MAPPING_FROM_QUERY_PARAMS: Readonly<FilterMappingFromQueryParams> =
 
 /** Genres filter params mappers. */
 export namespace GenresFilterParamsMapper {
+
 	/**
 	 * Mapping from query params to filter prams.
 	 * @param queryParams Query params.

@@ -2,6 +2,7 @@ import { PaginationListCursorDto } from '../dtos/pagination.dto';
 import { PaginationListCursor } from '../models/pagination-list-cursor.model';
 
 export namespace PaginationListCursorMapper {
+
 	/**
 	 * Maps any pagination dto to a pagination model.
 	 * @param dto Pagination dto.
@@ -9,15 +10,21 @@ export namespace PaginationListCursorMapper {
 	 */
 	export function fromDto<TDto, TModel>(
 		dto: PaginationListCursorDto<TDto>,
-		mapper: (dto: TDto) => TModel
+		mapper: (dto: TDto) => TModel,
 	): PaginationListCursor<TModel> {
 		return new PaginationListCursor<TModel>({
 			nextPage: getCursor(dto.next),
 			previousPage: getCursor(dto.previous),
-			results: dto.results.map((result) => mapper(result)),
+			results: dto.results.map(result => mapper(result)),
 		});
 	}
-	function getCursor(url: string | null) {
+
+	/**
+	 * Get cursor.
+	 * @param url Url of next fetch contain cursor.
+	 * @returns Value of cursor.
+	 */
+	function getCursor(url: string | null): string | null {
 		if (url == null) {
 			return null;
 		}

@@ -3,25 +3,23 @@ import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@
 import AddIcon from '@mui/icons-material/Add';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-
-import useQueryParams from '../../hooks/useQueryParams';
-
+import { Loading } from '@js-camp/react/components/loading';
 import {
 	selectAreGenresLoading,
 	selectGenres,
-	selectGenresError,
 	selectGenresHasNext,
 } from '@js-camp/react/store/genre/selectors';
-
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
 
+import useQueryParams from '../../hooks/useQueryParams';
+
+import { GenresSort } from '../GenresSort';
 import { GenreListItem } from '../GenreListItem';
 import { GenreSearch } from '../GenreSearch';
 import { GenresFilter } from '../GenresFilter';
 
 import styles from './GenreList.module.css';
-import { GenresSort } from '../GenresSort';
-import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
 
 type Props = {
 
@@ -40,7 +38,6 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const { getQueryParamsByKeys } = useQueryParams();
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
-	const error = useAppSelector(selectGenresError);
 	const hasMore = useAppSelector(selectGenresHasNext);
 	const wrapperElementRef = useRef<HTMLElement>(null);
 	const observer = useRef<IntersectionObserver>();
@@ -67,7 +64,8 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		},
 		[onGenreClick],
 	);
-	const { search, filter, sortField, sortDirection } = getQueryParamsByKeys(['search', 'filter', 'sortField', 'sortDirection']);
+	const { search, filter, sortField, sortDirection } =
+	getQueryParamsByKeys(['search', 'filter', 'sortField', 'sortDirection']);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
@@ -101,7 +99,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 						<ListItemText primary='Add Genre' />
 					</ListItemButton>
 				</ListItem>
-				{isLoading &&
+				{isLoading && genres.length === 0 &&
 					Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />)}
 				{genres.map((genre, index) => {
 					if (genres.length === index + 1) {
@@ -124,6 +122,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 						/>
 					);
 				})}
+				{isLoading && <Loading/>}
 			</List>
 		</Box>
 	);

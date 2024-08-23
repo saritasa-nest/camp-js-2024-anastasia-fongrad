@@ -3,12 +3,11 @@ import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-
 import { Box, Typography } from '@mui/material';
 
-import styles from './GenreSearch.module.css';
-
 import useQueryParams from '../../hooks/useQueryParams';
+
+import styles from './GenreSearch.module.css';
 
 const GenreSearchComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams();
