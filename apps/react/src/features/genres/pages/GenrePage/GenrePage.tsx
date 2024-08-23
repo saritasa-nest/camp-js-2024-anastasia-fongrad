@@ -7,7 +7,7 @@ import { selectGenres, selectAreGenresLoading } from '@js-camp/react/store/genre
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useNavigate, useParams } from 'react-router-dom';
 
 import { GenresList } from '../../components/GenreList';
 
@@ -15,25 +15,18 @@ import styles from './GenrePage.module.css';
 
 const GenrePageComponent: FC = () => {
 	const isDrawerOpen = useSelector(selectIsDrawerOpen);
-	const dispatch = useAppDispatch();
-	const genres = useAppSelector(selectGenres);
-	const isLoading = useAppSelector(selectAreGenresLoading);
+	const navigate = useNavigate();
+
 	const { genreId } = useParams<{ genreId: string; }>();
 
-	useEffect(() => {
-		dispatch(fetchGenres());
-	}, [dispatch]);
-
-	if (isLoading) {
-		return <div>Loading</div>;
-	}
+	const handleGenreClick = (id: number) => {
+		navigate(`/genre/${id}`);
+	};
 
 	return (
 		<main className={clsx(styles.layout, isDrawerOpen && styles.layout_open)}>
 			<Box className={styles.layout__sidebar}>
-				<GenresList
-					genres={genres}
-				/>
+			<GenresList onGenreClick={handleGenreClick} />
 			</Box>
 			{genreId ? <Outlet /> : <div className={styles.layout__empty}>
 				<div className={styles.layout__button}>
