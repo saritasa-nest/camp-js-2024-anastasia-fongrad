@@ -21,6 +21,7 @@ import { GenresFilter } from '../GenresFilter';
 
 import styles from './GenreList.module.css';
 import { GenresSort } from '../GenresSort';
+import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
 
 type Props = {
 
@@ -100,6 +101,8 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 						<ListItemText primary='Add Genre' />
 					</ListItemButton>
 				</ListItem>
+				{isLoading &&
+					Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />)}
 				{genres.map((genre, index) => {
 					if (genres.length === index + 1) {
 						return (
