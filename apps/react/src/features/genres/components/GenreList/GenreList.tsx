@@ -4,11 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Loading } from '@js-camp/react/components/loading';
-import {
-	selectAreGenresLoading,
-	selectGenres,
-	selectGenresHasNext,
-} from '@js-camp/react/store/genre/selectors';
+import { selectAreGenresLoading, selectGenres, selectGenresHasNext } from '@js-camp/react/store/genre/selectors';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
 
@@ -23,9 +19,6 @@ import styles from './GenreList.module.css';
 
 type Props = {
 
-	/** An array of anime genres. */
-	// readonly genres: readonly AnimeGenre[];
-
 	/** Displaying genre details on click handler. */
 	readonly onGenreClick: (id: number) => void;
 };
@@ -39,7 +32,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const genres = useAppSelector(selectGenres);
 	const isLoading = useAppSelector(selectAreGenresLoading);
 	const hasMore = useAppSelector(selectGenresHasNext);
-	const wrapperElementRef = useRef<HTMLElement>(null);
+	const wrapperElementRef = useRef<HTMLUListElement>(null);
 	const observer = useRef<IntersectionObserver>();
 	const lastGenreElementRef = useCallback(
 		(node: HTMLLIElement | null) => {
@@ -64,8 +57,12 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		},
 		[onGenreClick],
 	);
-	const { search, filter, sortField, sortDirection } =
-	getQueryParamsByKeys(['search', 'filter', 'sortField', 'sortDirection']);
+	const { search, filter, sortField, sortDirection } = getQueryParamsByKeys([
+		'search',
+		'filter',
+		'sortField',
+		'sortDirection',
+	]);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
@@ -89,17 +86,18 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		<Box className={styles['genre-list']}>
 			<GenreSearch />
 			<GenresFilter />
-			<GenresSort/>
+			<GenresSort />
 			<List className={styles['genre-list__items']} ref={wrapperElementRef}>
 				<ListItem disablePadding>
 					<ListItemButton>
-						<IconButton edge='start' color='inherit' aria-label='add'>
+						<IconButton edge="start" color="inherit" aria-label="add">
 							<AddIcon />
 						</IconButton>
-						<ListItemText primary='Add Genre' />
+						<ListItemText primary="Add Genre" />
 					</ListItemButton>
 				</ListItem>
-				{isLoading && genres.length === 0 &&
+				{isLoading &&
+					genres.length === 0 &&
 					Array.from(new Array(10)).map((_, index) => <ListItemSkeleton key={index} />)}
 				{genres.map((genre, index) => {
 					if (genres.length === index + 1) {
@@ -122,7 +120,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 						/>
 					);
 				})}
-				{isLoading && <Loading/>}
+				{isLoading && <Loading />}
 			</List>
 		</Box>
 	);

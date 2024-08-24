@@ -30,10 +30,10 @@ const GenrePageComponent: FC = () => {
 			) : (
 				<div className={styles.layout__empty}>
 					<div className={styles.layout__button}>
-						<IconButton edge="start" color="inherit" aria-label="add">
+						<IconButton edge='start' color='inherit' aria-label='add'>
 							<AddIcon />
 						</IconButton>
-						<ListItemText primary="Add Genre" />
+						<ListItemText primary='Add Genre' />
 					</div>
 				</div>
 			)}
