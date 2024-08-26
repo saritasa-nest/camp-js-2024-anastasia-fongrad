@@ -4,6 +4,8 @@ import { AnimeStatus } from '@js-camp/core/models/enums/anime-status.enum';
 import { AnimeRating } from '@js-camp/core/models/enums/anime-rating.enum';
 import { AnimeSource } from '@js-camp/core/models/enums/anime-source.enum';
 import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
+import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
+import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 
 /** Login form type. */
 export type AnimeDetailsForm = {
@@ -43,6 +45,12 @@ export type AnimeDetailsForm = {
 
 	/** 1. */
 	readonly airingEndDate: FormControl<string>;
+
+	/** 1. */
+	readonly studios: FormControl<AnimeStudio[]>;
+
+	/** 1. */
+	readonly genres: FormControl<AnimeGenre[]>;
 };
 
 /** 1. */
@@ -86,6 +94,12 @@ export type AnimeDetailsFormParams = {
 
 	/** 1. */
 	readonly airingEndInitialValue: string;
+
+	/** 1. */
+	readonly genres: AnimeGenre[];
+
+	/** 1. */
+	readonly studios: AnimeStudio[]
 };
 
 export namespace AnimeDetailsForm {
@@ -135,6 +149,8 @@ export namespace AnimeDetailsForm {
 			),
 			airingStartDate: animeDetailsParams.formBuilder.control(animeDetailsParams.airingStartInitialValue),
 			airingEndDate: animeDetailsParams.formBuilder.control(animeDetailsParams.airingEndInitialValue),
+			genres: animeDetailsParams.formBuilder.control(animeDetailsParams.genres),
+			studios: animeDetailsParams.formBuilder.control(animeDetailsParams.studios),
 		});
 	}
 }

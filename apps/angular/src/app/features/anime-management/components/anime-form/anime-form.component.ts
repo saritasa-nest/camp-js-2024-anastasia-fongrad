@@ -21,8 +21,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Observable, map, startWith } from 'rxjs';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { AnimeGenreService } from '@js-camp/angular/core/services/anime-genre.service';
@@ -31,7 +29,9 @@ import { AnimeStudioService } from '@js-camp/angular/core/services/anime-studio.
 import { StudiosDialogComponent } from '../studios-dialog/studios-dialog.component';
 import { StudiosSelectComponent } from '../studios-select/studios-select.component';
 import { GenresDialogComponent } from '../genres-dialog/genres-dialog.component';
+import { GenresSelectComponent } from '../genres-select/genres-select.component';
 import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
+
 
 /** 1. */
 @Component({
@@ -54,6 +54,7 @@ import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 		CommonModule,
 		ReactiveFormsModule,
 		StudiosSelectComponent,
+		GenresSelectComponent,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -89,30 +90,16 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	/** 1. */
 	protected readonly selectSources = Object.values(AnimeSource);
 
-	/** 1. */
-	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
 	private readonly formBuilder = inject(NonNullableFormBuilder);
-
-	private readonly announcer = inject(LiveAnnouncer);
 
 	private readonly dialog = inject(MatDialog);
 
 	private readonly genreService = inject(AnimeGenreService);
 
-	private readonly studioService = inject(AnimeStudioService);
-
-	/** 1. */
-	protected readonly filteredStudios$: Observable<AnimeStudio[]>;
-
-	/** 1. */
-	protected readonly filteredGenres$: Observable<AnimeGenre[]>;
+	protected readonly selectedGenres: AnimeGenre[] = [];
 
 	/** 1. */
 	protected readonly selectedStudios: AnimeStudio[] = [];
-
-	/** 1. */
-	protected readonly selectedGenres: AnimeGenre[] = [];
 
 	/** 1. */
 	protected readonly studioCtrl = new FormControl();
@@ -122,14 +109,6 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	public constructor() {
 		this.animeDetailsForm = this.initializeAnimeDetailsForm();
-		this.filteredGenres$ = this.genreCtrl.valueChanges.pipe(
-			startWith(''),
-			map((genre: string | null) => genre ? this.filterGenre(genre) : (this.animeGenres?.slice() ?? [])),
-		);
-		this.filteredStudios$ = this.studioCtrl.valueChanges.pipe(
-			startWith(''),
-			map((studio: string | null) => studio ? this.filterStudio(studio) : (this.animeStudios?.slice() ?? [])),
-		);
 	}
 
 	/**
@@ -153,6 +132,8 @@ export class AnimeDetailsFormComponent implements OnChanges {
 				airingStatus: this.animeDetails.airingStatus === 'on air',
 				airingStartDate: startDate ?? '',
 				airingEndDate: endDate ?? '',
+				genres: this.animeDetails.genres ?? [],
+				studios: this.animeDetails.studios ?? [],
 			});
 		}
 	}
@@ -172,100 +153,10 @@ export class AnimeDetailsFormComponent implements OnChanges {
 			airingStatusInitialValue: false,
 			airingStartInitialValue: '',
 			airingEndInitialValue: '',
+			genres: [],
+			studios: [],
 		};
 		return AnimeDetailsForm.initialize(formParams);
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
-	protected addStudio(event: MatChipInputEvent): void {
-		const value = (event.value || '').trim();
-		if (value) {
-			const existingStudio = this.animeStudios?.find(studio => studio.name.toLowerCase() === value.toLowerCase());
-			if (existingStudio && !this.selectedStudios.some(studio => studio.id === existingStudio.id)) {
-				this.selectedStudios.push(existingStudio);
-			}
-		}
-		event.chipInput?.clear();
-		this.studioCtrl.setValue(null);
-	}
-
-	/**
-	 * 1.
-	 * @param studio 1.
-	 */
-	protected removeStudio(studio: AnimeStudio): void {
-		const index = this.selectedStudios.indexOf(studio);
-		if (index >= 0) {
-			this.selectedStudios.splice(index, 1);
-			this.announcer.announce(`Removed ${studio.name}`);
-		}
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
-	protected selectedStudio(event: MatAutocompleteSelectedEvent): void {
-		const value = event.option.viewValue;
-		const existingStudio = this.animeStudios?.find(studio => studio.name.toLowerCase() === value.toLowerCase());
-		if (existingStudio && !this.selectedStudios.some(studio => studio.id === existingStudio.id)) {
-			this.selectedStudios.push(existingStudio);
-		}
-		this.studioCtrl.setValue(null);
-	}
-
-	private filterStudio(value: string): AnimeStudio[] {
-		const filterValue = value.toLowerCase();
-		return this.animeStudios?.filter(studio => studio.name.toLowerCase().includes(filterValue)) ?? [];
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
-	protected addGenre(event: MatChipInputEvent): void {
-		const value = (event.value || '').trim();
-		if (value) {
-			const existingGenre = this.animeGenres?.find(genre => genre.name.toLowerCase() === value.toLowerCase());
-			if (existingGenre && !this.selectedStudios.some(genre => genre.id === existingGenre.id)) {
-				this.selectedGenres.push(existingGenre);
-			}
-		}
-		event.chipInput?.clear();
-		this.studioCtrl.setValue(null);
-	}
-
-	/**
-	 * 1.
-	 * @param genre 1.
-	 */
-	protected removeGenre(genre: AnimeGenre): void {
-		const index = this.selectedGenres.indexOf(genre);
-		if (index >= 0) {
-			this.selectedGenres.splice(index, 1);
-			this.announcer.announce(`Removed ${genre.name}`);
-		}
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
-	 */
-	protected selectedGenre(event: MatAutocompleteSelectedEvent): void {
-		const value = event.option.viewValue;
-		const existingGenre = this.animeGenres?.find(genre => genre.name.toLowerCase() === value.toLowerCase());
-		if (existingGenre && !this.selectedGenres.some(genre => genre.id === existingGenre.id)) {
-			this.selectedGenres.push(existingGenre);
-		}
-		this.studioCtrl.setValue(null);
-	}
-
-	private filterGenre(value: string): AnimeGenre[] {
-		const filterValue = value.toLowerCase();
-		return this.animeGenres?.filter(genre => genre.name.toLowerCase().includes(filterValue)) ?? [];
 	}
 
 	protected createNewGenre(): void {

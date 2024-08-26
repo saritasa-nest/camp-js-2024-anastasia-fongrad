@@ -51,10 +51,10 @@ export class AnimeDetails extends Immerable {
 	public readonly airingDates: DateTimeInterval;
 
 	/** A list of anime studios. */
-	public readonly studios: readonly AnimeStudio[];
+	public readonly studios: AnimeStudio[];
 
 	/** A list of anime genres. */
-	public readonly genres: readonly AnimeGenre[];
+	public readonly genres: AnimeGenre[];
 
 	public constructor(data: AnimeDetailedConstructorData) {
 		super();
