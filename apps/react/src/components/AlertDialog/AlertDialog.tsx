@@ -22,7 +22,10 @@ type Props = {
 };
 
 const AlertDialogComponent: FC<Props> = ({
-	isAlertOpen, onAlertClose, title, description
+	isAlertOpen,
+	onAlertClose,
+	title,
+	description,
 }) => (
 	<Dialog
 		open={isAlertOpen}
