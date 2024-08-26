@@ -46,23 +46,23 @@ const HeaderComponent: FC = () => {
 	const isDrawerOpen = useAppSelector(selectIsDrawerOpen);
 	const isLoading = useAppSelector(selectIsUserProfileLoading);
 	const userProfile = useAppSelector(selectUserProfile);
-	const dispatch = useAppDispatch();
 	const [currentPage, setCurrentPage] = useState<string>('Anime');
 	const [authToken, setAuthToken] = useState(AuthTokenService.getAuthToken());
+	const dispatch = useAppDispatch();
 
-	const logout = () => {
+	const logout = useCallback(() => {
 		AuthTokenService.removeAuthToken();
 		setAuthToken(null);
 		dispatch(fetchUserProfile());
-	};
+	}, [dispatch]);
 
-	const handleDrawerOpen = () => {
+	const handleDrawerOpen = useCallback(() => {
 		dispatch(setOpen(true));
-	};
+	}, [dispatch]);
 
-	const handleDrawerClose = () => {
+	const handleDrawerClose = useCallback(() => {
 		dispatch(setOpen(false));
-	};
+	}, []);
 
 	const handleNavigation = useCallback((pageName: string) => {
 		setCurrentPage(pageName);
