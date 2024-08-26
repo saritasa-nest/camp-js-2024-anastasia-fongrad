@@ -20,7 +20,7 @@ export class AnimeGenreService {
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
-	/** 1. */
+	/** Gets paginated anime genres from the server. */
 	public getPaginated(): Observable<Pagination<AnimeGenre>> {
 		const url = this.appUrlConfig.paths.genresList;
 		const result$ = this.http.get<PaginationDto<AnimeGenreDto>>(url);
@@ -30,7 +30,7 @@ export class AnimeGenreService {
 		);
 	}
 
-	/** 1. */
+	/** Gets all the anime genres from the server. */
 	public getAll(): Observable<AnimeGenre[]> {
 		return this.getPaginated().pipe(
 			switchMap((pagination: Pagination<AnimeGenre>) => {
@@ -44,18 +44,21 @@ export class AnimeGenreService {
 	}
 
 	/**
-	 * 1.
-	 * @param genreName 1.
+	 * Creates a new anime genre.
+	 * @param genreName Name of the created genre.
 	 */
 	public add(genreName: string): Observable<AnimeGenre> {
 		const dtoParameters = {
 			name: genreName,
 			type: 'GENRES',
 		};
-		const url = this.appUrlConfig.paths.animeList;
-		const result$ = this.http.post<AnimeGenreDto>(url, dtoParameters);
-		return result$.pipe(
-			map((response: AnimeGenreDto) => AnimeGenreMapper.fromDto(response)),
+		console.log(dtoParameters);
+		const url = this.appUrlConfig.paths.genresList;
+		return this.http.post<AnimeGenreDto>(url, dtoParameters).pipe(
+			map((response: AnimeGenreDto) => {
+				console.log(response);
+				return AnimeGenreMapper.fromDto(response)
+			}),
 		);
 	}
 }

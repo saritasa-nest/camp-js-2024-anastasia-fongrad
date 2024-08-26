@@ -1,4 +1,4 @@
-import { Component, inject, model } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {
@@ -16,10 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 export type DialogData = {
 
 	/** 1. */
-	readonly animal: string;
-
-	/** 1. */
-	readonly name: string;
+	readonly studioName: string;
 };
 
 /** 1. */
@@ -45,9 +42,6 @@ export class StudiosDialogComponent {
 
 	/** 1. */
 	protected readonly data = inject<DialogData>(MAT_DIALOG_DATA);
-
-	/** 1. */
-	protected readonly animal = model(this.data.animal);
 
 	/** 1. */
 	protected onNoClick(): void {

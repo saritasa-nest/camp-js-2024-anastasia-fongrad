@@ -24,7 +24,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable, map, startWith } from 'rxjs';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
+import { MatDialog } from '@angular/material/dialog';
+import { AnimeGenreService } from '@js-camp/angular/core/services/anime-genre.service';
+import { AnimeStudioService } from '@js-camp/angular/core/services/anime-studio.service';
 
+import { StudiosDialogComponent } from '../studios-dialog/studios-dialog.component';
+import { StudiosSelectComponent } from '../studios-select/studios-select.component';
+import { GenresDialogComponent } from '../genres-dialog/genres-dialog.component';
 import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 
 /** 1. */
@@ -47,6 +53,7 @@ import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 		MatIconModule,
 		CommonModule,
 		ReactiveFormsModule,
+		StudiosSelectComponent,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -88,6 +95,12 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
 	private readonly announcer = inject(LiveAnnouncer);
+
+	private readonly dialog = inject(MatDialog);
+
+	private readonly genreService = inject(AnimeGenreService);
+
+	private readonly studioService = inject(AnimeStudioService);
 
 	/** 1. */
 	protected readonly filteredStudios$: Observable<AnimeStudio[]>;
@@ -232,7 +245,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	protected removeGenre(genre: AnimeGenre): void {
 		const index = this.selectedGenres.indexOf(genre);
 		if (index >= 0) {
-			this.selectedStudios.splice(index, 1);
+			this.selectedGenres.splice(index, 1);
 			this.announcer.announce(`Removed ${genre.name}`);
 		}
 	}
@@ -253,5 +266,26 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	private filterGenre(value: string): AnimeGenre[] {
 		const filterValue = value.toLowerCase();
 		return this.animeGenres?.filter(genre => genre.name.toLowerCase().includes(filterValue)) ?? [];
+	}
+
+	protected createNewGenre(): void {
+		const dialogRef = this.dialog.open(GenresDialogComponent, {
+			width: '500px',
+			data: { stringValue: '' }
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			console.log(result);
+			this.genreService.add(result);
+		});
+	}
+
+	protected createNewStudio(): void {
+		const dialogRef = this.dialog.open(StudiosDialogComponent, {
+			width: '500px',
+			data: { stringValue: '' }
+		});
+		dialogRef.afterClosed().subscribe(result => {
+			console.log(result);
+		});
 	}
 }

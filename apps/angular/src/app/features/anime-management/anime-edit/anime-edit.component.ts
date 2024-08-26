@@ -10,7 +10,7 @@ import { AnimeStudioService } from '@js-camp/angular/core/services/anime-studio.
 import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
 
-import { AnimeDetailsFormComponent } from '../anime-form/anime-form.component';
+import { AnimeDetailsFormComponent } from '../components/anime-form/anime-form.component';
 
 /** Login page component. */
 @Component({

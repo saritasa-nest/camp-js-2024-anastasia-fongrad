@@ -20,10 +20,7 @@ export class AnimeStudioService {
 
 	private readonly appUrlConfig = inject(AppUrlConfig);
 
-	/**
-	 * Gets paginated anime data from the server.
-	 * @param parameters Query parameters for the request.
-	 */
+	/** Gets paginated anime studios from the server. */
 	public getPaginated(): Observable<Pagination<AnimeStudio>> {
 		const url = this.appUrlConfig.paths.studiosList;
 		const result$ = this.http.get<PaginationDto<AnimeStudioDto>>(url);
@@ -33,7 +30,7 @@ export class AnimeStudioService {
 		);
 	}
 
-	/** 1. */
+	/** Get all studios from the server. */
 	public getAll(): Observable<AnimeStudio[]> {
 		return this.getPaginated().pipe(
 			switchMap((pagination: Pagination<AnimeStudio>) => {
@@ -47,12 +44,12 @@ export class AnimeStudioService {
 	}
 
 	/**
-	 * 1.
-	 * @param animeStudio 1.
+	 * Creates new anime studio.
+	 * @param animeStudio Anime studio to create.
 	 */
 	public add(animeStudio: Partial<AnimeStudio>): Observable<AnimeStudio> {
 		const dtoParameters = AnimeStudioMapper.toDto(animeStudio);
-		const url = this.appUrlConfig.paths.animeList;
+		const url = this.appUrlConfig.paths.studiosList;
 		const result$ = this.http.post<AnimeStudioDto>(url, dtoParameters);
 		return result$.pipe(
 			map((response: AnimeStudioDto) => AnimeStudioMapper.fromDto(response)),

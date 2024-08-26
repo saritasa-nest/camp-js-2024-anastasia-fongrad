@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Create new studio</h2>
+<mat-dialog-content>
+	<p>Enter data to create a new studio</p>
+	<mat-form-field>
+		<mat-label>Studio name</mat-label>
+		<input matInput [(ngModel)]="data.studioName" />
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+	<button type="button" mat-button (click)="onNoClick()">Back</button>
+	<button type="button" mat-button [mat-dialog-close]="data.studioName" cdkFocusInitial>Create</button>
+</mat-dialog-actions>
