@@ -44,7 +44,7 @@ export namespace AuthService {
 	export async function refresh(refreshToken: string): Promise<AuthorizationToken> {
 		const { data } = await http.post<AuthorizationTokenDto>(
 			AppUrlConfig.paths.tokenRefresh,
-			refreshToken,
+			{ refresh: refreshToken },
 		);
 		return AuthorizationTokenMapper.fromDto(data);
 	}
@@ -56,7 +56,7 @@ export namespace AuthService {
 	export async function verify(accessToken: string): Promise<void> {
 		const { data } = await http.post<void>(
 			AppUrlConfig.paths.tokenVerify,
-			accessToken,
+			{ token: accessToken },
 		);
 		return data;
 	}

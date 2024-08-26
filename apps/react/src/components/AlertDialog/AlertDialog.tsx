@@ -8,23 +8,25 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 type Props = {
 
-	/** 1. */
-	readonly open: boolean;
+	/** Is alert dialog open. */
+	readonly isAlertOpen: boolean;
 
-	/** 1. */
-	readonly onClose: () => void;
+	/** Handles the closing of the alert dialog. */
+	readonly onAlertClose: () => void;
 
-	/** 1. */
+	/** Alert dialog title. */
 	readonly title: string;
 
-	/** 1. */
+	/** Alert dialog message. */
 	readonly description: string;
 };
 
-const AlertDialogComponent: FC<Props> = ({ open, onClose, title, description }) => (
+const AlertDialogComponent: FC<Props> = ({
+	isAlertOpen, onAlertClose, title, description
+}) => (
 	<Dialog
-		open={open}
-		onClose={onClose}
+		open={isAlertOpen}
+		onClose={onAlertClose}
 		aria-labelledby="alert-dialog-title"
 		aria-describedby="alert-dialog-description"
 	>
@@ -35,10 +37,10 @@ const AlertDialogComponent: FC<Props> = ({ open, onClose, title, description }) 
 			</DialogContentText>
 		</DialogContent>
 		<DialogActions>
-			<Button onClick={onClose}>Close</Button>
+			<Button onClick={onAlertClose}>Close</Button>
 		</DialogActions>
 	</Dialog>
 );
 
-/** Anime page. */
+/** Alert dialog component. */
 export const AlertDialog = memo(AlertDialogComponent);

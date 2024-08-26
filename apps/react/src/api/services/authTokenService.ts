@@ -12,7 +12,7 @@ export namespace AuthTokenService {
 
 	/**
 	 * Saves an authentication token.
-	 * @param token 1.
+	 * @param token Authentication token.
 	 */
 	export function saveAuthToken(token: AuthorizationToken): void {
 		localStorage.setItem(TOKEN_KEY, JSON.stringify(token));

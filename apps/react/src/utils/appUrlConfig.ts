@@ -1,6 +1,6 @@
 export namespace AppUrlConfig {
 
-	/** 1. */
+	/** Api url paths. */
 	export const paths = {
 		animeList: 'anime/anime/list-cursor/',
 		genresList: 'anime/genres/',
@@ -12,8 +12,8 @@ export namespace AppUrlConfig {
 	} as const;
 
 	/**
-	 * 1.
-	 * @param url 1.
+	 * Checks if a path is accessible to unauthorized users.
+	 * @param url Url path to check.
 	 */
 	export function isAccessibleToUnauthorized(url: string): boolean {
 		return url.includes(paths.login) ||

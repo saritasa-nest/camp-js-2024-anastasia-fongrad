@@ -147,5 +147,5 @@ const HeaderComponent: FC = () => {
 	);
 };
 
-/** Genre page component. */
+/** Header component. */
 export const Header = memo(HeaderComponent);

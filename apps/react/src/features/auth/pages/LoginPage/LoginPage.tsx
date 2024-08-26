@@ -69,5 +69,5 @@ const LoginPageComponent: FC = () => {
 	);
 };
 
-/** Anime page. */
+/** User login page. */
 export const LoginPage = memo(LoginPageComponent);

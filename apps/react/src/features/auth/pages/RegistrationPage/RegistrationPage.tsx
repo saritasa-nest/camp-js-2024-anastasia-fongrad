@@ -23,7 +23,7 @@ const RegistrationPageComponent: FC = () => {
 	const navigate = useNavigate();
 	const loginUrl = '/login';
 
-	const handleClose = useCallback(() => {
+	const handleAlertClose = useCallback(() => {
 		setIsAlertOpen(false);
 		navigate(loginUrl);
 	}, [navigate]);
@@ -41,8 +41,8 @@ const RegistrationPageComponent: FC = () => {
 	return (
 		<main className={`${styles.layout} ${isDrawerOpen ? styles.layout_open : ''}`}>
 			<AlertDialog
-				open={isAlertOpen}
-				onClose={handleClose}
+				isAlertOpen={isAlertOpen}
+				onAlertClose={handleAlertClose}
 				title={'Registration successful'}
 				description={'Now you can log in a system'}
 			/>
@@ -74,5 +74,5 @@ const RegistrationPageComponent: FC = () => {
 	);
 };
 
-/** Anime page. */
+/** User registration page. */
 export const RegistrationPage = memo(RegistrationPageComponent);

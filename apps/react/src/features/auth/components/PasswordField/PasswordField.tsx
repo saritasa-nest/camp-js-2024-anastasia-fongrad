@@ -12,16 +12,16 @@ import styles from './PasswordField.module.css';
 
 type Props = {
 
-	/** 1. */
+	/** Does the field have an error. */
 	readonly hasError: boolean;
 
-	/** 1. */
+	/** Error message. */
 	readonly errorMessage?: string;
 
-	/** 1. */
+	/** Fields label. */
 	readonly label: string;
 
-	/** 1. */
+	/** Controller field from react hook forms. */
 	readonly field: object;
 };
 
@@ -70,5 +70,5 @@ const PasswordFieldComponent: FC<Props> = ({
 	);
 };
 
-/** Genre list item component. */
+/** Password field component. */
 export const PasswordField = memo(PasswordFieldComponent);

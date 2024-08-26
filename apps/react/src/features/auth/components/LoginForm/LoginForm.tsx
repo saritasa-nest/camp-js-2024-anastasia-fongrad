@@ -28,8 +28,8 @@ const defaultLoginFormValues: LoginFormValues = {
 };
 
 /**
- * 1.
- * @param key 1.
+ * A type guard for login form keys.
+ * @param key A key value to check.
  */
 function isLoginFormField(key: string): key is keyof LoginFormValues {
 	return key in validationSchema.shape;
@@ -37,10 +37,10 @@ function isLoginFormField(key: string): key is keyof LoginFormValues {
 
 type Props = {
 
-	/** 1. */
+	/** Handles user login on form submit. */
 	onSubmit: SubmitHandler<LoginFormValues>;
 
-	/** 1. */
+	/** An array of error received from the server. */
 	serverErrors: ServerError[];
 };
 
@@ -90,8 +90,7 @@ const LoginFormComponent: FC<Props> = ({
 					hasError={errors.password != null}
 					errorMessage={errors?.password?.message}
 					label='Password'
-				/>
-				}
+				/>}
 			/>
 			<Typography
 				component="p"
@@ -112,5 +111,5 @@ const LoginFormComponent: FC<Props> = ({
 	);
 };
 
-/** Anime page. */
+/** Login form component. */
 export const LoginForm = memo(LoginFormComponent);

@@ -8,9 +8,8 @@ import { Avatar } from '@mui/material';
 
 type Props = {
 
-	/** An array of navigation objects. */
+	/** User profile object. */
 	readonly userProfile: UserProfile;
-
 };
 
 const UserProfileComponent: FC<Props> = ({ userProfile }: Props) => {
@@ -41,5 +40,5 @@ const UserProfileComponent: FC<Props> = ({ userProfile }: Props) => {
 	);
 };
 
-/** Navigation list component. */
+/** User profile component. */
 export const UserProfileItem = memo(UserProfileComponent);

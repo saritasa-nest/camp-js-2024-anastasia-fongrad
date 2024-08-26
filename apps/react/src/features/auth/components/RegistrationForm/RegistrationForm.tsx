@@ -6,6 +6,7 @@ import { z } from 'zod';
 import TextField from '@mui/material/TextField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
+import { UserRegistration } from '@js-camp/core/models/user-registration.model';
 
 import { PasswordField } from '../PasswordField';
 
@@ -35,10 +36,7 @@ const validationSchema = z.object({
 	path: ['passwordConfirm'],
 });
 
-/** 1. */
-type RegistrationFormValues = z.infer<typeof validationSchema>;
-
-const defaultRegistrationFormValues: RegistrationFormValues = {
+const defaultRegistrationFormValues: UserRegistration = {
 	email: '',
 	firstName: '',
 	lastName: '',
@@ -47,19 +45,19 @@ const defaultRegistrationFormValues: RegistrationFormValues = {
 };
 
 /**
- * 1.
- * @param key 1.
+ * A type guard for registration form keys.
+ * @param key A key value to check.
  */
-function isRegistrationFormField(key: string): key is keyof RegistrationFormValues {
+function isRegistrationFormField(key: string): key is keyof UserRegistration {
 	return key === 'email' || key === 'password';
 }
 
 type Props = {
 
-	/** 1. */
-	onSubmit: SubmitHandler<RegistrationFormValues>;
+	/** Handles user registration on form submit. */
+	onSubmit: SubmitHandler<UserRegistration>;
 
-	/** 1. */
+	/** An array of server errors. */
 	serverErrors: ServerError[];
 };
 
@@ -168,5 +166,5 @@ const RegistrationFormComponent: FC<Props> = ({
 	);
 };
 
-/** Anime page. */
+/** Registration form component. */
 export const RegistrationForm = memo(RegistrationFormComponent);
