@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
+import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
 import { z } from 'zod';
 
 import { PasswordField } from '../PasswordField';
@@ -27,14 +28,6 @@ const defaultLoginFormValues: LoginFormValues = {
 	password: '',
 };
 
-/**
- * A type guard for login form keys.
- * @param key A key value to check.
- */
-function isLoginFormField(key: string): key is keyof LoginFormValues {
-	return key in validationSchema.shape;
-}
-
 type Props = {
 
 	/** Handles user login on form submit. */
@@ -54,14 +47,7 @@ const LoginFormComponent: FC<Props> = ({
 	});
 
 	useEffect(() => {
-		serverErrors.forEach(error => {
-			if (isLoginFormField(error.controlName)) {
-				setError(error.controlName, {
-					type: 'manual',
-					message: error.controlErrors[0],
-				});
-			}
-		});
+		ErrorsService.setErrors(serverErrors, setError, defaultLoginFormValues);
 	}, [serverErrors]);
 
 	return (
@@ -75,7 +61,6 @@ const LoginFormComponent: FC<Props> = ({
 				render={({ field }) => <TextField
 					{...field}
 					label="Email"
-					InputLabelProps={{ required: true }}
 					fullWidth
 					error={errors.email != null}
 					helperText={errors?.email?.message}
@@ -97,7 +82,7 @@ const LoginFormComponent: FC<Props> = ({
 				gutterBottom
 				className={styles.form__error}
 			>
-				{ serverErrors[0]?.controlName === 'form' && serverErrors[0]?.controlErrors[0]}
+				{ errors?.root?.message }
 			</Typography>
 			<Button
 				type="submit"

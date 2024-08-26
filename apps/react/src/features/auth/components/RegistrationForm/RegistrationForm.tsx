@@ -2,11 +2,12 @@ import { memo, FC, useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { Button, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { z } from 'zod';
 import TextField from '@mui/material/TextField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
 import { UserRegistration } from '@js-camp/core/models/user-registration.model';
+import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
+import { z } from 'zod';
 
 import { PasswordField } from '../PasswordField';
 
@@ -44,14 +45,6 @@ const defaultRegistrationFormValues: UserRegistration = {
 	passwordConfirm: '',
 };
 
-/**
- * A type guard for registration form keys.
- * @param key A key value to check.
- */
-function isRegistrationFormField(key: string): key is keyof UserRegistration {
-	return key === 'email' || key === 'password';
-}
-
 type Props = {
 
 	/** Handles user registration on form submit. */
@@ -71,14 +64,7 @@ const RegistrationFormComponent: FC<Props> = ({
 	});
 
 	useEffect(() => {
-		serverErrors.forEach(error => {
-			if (isRegistrationFormField(error.controlName)) {
-				setError(error.controlName, {
-					type: 'manual',
-					message: error.controlErrors[0],
-				});
-			}
-		});
+		ErrorsService.setErrors(serverErrors, setError, defaultRegistrationFormValues);
 	}, [serverErrors]);
 
 	return (
@@ -92,7 +78,6 @@ const RegistrationFormComponent: FC<Props> = ({
 				render={({ field }) => <TextField
 					{...field}
 					label="Email"
-					InputLabelProps={{ required: true }}
 					fullWidth
 					error={errors.email != null}
 					helperText={errors?.email?.message}
@@ -105,7 +90,6 @@ const RegistrationFormComponent: FC<Props> = ({
 				render={({ field }) => <TextField
 					{...field}
 					label="First Name"
-					InputLabelProps={{ required: true }}
 					fullWidth
 					error={errors.firstName != null}
 					helperText={errors?.firstName?.message}
@@ -118,7 +102,6 @@ const RegistrationFormComponent: FC<Props> = ({
 				render={({ field }) => <TextField
 					{...field}
 					label="Last Name"
-					InputLabelProps={{ required: true }}
 					fullWidth
 					error={errors.lastName != null}
 					helperText={errors?.lastName?.message}
@@ -152,7 +135,7 @@ const RegistrationFormComponent: FC<Props> = ({
 				gutterBottom
 				className={styles.form__error}
 			>
-				{ serverErrors[0]?.controlName === 'form' && serverErrors[0]?.controlErrors[0]}
+				{ errors?.root?.message }
 			</Typography>
 			<Button
 				type="submit"
