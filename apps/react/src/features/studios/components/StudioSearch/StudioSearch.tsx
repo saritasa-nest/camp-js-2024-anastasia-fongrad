@@ -20,13 +20,13 @@ const StudioSearchComponent: FC = () => {
 	const handleSearchButtonClick = () => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
-		dispatch(setSearchValue(inputValue.length > 0 ? inputValue : null));
+		dispatch(setSearchValue(inputValue));
 	};
 
 	return (
-		<Paper component="form" className={styles.filters__form}>
+		<Paper className={styles.search__form}>
 			<InputBase
-				className={styles['filters__input-base']}
+				className={styles['search__input-base']}
 				placeholder="Search Studios ..."
 				aria-label="search genres"
 				onChange={handleInputValueChange}
@@ -34,7 +34,7 @@ const StudioSearchComponent: FC = () => {
 			/>
 			<IconButton
 				type="button"
-				className={styles['filters__icon-button']}
+				className={styles['search__icon-button']}
 				aria-label="search"
 				color="primary"
 				onClick={handleSearchButtonClick}

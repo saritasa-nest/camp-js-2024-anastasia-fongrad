@@ -6,6 +6,9 @@ import { StudioSort } from '@js-camp/core/models/studio-sort.model';
  * @param param Sort param in url string.
  */
 export function sortValueFromQueryParams(param: string): StudioSort {
+	if (param.length === 0) {
+		return {};
+	}
 	const firstChar = param[0];
 	if (firstChar === '-') {
 		return {

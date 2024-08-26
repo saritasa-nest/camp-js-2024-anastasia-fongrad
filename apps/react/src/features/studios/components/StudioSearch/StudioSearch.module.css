@@ -1,15 +1,15 @@
-.filters__form {
+.search__form {
 	padding: 2px var(--space-base);
 	display: flex;
 	align-items: center;
 	width: 100%;
 }
 
-.filters__input-base {
+.search__input-base {
 	margin-left: var(--space-2);
 	flex: 1;
 }
 
-.filters__icon-button {
+.search__icon-button {
 	padding: var(--space-4);
 }

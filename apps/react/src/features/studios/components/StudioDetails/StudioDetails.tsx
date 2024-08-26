@@ -9,6 +9,7 @@ const StudioDetailsComponent: FC = () => {
 
 	const { studioId } = useParams<{ studioId: string; }>();
 
+	// TODO (Shmantsar A.): Implement api integration.
 	return (
 		<div>
 			<Typography variant="h5" component="div" gutterBottom>

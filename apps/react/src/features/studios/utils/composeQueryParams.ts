@@ -5,5 +5,5 @@ import { StudioQueryParametersDto } from '@js-camp/core/dtos/studio-query-parame
  * @param params Studio query params.
  */
 export function composeQueryParams(params: StudioQueryParametersDto): URLSearchParams {
-	return new URLSearchParams(JSON.parse(JSON.stringify(params)));
+	return new URLSearchParams(Object.entries(params).filter(([_, value]) => Boolean(value)));
 }

@@ -1,5 +1,5 @@
 import { memo, FC, useEffect, useRef } from 'react';
-import { List, ListItem, Typography, Button } from '@mui/material';
+import { List, ListItem, Typography, Button, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '@js-camp/react/store';
@@ -44,13 +44,13 @@ const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProp
 
 	return (
 		<div className={styles['genre-list']}>
-			<div className={styles.filters}>
+			<Paper component="form" className={styles.filters} elevation={0}>
 				<Typography variant="h5" component="h5" gutterBottom>
 					Filters
 				</Typography>
 				<StudioSortSelect />
 				<StudioSearch />
-			</div>
+			</Paper>
 			<Button variant='text' startIcon={<AddIcon />}>
 				Add Studio
 			</Button>
