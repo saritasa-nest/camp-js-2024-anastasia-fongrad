@@ -3,7 +3,7 @@ import { ServerErrorsMapper } from '@js-camp/core/mappers/server-errors.mapper';
 import { UseFormSetError, FieldValues, Path } from 'react-hook-form';
 import { isAxiosError } from 'axios';
 
-export namespace ErrorsService {
+export namespace HandleErrorsService {
 
 	const FORM_ERROR_KEY = 'root' ;
 
@@ -44,6 +44,11 @@ export namespace ErrorsService {
 		});
 	}
 
+	/**
+	 * Checks if a string is a valid form field.
+	 * @param key A key to check.
+	 * @param formFields Form fields names.
+	 */
 	function isFormField<T extends FieldValues>(key: string, formFields: T): key is Path<T> {
 		return key in formFields;
 	}

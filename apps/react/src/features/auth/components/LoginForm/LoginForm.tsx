@@ -1,12 +1,13 @@
 import { memo, FC, useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { Button, Box } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
-import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
+import { HandleErrorsService } from '@js-camp/react/api/services/handleErrorsService';
 import { z } from 'zod';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 
 import { PasswordField } from '../PasswordField';
 
@@ -47,7 +48,7 @@ const LoginFormComponent: FC<Props> = ({
 	});
 
 	useEffect(() => {
-		ErrorsService.setErrors(serverErrors, setError, defaultLoginFormValues);
+		HandleErrorsService.setErrors(serverErrors, setError, defaultLoginFormValues);
 	}, [serverErrors]);
 
 	return (

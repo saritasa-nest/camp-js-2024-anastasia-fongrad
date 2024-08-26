@@ -1,13 +1,14 @@
 import { memo, FC, useEffect } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
-import { Button, Box } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
 import { UserRegistration } from '@js-camp/core/models/user-registration.model';
-import { ErrorsService } from '@js-camp/react/api/services/handleErrorsService';
+import { HandleErrorsService } from '@js-camp/react/api/services/handleErrorsService';
 import { z } from 'zod';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
 
 import { PasswordField } from '../PasswordField';
 
@@ -64,7 +65,7 @@ const RegistrationFormComponent: FC<Props> = ({
 	});
 
 	useEffect(() => {
-		ErrorsService.setErrors(serverErrors, setError, defaultRegistrationFormValues);
+		HandleErrorsService.setErrors(serverErrors, setError, defaultRegistrationFormValues);
 	}, [serverErrors]);
 
 	return (
