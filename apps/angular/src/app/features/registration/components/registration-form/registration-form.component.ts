@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { tap, catchError, map } from 'rxjs';
+import { catchError, debounceTime, EMPTY } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 import { UserRegistrationForm, RegistrationForm } from './registration-form.model';
@@ -47,7 +47,7 @@ export class RegistrationFormComponent implements OnInit {
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	public constructor() {
-		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder);
+		this.registrationForm = UserRegistrationForm.initialize(this.formBuilder, this.destroyRef);
 	}
 
 	/** Clears form errors on input value change. */
@@ -56,33 +56,30 @@ export class RegistrationFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		Object.keys(this.registrationForm.controls).forEach(controlName => {
-			const control = this.registrationForm.get(controlName);
-			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(() => {
-					this.formValidationService.clearServerErrors(control);
-				});
-		});
+		this.registrationForm.valueChanges.pipe(
+			debounceTime(300),
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(() => {
+				this.registrationForm.updateValueAndValidity({ emitEvent: false });
+			});
 	}
 
 	/** Handles form submit event. */
 	protected onSubmit(): void {
-		if (!this.registrationForm?.valid) {
+		if (this.registrationForm?.invalid) {
 			return;
 		}
 		const formData = this.registrationForm.getRawValue();
 		this.registrationService.register(formData).pipe(
-			map(() => undefined),
-			catchError((error: unknown) => this.formValidationService.parseError(error)),
-			tap(errors => {
-				if (!errors) {
-					this.registrationSuccess.emit();
-				} else {
-					this.formValidationService.setFormErrors(this.registrationForm, errors);
-					this.changeDetectorRef.markForCheck();
-				}
+			catchError((error: unknown) => {
+				const errors = this.formValidationService.parseError(error);
+				this.formValidationService.setFormErrors(this.registrationForm, errors);
+				this.changeDetectorRef.markForCheck();
+				return EMPTY;
 			}),
+			takeUntilDestroyed(this.destroyRef),
 		)
-			.subscribe();
+			.subscribe(() => this.registrationSuccess.emit());
 	}
 }

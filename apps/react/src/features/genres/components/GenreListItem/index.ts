@@ -1,0 +1,1 @@
+export { GenreListItem } from './GenreListItem';

@@ -1,0 +1,31 @@
+.main__app-bar {
+  transition: margin 225ms cubic-bezier(0.4, 0, 0.6, 1), width 225ms cubic-bezier(0.4, 0, 0.6, 1);
+  position: fixed;
+}
+
+.main__app-bar_open {
+  width: calc(100% - var(--sidebar-width));
+  margin-left: var(--sidebar-width);
+  transition: margin 195ms cubic-bezier(0.4, 0, 0.2, 1), width 195ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.main__toolbar {
+  height: var(--header-height);
+}
+
+.main__toolbar-icon {
+  margin-right: var(--space-4);
+}
+
+.main__drawer {
+  width: var(--sidebar-width);
+  flex-shrink: 0;
+}
+
+.main__drawer-header {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  justify-content: flex-end;
+  height: var(--header-height);
+}

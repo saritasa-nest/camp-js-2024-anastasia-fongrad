@@ -2,7 +2,7 @@
 	<header class="header">
 		<div class="header__container container">
 			<a class="header__content" [routerLink]="[appRoutes.Home]">
-				<img src="assets/anime-icon.png" height="80" alt="">
+				<img class="header__logo" src="assets/anime-icon.png" alt="">
 				<span>Anime Catalog App</span>
 			</a>
 			<a [routerLink]="[getFullRoute(appRoutes.Home)]">Catalog</a>
@@ -10,7 +10,7 @@
 			@if (userProfile$ | async; as userProfile) {
 				<div class="header__user user">
 					<div class="user__profile" >
-						<img class="user__avatar" src="assets/user-icon.svg" alt="avatar" height="55">
+						<img class="user__avatar" src="assets/user-icon.svg" alt="avatar">
 						<div class="user__info">
 							<div class="user__name">
 								{{ userProfile.getFullName() }}

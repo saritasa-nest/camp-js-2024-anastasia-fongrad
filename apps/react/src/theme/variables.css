@@ -1,0 +1,16 @@
+:root {
+  /* Space variables */
+  --space-base: 4px;
+  --space-2: calc(2 * var(--space-base));
+  --space-4: calc(4 * var(--space-base));
+  --space-5: calc(5 * var(--space-base));
+  --space-6: calc(6 * var(--space-base));
+  --space-8: calc(8 * var(--space-base));
+  --space-10: calc(10 * var(--space-base));
+  --space-20: calc(20 * var(--space-base));
+
+  /* Size variables */
+  --header-height: 60px;
+  --sidebar-width: 280px;
+  --list-width: 400px;
+}

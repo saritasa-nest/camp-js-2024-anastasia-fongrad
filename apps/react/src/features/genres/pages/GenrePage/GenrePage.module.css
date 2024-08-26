@@ -1,0 +1,35 @@
+.layout {
+  display: flex;
+  gap: var(--space-8);
+  padding: 100px var(--space-6) 0 var(--space-6);
+  transition: margin 225ms cubic-bezier(0.4, 0, 0.6, 1);
+
+  /* Set a negative margin when side-menu is closed */
+  margin-left: calc(-1 * var(--sidebar-width));
+  height: 100%;
+  width: 100%;
+}
+
+.layout_open {
+  transition: margin 195ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 0;
+}
+
+.layout__sidebar {
+  width: var(--list-width);
+  flex-shrink: 0;
+}
+
+.layout__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  margin: 0 auto;
+}
+
+.layout__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

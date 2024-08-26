@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { AuthorizationService } from '@js-camp/angular/core/services/authorization.service';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
-import { tap, map, catchError } from 'rxjs';
+import { catchError, debounceTime, EMPTY } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CommonModule } from '@angular/common';
 
@@ -59,33 +59,30 @@ export class LoginFormComponent implements OnInit {
 	}
 
 	private initializeErrorsReset(): void {
-		Object.keys(this.loginForm.controls).forEach(controlName => {
-			const control = this.loginForm.get(controlName);
-			control?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
-				.subscribe(() => {
-					control.setErrors(null);
-				});
-		});
+		this.loginForm.valueChanges.pipe(
+			debounceTime(300),
+			takeUntilDestroyed(this.destroyRef),
+		)
+			.subscribe(() => {
+				this.loginForm.updateValueAndValidity({ emitEvent: false });
+			});
 	}
 
 	/** Handles form submit event. */
 	protected onSubmit(): void {
-		if (!this.loginForm?.valid) {
+		if (this.loginForm?.invalid) {
 			return;
 		}
 		const formData = this.loginForm.getRawValue();
 		this.authService.login(formData).pipe(
-			map(() => undefined),
-			catchError((error: unknown) => this.formValidationService.parseError(error)),
-			tap(errors => {
-				if (!errors) {
-					this.loginSuccess.emit();
-				} else {
-					this.formValidationService.setFormErrors(this.loginForm, errors);
-					this.changeDetectorRef.markForCheck();
-				}
+			catchError((error: unknown) => {
+				const errors = this.formValidationService.parseError(error);
+				this.formValidationService.setFormErrors(this.loginForm, errors);
+				this.changeDetectorRef.markForCheck();
+				return EMPTY;
 			}),
+			takeUntilDestroyed(this.destroyRef),
 		)
-			.subscribe();
+			.subscribe(() => this.loginSuccess.emit());
 	}
 }
