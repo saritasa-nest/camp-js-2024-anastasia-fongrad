@@ -10,6 +10,7 @@ const FROM_DTO: Readonly<Record<AnimeSeasonDto, AnimeSeason>> = {
 };
 
 export namespace AnimeSeasonMapper {
+
 	/**
 	 * Maps DTO to model.
 	 * @param dto Anime season DTO.
