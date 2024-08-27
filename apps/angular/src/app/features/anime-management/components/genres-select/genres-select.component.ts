@@ -29,29 +29,28 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 })
 export class GenresSelectComponent implements OnInit {
 
-	/** 1. */
+	/** Available anime genres. */
 	@Input()
 	public animeGenres?: AnimeGenre[];
 
-	/** 1. */
+	/** Selected genres for the current anime. */
 	@Input()
 	public selectedGenres?: AnimeGenre[];
 
-	/** 1. */
+	/** Genres abstract form control. */
 	@Input()
 	public genresControl?: AbstractControl<AnimeGenre[], AnimeGenre[]>;
 
-	/** 1. */
+	/** A list of filtered genres. */
 	protected filteredGenres$: Observable<AnimeGenre[]> = of([]);
 
-	/** 1. */
+	/** Separator key codes. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	private readonly announcer = inject(LiveAnnouncer);
 
-	/** 1. */
+	/** Initializes filtered genres updates on input change. */
 	public ngOnInit(): void {
-		this.filterGenres([]);
 		if (this.genresControl) {
 			this.filteredGenres$ = this.genresControl.valueChanges.pipe(
 				map((genres: AnimeGenre[]) => genres.length ? this.filterGenres(genres) : (this.animeGenres?.slice() ?? [])),
@@ -88,7 +87,7 @@ export class GenresSelectComponent implements OnInit {
 	}
 
 	/**
-	 * Selects new genre .
+	 * Selects new genre for MatAutocomplete.
 	 * @param event MatAutocomplete select event.
 	 */
 	protected selectedGenre(event: MatAutocompleteSelectedEvent): void {

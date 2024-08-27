@@ -19,19 +19,19 @@ export const DEFAULT_SEARCH_QUERY = '';
 /** Default value for anime types list. */
 export const DEFAULT_TYPES: AnimeType[] = [];
 
-/** 1. */
+/** Default value for an anime type. */
 export const DEFAULT_TYPE = AnimeType.Unknown;
 
-/** 1. */
+/** Default value for an anime rating. */
 export const DEFAULT_RATING = AnimeRating.Unknown;
 
-/** 1. */
+/** Default value for an anime status. */
 export const DEFAULT_STATUS = AnimeStatus.NotYetAired;
 
-/** 1. */
+/** Default value for an anime season. */
 export const DEFAULT_SEASON = AnimeSeason.NonSeasonal;
 
-/** 1. */
+/** Default value for an anime source. */
 export const DEFAULT_SOURCE = AnimeSource.Other;
 
 /** Default search parameter. */

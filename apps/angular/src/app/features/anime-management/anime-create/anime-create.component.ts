@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { AnimeDetailsFormComponent } from '../components/anime-form/anime-form.component';
 
-/** Login page component. */
+/** Anime create page component. */
 @Component({
 	selector: 'camp-anime-create',
 	templateUrl: './anime-create.component.html',

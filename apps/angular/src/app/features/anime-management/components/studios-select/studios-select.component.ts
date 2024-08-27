@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AbstractControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
-/** 1. */
+/** Studios select component. */
 @Component({
 	selector: 'camp-studios-select',
 	templateUrl: './studios-select.component.html',
@@ -28,27 +28,28 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudiosSelectComponent implements OnInit {
-	/** 1. */
+
+	/** Available anime studios. */
 	@Input()
 	public animeStudios?: AnimeStudio[];
 
-	/** 1. */
+	/** Selected for the current anime studios. */
 	@Input()
 	public selectedStudios?: AnimeStudio[];
 
-	/** 1. */
+	/** Studios abstract form control. */
 	@Input()
 	public studioControl?: AbstractControl<AnimeStudio[], AnimeStudio[]>;
 
-	/** 1. */
+	/** A list of filtered studios. */
 	protected filteredStudios$: Observable<AnimeStudio[]> = of([]);
 
-	/** 1. */
+	/** Separator key codes. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	private readonly announcer = inject(LiveAnnouncer);
 
-	/** 1. */
+	/** Initializes filtered studios updates on input change. */
 	public ngOnInit(): void {
 		if (this.studioControl) {
 			this.filteredStudios$ = this.studioControl.valueChanges.pipe(
@@ -58,20 +59,8 @@ export class StudiosSelectComponent implements OnInit {
 	}
 
 	/**
-	 * 1.
-	 * @param studio 1.
-	 */
-	protected removeStudio(studio: AnimeStudio): void {
-		const index = this.selectedStudios?.indexOf(studio);
-		if (index && index >= 0) {
-			this.selectedStudios?.splice(index, 1);
-			this.announcer.announce(`Removed ${studio.name}`);
-		}
-	}
-
-	/**
-	 * 1.
-	 * @param event 1.
+	 * Adds a new studio to the list of selected studios.
+	 * @param event MatChip input event.
 	 */
 	protected addStudio(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
@@ -86,8 +75,20 @@ export class StudiosSelectComponent implements OnInit {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Removes a studio from a selected list.
+	 * @param studio Anime studio to remove.
+	 */
+	protected removeStudio(studio: AnimeStudio): void {
+		const index = this.selectedStudios?.indexOf(studio);
+		if (index && index >= 0) {
+			this.selectedStudios?.splice(index, 1);
+			this.announcer.announce(`Removed ${studio.name}`);
+		}
+	}
+
+	/**
+	 * Selects new studio for MatAutocomplete.
+	 * @param event MatAutocomplete select event.
 	 */
 	protected selectedStudio(event: MatAutocompleteSelectedEvent): void {
 		const value = event.option.viewValue;

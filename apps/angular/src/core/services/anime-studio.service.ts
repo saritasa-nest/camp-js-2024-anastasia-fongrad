@@ -10,7 +10,7 @@ import { AnimeStudioDto } from '@js-camp/core/dtos/anime-studio.dto';
 
 import { AppUrlConfig } from './app-url-config.service';
 
-/** 1. */
+/** Anime studio service. */
 @Injectable({
 	providedIn: 'root',
 })

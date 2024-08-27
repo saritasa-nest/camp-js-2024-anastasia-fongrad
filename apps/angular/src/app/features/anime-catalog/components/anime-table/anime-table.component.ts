@@ -92,7 +92,7 @@ export class AnimeTableComponent {
 	@Output()
 	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
 
-	/** 1. */
+	/** Event emitter for an anime delete event. */
 	@Output()
 	public readonly animeDelete = new EventEmitter<Anime>();
 
@@ -145,9 +145,9 @@ export class AnimeTableComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
-	 * @param anime 1.
+	 * Emits an event on tables row delete.
+	 * @param event Button click event.
+	 * @param anime Anime tables row to be deleted.
 	 */
 	protected deleteRow(event: Event, anime: Anime): void {
 		event.stopPropagation();

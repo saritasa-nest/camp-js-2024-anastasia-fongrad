@@ -12,10 +12,10 @@ import {
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-/** 1. */
+/** Studios dialog data. */
 export type DialogData = {
 
-	/** 1. */
+	/** Anime studio name. */
 	readonly studioName: string;
 };
 

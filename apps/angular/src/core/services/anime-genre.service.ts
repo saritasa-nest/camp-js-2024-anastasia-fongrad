@@ -10,7 +10,7 @@ import { AnimeGenreDto } from '@js-camp/core/dtos/anime-genre.dto';
 
 import { AppUrlConfig } from './app-url-config.service';
 
-/** 1. */
+/** Anime genre service. */
 @Injectable({
 	providedIn: 'root',
 })

@@ -13,7 +13,7 @@ import { AppRoutes } from '@js-camp/angular/core/utils/enums/app-routes.enum';
 
 import { AnimeDetailsFormComponent } from '../components/anime-form/anime-form.component';
 
-/** Login page component. */
+/** Anime edit page component. */
 @Component({
 	selector: 'camp-anime-edit',
 	templateUrl: './anime-edit.component.html',
@@ -29,13 +29,13 @@ import { AnimeDetailsFormComponent } from '../components/anime-form/anime-form.c
 })
 export class AnimeEditComponent {
 
-	/** 1. */
+	/** Anime details. */
 	protected readonly animeDetails$: Observable<AnimeDetails | null>;
 
-	/** 1. */
+	/** Anime genres. */
 	protected readonly animeGenres$: Observable<AnimeGenre[]>;
 
-	/** 1. */
+	/** Anime studios. */
 	protected readonly animeStudios$: Observable<AnimeStudio[]>;
 
 	private readonly route = inject(ActivatedRoute);
@@ -48,9 +48,9 @@ export class AnimeEditComponent {
 
 	private readonly router = inject(Router);
 
-	private animeGenreSubject$ = new BehaviorSubject<void>(undefined);
+	private readonly animeGenreSubject$ = new BehaviorSubject<void>(undefined);
 
-	private animeStudioSubject$ = new BehaviorSubject<void>(undefined);
+	private readonly animeStudioSubject$ = new BehaviorSubject<void>(undefined);
 
 	public constructor() {
 		this.animeDetails$ = this.route.paramMap.pipe(
@@ -71,16 +71,16 @@ export class AnimeEditComponent {
 	}
 
 	/**
-	 * 1.
-	 * @param genreName 1.
+	 * Creates new anime genre.
+	 * @param genreName Name of the genre being created.
 	 */
 	protected createNewGenre(genreName: string): void {
 		this.animeGenreService.add(genreName).subscribe(() => this.animeGenreSubject$.next());
 	}
 
 	/**
-	 * 1.
-	 * @param message 1.
+	 * Handles anime edit success.
+	 * @param message Form success message.
 	 */
 	protected onEditSuccess(message: string): void {
 		console.log(message);

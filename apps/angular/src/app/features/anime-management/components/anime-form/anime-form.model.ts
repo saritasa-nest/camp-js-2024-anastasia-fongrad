@@ -7,52 +7,52 @@ import { AnimeSeason } from '@js-camp/core/models/enums/anime-season.enum';
 import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
 import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 
-/** Login form type. */
+/** Anime details form type. */
 export type AnimeDetailsForm = {
 
-	/** 1. */
+	/** Anime image form control. */
 	readonly imageUrl: FormControl<string>;
 
-	/** Email form field. */
+	/** Anime trailer form control. */
 	readonly trailerUrl: FormControl<string>;
 
-	/** Password form field. */
+	/** English title form control. */
 	readonly titleEnglish: FormControl<string>;
 
-	/** 1. */
+	/** Japanese title form control. */
 	readonly titleJapanese: FormControl<string>;
 
-	/** 1. */
+	/** Anime type form control. */
 	readonly type: FormControl<AnimeType>;
 
-	/** 1. */
+	/** Anime status form control. */
 	readonly status: FormControl<AnimeStatus>;
 
-	/** 1. */
+	/** Anime rating form control. */
 	readonly rating: FormControl<AnimeRating>;
 
-	/** 1. */
+	/** Anime source form control. */
 	readonly source: FormControl<AnimeSource>;
 
-	/** 1. */
+	/** Anime season form control. */
 	readonly season: FormControl<AnimeSeason>;
 
-	/** 1. */
+	/** Anime synopsis form control. */
 	readonly synopsis: FormControl<string>;
 
-	/** 1. */
+	/** Is anime airing. */
 	readonly airingStatus: FormControl<boolean>;
 
-	/** 1. */
+	/** Date and time of the start of the airing. */
 	readonly airingStartDate: FormControl<string>;
 
-	/** 1. */
+	/** Date and time of the end of the airing. */
 	readonly airingEndDate: FormControl<string>;
 
-	/** 1. */
+	/** Anime studios array. */
 	readonly studios: FormControl<AnimeStudio[]>;
 
-	/** 1. */
+	/** Anime genres array. */
 	readonly genres: FormControl<AnimeGenre[]>;
 };
 
@@ -111,7 +111,7 @@ export type AnimeDetailsFormParams = {
 export namespace AnimeDetailsForm {
 
 	/**
-	 * Initializes a login form using FormBuilder.
+	 * Initializes an anime detail form using FormBuilder.
 	 * @param animeDetailsParams Form builder object.
 	 */
 	export function initialize(animeDetailsParams: AnimeDetailsFormParams): FormGroup<AnimeDetailsForm> {

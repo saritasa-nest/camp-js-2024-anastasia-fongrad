@@ -32,7 +32,7 @@ import { GenresSelectComponent } from '../genres-select/genres-select.component'
 
 import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 
-/** 1. */
+/** Anime details form component. */
 @Component({
 	selector: 'camp-anime-form',
 	templateUrl: './anime-form.component.html',
@@ -57,43 +57,55 @@ import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 })
 export class AnimeDetailsFormComponent implements OnChanges {
 
-	/** 1. */
+	/** Anime details to initialize the form. */
 	@Input()
 	public animeDetails?: AnimeDetails;
 
-	/** 1. */
+	/** Anime studios to initialize the form. */
 	@Input()
 	public animeStudios$?: Observable<AnimeStudio[]>;
 
-	/** 1. */
+	/** Anime genres to initialize the form. */
 	@Input()
 	public animeGenres$?: Observable<AnimeGenre[]>;
 
-	/** 1. */
+	/** New genre event emitter. */
 	@Output()
 	public addGenre = new EventEmitter<string>();
 
-	/** 1. */
+	/** Success event emitter. */
 	@Output()
 	public formSuccess = new EventEmitter<string>();
 
-	/** Reactive anime filter form. */
+	/** Reactive anime details form. */
 	protected readonly animeDetailsForm: FormGroup<AnimeDetailsForm>;
 
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes = Object.values(AnimeType);
 
-	/** 1. */
+	/** Available anime status values. */
 	protected readonly selectStatuses = Object.values(AnimeStatus);
 
-	/** 1. */
+	/** Available anime rating values. */
 	protected readonly selectRatings = Object.values(AnimeRating);
 
-	/** 1. */
+	/** Available anime season values. */
 	protected readonly selectSeasons = Object.values(AnimeSeason);
 
-	/** 1. */
+	/** Available anime source values. */
 	protected readonly selectSources = Object.values(AnimeSource);
+
+	/** Available anime genres. */
+	protected readonly selectedGenres: AnimeGenre[] = [];
+
+	/** Available anime studios. */
+	protected readonly selectedStudios: AnimeStudio[] = [];
+
+	/** Anime image filename. */
+	protected fileName: string | null = null;
+
+	/** Form validation service. */
+	protected readonly validationService = inject(FormValidationService);
 
 	private readonly formBuilder = inject(NonNullableFormBuilder);
 
@@ -101,21 +113,9 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	private readonly animeService = inject(AnimeService);
 
-	/** 1. */
-	protected readonly validationService = inject(FormValidationService);
-
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
 	private readonly destroyRef = inject(DestroyRef);
-
-	/** 1. */
-	protected readonly selectedGenres: AnimeGenre[] = [];
-
-	/** 1. */
-	protected readonly selectedStudios: AnimeStudio[] = [];
-
-	/** 1. */
-	protected fileName: string | null = null;
 
 	private selectedFile = '';
 
@@ -180,7 +180,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		return AnimeDetailsForm.initialize(formParams);
 	}
 
-	/** 1. */
+	/** Creates new anime genre object. */
 	protected createNewGenre(): void {
 		const dialogRef = this.dialog.open(GenresDialogComponent, {
 			width: '500px',
@@ -193,7 +193,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		});
 	}
 
-	/** 1. */
+	/** Creates new anime studio object. */
 	protected createNewStudio(): void {
 		const dialogRef = this.dialog.open(StudiosDialogComponent, {
 			width: '500px',
@@ -205,8 +205,8 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Handles an anime image uploads.
+	 * @param event Anime upload event.
 	 */
 	protected onFileSelected(event: Event): void {
 		const inputNode = event.target as HTMLInputElement;
@@ -223,7 +223,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		}
 	}
 
-	/** 1. */
+	/** Handles anime details form submit. */
 	public onSubmit(): void {
 		if (this.animeDetailsForm.invalid) {
 			return;
@@ -239,8 +239,6 @@ export class AnimeDetailsFormComponent implements OnChanges {
 				end: formData.airingEndDate ? new Date(formData.airingEndDate) : null,
 			},
 		};
-
-		// formData.studios.copyWithin(this.selectedStudios,)
 		console.log(formData);
 		console.log(transformedData);
 		if (!this.animeDetails?.id) {
