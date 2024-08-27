@@ -16,6 +16,7 @@
 						[animeList]="paginatedAnime.results"
 						[sorting]="animeParameters.animeSort"
 						(sortChange)="routeParameterService.changeSortParameter($event)"
+						(animeDelete)="deleteAnime($event)"
 					/>
 					<mat-paginator
 						[length]="paginatedAnime.totalCount"

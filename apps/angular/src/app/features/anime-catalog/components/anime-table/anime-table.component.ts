@@ -12,6 +12,7 @@ import { EnumUtils } from '@js-camp/core/utils/enum-utils';
 import { AnimeSortDirections } from '@js-camp/core/models/enums/anime-sort-directions.enum';
 import { Router } from '@angular/router';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 /** Anime table column ids. */
 enum AnimeTableColumnIds {
@@ -91,7 +92,12 @@ export class AnimeTableComponent {
 	@Output()
 	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
 
+	@Output()
+	public readonly animeDelete = new EventEmitter<Anime>();
+
 	private readonly router = inject(Router);
+
+	private animeService = inject(AnimeService);
 
 	/**
 	 * Emits sort table event to the parent component.
@@ -139,9 +145,10 @@ export class AnimeTableComponent {
 
 	/**
 	 * 1.
-	 * @param _element 1.
+	 * @param anime 1.
 	 */
-	protected deleteRow(_element: Anime): number {
-		return 1;
+	protected deleteRow(event: Event, anime: Anime): void {
+		event.stopPropagation();
+		this.animeDelete.emit(anime);
 	}
 }

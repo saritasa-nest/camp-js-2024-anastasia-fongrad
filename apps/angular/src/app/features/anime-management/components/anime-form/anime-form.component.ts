@@ -1,6 +1,5 @@
 import { inject, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder, FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,8 +17,6 @@ import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
 import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,8 +27,8 @@ import { StudiosDialogComponent } from '../studios-dialog/studios-dialog.compone
 import { StudiosSelectComponent } from '../studios-select/studios-select.component';
 import { GenresDialogComponent } from '../genres-dialog/genres-dialog.component';
 import { GenresSelectComponent } from '../genres-select/genres-select.component';
-import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 
+import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 
 /** 1. */
 @Component({
@@ -47,8 +44,6 @@ import { AnimeDetailsForm, AnimeDetailsFormParams } from './anime-form.model';
 		MatButtonModule,
 		MatDatepickerModule,
 		MatButtonToggleModule,
-		MatAutocompleteModule,
-		MatChipsModule,
 		MatDividerModule,
 		MatIconModule,
 		CommonModule,
@@ -96,6 +91,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	private readonly genreService = inject(AnimeGenreService);
 
+	/** 1. */
 	protected readonly selectedGenres: AnimeGenre[] = [];
 
 	/** 1. */
@@ -159,21 +155,34 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		return AnimeDetailsForm.initialize(formParams);
 	}
 
+	/** 1. */
 	protected createNewGenre(): void {
 		const dialogRef = this.dialog.open(GenresDialogComponent, {
 			width: '500px',
-			data: { stringValue: '' }
+			data: { stringValue: '' },
 		});
 		dialogRef.afterClosed().subscribe(result => {
-			console.log(result);
-			this.genreService.add(result);
+			if (result) {
+				this.genreService.add(result).subscribe({
+					next: (response) => {
+						console.log('Genre added successfully:', response);
+					},
+					error: (error) => {
+						console.error('Error adding genre:', error);
+					},
+					complete: () => {
+						console.log('Add genre request completed');
+					}
+				});
+			}
 		});
 	}
 
+	/** 1. */
 	protected createNewStudio(): void {
 		const dialogRef = this.dialog.open(StudiosDialogComponent, {
 			width: '500px',
-			data: { stringValue: '' }
+			data: { stringValue: '' },
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			console.log(result);

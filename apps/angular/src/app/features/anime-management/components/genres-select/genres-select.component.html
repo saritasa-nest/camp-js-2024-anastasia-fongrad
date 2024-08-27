@@ -1,0 +1,29 @@
+<mat-form-field class="form__chip-list">
+	<mat-label>Anime Genres</mat-label>
+	<mat-chip-grid #chipGrid aria-label="Genre selection">
+		@for (genre of selectedGenres; track $index) {
+			<mat-chip-row (removed)="removeGenre(genre)">
+				{{genre.name}}
+				<button type="button" matChipRemove [attr.aria-label]="'remove ' + genre.name">
+					<mat-icon>cancel</mat-icon>
+				</button>
+			</mat-chip-row>
+		}
+	</mat-chip-grid>
+	<input
+		name="currentGenre"
+		placeholder="New Genre..."
+		#genreInput
+		[matChipInputFor]="chipGrid"
+		[matAutocomplete]="auto"
+		[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+		(matChipInputTokenEnd)="addGenre($event)"
+	/>
+	<mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedGenre($event)">
+		@for (genre of filteredGenres$ | async; track $index) {
+			<mat-option [value]="genre.name">
+				{{genre.name}}
+			</mat-option>
+		}
+	</mat-autocomplete>
+</mat-form-field>
