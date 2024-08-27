@@ -4,7 +4,6 @@ import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
 import { List, ListItem, ListItemText } from '@mui/material';
 
 import { AnimeGenreList } from '../AnimeGenreList';
-
 import { AnimeStudioList } from '../AnimeStudioList';
 
 import styles from './AnimeDetailsList.module.css';

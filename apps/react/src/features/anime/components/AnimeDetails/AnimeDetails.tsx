@@ -6,7 +6,7 @@ import { fetchAnimeById } from '@js-camp/react/store/anime/dispatchers';
 import { selectAnimeDetails } from '@js-camp/react/store/anime/selectors';
 
 import { AnimeDetailsList } from '../AnimeDetailsList';
-import { AnimeDetailsHeader } from '../AnimeDetailsHeader/AnimeDetailsHeader';
+import { AnimeDetailsHeader } from '../AnimeDetailsHeader';
 import { AnimePlayer } from '../AnimePlayer';
 
 import styles from './AnimeDetails.module.css';

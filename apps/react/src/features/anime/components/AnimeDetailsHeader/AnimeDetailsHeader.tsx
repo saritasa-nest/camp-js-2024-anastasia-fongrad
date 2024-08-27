@@ -1,7 +1,7 @@
 import { Avatar } from '@mui/material';
 import { FC, memo, useState } from 'react';
 
-import { AnimePosterPopup } from '../AnimePosterPopup/';
+import { AnimePosterPopup } from '../AnimePosterPopup';
 
 import styles from './AnimeDetailsHeader.module.css';
 
@@ -34,7 +34,6 @@ const AnimeDetailsHeaderComponent: FC<AnimeDetailsHeaderProps> = ({
 			<Avatar
 				src={animePosterUrl}
 				className={styles.header__avatar}
-				component={'button'}
 				onClick={handlePopupOpen}
 			/>
 			<div>
