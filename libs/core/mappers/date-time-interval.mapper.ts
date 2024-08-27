@@ -9,8 +9,8 @@ export namespace DateTimeIntervalMapper {
 	 */
 	export function fromDto(dto: DateTimeIntervalDto): DateTimeInterval {
 		return {
-			start: dto.start != null ? new Date(dto.start) : null,
-			end: dto.end != null ? new Date(dto.end) : null,
+			start: dto.start != null ? new Date(dto.start).toLocaleDateString('ru') : null,
+			end: dto.end != null ? new Date(dto.end).toLocaleDateString('ru') : null,
 		};
 	}
 }
