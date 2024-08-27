@@ -1,23 +1,33 @@
-import { memo, FC } from 'react';
+import { memo, FC, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
+import { fetchAnimeById } from '@js-camp/react/store/anime/dispatchers';
+import { selectAnimeDetails } from '@js-camp/react/store/anime/selectors';
+
+import { AnimeDetailsHeader } from '../AnimeDetailsHeader/AnimeDetailsHeader';
 
 import styles from './AnimeDetails.module.css';
 
 const AnimeDetailsComponent: FC = () => {
-
 	const { animeId } = useParams<{ animeId: string; }>();
+	const dispatch = useAppDispatch();
+	const animeDetails = useAppSelector(selectAnimeDetails);
+
+	useEffect(() => {
+		if (animeId != null) {
+			dispatch(fetchAnimeById(animeId));
+		}
+	}, [animeId]);
 
 	return (
 		<div>
-			<Typography
-				variant="h5"
-				component="h5"
-				gutterBottom
-			>
-				{ `Anime № ${animeId}` }
-			</Typography>
+			<AnimeDetailsHeader
+				animePosterUrl={animeDetails?.imageUrl ?? ''}
+				titleJapanese={animeDetails?.titleJapanese ?? ''}
+				titleEnglish={animeDetails?.titleEnglish}
+			/>
 			<Typography paragraph>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non

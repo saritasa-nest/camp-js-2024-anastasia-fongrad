@@ -13,3 +13,9 @@ export const fetchAnimeNext = createAsyncThunk(
 	'anime/next',
 	(nextUrl: string) => AnimeService.fetchAnimeByUrl(nextUrl),
 );
+
+/** Async thunk action for fetching one anime by its id. */
+export const fetchAnimeById = createAsyncThunk(
+	'anime/id',
+	(id: string) => AnimeService.fetchAnimeById(id),
+);

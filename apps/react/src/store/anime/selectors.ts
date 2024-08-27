@@ -19,3 +19,9 @@ export const selectAnimeNextPage = createSelector(
 	(state: RootState) => state.anime.nextPage,
 	nextPage => nextPage,
 );
+
+/** Selects current anime details. */
+export const selectAnimeDetails = createSelector(
+	(state: RootState) => state.anime.animeDetails,
+	animeDetails => animeDetails,
+);
