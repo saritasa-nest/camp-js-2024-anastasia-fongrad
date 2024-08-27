@@ -1,0 +1,5 @@
+.player {
+  width: 100%;
+  min-height: 600px;
+  margin: var(--space-4) 0;
+}

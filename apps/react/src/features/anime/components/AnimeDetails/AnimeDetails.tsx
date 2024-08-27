@@ -7,6 +7,7 @@ import { selectAnimeDetails } from '@js-camp/react/store/anime/selectors';
 
 import { AnimeDetailsList } from '../AnimeDetailsList';
 import { AnimeDetailsHeader } from '../AnimeDetailsHeader/AnimeDetailsHeader';
+import { AnimePlayer } from '../AnimePlayer';
 
 import styles from './AnimeDetails.module.css';
 
@@ -31,9 +32,10 @@ const AnimeDetailsComponent: FC = () => {
 			<Divider />
 			<AnimeDetailsList anime={animeDetails}/>
 			<Divider />
+			<AnimePlayer trailerYoutubeId={animeDetails?.trailerYoutubeIdUrl ?? ''} />
 			<div className={styles.buttons}>
-				<Button variant="outlined">Edit</Button>
-				<Button variant="outlined" color="error">Delete</Button>
+				<Button variant="outlined" className={styles.button}>Edit</Button>
+				<Button variant="outlined" color="error" className={styles.button}>Delete</Button>
 			</div>
 		</div>
 	);
