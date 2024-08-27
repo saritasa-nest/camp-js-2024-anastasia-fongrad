@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @Component({
@@ -34,7 +34,7 @@ export class StudiosSelectComponent implements OnInit {
 	public selectedStudios?: AnimeStudio[];
 
 	@Input()
-	public studioControl?: FormControl;
+	public studioControl?: AbstractControl<AnimeStudio[], AnimeStudio[]>;
 
 	protected filteredStudios$: Observable<AnimeStudio[]> = of([]);;
 
@@ -46,8 +46,7 @@ export class StudiosSelectComponent implements OnInit {
 	public ngOnInit(): void {
 		if (this.studioControl) {
 			this.filteredStudios$ = this.studioControl.valueChanges.pipe(
-				startWith(''),
-				map((studio: string | null) => studio ? this.filterStudio(studio) : (this.animeStudios?.slice() ?? [])),
+				map((studios: AnimeStudio[]) => studios ? this.filterStudios(studios) : (this.animeStudios?.slice() ?? [])),
 			);
 		}
 	}
@@ -77,7 +76,7 @@ export class StudiosSelectComponent implements OnInit {
 			}
 		}
 		event.chipInput?.clear();
-		this.studioControl?.setValue(null);
+		this.studioControl?.setValue([]);
 	}
 
 	/**
@@ -90,11 +89,11 @@ export class StudiosSelectComponent implements OnInit {
 		if (existingStudio && !this.selectedStudios?.some(studio => studio.id === existingStudio.id)) {
 			this.selectedStudios?.push(existingStudio);
 		}
-		this.studioControl?.setValue(null);
+		this.studioControl?.setValue([]);
 	}
 
-	private filterStudio(value: string): AnimeStudio[] {
-		const filterValue = value.toLowerCase();
-		return this.animeStudios?.filter(studio => studio.name.toLowerCase().includes(filterValue)) ?? [];
+	private filterStudios(studios: AnimeStudio[]): AnimeStudio[] {
+		const filterValue = studios.map(studio => studio.name.toLowerCase());
+		return this.animeStudios?.filter(studio => filterValue.includes(studio.name.toLowerCase())) ?? [];
 	}
 }

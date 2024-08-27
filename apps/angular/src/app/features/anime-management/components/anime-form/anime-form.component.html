@@ -1,4 +1,8 @@
-<form [formGroup]="animeDetailsForm" class="main__form">
+<form
+	(ngSubmit)="onSubmit()"
+	[formGroup]="animeDetailsForm"
+	class="main__form"
+>
 	<div class="form__left">
 		<mat-form-field appearance="fill">
 			<mat-label>Trailer Url</mat-label>
@@ -106,11 +110,13 @@
 	<mat-divider class="form__divider"/>
 	<div class="form__multi-filters">
 		<div class="form__genres">
-			<camp-genres-select
-				[animeGenres]="animeGenres"
-				[selectedGenres]="selectedGenres"
-				[genresControl]="genreCtrl"
-			/>
+			@if(animeGenres$ | async; as animeGenres) {
+				<camp-genres-select
+					[animeGenres]="animeGenres"
+					[selectedGenres]="selectedGenres"
+					[genresControl]="animeDetailsForm.get('genres') ?? undefined"
+				/>
+			}
 			<a mat-fab extended
 				class='anime-details__add-genre'
 				(click)="createNewGenre()"
@@ -120,11 +126,13 @@
 			</a>
 		</div>
 		<div class="form__studios">
-			<camp-studios-select
-				[animeStudios]="animeStudios"
-				[selectedStudios]="selectedStudios"
-				[studioControl]="studioCtrl"
-			/>
+			@if(animeStudios$ | async; as animeStudios) {
+				<camp-studios-select
+					[animeStudios]="animeStudios"
+					[selectedStudios]="selectedStudios"
+					[studioControl]="animeDetailsForm.get('studios') ?? undefined"
+				/>
+			}
 			<a mat-fab extended
 				class='anime-details__add-studio'
 				(click)="createNewStudio()"

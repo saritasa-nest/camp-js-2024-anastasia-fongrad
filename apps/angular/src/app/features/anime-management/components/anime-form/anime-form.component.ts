@@ -1,4 +1,5 @@
-import { inject, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { inject, ChangeDetectorRef, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, EventEmitter, Output, DestroyRef } from '@angular/core';
+import { Observable, catchError, EMPTY } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder, FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -20,8 +21,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { DEFAULT_TYPE, DEFAULT_RATING, DEFAULT_SEASON, DEFAULT_STATUS, DEFAULT_SOURCE } from '@js-camp/core/utils/anime-constants';
 import { MatDialog } from '@angular/material/dialog';
-import { AnimeGenreService } from '@js-camp/angular/core/services/anime-genre.service';
-import { AnimeStudioService } from '@js-camp/angular/core/services/anime-studio.service';
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
 
 import { StudiosDialogComponent } from '../studios-dialog/studios-dialog.component';
 import { StudiosSelectComponent } from '../studios-select/studios-select.component';
@@ -61,14 +63,20 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	/** 1. */
 	@Input()
-	public animeStudios?: AnimeStudio[];
+	public animeStudios$?: Observable<AnimeStudio[]>;
 
 	/** 1. */
 	@Input()
-	public animeGenres?: AnimeGenre[];
+	public animeGenres$?: Observable<AnimeGenre[]>;
+
+	@Output()
+	public addGenre = new EventEmitter<string>();
+
+	@Output()
+	public formSuccess = new EventEmitter<string>();
 
 	/** Reactive anime filter form. */
-	protected animeDetailsForm: FormGroup<AnimeDetailsForm>;
+	protected readonly animeDetailsForm: FormGroup<AnimeDetailsForm>;
 
 	/** An array of available anime types to choose from. */
 	protected readonly selectTypes = Object.values(AnimeType);
@@ -89,19 +97,19 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	private readonly dialog = inject(MatDialog);
 
-	private readonly genreService = inject(AnimeGenreService);
+	private readonly animeService = inject(AnimeService);
+
+	private readonly validationService = inject(FormValidationService);
+
+	private readonly changeDetectorRef = inject(ChangeDetectorRef);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** 1. */
 	protected readonly selectedGenres: AnimeGenre[] = [];
 
 	/** 1. */
 	protected readonly selectedStudios: AnimeStudio[] = [];
-
-	/** 1. */
-	protected readonly studioCtrl = new FormControl();
-
-	/** 1. */
-	protected readonly genreCtrl = new FormControl();
 
 	public constructor() {
 		this.animeDetailsForm = this.initializeAnimeDetailsForm();
@@ -125,13 +133,20 @@ export class AnimeDetailsFormComponent implements OnChanges {
 				source: this.animeDetails.source,
 				season: this.animeDetails.season,
 				synopsis: this.animeDetails.synopsis,
-				airingStatus: this.animeDetails.airingStatus === 'on air',
+				airingStatus: this.animeDetails.airingStatus,
 				airingStartDate: startDate ?? '',
 				airingEndDate: endDate ?? '',
 				genres: this.animeDetails.genres ?? [],
 				studios: this.animeDetails.studios ?? [],
 			});
 		}
+		if (this.animeDetails?.studios) {
+			this.selectedStudios.push(...this.animeDetails.studios);
+		}
+		if (this.animeDetails?.genres) {
+			this.selectedGenres.push(...this.animeDetails.genres);
+		}
+
 	}
 
 	private initializeAnimeDetailsForm(): FormGroup<AnimeDetailsForm> {
@@ -163,17 +178,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		});
 		dialogRef.afterClosed().subscribe(result => {
 			if (result) {
-				this.genreService.add(result).subscribe({
-					next: (response) => {
-						console.log('Genre added successfully:', response);
-					},
-					error: (error) => {
-						console.error('Error adding genre:', error);
-					},
-					complete: () => {
-						console.log('Add genre request completed');
-					}
-				});
+				this.addGenre.emit(result);
 			}
 		});
 	}
@@ -187,5 +192,24 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		dialogRef.afterClosed().subscribe(result => {
 			console.log(result);
 		});
+	}
+
+	/** 1. */
+	public onSubmit(): void {
+		if (this.animeDetailsForm.invalid) {
+			return;
+		}
+		const formData = this.animeDetailsForm.getRawValue();
+		// formData.studios.copyWithin(this.selectedStudios,)
+		console.log(formData);
+		this.animeService.add(formData).pipe(
+			catchError((error: unknown) => {
+				const errors = this.validationService.parseError(error);
+				this.validationService.setFormErrors(this.animeDetailsForm, errors);
+				this.changeDetectorRef.markForCheck();
+				return EMPTY;
+			}),
+			takeUntilDestroyed(this.destroyRef),
+		).subscribe(() => this.formSuccess.emit('Anime have been created'));;
 	}
 }

@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
@@ -35,7 +35,7 @@ export class GenresSelectComponent implements OnInit {
 	public selectedGenres?: AnimeGenre[];
 
 	@Input()
-	public genresControl?: FormControl;
+	public genresControl?: AbstractControl<AnimeGenre[], AnimeGenre[]>;
 
 	protected filteredGenres$: Observable<AnimeGenre[]> = of([]);;
 
@@ -44,13 +44,14 @@ export class GenresSelectComponent implements OnInit {
 	private readonly announcer = inject(LiveAnnouncer);
 
 	public ngOnInit(): void {
+		this.filterGenres([]);
 		if (this.genresControl) {
 			this.filteredGenres$ = this.genresControl.valueChanges.pipe(
-				startWith(''),
-				map((genre: string | null) => genre ? this.filterGenre(genre) : (this.animeGenres?.slice() ?? [])),
+				map((genres: AnimeGenre[]) => genres.length ? this.filterGenres(genres) : (this.animeGenres?.slice() ?? [])),
 			);
 		}
 	}
+
 	/**
 	 * 1.
 	 * @param event 1.
@@ -64,7 +65,7 @@ export class GenresSelectComponent implements OnInit {
 			}
 		}
 		event.chipInput?.clear();
-		this.genresControl?.setValue(null);
+		this.genresControl?.setValue([]);
 	}
 
 	/**
@@ -73,7 +74,7 @@ export class GenresSelectComponent implements OnInit {
 	 */
 	protected removeGenre(genre: AnimeGenre): void {
 		const index = this.selectedGenres?.indexOf(genre);
-		if (index && index >= 0) {
+		if ((index != null) && (index >= 0)) {
 			this.selectedGenres?.splice(index, 1);
 			this.announcer.announce(`Removed ${genre.name}`);
 		}
@@ -89,12 +90,14 @@ export class GenresSelectComponent implements OnInit {
 		if (existingGenre && !this.selectedGenres?.some(genre => genre.id === existingGenre.id)) {
 			this.selectedGenres?.push(existingGenre);
 		}
-		this.genresControl?.setValue(null);
+		this.genresControl?.setValue([]);
 	}
 
-	private filterGenre(value: string): AnimeGenre[] {
-		const filterValue = value.toLowerCase();
-		return this.animeGenres?.filter(genre => genre.name.toLowerCase().includes(filterValue)) ?? [];
+	private filterGenres(genres: AnimeGenre[]): AnimeGenre[] {
+		if (genres.length === 0) {
+			return this.animeGenres ?? [];
+		}
+		const filterValue = genres.map(genre => genre.name.toLowerCase());
+		return this.animeGenres?.filter(genre => filterValue.includes(genre.name.toLowerCase())) ?? [];
 	}
-
 }

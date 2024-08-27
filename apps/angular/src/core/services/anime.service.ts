@@ -57,9 +57,23 @@ export class AnimeService {
 	 * 1.
 	 * @param animeDetails 1.
 	 */
-	public add(animeDetails: AnimeDetails): Observable<AnimeDetails> {
+	public add(animeDetails: Partial<AnimeDetails>): Observable<AnimeDetails> {
 		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
 		const url = this.appUrlConfig.paths.animeList;
+		const result$ = this.http.post<AnimeDetailsDto>(url, dtoParameters);
+		return result$.pipe(
+			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),
+		);
+	}
+
+	/**
+	 * 1.
+	 * @param animeId 1.
+	 * @param animeDetails 1.
+	 */
+	public put(animeId: number, animeDetails: Partial<AnimeDetails>): Observable<AnimeDetails> {
+		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
+		const url = `${this.appUrlConfig.paths.animeList}${animeId}/`;
 		const result$ = this.http.post<AnimeDetailsDto>(url, dtoParameters);
 		return result$.pipe(
 			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),

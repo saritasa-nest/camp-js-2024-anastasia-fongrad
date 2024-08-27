@@ -112,11 +112,9 @@ export namespace AnimeDetailsForm {
 		return animeDetailsParams.formBuilder.group({
 			trailerUrl: animeDetailsParams.formBuilder.control(
 				animeDetailsParams.trailerUrlInitialValue,
-				[Validators.required],
 			),
 			titleEnglish: animeDetailsParams.formBuilder.control(
 				animeDetailsParams.titleEnglishInitialValue,
-				[Validators.required],
 			),
 			titleJapanese: animeDetailsParams.formBuilder.control(
 				animeDetailsParams.titleJapaneseInitialValue,

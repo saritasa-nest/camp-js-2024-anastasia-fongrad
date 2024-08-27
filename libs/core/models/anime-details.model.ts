@@ -45,7 +45,7 @@ export class AnimeDetails extends Immerable {
 	public readonly synopsis: string;
 
 	/** Anime airing status. */
-	public readonly airingStatus: 'on air' | 'off air';
+	public readonly airingStatus: boolean;
 
 	/** Anime airing dates. */
 	public readonly airingDates: DateTimeInterval;
