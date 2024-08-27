@@ -23,7 +23,7 @@ const AnimeDetailsComponent: FC = () => {
 	}, [animeId]);
 
 	return (
-		<div>
+		<div className={styles['details-wrapper']}>
 			<AnimeDetailsHeader
 				animePosterUrl={animeDetails?.imageUrl ?? ''}
 				titleJapanese={animeDetails?.titleJapanese ?? ''}

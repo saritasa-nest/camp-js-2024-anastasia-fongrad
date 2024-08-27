@@ -1,5 +1,5 @@
 import { AnimeSourceDto } from '../dtos/enums/anime-source.dto';
-import { AnimeSource } from '../models/anime-source.model';
+import { AnimeSource } from '../models/enums/anime-source.model';
 
 const FROM_DTO: Readonly<Record<AnimeSourceDto, AnimeSource>> = {
 	[AnimeSourceDto.BOOK]: AnimeSource.Book,
@@ -22,7 +22,6 @@ const FROM_DTO: Readonly<Record<AnimeSourceDto, AnimeSource>> = {
 };
 
 export namespace AnimeSourceMapper {
-
 	/**
 	 * Maps DTO to model.
 	 * @param dto Anime source DTO.

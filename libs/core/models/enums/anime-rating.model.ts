@@ -6,5 +6,5 @@ export enum AnimeRating {
 	R17 = 'R-17',
 	RPlus = 'R+',
 	Rx = 'Rx',
-	Unknown = 'Unknown',
+	Unknown = 'unknown',
 }

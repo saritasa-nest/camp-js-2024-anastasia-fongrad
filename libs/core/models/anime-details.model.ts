@@ -1,7 +1,7 @@
 import { AnimeGenresData } from './anime-genres-data.model';
-import { AnimeRating } from './anime-rating.model';
-import { AnimeSeason } from './anime-season.model';
-import { AnimeSource } from './anime-source.model';
+import { AnimeRating } from './enums/anime-rating.model';
+import { AnimeSeason } from './enums/anime-season.model';
+import { AnimeSource } from './enums/anime-source.model';
 import { AnimeStudiosData } from './anime-studios-data.model';
 import { DateTimeInterval } from './date-time-interval.model';
 import { AnimeStatus } from './enums/anime-status.enum';

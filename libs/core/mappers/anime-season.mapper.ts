@@ -1,5 +1,5 @@
 import { AnimeSeasonDto } from '../dtos/enums/anime-season.dto';
-import { AnimeSeason } from '../models/anime-season.model';
+import { AnimeSeason } from '../models/enums/anime-season.model';
 
 const FROM_DTO: Readonly<Record<AnimeSeasonDto, AnimeSeason>> = {
 	[AnimeSeasonDto.FALL]: AnimeSeason.Fall,
@@ -10,7 +10,6 @@ const FROM_DTO: Readonly<Record<AnimeSeasonDto, AnimeSeason>> = {
 };
 
 export namespace AnimeSeasonMapper {
-
 	/**
 	 * Maps DTO to model.
 	 * @param dto Anime season DTO.
