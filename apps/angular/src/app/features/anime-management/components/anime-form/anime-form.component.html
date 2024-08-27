@@ -4,24 +4,37 @@
 	class="main__form"
 >
 	<div class="form__left">
+		{{ fileName }}
+		<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+		<input hidden (change)="onFileSelected($event)" #fileInput type="file" id="file">
+		<mat-form-field appearance="fill">
+			<mat-label>Image Url</mat-label>
+			<input matInput formControlName="imageUrl">
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.imageUrl) }}</mat-error>
+		</mat-form-field>
+
 		<mat-form-field appearance="fill">
 			<mat-label>Trailer Url</mat-label>
 			<input matInput formControlName="trailerUrl">
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.trailerUrl) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
 			<mat-label>English Title</mat-label>
 			<input matInput formControlName="titleEnglish">
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.titleEnglish) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
 			<mat-label>Japanese Title</mat-label>
 			<input matInput formControlName="titleJapanese">
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.titleJapanese) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field>
 			<mat-label>Anime Synopsis</mat-label>
 			<textarea class="form__synopsis" formControlName="synopsis" matInput></textarea>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.synopsis) }}</mat-error>
 		</mat-form-field>
 	</div>
 	<mat-divider class="form__divider"/>
@@ -33,6 +46,7 @@
 					<mat-option [value]="option">{{ option }}</mat-option>
 				}
 			</mat-select>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.type) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
@@ -42,6 +56,7 @@
 					<mat-option [value]="option">{{ option }}</mat-option>
 				}
 			</mat-select>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.status) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
@@ -51,6 +66,7 @@
 					<mat-option [value]="option">{{ option }}</mat-option>
 				}
 			</mat-select>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.rating) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
@@ -60,6 +76,7 @@
 					<mat-option [value]="option">{{ option }}</mat-option>
 				}
 			</mat-select>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.season) }}</mat-error>
 		</mat-form-field>
 
 		<mat-form-field appearance="fill">
@@ -69,6 +86,7 @@
 					<mat-option [value]="option">{{ option }}</mat-option>
 				}
 			</mat-select>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.source) }}</mat-error>
 		</mat-form-field>
 	</div>
 	<mat-divider class="form__divider"/>
@@ -91,6 +109,7 @@
 				[matDatepicker]="startPicker"
 				formControlName="airingStartDate"
 			>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.airingStartDate) }}</mat-error>
 			<mat-hint>MM/DD/YYYY</mat-hint>
 			<mat-datepicker-toggle matIconSuffix [for]="startPicker"/>
 			<mat-datepicker #startPicker></mat-datepicker>
@@ -102,6 +121,7 @@
 				[matDatepicker]="endPicker"
 				formControlName="airingEndDate"
 			>
+			<mat-error>{{ validationService.getControlErrorMessage(animeDetailsForm.controls.airingEndDate) }}</mat-error>
 			<mat-hint>MM/DD/YYYY</mat-hint>
 			<mat-datepicker-toggle matIconSuffix [for]="endPicker"/>
 			<mat-datepicker #endPicker></mat-datepicker>
@@ -142,5 +162,6 @@
 			</a>
 		</div>
 	</div>
+	<div class="form__error">{{ validationService.getFormErrorMessage(animeDetailsForm) }}</div>
 	<button class="form__submit" mat-raised-button type="submit">Add Anime</button>
 </form>

@@ -24,7 +24,7 @@ export class RefreshInterceptor implements HttpInterceptor {
 	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		if (this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
+		if (req.method === 'GET' && this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
 			return next.handle(req);
 		}
 		return next.handle(req).pipe(

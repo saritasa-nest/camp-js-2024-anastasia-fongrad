@@ -1,7 +1,7 @@
 import { inject, ChangeDetectorRef, Component, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges, EventEmitter, Output, DestroyRef } from '@angular/core';
 import { Observable, catchError, EMPTY } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -69,9 +69,11 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	@Input()
 	public animeGenres$?: Observable<AnimeGenre[]>;
 
+	/** 1. */
 	@Output()
 	public addGenre = new EventEmitter<string>();
 
+	/** 1. */
 	@Output()
 	public formSuccess = new EventEmitter<string>();
 
@@ -99,7 +101,8 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	private readonly animeService = inject(AnimeService);
 
-	private readonly validationService = inject(FormValidationService);
+	/** 1. */
+	protected readonly validationService = inject(FormValidationService);
 
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -110,6 +113,11 @@ export class AnimeDetailsFormComponent implements OnChanges {
 
 	/** 1. */
 	protected readonly selectedStudios: AnimeStudio[] = [];
+
+	/** 1. */
+	protected fileName: string | null = null;
+
+	private selectedFile = '';
 
 	public constructor() {
 		this.animeDetailsForm = this.initializeAnimeDetailsForm();
@@ -124,6 +132,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 			const startDate = this.animeDetails.airingDates.start?.toISOString().split('T')[0];
 			const endDate = this.animeDetails.airingDates.end?.toISOString().split('T')[0];
 			this.animeDetailsForm.patchValue({
+				imageUrl: this.animeDetails.imageUrl,
 				trailerUrl: this.animeDetails.trailerUrl,
 				titleEnglish: this.animeDetails.titleEnglish,
 				titleJapanese: this.animeDetails.titleJapanese,
@@ -152,6 +161,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	private initializeAnimeDetailsForm(): FormGroup<AnimeDetailsForm> {
 		const formParams: AnimeDetailsFormParams = {
 			formBuilder: this.formBuilder,
+			imageUrlInitialValue: '',
 			trailerUrlInitialValue: '',
 			titleEnglishInitialValue: '',
 			titleJapaneseInitialValue: '',
@@ -194,15 +204,49 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		});
 	}
 
+	/**
+	 * 1.
+	 * @param event 1.
+	 */
+	protected onFileSelected(event: Event): void {
+		const inputNode = event.target as HTMLInputElement;
+		if (inputNode.files?.[0]) {
+			const file = inputNode.files[0];
+			this.fileName = file.name;
+
+			const reader = new FileReader();
+			reader.onload = () => {
+				const base64String = (reader.result as string).split(',')[1];
+				this.selectedFile = base64String;
+			};
+			reader.readAsDataURL(file);
+		}
+	}
+
 	/** 1. */
 	public onSubmit(): void {
 		if (this.animeDetailsForm.invalid) {
 			return;
 		}
 		const formData = this.animeDetailsForm.getRawValue();
+		const transformedData = {
+			...formData,
+			imageUrl: this.selectedFile,
+			studios: this.selectedStudios,
+			genres: this.selectedGenres,
+			airingDates: {
+				start: formData.airingStartDate ? new Date(formData.airingStartDate) : null,
+				end: formData.airingEndDate ? new Date(formData.airingEndDate) : null,
+			},
+		};
+
 		// formData.studios.copyWithin(this.selectedStudios,)
 		console.log(formData);
-		this.animeService.add(formData).pipe(
+		console.log(transformedData);
+		if (!this.animeDetails?.id) {
+			throw Error('Wrong anime id');
+		}
+		this.animeService.put(this.animeDetails.id, transformedData).pipe(
 			catchError((error: unknown) => {
 				const errors = this.validationService.parseError(error);
 				this.validationService.setFormErrors(this.animeDetailsForm, errors);
@@ -210,6 +254,7 @@ export class AnimeDetailsFormComponent implements OnChanges {
 				return EMPTY;
 			}),
 			takeUntilDestroyed(this.destroyRef),
-		).subscribe(() => this.formSuccess.emit('Anime have been created'));;
+		)
+			.subscribe(() => this.formSuccess.emit('Anime have been created'));
 	}
 }

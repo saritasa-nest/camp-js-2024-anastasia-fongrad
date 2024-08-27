@@ -1,5 +1,5 @@
 import { Component, Input, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Observable, startWith, map, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AnimeStudio } from '@js-camp/core/models/anime-studio.model';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AbstractControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
+/** 1. */
 @Component({
 	selector: 'camp-studios-select',
 	templateUrl: './studios-select.component.html',
@@ -27,22 +28,27 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudiosSelectComponent implements OnInit {
+	/** 1. */
 	@Input()
 	public animeStudios?: AnimeStudio[];
 
+	/** 1. */
 	@Input()
 	public selectedStudios?: AnimeStudio[];
 
+	/** 1. */
 	@Input()
 	public studioControl?: AbstractControl<AnimeStudio[], AnimeStudio[]>;
 
-	protected filteredStudios$: Observable<AnimeStudio[]> = of([]);;
+	/** 1. */
+	protected filteredStudios$: Observable<AnimeStudio[]> = of([]);
 
+	/** 1. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	private readonly announcer = inject(LiveAnnouncer);
 
-
+	/** 1. */
 	public ngOnInit(): void {
 		if (this.studioControl) {
 			this.filteredStudios$ = this.studioControl.valueChanges.pipe(

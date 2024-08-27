@@ -47,11 +47,11 @@ export class AnimeCatalogComponent {
 
 	private readonly animeService = inject(AnimeService);
 
-	private readonly paginatedAnimeSubject = new BehaviorSubject<void>(undefined);
+	private readonly paginatedAnimeSubject$ = new BehaviorSubject<void>(undefined);
 
 	public constructor() {
-		this.paginatedAnime$ = this.paginatedAnimeSubject.pipe(
-			switchMap(() => this.getPaginatedAnime())
+		this.paginatedAnime$ = this.paginatedAnimeSubject$.pipe(
+			switchMap(() => this.getPaginatedAnime()),
 		);
 		this.animeParameters$ = this.routeParameterService.getQueryParameters();
 	}
@@ -66,16 +66,7 @@ export class AnimeCatalogComponent {
 	 * 1.
 	 * @param anime 1.
 	 */
-	protected deleteAnime(anime: Anime) {
-		this.animeService.deleteById(anime.id).subscribe(
-			{
-				next: () => {
-					this.paginatedAnimeSubject.next();
-				},
-				error: (error) => {
-					console.error(error);
-				},
-			}
-		);
+	protected deleteAnime(anime: Anime): void {
+		this.animeService.deleteById(anime.id).subscribe(() => this.paginatedAnimeSubject$.next());
 	}
 }

@@ -10,6 +10,9 @@ import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 /** Login form type. */
 export type AnimeDetailsForm = {
 
+	/** 1. */
+	readonly imageUrl: FormControl<string>;
+
 	/** Email form field. */
 	readonly trailerUrl: FormControl<string>;
 
@@ -60,6 +63,9 @@ export type AnimeDetailsFormParams = {
 	readonly formBuilder: NonNullableFormBuilder;
 
 	/** 1. */
+	readonly imageUrlInitialValue: string;
+
+	/** 1. */
 	readonly trailerUrlInitialValue: string;
 
 	/** 1. */
@@ -99,7 +105,7 @@ export type AnimeDetailsFormParams = {
 	readonly genres: AnimeGenre[];
 
 	/** 1. */
-	readonly studios: AnimeStudio[]
+	readonly studios: AnimeStudio[];
 };
 
 export namespace AnimeDetailsForm {
@@ -110,6 +116,9 @@ export namespace AnimeDetailsForm {
 	 */
 	export function initialize(animeDetailsParams: AnimeDetailsFormParams): FormGroup<AnimeDetailsForm> {
 		return animeDetailsParams.formBuilder.group({
+			imageUrl: animeDetailsParams.formBuilder.control(
+				animeDetailsParams.imageUrlInitialValue,
+			),
 			trailerUrl: animeDetailsParams.formBuilder.control(
 				animeDetailsParams.trailerUrlInitialValue,
 			),

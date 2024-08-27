@@ -54,8 +54,8 @@ export class AnimeService {
 	}
 
 	/**
-	 * 1.
-	 * @param animeDetails 1.
+	 * Creates new anime details object.
+	 * @param animeDetails Anime details to be posted.
 	 */
 	public add(animeDetails: Partial<AnimeDetails>): Observable<AnimeDetails> {
 		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
@@ -67,22 +67,22 @@ export class AnimeService {
 	}
 
 	/**
-	 * 1.
-	 * @param animeId 1.
-	 * @param animeDetails 1.
+	 * Edits details for the given anime.
+	 * @param animeId Edited anime id.
+	 * @param animeDetails Modified anime details.
 	 */
 	public put(animeId: number, animeDetails: Partial<AnimeDetails>): Observable<AnimeDetails> {
 		const dtoParameters = AnimeDetailsMapper.toDto(animeDetails);
 		const url = `${this.appUrlConfig.paths.animeList}${animeId}/`;
-		const result$ = this.http.post<AnimeDetailsDto>(url, dtoParameters);
+		const result$ = this.http.put<AnimeDetailsDto>(url, dtoParameters);
 		return result$.pipe(
 			map((response: AnimeDetailsDto) => AnimeDetailsMapper.fromDto(response)),
 		);
 	}
 
 	/**
-	 * 1.
-	 * @param id 1.
+	 * Deletes an anime by its id.
+	 * @param id Deleted anime id.
 	 */
 	public deleteById(id: AnimeDetails['id']): Observable<void> {
 		const url = this.appUrlConfig.getDetailsPath(id);

@@ -92,6 +92,7 @@ export class AnimeTableComponent {
 	@Output()
 	public readonly sortChange = new EventEmitter<AnimeSortParameter>();
 
+	/** 1. */
 	@Output()
 	public readonly animeDelete = new EventEmitter<Anime>();
 
@@ -145,6 +146,7 @@ export class AnimeTableComponent {
 
 	/**
 	 * 1.
+	 * @param event 1.
 	 * @param anime 1.
 	 */
 	protected deleteRow(event: Event, anime: Anime): void {

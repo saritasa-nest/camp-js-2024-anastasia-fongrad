@@ -20,7 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
 	 * @returns The modified HttpEvent.
 	 */
 	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		if (this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
+		if (req.method === 'GET' && this.appUrlConfig.isAccessibleToUnauthorized(req.url)) {
 			return next.handle(req);
 		}
 		return this.tokenService.getAccessToken().pipe(

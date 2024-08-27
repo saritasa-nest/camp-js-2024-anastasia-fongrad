@@ -1,5 +1,5 @@
 import { Component, Input, inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Observable, startWith, map, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatChipsModule, MatChipInputEvent } from '@angular/material/chips';
@@ -11,7 +11,7 @@ import { AbstractControl } from '@angular/forms';
 import { AnimeGenre } from '@js-camp/core/models/anime-genre.model';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
-/** 1. */
+/** Genres select component. */
 @Component({
 	selector: 'camp-genres-select',
 	templateUrl: './genres-select.component.html',
@@ -28,21 +28,28 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GenresSelectComponent implements OnInit {
+
+	/** 1. */
 	@Input()
 	public animeGenres?: AnimeGenre[];
 
+	/** 1. */
 	@Input()
 	public selectedGenres?: AnimeGenre[];
 
+	/** 1. */
 	@Input()
 	public genresControl?: AbstractControl<AnimeGenre[], AnimeGenre[]>;
 
-	protected filteredGenres$: Observable<AnimeGenre[]> = of([]);;
+	/** 1. */
+	protected filteredGenres$: Observable<AnimeGenre[]> = of([]);
 
+	/** 1. */
 	protected readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
 	private readonly announcer = inject(LiveAnnouncer);
 
+	/** 1. */
 	public ngOnInit(): void {
 		this.filterGenres([]);
 		if (this.genresControl) {
@@ -53,8 +60,8 @@ export class GenresSelectComponent implements OnInit {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Adds a new genre to the list of selected genres.
+	 * @param event MatChip input event.
 	 */
 	protected addGenre(event: MatChipInputEvent): void {
 		const value = (event.value || '').trim();
@@ -69,8 +76,8 @@ export class GenresSelectComponent implements OnInit {
 	}
 
 	/**
-	 * 1.
-	 * @param genre 1.
+	 * Removes a genre from a selected list.
+	 * @param genre Anime genre to remove.
 	 */
 	protected removeGenre(genre: AnimeGenre): void {
 		const index = this.selectedGenres?.indexOf(genre);
@@ -81,8 +88,8 @@ export class GenresSelectComponent implements OnInit {
 	}
 
 	/**
-	 * 1.
-	 * @param event 1.
+	 * Selects new genre .
+	 * @param event MatAutocomplete select event.
 	 */
 	protected selectedGenre(event: MatAutocompleteSelectedEvent): void {
 		const value = event.option.viewValue;

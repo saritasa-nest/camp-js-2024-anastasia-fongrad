@@ -57,7 +57,7 @@ export class AnimeGenreService {
 		return this.http.post<AnimeGenreDto>(url, dtoParameters).pipe(
 			map((response: AnimeGenreDto) => {
 				console.log(response);
-				return AnimeGenreMapper.fromDto(response)
+				return AnimeGenreMapper.fromDto(response);
 			}),
 		);
 	}
