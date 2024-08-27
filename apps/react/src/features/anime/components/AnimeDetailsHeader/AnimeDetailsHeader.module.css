@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.header__avatar {
+  width: 80px;
+  height: 80px;
+}
+
+.header__title {
+  font-size: var(--font-size-lg);
+  margin: 0;
+}
+
+.header__subtitle {
+  font-size: 14px;
+  font-family: var(--main-font-family);
+}

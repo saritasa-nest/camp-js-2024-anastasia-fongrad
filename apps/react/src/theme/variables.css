@@ -17,4 +17,10 @@
 
   /* Colors */
   --error-color: rgb(192 42 42);
+
+  /* Font sizes */
+  --font-size-lg: 24px;
+
+  /* Font families */
+  --main-font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }

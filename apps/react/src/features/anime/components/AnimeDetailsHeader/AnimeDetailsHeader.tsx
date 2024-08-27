@@ -1,5 +1,7 @@
-import { Avatar, Card, CardHeader } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { FC, memo } from 'react';
+
+import styles from './AnimeDetailsHeader.module.css';
 
 /** Anime details header props. */
 type AnimeDetailsHeaderProps = {
@@ -19,13 +21,15 @@ const AnimeDetailsHeaderComponent: FC<AnimeDetailsHeaderProps> = ({
 	titleJapanese,
 	titleEnglish,
 }: AnimeDetailsHeaderProps) => (
-	<Card>
-		<CardHeader
-			avatar={<Avatar src={animePosterUrl} />}
-			title={titleJapanese}
-			subheader={titleEnglish}
-		/>
-	</Card>
+	<div className={styles.header}>
+		<Avatar src={animePosterUrl} className={styles.header__avatar} />
+		<div>
+			<p className={styles.header__title}>{titleJapanese}</p>
+			{
+				titleEnglish != null ? <span className={styles.header__subtitle}>{titleEnglish}</span> : null
+			}
+		</div>
+	</div>
 );
 
 /** Anime details header component. */

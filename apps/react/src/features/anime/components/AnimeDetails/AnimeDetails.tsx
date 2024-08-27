@@ -1,6 +1,6 @@
 import { memo, FC, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
+import { Button, Divider } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { fetchAnimeById } from '@js-camp/react/store/anime/dispatchers';
@@ -28,6 +28,7 @@ const AnimeDetailsComponent: FC = () => {
 				titleJapanese={animeDetails?.titleJapanese ?? ''}
 				titleEnglish={animeDetails?.titleEnglish}
 			/>
+			<Divider />
 			<Typography paragraph>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
