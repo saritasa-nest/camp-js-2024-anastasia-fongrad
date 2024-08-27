@@ -1,5 +1,7 @@
 import { Avatar } from '@mui/material';
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
+
+import { AnimePosterPopup } from '../AnimePosterPopup/';
 
 import styles from './AnimeDetailsHeader.module.css';
 
@@ -20,17 +22,31 @@ const AnimeDetailsHeaderComponent: FC<AnimeDetailsHeaderProps> = ({
 	animePosterUrl,
 	titleJapanese,
 	titleEnglish,
-}: AnimeDetailsHeaderProps) => (
-	<div className={styles.header}>
-		<Avatar src={animePosterUrl} className={styles.header__avatar} />
-		<div>
-			<p className={styles.header__title}>{titleJapanese}</p>
-			{
-				titleEnglish != null ? <span className={styles.header__subtitle}>{titleEnglish}</span> : null
-			}
+}: AnimeDetailsHeaderProps) => {
+	const [isPopupOpen, setIsPopupOpen] = useState(false);
+
+	const handlePopupOpen = () => {
+		setIsPopupOpen(true);
+	};
+
+	return (
+		<div className={styles.header}>
+			<Avatar
+				src={animePosterUrl}
+				className={styles.header__avatar}
+				component={'button'}
+				onClick={handlePopupOpen}
+			/>
+			<div>
+				<p className={styles.header__title}>{titleJapanese}</p>
+				{
+					titleEnglish != null ? <span className={styles.header__subtitle}>{titleEnglish}</span> : null
+				}
+			</div>
+			<AnimePosterPopup isOpen={isPopupOpen} setIsOpen={setIsPopupOpen} posterUrl={animePosterUrl} />
 		</div>
-	</div>
-);
+	);
+};
 
 /** Anime details header component. */
 export const AnimeDetailsHeader = memo(AnimeDetailsHeaderComponent);
