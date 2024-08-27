@@ -33,6 +33,7 @@ const AnimeDetailsComponent: FC = () => {
 			<AnimeDetailsList anime={animeDetails}/>
 			<Divider />
 			<AnimePlayer trailerYoutubeId={animeDetails?.trailerYoutubeIdUrl ?? ''} />
+			<Divider />
 			<div className={styles.buttons}>
 				<Button variant="outlined" className={styles.button}>Edit</Button>
 				<Button variant="outlined" color="error" className={styles.button}>Delete</Button>
