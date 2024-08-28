@@ -24,6 +24,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormValidationService } from '@js-camp/angular/core/services/form-validation.service';
+import { ImageUploadService } from '@js-camp/angular/core/services/image-upload.service';
+import { ImageDestination } from '@js-camp/core/dtos/enums/image-destination.enum';
+import { ImageUpload } from '@js-camp/core/models/image-upload.model';
+import { ImageData } from '@js-camp/core/models/image-data.model';
 
 import { StudiosDialogComponent } from '../studios-dialog/studios-dialog.component';
 import { StudiosSelectComponent } from '../studios-select/studios-select.component';
@@ -108,6 +112,8 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	/** Anime image filename. */
 	protected fileName: string | null = null;
 
+	private imageUpload$?: Observable<ImageUpload>;
+
 	/** Form validation service. */
 	protected readonly validationService = inject(FormValidationService);
 
@@ -116,6 +122,8 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	private readonly dialog = inject(MatDialog);
 
 	private readonly animeService = inject(AnimeService);
+
+	private readonly imageUploadService = inject(ImageUploadService);
 
 	private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
@@ -217,7 +225,12 @@ export class AnimeDetailsFormComponent implements OnChanges {
 		if (inputNode.files?.[0]) {
 			const file = inputNode.files[0];
 			this.fileName = file.name;
-
+			const imageData: ImageData = {
+				destinationDirectory: ImageDestination.AnimeImage,
+				filename: this.fileName,
+				contentType: 'image/png',
+			};
+			this.imageUpload$ = this.imageUploadService.getUploadParams(imageData);
 			const reader = new FileReader();
 			reader.onload = () => {
 				const base64String = (reader.result as string).split(',')[1];

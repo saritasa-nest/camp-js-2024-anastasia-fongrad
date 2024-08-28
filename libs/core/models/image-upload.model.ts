@@ -1,42 +1,42 @@
-/** 1. */
+/** Image upload type. */
 export type ImageUpload = {
 
-	/** Refresh jwt token. */
+	/** Image upload policy. */
 	readonly policy: string;
 
-	/** Access jwt token. */
+	/** Access action status. */
 	readonly successActionStatus: string;
 
-	/** 1. */
+	/** Amazon s3 direct credentials. */
 	readonly amazonCredential: string;
 
-	/** 1. */
+	/** Amazon s3 direct date. */
 	readonly amazonDate: string;
 
-	/** 1. */
+	/** Amazon s3 direct signature. */
 	readonly amazonSignature: string;
 
-	/** 1. */
+	/** Amazon s3 direct algorithm. */
 	readonly amazonAlgorithm: string;
 
-	/** 1. */
+	/** Upload form action. */
 	readonly formAction: string;
 
-	/** 1. */
+	/** S3 object key. */
 	readonly key: string;
 
-	/** 1. */
+	/** Access control list. */
 	readonly acl: string;
 
-	/** 1. */
+	/** Amazon s3 direct security token. */
 	readonly amazonSecurityToken: string;
 
-	/** 1. */
+	/** Content type of the file. */
 	readonly contentType: string;
 
-	/** 1. */
+	/** Cache control header. */
 	readonly cacheControl: string;
 
-	/** 1. */
+	/** Content disposition header. */
 	readonly contentDisposition: string;
 };

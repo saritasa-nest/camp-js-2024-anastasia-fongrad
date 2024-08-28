@@ -16,6 +16,7 @@ export class AppUrlConfig {
 		userProfile: 'users/profile/',
 		tokenRefresh: 'auth/token/refresh/',
 		tokenVerify: 'auth/token/verify/',
+		getImageParams: 's3direct/get_params/',
 	} as const;
 
 	/**
