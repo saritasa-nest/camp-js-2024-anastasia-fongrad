@@ -51,6 +51,8 @@ export class GenresSelectComponent implements OnInit {
 
 	/** Initializes filtered genres updates on input change. */
 	public ngOnInit(): void {
+		const allGenres = this.animeGenres?.length ? this.filterGenres(this.animeGenres) : (this.animeGenres?.slice() ?? []);
+		this.filteredGenres$ = of(allGenres ?? []);
 		if (this.genresControl) {
 			this.filteredGenres$ = this.genresControl.valueChanges.pipe(
 				map((genres: AnimeGenre[]) => genres.length ? this.filterGenres(genres) : (this.animeGenres?.slice() ?? [])),
@@ -100,9 +102,6 @@ export class GenresSelectComponent implements OnInit {
 	}
 
 	private filterGenres(genres: AnimeGenre[]): AnimeGenre[] {
-		if (genres.length === 0) {
-			return this.animeGenres ?? [];
-		}
 		const filterValue = genres.map(genre => genre.name.toLowerCase());
 		return this.animeGenres?.filter(genre => filterValue.includes(genre.name.toLowerCase())) ?? [];
 	}

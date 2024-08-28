@@ -105,13 +105,3 @@
 .anime-details__edit {
   margin-bottom: var(--space-2);
 }
-
-.mat-mdc-fab.mat-accent {
-  --mdc-fab-container-color: var(--accent-overlay);
-  --mat-fab-foreground-color: var(--on-accent);
-  --mat-fab-state-layer-color: var(--on-accent);
-}
-
-.mat-mdc-extended-fab {
-  --mdc-extended-fab-container-elevation-shadow: none;
-}

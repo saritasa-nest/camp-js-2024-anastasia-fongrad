@@ -1,11 +1,25 @@
 <camp-header/>
 <main class="main">
-	<section class="main__auth auth">
-		<div class="auth__container container">
-			<div class="auth__content">
-				<div class="auth__login-group">
-					<h1 class="auth__header">Create Anime</h1>
-					<camp-anime-form/>
+	<section class="main__create create">
+		<div class="create__container container">
+			<div class="create__content">
+				<button
+					class="create__back"
+					mat-raised-button
+					type="button"
+					(click)="navigateBack()"
+				>
+					Go Back
+				</button>
+				<div class="create__form-group">
+					<h1 class="create__header">Create Anime</h1>
+					<camp-anime-form
+						[animeGenres$]='animeGenres$'
+						[animeStudios$]='animeStudios$'
+						(addGenre)="createNewGenre($event)"
+						(addStudio)="createNewStudio($event)"
+						(formSuccess)="onAnimeCreate($event)"
+					/>
 				</div>
 			</div>
 		</div>

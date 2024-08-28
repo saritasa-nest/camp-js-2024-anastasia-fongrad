@@ -1,15 +1,22 @@
-.auth__content {
+.create__content {
+  display: flex;
+  flex-direction: column;
   margin: var(--space-20) 0;
+  gap: var(--space-8);
 }
 
-.auth__header {
+.create__header {
   font-size: var(--title);
   line-height: var(--title-line-height);
   font-weight: var(--text-semibold);
 }
 
-.auth__login-group {
+.create__form-group {
   display: flex;
   flex-direction: column;
   gap: var(--space-8);
+}
+
+.create__back {
+  width: 100px;
 }

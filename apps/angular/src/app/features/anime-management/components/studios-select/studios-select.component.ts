@@ -80,7 +80,7 @@ export class StudiosSelectComponent implements OnInit {
 	 */
 	protected removeStudio(studio: AnimeStudio): void {
 		const index = this.selectedStudios?.indexOf(studio);
-		if (index && index >= 0) {
+		if ((index != null) && index >= 0) {
 			this.selectedStudios?.splice(index, 1);
 			this.announcer.announce(`Removed ${studio.name}`);
 		}

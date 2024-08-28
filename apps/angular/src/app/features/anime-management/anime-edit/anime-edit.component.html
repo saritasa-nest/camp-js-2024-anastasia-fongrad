@@ -1,16 +1,25 @@
 <camp-header/>
 <main class="main">
-	<section class="main__auth auth">
-		<div class="auth__container container">
+	<section class="main__edit edit">
+		<div class="edit__container container">
 			@if(animeDetails$ | async; as animeDetails) {
-				<div class="auth__content">
-					<div class="auth__login-group">
-						<h1 class="auth__header">Edit Anime</h1>
+				<div class="edit__content">
+					<button
+						class="edit__back"
+						mat-raised-button
+						type="button"
+						(click)="navigateBack()"
+					>
+						Go Back
+					</button>
+					<div class="edit__form-group">
+						<h1 class="edit__header">Edit Anime</h1>
 						<camp-anime-form
 							[animeDetails]='animeDetails'
 							[animeGenres$]='animeGenres$'
 							[animeStudios$]='animeStudios$'
 							(addGenre)="createNewGenre($event)"
+							(addStudio)="createNewStudio($event)"
 							(formSuccess)="onEditSuccess($event)"
 						/>
 					</div>

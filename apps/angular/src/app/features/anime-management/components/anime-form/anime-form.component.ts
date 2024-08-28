@@ -73,6 +73,10 @@ export class AnimeDetailsFormComponent implements OnChanges {
 	@Output()
 	public addGenre = new EventEmitter<string>();
 
+	/** New studio event emitter. */
+	@Output()
+	public addStudio = new EventEmitter<Partial<AnimeStudio>>();
+
 	/** Success event emitter. */
 	@Output()
 	public formSuccess = new EventEmitter<string>();
