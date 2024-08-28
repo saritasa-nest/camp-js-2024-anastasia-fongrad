@@ -21,9 +21,6 @@ export type StudiosState = {
 	/** Is studio pagination event. */
 	readonly isPaginationEvent: boolean;
 
-	/** Has more studios data. */
-	readonly hasMoreData: boolean;
-
 	/** Studio search value. */
 	readonly searchValue: string | null;
 
@@ -38,7 +35,6 @@ export const initialState: StudiosState = {
 	nextCursor: null,
 	studios: [],
 	isPaginationEvent: false,
-	hasMoreData: true,
 	searchValue: null,
 	ordering: null,
 };

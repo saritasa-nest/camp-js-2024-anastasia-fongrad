@@ -5,5 +5,5 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 /** Async thunk action for fetching studios. */
 export const fetchStudios = createAsyncThunk(
 	'studios/fetch',
-	(queryParams: StudioQueryParameters) => StudiosService.fetchStudios(queryParams),
+	(queryParams: StudioQueryParameters, thunkApi) => StudiosService.fetchStudios(queryParams, thunkApi.signal),
 );

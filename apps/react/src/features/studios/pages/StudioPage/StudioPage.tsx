@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Outlet, useParams, useSearchParams } from 'react-router-dom';
 import {
-	selectCursor, selectHasMoreData, selectIsPaginationEvent, selectOrdering, selectSearchValue, selectStudios,
+	selectCursor, selectOrdering, selectSearchValue, selectStudios,
 } from '@js-camp/react/store/studio/selectors';
 import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
@@ -23,8 +23,6 @@ const StudioPageComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const studios = useAppSelector(selectStudios);
 	const cursor = useAppSelector(selectCursor) ?? undefined;
-	const hasMoreData = useAppSelector(selectHasMoreData);
-	const isPagination = useAppSelector(selectIsPaginationEvent);
 	const searchValue = useAppSelector(selectSearchValue);
 	const ordering = useAppSelector(selectOrdering);
 
@@ -42,9 +40,8 @@ const StudioPageComponent: FC = () => {
 	}, [cursor, searchValue, ordering]);
 
 	useEffect(() => {
-		if (!isPagination || hasMoreData) {
-			dispatch(fetchStudios(params));
-		}
+		const request = dispatch(fetchStudios(params));
+		return request.abort;
 	}, [dispatch, searchParams]);
 
 	return (

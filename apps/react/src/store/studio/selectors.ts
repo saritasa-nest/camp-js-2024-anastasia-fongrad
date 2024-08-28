@@ -14,12 +14,6 @@ export const selectCursor = createSelector(
 	cursor => cursor,
 );
 
-/** Selects has more data value. */
-export const selectHasMoreData = createSelector(
-	(state: RootState) => state.studios.hasMoreData,
-	hasMoreData => hasMoreData,
-);
-
 /** Selects it is pagination event or not. */
 export const selectIsPaginationEvent = createSelector(
 	(state: RootState) => state.studios.isPaginationEvent,

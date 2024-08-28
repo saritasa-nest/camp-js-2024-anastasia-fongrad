@@ -16,11 +16,16 @@ export namespace StudiosService {
 	/**
 	 * Fetches list of studios.
 	 * @param queryParams Studio query parameters.
+	 * @param signal Request abort signal.
 	 */
-	export async function fetchStudios(queryParams: StudioQueryParameters): Promise<ListCursorPagination<AnimeStudio>> {
+	export async function fetchStudios(
+		queryParams: StudioQueryParameters,
+		signal: AbortSignal,
+	): Promise<ListCursorPagination<AnimeStudio>> {
 		const url = AppUrlConfigService.paths.studioList;
 		const { data } = await http.get<ListCursorPaginationDto<StudioDto>>(url, {
 			params: StudioQueryParametersMapper.toDto(queryParams),
+			signal,
 		});
 		return ListCursorPaginationMapper.fromDto(data, StudioMapper.fromDto);
 	}
