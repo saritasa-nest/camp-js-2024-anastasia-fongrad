@@ -5,7 +5,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Loading } from '@js-camp/react/components/loading';
 import { selectAreGenresLoading, selectGenres, selectGenresHasNext } from '@js-camp/react/store/genre/selectors';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
+import { fetchGenreById, fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
 
 import useQueryParams from '../../hooks/useQueryParams';
@@ -54,6 +54,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		(id: number) => {
 			setSelectedGenreId(id);
 			onGenreClick(id);
+			dispatch(fetchGenreById(id));
 		},
 		[onGenreClick],
 	);
