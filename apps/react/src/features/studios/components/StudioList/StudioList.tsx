@@ -1,10 +1,9 @@
-import { memo, FC, useEffect, useRef } from 'react';
+import { memo, FC } from 'react';
 import { List, ListItem, Typography, Button, Paper } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch } from '@js-camp/react/store';
 import { AnimeStudio } from '@js-camp/core/models/studio.model';
-import { setPaginationEvent, updateCursor } from '@js-camp/react/store/studio/slice';
+import { useInfiniteScroll } from '@js-camp/react/hooks/useInfiniteScroll';
 
 import { StudioListItem } from '../StudioListItem';
 import { StudioSortSelect } from '../StudioSortSelect';
@@ -20,27 +19,7 @@ type StudiosListProps = {
 
 const StudiosListComponent: FC<StudiosListProps> = ({ studios }) => {
 	const { studioId } = useParams<{ studioId: string; }>();
-	const observerRef = useRef<HTMLLIElement | null>(null);
-	const dispatch = useAppDispatch();
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(entries => {
-			if (entries[0].isIntersecting) {
-				dispatch(updateCursor());
-				dispatch(setPaginationEvent(true));
-			}
-		}, { threshold: 1 });
-
-		if (observerRef.current) {
-			observer.observe(observerRef.current);
-		}
-
-		return () => {
-			if (observerRef.current) {
-				observer.unobserve(observerRef.current);
-			}
-		};
-	}, [dispatch]);
+	const observerRef = useInfiniteScroll();
 
 	return (
 		<div className={styles['genre-list']}>
