@@ -1,5 +1,4 @@
 import { memo, FC, useEffect } from 'react';
-import IconButton from '@mui/material/IconButton';
 import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import clsx from 'clsx';
@@ -10,12 +9,11 @@ import {
 } from '@js-camp/react/store/studio/selectors';
 import { StudioQueryParameters } from '@js-camp/core/models/studio-query-parameters.model';
 import { fetchStudios } from '@js-camp/react/store/studio/dispatchers';
-import { Typography } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 
 import { composeQueryParams } from '../../utils/composeQueryParams';
 
 import { StudiosList } from '../../components/StudioList';
+import { AddStudioButton } from '../../components/AddStudioButton';
 
 import styles from './StudioPage.module.css';
 
@@ -57,18 +55,7 @@ const StudioPageComponent: FC = () => {
 			<div className={styles.layout__sidebar}>
 				<StudiosList studios={studios} />
 			</div>
-			{studioId ? (
-				<Outlet />
-			) : (
-				<div className={styles.layout__empty}>
-					<div className={styles.layout__button}>
-						<IconButton edge="start" color="inherit" aria-label="add">
-							<AddIcon />
-						</IconButton>
-						<Typography>Add Studio</Typography>
-					</div>
-				</div>
-			)}
+			{studioId ? <Outlet /> : <AddStudioButton />}
 		</main>
 	);
 };
