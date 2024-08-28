@@ -1,0 +1,13 @@
+.layout__empty {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-grow: 1;
+	margin: 0 auto;
+}
+
+.layout__button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
