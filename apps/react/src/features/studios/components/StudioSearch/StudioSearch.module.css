@@ -1,11 +1,5 @@
-.search {
-	display: flex;
-	flex-direction: column;
-	margin: 0 var(--space-5) var(--space-5) 0;
-}
-
 .search__form {
-	padding: var(--space-base);
+	padding: 2px var(--space-base);
 	display: flex;
 	align-items: center;
 	width: 100%;
