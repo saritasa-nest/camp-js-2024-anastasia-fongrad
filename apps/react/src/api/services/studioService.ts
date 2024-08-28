@@ -11,16 +11,14 @@ import { http } from '..';
 
 import { AppUrlConfigService } from './appUrlConfigService';
 
-const url = AppUrlConfigService.paths.studioList;
-
 export namespace StudiosService {
 
 	/**
 	 * Fetches list of studios.
 	 * @param queryParams Studio query parameters.
-	 * @returns
 	 */
 	export async function fetchStudios(queryParams: StudioQueryParameters): Promise<ListCursorPagination<AnimeStudio>> {
+		const url = AppUrlConfigService.paths.studioList;
 		const { data } = await http.get<ListCursorPaginationDto<StudioDto>>(url, {
 			params: StudioQueryParametersMapper.toDto(queryParams),
 		});

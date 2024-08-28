@@ -12,7 +12,7 @@ type StudioListItemProps = {
 	readonly studio: AnimeStudio;
 };
 
-const StudioListItemComponent: FC<StudioListItemProps> = ({ selected, studio }: StudioListItemProps) => (
+const StudioListItemComponent: FC<StudioListItemProps> = ({ selected, studio }) => (
 	<ListItem disablePadding>
 		<ListItemButton
 			component={NavLink}

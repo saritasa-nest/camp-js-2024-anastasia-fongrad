@@ -1,5 +1,5 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEventHandler, FC, memo, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import { useAppDispatch } from '@js-camp/react/store';
 import { resetCursor, setPaginationEvent, setSearchValue } from '@js-camp/react/store/studio/slice';
@@ -13,8 +13,8 @@ const StudioSearchComponent: FC = () => {
 	const [searchParams] = useSearchParams();
 	const searchValue = searchParams.get('search');
 
-	const handleInputValueChange = (event: ChangeEvent) => {
-		setInputValue((event.target as HTMLInputElement).value);
+	const handleInputValueChange: ChangeEventHandler<HTMLInputElement> = event => {
+		setInputValue(event.target.value);
 	};
 
 	const handleSearchButtonClick = () => {
@@ -28,7 +28,7 @@ const StudioSearchComponent: FC = () => {
 			<InputBase
 				className={styles['search__input-base']}
 				placeholder="Search Studios ..."
-				aria-label="search genres"
+				aria-label="search studios"
 				onChange={handleInputValueChange}
 				defaultValue={searchValue ?? ''}
 			/>
@@ -46,4 +46,4 @@ const StudioSearchComponent: FC = () => {
 };
 
 /** Studio search component. */
-export const StudioSearch = StudioSearchComponent;
+export const StudioSearch = memo(StudioSearchComponent);

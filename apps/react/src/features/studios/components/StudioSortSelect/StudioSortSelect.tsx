@@ -3,7 +3,7 @@ import { resetCursor, setOrdering, setPaginationEvent } from '@js-camp/react/sto
 import { FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, Tooltip } from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { FC, memo } from 'react';
+import { FC, memo, useMemo } from 'react';
 import { StudioSortDirection } from '@js-camp/core/models/enums/studio-sort-direction.enum';
 import { useSearchParams } from 'react-router-dom';
 
@@ -15,11 +15,12 @@ import styles from './StudioSortSelect.module.css';
 const StudioSortSelectComponent: FC = () => {
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
-	const ordering = searchParams.get('ordering');
-	const { sortValue, sortDirection } =
-		ordering !== null ? sortValueFromQueryParams(ordering) : { sortValue: null, sortDirection: null };
+	const { sortValue, sortDirection } = useMemo(() => {
+		const ordering = searchParams.get('ordering');
+		return ordering !== null ? sortValueFromQueryParams(ordering) : { sortValue: null, sortDirection: null };
+	}, [searchParams]);
 
-	const handleSortChange = (event: SelectChangeEvent) => {
+	const handleSortChange = (event: SelectChangeEvent<string>) => {
 		dispatch(resetCursor());
 		dispatch(setPaginationEvent(false));
 		dispatch(setOrdering(sortDirection === StudioSortDirection.Descending ?

@@ -15,12 +15,12 @@ import styles from './StudioList.module.css';
 type StudiosListProps = {
 
 	/** Anime studio list. */
-	readonly studios: AnimeStudio[];
+	readonly studios: readonly AnimeStudio[];
 };
 
-const StudiosListComponent: FC<StudiosListProps> = ({ studios }: StudiosListProps) => {
+const StudiosListComponent: FC<StudiosListProps> = ({ studios }) => {
 	const { studioId } = useParams<{ studioId: string; }>();
-	const observerRef = useRef(null);
+	const observerRef = useRef<HTMLLIElement | null>(null);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
