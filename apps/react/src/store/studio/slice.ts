@@ -12,7 +12,7 @@ export const studiosSlice = createSlice({
 			state.cursor = state.nextCursor;
 		},
 		resetCursor(state) {
-			state.cursor = null;
+			state.cursor = '';
 		},
 		setPaginationEvent(state, action) {
 			state.isPaginationEvent = action.payload;
