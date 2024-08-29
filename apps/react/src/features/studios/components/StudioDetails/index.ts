@@ -1,0 +1,1 @@
+export { StudioDetails } from './StudioDetails';

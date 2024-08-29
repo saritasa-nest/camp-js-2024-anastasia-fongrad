@@ -1,33 +1,34 @@
-import { memo, FC, useState, useCallback, useRef, useEffect } from 'react';
-import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
-import { Loading } from '@js-camp/react/components/loading';
-import { selectAreGenresLoading, selectGenres, selectGenresHasNext } from '@js-camp/react/store/genre/selectors';
-import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
-import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
+import { memo, FC, useState, useCallback, useRef, useEffect } from "react";
+import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@js-camp/react/store";
+import { Loading } from "@js-camp/react/components/loading";
+import { selectAreGenresLoading, selectGenres, selectGenresHasNext } from "@js-camp/react/store/genre/selectors";
+import { fetchGenres } from "@js-camp/react/store/genre/dispatchers";
+import { ListItemSkeleton } from "@js-camp/react/components/skeleton";
 
-import { assertValueInEnum } from '@js-camp/react/utils/ultil';
-import { GenresQueryParams } from '@js-camp/react/model/genres-query-params.model';
+import { assertValueInEnum } from "@js-camp/react/utils/ultil";
+import { GenresQueryParams } from "@js-camp/react/model/genres-query-params.model";
 
-import useQueryParams from '../../hooks/useQueryParams';
+import useQueryParams from "../../hooks/useQueryParams";
 
-import { GenresSort } from '../GenresSort';
-import { GenreListItem } from '../GenreListItem';
-import { GenreSearch } from '../GenreSearch';
-import { GenresFilter } from '../GenresFilter';
+import { GenresSort } from "../GenresSort";
+import { GenreListItem } from "../GenreListItem";
+import { GenreSearch } from "../GenreSearch";
+import { GenresFilter } from "../GenresFilter";
 
-import styles from './GenreList.module.css';
+import { useDebounce } from "../../hooks/useDebounce";
+
+import styles from "./GenreList.module.css";
 
 type Props = {
-
 	/** Displaying genre details on click handler. */
 	readonly onGenreClick: (id: number) => void;
 };
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
-	const { genreId } = useParams<{ genreId: string; }>();
+	const { genreId } = useParams<{ genreId: string }>();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
 	const { getQueryParamsByKeys } = useQueryParams();
@@ -40,7 +41,7 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		(node: HTMLLIElement | null) => {
 			observer.current?.disconnect();
 			if (node) {
-				observer.current = new IntersectionObserver(entries => {
+				observer.current = new IntersectionObserver((entries) => {
 					if (entries[0].isIntersecting && hasMore) {
 						dispatchGenres(hasMore);
 						observer.current?.disconnect();
@@ -50,21 +51,22 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 				observer.current.observe(node);
 			}
 		},
-		[hasMore],
+		[hasMore]
 	);
 	const handleGenreClick = useCallback(
 		(id: number) => {
 			setSelectedGenreId(id);
 			onGenreClick(id);
 		},
-		[onGenreClick],
+		[onGenreClick]
 	);
 	const { search, filter, sortField, sortDirection } = getQueryParamsByKeys([
-		'search',
-		'filter',
-		'sortField',
-		'sortDirection',
+		"search",
+		"filter",
+		"sortField",
+		"sortDirection",
 	]);
+	const debouncedSearch = useDebounce(search, 1);
 	const dispatchGenres = useCallback(
 		(next: string | null) => {
 			if (sortField != null) {
@@ -73,35 +75,35 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 			if (sortDirection != null) {
 				assertValueInEnum(sortDirection, GenresQueryParams.SortDirection);
 			}
-			const stringToFilterTypeArray = filter?.split(',').map(value => {
+			const stringToFilterTypeArray = filter?.split(",").map((value) => {
 				assertValueInEnum(value, GenresQueryParams.FilterType);
 				return value;
 			});
 			const filterArray = stringToFilterTypeArray ?? null;
 			dispatch(
 				fetchGenres({
-					search,
+					search: debouncedSearch,
 					filter: filterArray,
 					sort: sortField,
 					direction: sortDirection,
 					nextCursor: next,
-				}),
+				})
 			);
 		},
-		[search, filter, sortField, sortDirection],
+		[debouncedSearch, filter, sortField, sortDirection]
 	);
 
 	useEffect(() => {
-		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
+		wrapperElementRef.current?.scrollTo({ top: 0, behavior: "instant" });
 		dispatchGenres(null);
-	}, [search, filter, sortField, sortDirection]);
+	}, [debouncedSearch, filter, sortField, sortDirection]);
 
 	return (
-		<Box className={styles['genre-list']}>
+		<Box className={styles["genre-list"]}>
 			<GenreSearch />
 			<GenresFilter />
 			<GenresSort />
-			<List className={styles['genre-list__items']} ref={wrapperElementRef}>
+			<List className={styles["genre-list__items"]} ref={wrapperElementRef}>
 				<ListItem disablePadding>
 					<ListItemButton>
 						<IconButton edge="start" color="inherit" aria-label="add">

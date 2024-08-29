@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import { genresSlice } from './genre/slice';
 import { drawerSlice } from './drawer/slice';
+import { studiosSlice } from './studio/slice';
 
 /** The Redux store of the application. */
 export const store = configureStore({
 	reducer: {
 		genres: genresSlice.reducer,
 		drawer: drawerSlice.reducer,
+		studios: studiosSlice.reducer,
 	},
 	middleware: getDefaultMiddleware =>
 		getDefaultMiddleware({
