@@ -33,6 +33,7 @@ export namespace GenresService {
 	 */
 	export async function fetchGenreById(params: number): Promise<AnimeGenre> {
 		const { data } = await http.get<AnimeGenreDto>(`${urlById}${params}/`);
+		console.log(data)	
 		return AnimeGenreMapper.fromDto(data);
 	}
 }

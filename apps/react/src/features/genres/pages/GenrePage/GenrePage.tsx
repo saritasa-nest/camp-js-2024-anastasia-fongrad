@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { Box, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import { GenresList } from '../../components/GenreList';
 
@@ -14,10 +14,12 @@ const GenrePageComponent: FC = () => {
 	const isDrawerOpen = useSelector(selectIsDrawerOpen);
 	const navigate = useNavigate();
 
+	const location = useLocation();
+
 	const { genreId } = useParams<{ genreId: string; }>();
 
 	const handleGenreClick = (id: number) => {
-		navigate(`/genre/${id}`);
+		navigate(`/genre/${id}${location.search}`);
 	};
 
 	return (

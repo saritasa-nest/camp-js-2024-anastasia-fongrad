@@ -77,7 +77,6 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 			),
 		[search, filter, sortField, sortDirection],
 	);
-
 	useEffect(() => {
 		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
 		dispatchGenres(null);

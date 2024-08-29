@@ -2,11 +2,10 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { RootState } from '../store';
 
+import { genresAdapter } from './genresAdapter';
+
 /** Selects all genres from store. */
-export const selectGenres = createSelector(
-	(state: RootState) => state.genres.genres,
-	genres => genres,
-);
+export const selectGenres = genresAdapter.getSelectors((state: RootState) => state.genres).selectAll;
 
 /** Selects genres loading state. */
 export const selectAreGenresLoading = createSelector(
@@ -20,8 +19,14 @@ export const selectGenresHasNext = createSelector(
 	hasNext => hasNext,
 );
 
-/** Select genres has more state. */
+/** Select genres has error state. */
 export const selectGenresError = createSelector(
 	(state: RootState) => state.genres.error,
 	error => error,
+);
+
+/** Select genre has detail state. */
+export const selectGenreDetail = createSelector(
+	(state: RootState) => state.genres.genreDetails,
+	genreDetails => genreDetails,
 );
