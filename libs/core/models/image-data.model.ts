@@ -1,14 +1,14 @@
 import { ImageDestination } from '../dtos/enums/image-destination.enum';
 
-/** 1. */
+/** Image metadata DTO. */
 export type ImageData = {
 
-	/** Refresh jwt token. */
+	/** Image destination. */
 	readonly destinationDirectory: ImageDestination;
 
-	/** Access jwt token. */
+	/** Image filename. */
 	readonly filename: string;
 
-	/** 1. */
+	/** File's content type. */
 	readonly contentType: string;
 };
