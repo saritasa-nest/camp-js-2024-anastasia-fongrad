@@ -15,6 +15,8 @@ import { GenreListItem } from '../GenreListItem';
 import { GenreSearch } from '../GenreSearch';
 import { GenresFilter } from '../GenresFilter';
 
+import { useDebounce } from '../../hooks/useDebounce';
+
 import styles from './GenreList.module.css';
 
 type Props = {
@@ -25,7 +27,6 @@ type Props = {
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
-	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
 	const { getQueryParamsByKeys } = useQueryParams();
@@ -63,24 +64,25 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		'sortField',
 		'sortDirection',
 	]);
+	const debouncedSearch = useDebounce(search, 1);
 	const dispatchGenres = useCallback(
 		(next: string | null) =>
 			dispatch(
 				fetchGenres({
-					search,
+					search: debouncedSearch,
 					filter,
 					sort: sortField,
 					direction: sortDirection,
 					nextCursor: next,
 				}),
 			),
-		[search, filter, sortField, sortDirection],
+		[debouncedSearch, filter, sortField, sortDirection],
 	);
 
 	useEffect(() => {
 		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
 		dispatchGenres(null);
-	}, [searchParams]);
+	}, [debouncedSearch, filter, sortField, sortDirection]);
 
 	return (
 		<Box className={styles['genre-list']}>
