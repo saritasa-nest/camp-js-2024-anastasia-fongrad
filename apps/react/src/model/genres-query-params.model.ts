@@ -19,10 +19,10 @@ export namespace GenresQueryParams {
 	export type Sort = Readonly<{
 
 		/** Sort. */
-		sort: string | null;
+		sort: SortField | null;
 
 		/** Sort Direction. */
-		direction: string | null;
+		direction: SortDirection | null;
 	}>;
 
 	/** Filter type. */
@@ -37,8 +37,18 @@ export namespace GenresQueryParams {
 	export type Filter = Readonly<{
 
 		/** Filter. */
-		filter: string | null;
+		filter: readonly FilterType[] | null;
 	}>;
+
+	/**
+	 *	Map sort filed and direction to params.
+	 * @param sort Sort enums.
+	 * @param direction Direction enums.
+	 * @returns A string being casted.
+	 */
+	export function mapSortFieldAndDirectionToOrdering<T>(sort: T, direction: SortDirection): string {
+		return `${direction === SortDirection.Ascending ? '' : '-'}${sort}`;
+	}
 
 	/** Combined. */
 	export type Combined = BaseQueryParams.Combined & Sort & Filter;

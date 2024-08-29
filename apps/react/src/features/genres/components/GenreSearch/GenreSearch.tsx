@@ -1,4 +1,4 @@
-import { memo, FC, useState, ChangeEvent, useEffect } from 'react';
+import { memo, FC, useState, ChangeEvent, useEffect, useCallback } from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
@@ -12,22 +12,25 @@ import styles from './GenreSearch.module.css';
 const GenreSearchComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams();
 	const searchParams = getQueryParamByKey('search') ?? '';
-	const [queryParamsValue, setQueryParamsValue] = useState(searchParams);
+	const [searchParamsValue, setsearchParamsValue] = useState(searchParams);
 
 	/**
 	 * Handle query params value.
 	 * @param event Input change event.
 	 */
-	function handleQueryParamsValue(event: ChangeEvent<HTMLInputElement>): void {
-		event.preventDefault();
-		setQueryParamsValue(event.target.value);
-	}
+	const handleQueryParamsValue = useCallback(
+		(event: ChangeEvent<HTMLInputElement>): void => {
+			event.preventDefault();
+			setsearchParamsValue(event.target.value);
+		},
+		[setsearchParamsValue],
+	);
 
 	// Update the query params whenever the input value changes
 	useEffect(() => {
-		const searchValue = queryParamsValue?.length !== 0 ? queryParamsValue : null;
+		const searchValue = searchParamsValue?.length !== 0 ? searchParamsValue : null;
 		setQueryParams({ search: searchValue });
-	}, [queryParamsValue]);
+	}, [searchParamsValue]);
 
 	return (
 		<Box className={styles.search}>
@@ -39,7 +42,7 @@ const GenreSearchComponent: FC = () => {
 					className={styles['search__input-base']}
 					placeholder='Search Genres ...'
 					aria-label='search genres'
-					value={queryParamsValue}
+					value={searchParamsValue}
 					onChange={handleQueryParamsValue}
 				/>
 				<IconButton type='button' className={styles['search__icon-button']} aria-label='search' color='primary'>

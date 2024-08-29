@@ -9,14 +9,6 @@ export namespace BaseFilterParamsMapper {
 	 * @param queryParams Query params.
 	 */
 	export function toDto(queryParams: BaseQueryParams.Combined): BaseFilterParamsDto.Combined {
-		const { nextCursor, search } = queryParams;
-
-		let cursor: string | null = null;
-
-		if (nextCursor) {
-			cursor = nextCursor;
-		}
-
-		return { cursor, search };
+		return { cursor: queryParams.nextCursor, search: queryParams.search };
 	}
 }

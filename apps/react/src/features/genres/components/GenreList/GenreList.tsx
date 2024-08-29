@@ -1,12 +1,15 @@
 import { memo, FC, useState, useCallback, useRef, useEffect } from 'react';
 import { Box, List, ListItem, ListItemButton, ListItemText, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@js-camp/react/store';
 import { Loading } from '@js-camp/react/components/loading';
 import { selectAreGenresLoading, selectGenres, selectGenresHasNext } from '@js-camp/react/store/genre/selectors';
 import { fetchGenres } from '@js-camp/react/store/genre/dispatchers';
 import { ListItemSkeleton } from '@js-camp/react/components/skeleton';
+
+import { assertValueInEnum } from '@js-camp/react/utils/ultil';
+import { GenresQueryParams } from '@js-camp/react/model/genres-query-params.model';
 
 import useQueryParams from '../../hooks/useQueryParams';
 
@@ -25,7 +28,6 @@ type Props = {
 
 const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 	const { genreId } = useParams<{ genreId: string; }>();
-	const [searchParams] = useSearchParams();
 	const [selectedGenreId, setSelectedGenreId] = useState<number | undefined>(genreId ? Number(genreId) : undefined);
 	const dispatch = useAppDispatch();
 	const { getQueryParamsByKeys } = useQueryParams();
@@ -64,23 +66,35 @@ const GenresListComponent: FC<Props> = ({ onGenreClick }: Props) => {
 		'sortDirection',
 	]);
 	const dispatchGenres = useCallback(
-		(next: string | null) =>
+		(next: string | null) => {
+			if (sortField != null) {
+				assertValueInEnum(sortField, GenresQueryParams.SortField);
+			}
+			if (sortDirection != null) {
+				assertValueInEnum(sortDirection, GenresQueryParams.SortDirection);
+			}
+			const stringToFilterTypeArray = filter?.split(',').map(value => {
+				assertValueInEnum(value, GenresQueryParams.FilterType);
+				return value;
+			});
+			const filterArray = stringToFilterTypeArray ?? null;
 			dispatch(
 				fetchGenres({
 					search,
-					filter,
+					filter: filterArray,
 					sort: sortField,
 					direction: sortDirection,
 					nextCursor: next,
 				}),
-			),
+			);
+		},
 		[search, filter, sortField, sortDirection],
 	);
 
 	useEffect(() => {
 		wrapperElementRef.current?.scrollTo({ top: 0, behavior: 'instant' });
 		dispatchGenres(null);
-	}, [searchParams]);
+	}, [search, filter, sortField, sortDirection]);
 
 	return (
 		<Box className={styles['genre-list']}>

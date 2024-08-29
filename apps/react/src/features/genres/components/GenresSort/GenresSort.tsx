@@ -1,12 +1,14 @@
-import { memo, FC, useState, useEffect } from 'react';
+import { memo, FC, useState, useEffect, useCallback } from 'react';
 import { Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Button, Box } from '@mui/material';
+
+import { assertValueInEnum } from '@js-camp/react/utils/ultil';
 
 import useQueryParams from '../../hooks/useQueryParams';
 
 import styles from './GenresSort.module.css';
 
-/** Enum of sort labels. */
-enum SortLabels {
+/** Enum of sort label. */
+enum SortLabel {
 	SortByNameAsc = 'Sort by name (A - Z)',
 	SortByNameDesc = 'Sort by name (Z - A)',
 	SortByTypeAsc = 'Sort by type (A - Z)',
@@ -23,12 +25,11 @@ type SortOption = {
 	sortDirection: 'asc' | 'desc' | null;
 };
 
-// Use Readonly<Record> to make the record immutable
-const SORT_OPTIONS: Readonly<Record<SortLabels, SortOption>> = {
-	[SortLabels.SortByNameAsc]: { sortField: 'name', sortDirection: 'asc' },
-	[SortLabels.SortByNameDesc]: { sortField: 'name', sortDirection: 'desc' },
-	[SortLabels.SortByTypeAsc]: { sortField: 'type', sortDirection: 'asc' },
-	[SortLabels.SortByTypeDesc]: { sortField: 'type', sortDirection: 'desc' },
+const SORT_OPTIONS: Readonly<Record<SortLabel, SortOption>> = {
+	[SortLabel.SortByNameAsc]: { sortField: 'name', sortDirection: 'asc' },
+	[SortLabel.SortByNameDesc]: { sortField: 'name', sortDirection: 'desc' },
+	[SortLabel.SortByTypeAsc]: { sortField: 'type', sortDirection: 'asc' },
+	[SortLabel.SortByTypeDesc]: { sortField: 'type', sortDirection: 'desc' },
 };
 
 const GenresSortComponent: FC = () => {
@@ -36,24 +37,28 @@ const GenresSortComponent: FC = () => {
 	const { sortField, sortDirection } = getQueryParamsByKeys(['sortField', 'sortDirection']);
 	const data = { sortField, sortDirection } as SortOption;
 	const [selectedFilters, setSelectedFilters] = useState<SortOption>(data);
-	const sorts = Object.values(SortLabels);
-	const handleChange = (event: SelectChangeEvent<string>) => {
-		const val = event.target.value as SortLabels;
-		const newSelectedFilters = SORT_OPTIONS[val];
-		setSelectedFilters(newSelectedFilters);
-	};
+	const sorts = Object.values(SortLabel);
+	const handleChange = useCallback(
+		(event: SelectChangeEvent<string>) => {
+			const val = event.target.value;
+			assertValueInEnum(val, SortLabel);
+			const newSelectedFilters = SORT_OPTIONS[val];
+			setSelectedFilters(newSelectedFilters);
+		},
+		[setSelectedFilters],
+	);
 
 	/**
 	 * Function to get the label from SortLabels by SortOption.
 	 * @param sortOption Sort option.
 	 * */
-	function getSortLabelBySortOption(sortOption: SortOption): SortLabels {
+	function getSortLabelBySortOption(sortOption: SortOption): SortLabel {
 		return (
-			(Object.keys(SORT_OPTIONS) as Array<SortLabels>).find(
+			(Object.keys(SORT_OPTIONS) as Array<SortLabel>).find(
 				key =>
 					SORT_OPTIONS[key].sortField === sortOption.sortField &&
 					SORT_OPTIONS[key].sortDirection === sortOption.sortDirection,
-			) ?? SortLabels.SortByNameAsc
+			) ?? SortLabel.SortByNameAsc
 		);
 	}
 
@@ -63,19 +68,17 @@ const GenresSortComponent: FC = () => {
 	};
 
 	useEffect(() => {
-		if (selectedFilters != null) {
-			setQueryParams(selectedFilters);
-		}
+		setQueryParams(selectedFilters);
 	}, [selectedFilters]);
 	return (
 		<Box className={styles.sort}>
 			<FormControl>
-				<InputLabel id='single-select-label'>Sort By</InputLabel>
+				<InputLabel id="single-select-label">Sort By</InputLabel>
 				<Select
-					labelId='single-select-label'
+					labelId="single-select-label"
 					value={getSortLabelBySortOption(selectedFilters)}
 					onChange={handleChange}
-					label='Sort By'
+					label="Sort By"
 				>
 					{sorts.map(option => (
 						<MenuItem key={option} value={option}>
@@ -83,7 +86,7 @@ const GenresSortComponent: FC = () => {
 						</MenuItem>
 					))}
 					<MenuItem>
-						<Button onClick={handleReset} variant='outlined' color='secondary'>
+						<Button onClick={handleReset} variant="outlined" color="secondary">
 							Reset
 						</Button>
 					</MenuItem>

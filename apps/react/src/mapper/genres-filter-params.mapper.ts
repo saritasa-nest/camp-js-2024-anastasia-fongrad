@@ -1,5 +1,6 @@
 import { GenresFilterParamsDto } from '../dto/genres-filter-params.dto';
 import { GenresQueryParams } from '../model/genres-query-params.model';
+import { assertValueInEnum } from '../utils/ultil';
 
 import { BaseFilterParamsMapper } from './base-filter-params.mapper';
 
@@ -25,16 +26,17 @@ export namespace GenresFilterParamsMapper {
 		let types: string | null = null;
 
 		if (sort && direction) {
-			ordering = `${direction === 'asc' ? '' : '-'}${sort}`;
+			ordering = GenresQueryParams.mapSortFieldAndDirectionToOrdering(sort, direction);
 		}
 
 		if (filter) {
 			types = filter
-				.split(',')
-				.map(type => FILTER_MAPPING_FROM_QUERY_PARAMS[type as GenresQueryParams.FilterType])
+				.map(type => {
+					assertValueInEnum(type, GenresQueryParams.FilterType);
+					return FILTER_MAPPING_FROM_QUERY_PARAMS[type];
+				})
 				.join(',');
 		}
-
 		return { ...BaseFilterParamsMapper.toDto({ search, nextCursor }), ordering, type__in: types };
 	}
 }

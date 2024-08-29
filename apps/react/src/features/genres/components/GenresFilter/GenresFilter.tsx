@@ -1,4 +1,4 @@
-import { memo, FC, useState, useEffect } from 'react';
+import { memo, FC, useState, useEffect, useCallback } from 'react';
 import {
 	Select,
 	MenuItem,
@@ -26,16 +26,21 @@ const GenresFilterComponent: FC = () => {
 	const { getQueryParamByKey, setQueryParams } = useQueryParams();
 	const searchParams = getQueryParamByKey('filter') == null ? [] : getQueryParamByKey('filter')?.split(',') ?? [];
 	const [selectedFilters, setSelectedFilters] = useState<string[]>(searchParams);
-	const handleChange = (event: SelectChangeEvent<string[]>) => {
-		const { value } = event.target;
-		const newSelectedFilters = typeof value === 'string' ? value.split(',') : value;
-		setSelectedFilters(newSelectedFilters);
-	};
-
-	const handleReset = (event: React.MouseEvent) => {
-		event.stopPropagation();
-		setSelectedFilters([]);
-	};
+	const handleChange = useCallback(
+		(event: SelectChangeEvent<string[]>) => {
+			const { value } = event.target;
+			const newSelectedFilters = typeof value === 'string' ? value.split(',') : value;
+			setSelectedFilters(newSelectedFilters);
+		},
+		[setSelectedFilters],
+	);
+	const handleReset = useCallback(
+		(event: React.MouseEvent) => {
+			event.stopPropagation();
+			setSelectedFilters([]);
+		},
+		[setSelectedFilters],
+	);
 	useEffect(() => {
 		const filterValue = selectedFilters.length === 0 ? null : selectedFilters;
 		setQueryParams({ filter: filterValue });
