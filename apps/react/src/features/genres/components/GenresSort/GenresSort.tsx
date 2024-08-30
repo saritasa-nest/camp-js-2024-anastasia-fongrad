@@ -52,15 +52,12 @@ const GenresSortComponent: FC = () => {
 	 * Function to get the label from SortLabels by SortOption.
 	 * @param sortOption Sort option.
 	 * */
-	function getSortLabelBySortOption(sortOption: SortOption): SortLabel {
-		return (
-			(Object.keys(SORT_OPTIONS) as Array<SortLabel>).find(
-				key =>
-					SORT_OPTIONS[key].sortField === sortOption.sortField &&
-					SORT_OPTIONS[key].sortDirection === sortOption.sortDirection,
-			) ?? SortLabel.SortByNameAsc
-		);
-	}
+	const getSortLabelBySortOption = (sortOption: SortOption): SortLabel =>
+		(Object.keys(SORT_OPTIONS) as Array<SortLabel>).find(
+			key =>
+				SORT_OPTIONS[key].sortField === sortOption.sortField &&
+				SORT_OPTIONS[key].sortDirection === sortOption.sortDirection,
+		) ?? SortLabel.SortByNameAsc;
 
 	const handleReset = (event: React.MouseEvent) => {
 		event.stopPropagation();
@@ -73,12 +70,12 @@ const GenresSortComponent: FC = () => {
 	return (
 		<Box className={styles.sort}>
 			<FormControl>
-				<InputLabel id="single-select-label">Sort By</InputLabel>
+				<InputLabel id='single-select-label'>Sort By</InputLabel>
 				<Select
-					labelId="single-select-label"
+					labelId='single-select-label'
 					value={getSortLabelBySortOption(selectedFilters)}
 					onChange={handleChange}
-					label="Sort By"
+					label='Sort By'
 				>
 					{sorts.map(option => (
 						<MenuItem key={option} value={option}>
@@ -86,7 +83,7 @@ const GenresSortComponent: FC = () => {
 						</MenuItem>
 					))}
 					<MenuItem>
-						<Button onClick={handleReset} variant="outlined" color="secondary">
+						<Button onClick={handleReset} variant='outlined' color='secondary'>
 							Reset
 						</Button>
 					</MenuItem>

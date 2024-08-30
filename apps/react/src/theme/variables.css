@@ -9,9 +9,9 @@
 	--space-10: calc(10 * var(--space-base));
 	--space-20: calc(20 * var(--space-base));
 
-  /* Size variables */
-  --header-height: 60px;
-  --sidebar-width: 280px;
-  --list-width: 400px;
-  --input-height: 50px;
+	/* Size variables */
+	--header-height: 60px;
+	--sidebar-width: 280px;
+	--list-width: 400px;
+	--input-height: 50px;
 }
