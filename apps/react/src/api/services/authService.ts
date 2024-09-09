@@ -60,20 +60,4 @@ export namespace AuthService {
 		);
 		return data;
 	}
-
-	/**
-	 * Checks if a user is authorized in a system.
-	 * @param accessToken Access token.
-	 */
-	export function isAuthorized(accessToken: string): boolean {
-		verify(accessToken)
-			.then(
-				() => true,
-			)
-			.catch(
-				() => false,
-			);
-		return false;
-	}
-
 }

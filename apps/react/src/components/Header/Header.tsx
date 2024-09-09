@@ -47,12 +47,10 @@ const HeaderComponent: FC = () => {
 	const isLoading = useAppSelector(selectIsUserProfileLoading);
 	const userProfile = useAppSelector(selectUserProfile);
 	const [currentPage, setCurrentPage] = useState<string>('Anime');
-	const [authToken, setAuthToken] = useState(AuthTokenService.getAuthToken());
 	const dispatch = useAppDispatch();
 
 	const logout = useCallback(() => {
 		AuthTokenService.removeAuthToken();
-		setAuthToken(null);
 		dispatch(fetchUserProfile());
 	}, [dispatch]);
 
@@ -70,7 +68,7 @@ const HeaderComponent: FC = () => {
 
 	useEffect(() => {
 		dispatch(fetchUserProfile());
-	}, [dispatch, authToken]);
+	}, [dispatch]);
 
 	return (
 		<>

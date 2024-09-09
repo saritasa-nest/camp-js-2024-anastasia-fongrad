@@ -63,7 +63,7 @@ const LoginPageComponent: FC = () => {
 					</Link>
 				</Typography>
 			</Paper>
-			{ isLoading && <Loader/>}
+			{ isLoading && <Loader/> }
 		</main>
 	);
 };
