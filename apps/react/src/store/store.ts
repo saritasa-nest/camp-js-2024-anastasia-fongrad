@@ -7,6 +7,7 @@ import { genresSlice } from './genre/slice';
 import { animeSlice } from './anime/slice';
 import { drawerSlice } from './drawer/slice';
 import { userProfileSlice } from './userProfile/slice';
+import { authorizationSlice } from './authorization/slice';
 
 /** The Redux store of the application. */
 export const store = configureStore({
@@ -14,6 +15,7 @@ export const store = configureStore({
 		genres: genresSlice.reducer,
 		anime: animeSlice.reducer,
 		drawer: drawerSlice.reducer,
+		authorization: authorizationSlice.reducer,
 		userProfile: userProfileSlice.reducer,
 	},
 	middleware: getDefaultMiddleware => getDefaultMiddleware({
