@@ -76,46 +76,46 @@ const RegistrationFormComponent: FC<Props> = ({
 			<Controller
 				name="email"
 				control={control}
-				render={({ field }) => <TextField
+				render={({ field, fieldState }) => <TextField
 					{...field}
 					label="Email"
 					fullWidth
-					error={errors.email != null}
-					helperText={errors?.email?.message}
+					error={fieldState.invalid}
+					helperText={fieldState.error?.message}
 					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name="firstName"
 				control={control}
-				render={({ field }) => <TextField
+				render={({ field, fieldState }) => <TextField
 					{...field}
 					label="First Name"
 					fullWidth
-					error={errors.firstName != null}
-					helperText={errors?.firstName?.message}
+					error={fieldState.invalid}
+					helperText={fieldState.error?.message}
 					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name="lastName"
 				control={control}
-				render={({ field }) => <TextField
+				render={({ field, fieldState }) => <TextField
 					{...field}
 					label="Last Name"
 					fullWidth
-					error={errors.lastName != null}
-					helperText={errors?.lastName?.message}
+					error={fieldState.invalid}
+					helperText={fieldState.error?.message}
 					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name='password'
 				control={control}
-				render={({ field }) => <PasswordField
+				render={({ field, fieldState }) => <PasswordField
 					field={field}
-					hasError={errors.password != null}
-					errorMessage={errors?.password?.message}
+					hasError={fieldState.invalid}
+					errorMessage={fieldState.error?.message}
 					label='Password'
 				/>
 				}
@@ -123,10 +123,10 @@ const RegistrationFormComponent: FC<Props> = ({
 			<Controller
 				name='passwordConfirm'
 				control={control}
-				render={({ field }) => <PasswordField
+				render={({ field, fieldState }) => <PasswordField
 					field={field}
-					hasError={errors.passwordConfirm != null}
-					errorMessage={errors?.passwordConfirm?.message}
+					hasError={fieldState.invalid}
+					errorMessage={fieldState.error?.message}
 					label='Re-type Password'
 				/>
 				}

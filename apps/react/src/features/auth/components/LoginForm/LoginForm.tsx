@@ -59,22 +59,22 @@ const LoginFormComponent: FC<Props> = ({
 			<Controller
 				name="email"
 				control={control}
-				render={({ field }) => <TextField
+				render={({ field, fieldState }) => <TextField
 					{...field}
 					label="Email"
 					fullWidth
-					error={errors.email != null}
-					helperText={errors?.email?.message}
+					error={fieldState.invalid}
+					helperText={fieldState.error?.message}
 					className={styles.form__control}
 				/>}
 			/>
 			<Controller
 				name='password'
 				control={control}
-				render={({ field }) => <PasswordField
+				render={({ field, fieldState }) => <PasswordField
 					field={field}
-					hasError={errors.password != null}
-					errorMessage={errors?.password?.message}
+					hasError={fieldState.invalid}
+					errorMessage={fieldState.error?.message}
 					label='Password'
 				/>}
 			/>

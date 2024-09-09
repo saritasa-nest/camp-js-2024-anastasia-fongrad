@@ -2,8 +2,8 @@ export namespace AppUrlConfig {
 
 	/** Api url paths. */
 	export const paths = {
-		animeList: 'anime/anime/list-cursor/',
-		genresList: 'anime/genres/',
+		animeList: 'anime/list-cursor/',
+		genresList: 'genres/',
 		login: 'auth/login/',
 		registration: 'auth/register/',
 		userProfile: 'users/profile/',
