@@ -10,6 +10,6 @@ export const selectAuthorizationError = createSelector(
 
 /** Selects authorization loading state. */
 export const selectAuthorizationLoading = createSelector(
-	(state: RootState) => state.anime.nextPage,
-	nextPage => nextPage,
+	(state: RootState) => state.authorization.isLoading,
+	isLoading => isLoading,
 );

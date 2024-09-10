@@ -5,20 +5,20 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { fetchUserProfile } from '@js-camp/react/store/userProfile/dispatchers';
 import { UserLogin } from '@js-camp/core/models/user-login.model';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import { loginUser } from '@js-camp/react/store/authorization/dispatchers';
 import { Loader } from '@js-camp/react/components/Loader';
 import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
 import { selectAuthorizationError, selectAuthorizationLoading } from '@js-camp/react/store/authorization/selectors';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 import { LoginForm } from '../../components/LoginForm';
 
 import styles from './LoginPage.module.css';
 
 const LoginPageComponent: FC = () => {
-	const open = useSelector(selectIsDrawerOpen);
+	const isDrawerOpen = useSelector(selectIsDrawerOpen);
 	const registrationUrl = '/registration';
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -38,7 +38,7 @@ const LoginPageComponent: FC = () => {
 	}, [dispatch]);
 
 	return (
-		<main className={`${styles.layout} ${open ? styles.layout_open : ''}`}>
+		<main className={`${styles.layout} ${isDrawerOpen ? styles.layout_open : ''}`}>
 			<Paper
 				elevation={3}
 				className={styles.layout__card}

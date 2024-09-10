@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { HandleErrorsService } from '@js-camp/react/api/services/handleErrorsService';
+import { isServerErrorArray } from '@js-camp/react/utils/typeGuards';
 
 import { loginUser, registerUser } from './dispatchers';
 import { initialState } from './state';
@@ -17,10 +17,8 @@ export const authorizationSlice = createSlice({
 			state.isLoading = false;
 		})
 		.addCase(loginUser.rejected, (state, action) => {
-			if (action.error.message) {
-				state.error = HandleErrorsService.parseError(action.error);
-			}
 			state.isLoading = false;
+			state.error = isServerErrorArray(action.payload) ? action.payload : [];
 		})
 		.addCase(registerUser.pending, state => {
 			state.isLoading = true;
@@ -29,9 +27,7 @@ export const authorizationSlice = createSlice({
 			state.isLoading = false;
 		})
 		.addCase(registerUser.rejected, (state, action) => {
-			if (action.error.message) {
-				state.error = HandleErrorsService.parseError(action.error);
-			}
 			state.isLoading = false;
+			state.error = isServerErrorArray(action.payload) ? action.payload : [];
 		}),
 });

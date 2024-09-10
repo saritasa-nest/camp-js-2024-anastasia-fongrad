@@ -3,13 +3,13 @@ import { SubmitHandler } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { UserRegistration } from '@js-camp/core/models/user-registration.model';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import { Loader } from '@js-camp/react/components/Loader';
 import { registerUser } from '@js-camp/react/store/authorization/dispatchers';
 import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
 import { selectAuthorizationError, selectAuthorizationLoading } from '@js-camp/react/store/authorization/selectors';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 import { RegistrationForm } from '../../components/RegistrationForm';
 import { AlertDialog } from '../../../../components/AlertDialog';
