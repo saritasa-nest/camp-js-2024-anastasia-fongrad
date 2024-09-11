@@ -13,7 +13,7 @@ export namespace ServerErrorsMapper {
 			let errorField = error.attr;
 			if (!errorMap.has(errorField)) {
 				if (error.attr === null) {
-					errorField = 'form';
+					errorField = 'root';
 				}
 				errorMap.set(errorField, []);
 			}

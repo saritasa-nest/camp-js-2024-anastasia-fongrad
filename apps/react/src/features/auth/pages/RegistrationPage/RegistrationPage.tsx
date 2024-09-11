@@ -1,4 +1,4 @@
-import { memo, FC, useState, useCallback, useMemo } from 'react';
+import { memo, FC, useState, useCallback, useMemo, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
@@ -7,6 +7,7 @@ import { Loader } from '@js-camp/react/components/Loader';
 import { registerUser } from '@js-camp/react/store/authorization/dispatchers';
 import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
 import { selectAuthorizationError, selectAuthorizationLoading } from '@js-camp/react/store/authorization/selectors';
+import { clearErrors } from '@js-camp/react/store/authorization/slice';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -41,6 +42,10 @@ const RegistrationPageComponent: FC = () => {
 				},
 			);
 	}, []);
+
+	useEffect(() => () => {
+		dispatch(clearErrors());
+	}, [dispatch]);
 
 	return (
 		<main className={`${styles.layout} ${isDrawerOpen ? styles.layout_open : ''}`}>

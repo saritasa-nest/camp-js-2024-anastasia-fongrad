@@ -8,7 +8,11 @@ import { initialState } from './state';
 export const authorizationSlice = createSlice({
 	name: 'authorization',
 	initialState,
-	reducers: {},
+	reducers: {
+		clearErrors(state) {
+			state.error = [];
+		},
+	},
 	extraReducers: builder => builder
 		.addCase(loginUser.pending, state => {
 			state.isLoading = true;
@@ -31,3 +35,6 @@ export const authorizationSlice = createSlice({
 			state.error = isServerErrorArray(action.payload) ? action.payload : [];
 		}),
 });
+
+/** Clears server errors. */
+export const { clearErrors } = authorizationSlice.actions;

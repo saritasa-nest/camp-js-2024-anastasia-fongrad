@@ -1,4 +1,4 @@
-import { memo, FC, useCallback } from 'react';
+import { memo, FC, useCallback, useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { loginUser } from '@js-camp/react/store/authorization/dispatchers';
 import { Loader } from '@js-camp/react/components/Loader';
 import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
 import { selectAuthorizationError, selectAuthorizationLoading } from '@js-camp/react/store/authorization/selectors';
+import { clearErrors } from '@js-camp/react/store/authorization/slice';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -35,6 +36,10 @@ const LoginPageComponent: FC = () => {
 					}
 				},
 			);
+	}, [dispatch]);
+
+	useEffect(() => () => {
+		dispatch(clearErrors());
 	}, [dispatch]);
 
 	return (
