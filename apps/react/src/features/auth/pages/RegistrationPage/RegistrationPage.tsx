@@ -1,4 +1,4 @@
-import { memo, FC, useState, useCallback } from 'react';
+import { memo, FC, useState, useCallback, useMemo } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
@@ -17,13 +17,14 @@ import { AlertDialog } from '../../../../components/AlertDialog';
 import styles from './RegistrationPage.module.css';
 
 const RegistrationPageComponent: FC = () => {
+	const loginUrl = '/login';
 	const isDrawerOpen = useAppSelector(selectIsDrawerOpen);
 	const [isAlertOpen, setIsAlertOpen] = useState(false);
 	const navigate = useNavigate();
-	const loginUrl = '/login';
 	const dispatch = useAppDispatch();
 	const isLoading = useAppSelector(selectAuthorizationLoading);
 	const registrationErrors = useAppSelector(selectAuthorizationError);
+	const memoizedErrors = useMemo(() => registrationErrors ?? [], [registrationErrors]);
 
 	const handleAlertClose = useCallback(() => {
 		setIsAlertOpen(false);
@@ -39,7 +40,7 @@ const RegistrationPageComponent: FC = () => {
 					}
 				},
 			);
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<main className={`${styles.layout} ${isDrawerOpen ? styles.layout_open : ''}`}>
@@ -61,7 +62,7 @@ const RegistrationPageComponent: FC = () => {
 				</Typography>
 				<RegistrationForm
 					onSubmit={submitForm}
-					serverErrors={registrationErrors ?? []}
+					serverErrors={memoizedErrors}
 				/>
 				<Typography component="p">
 					Already have an account?

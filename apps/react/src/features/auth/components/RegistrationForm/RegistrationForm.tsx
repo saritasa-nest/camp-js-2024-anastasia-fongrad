@@ -1,4 +1,4 @@
-import { memo, FC, useEffect } from 'react';
+import { memo, FC, useMemo } from 'react';
 import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ServerError } from '@js-camp/core/models/server-error.model';
@@ -59,14 +59,17 @@ const RegistrationFormComponent: FC<Props> = ({
 	onSubmit,
 	serverErrors,
 }) => {
-	const { handleSubmit, formState: { errors }, control, setError } = useForm({
+	const memoizedErrors = useMemo(
+		() => HandleErrorsService.mapServerErrorsToFieldErrors(serverErrors),
+		[serverErrors],
+	);
+
+	const { handleSubmit, formState: { errors }, control } = useForm({
 		defaultValues: defaultRegistrationFormValues,
 		resolver: zodResolver(validationSchema),
+		mode: 'onChange',
+		errors: memoizedErrors,
 	});
-
-	useEffect(() => {
-		HandleErrorsService.setErrors(serverErrors, setError, defaultRegistrationFormValues);
-	}, [serverErrors]);
 
 	return (
 		<Box component="form"
