@@ -9,6 +9,7 @@ export namespace AppUrlConfig {
 		userProfile: 'users/profile/',
 		tokenRefresh: 'auth/token/refresh/',
 		tokenVerify: 'auth/token/verify/',
+		getParams: 'get-params/',
 	} as const;
 
 	/**
@@ -19,6 +20,7 @@ export namespace AppUrlConfig {
 		return url.includes(paths.login) ||
 			url.includes(paths.registration) ||
 			url.includes(paths.tokenRefresh) ||
+			url.includes(paths.getParams) ||
 			url.endsWith(paths.animeList) ||
 			url.endsWith(paths.genresList);
 	}
