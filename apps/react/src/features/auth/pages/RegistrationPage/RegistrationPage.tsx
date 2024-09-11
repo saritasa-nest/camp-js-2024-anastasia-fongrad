@@ -12,6 +12,7 @@ import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 
+import { AvatarPicker } from '../../components/AvatarPicker';
 import { RegistrationForm } from '../../components/RegistrationForm';
 import { AlertDialog } from '../../../../components/AlertDialog';
 
@@ -65,6 +66,7 @@ const RegistrationPageComponent: FC = () => {
 				>
 					Registration
 				</Typography>
+				<AvatarPicker/>
 				<RegistrationForm
 					onSubmit={submitForm}
 					serverErrors={memoizedErrors}

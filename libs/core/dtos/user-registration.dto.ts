@@ -12,4 +12,7 @@ export type UserRegistrationDto = {
 
 	/** User's password. */
 	readonly password: string;
+
+	/** User's avatar url */
+	readonly avatar?: string;
 };
