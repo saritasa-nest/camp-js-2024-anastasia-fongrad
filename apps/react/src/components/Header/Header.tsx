@@ -1,4 +1,4 @@
-import { memo, FC, useCallback, useState } from 'react';
+import { memo, FC, useCallback, useState, useEffect } from 'react';
 import { clsx } from 'clsx';
 import Drawer from '@mui/material/Drawer';
 import MuiAppBar from '@mui/material/AppBar';
@@ -7,12 +7,23 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { useSelector, useDispatch } from 'react-redux';
 import { selectIsDrawerOpen } from '@js-camp/react/store/drawer/selectors';
 import { setOpen } from '@js-camp/react/store/drawer/slice';
 import { NavigationProps } from '@js-camp/react/utils/navigationProps';
+import { useAppSelector, useAppDispatch } from '@js-camp/react/store';
+import { fetchUserProfile } from '@js-camp/react/store/userProfile/dispatchers';
+import { NavLink } from 'react-router-dom';
+import { selectUserProfile, selectIsUserProfileLoading } from '@js-camp/react/store/userProfile/selectors';
+import { AuthTokenService } from '@js-camp/react/api/services/authTokenService';
 
+import { Loader } from '../Loader';
+import { UserProfileItem } from '../UserProfile';
 import { NavigationList } from '../NavigationList';
 
 import styles from './Header.module.css';
@@ -27,27 +38,37 @@ const mainRoutes: NavigationProps[] = [
 ];
 
 const loginRoutes: NavigationProps[] = [
-	{ name: 'Login', path: '/anime' },
-	{ name: 'Logout', path: '/anime' },
-	{ name: 'Profile', path: '/anime' },
+	{ name: 'Login', path: '/login' },
+	{ name: 'Registration', path: '/registration' },
 ];
 
 const HeaderComponent: FC = () => {
-	const isDrawerOpen = useSelector(selectIsDrawerOpen);
-	const dispatch = useDispatch();
+	const isDrawerOpen = useAppSelector(selectIsDrawerOpen);
+	const isLoading = useAppSelector(selectIsUserProfileLoading);
+	const userProfile = useAppSelector(selectUserProfile);
 	const [currentPage, setCurrentPage] = useState<string>('Anime');
+	const dispatch = useAppDispatch();
 
-	const handleDrawerOpen = () => {
+	const logout = useCallback(() => {
+		AuthTokenService.removeAuthToken();
+		dispatch(fetchUserProfile());
+	}, [dispatch]);
+
+	const handleDrawerOpen = useCallback(() => {
 		dispatch(setOpen(true));
-	};
+	}, [dispatch]);
 
-	const handleDrawerClose = () => {
+	const handleDrawerClose = useCallback(() => {
 		dispatch(setOpen(false));
-	};
+	}, []);
 
 	const handleNavigation = useCallback((pageName: string) => {
 		setCurrentPage(pageName);
 	}, []);
+
+	useEffect(() => {
+		dispatch(fetchUserProfile());
+	}, [dispatch]);
 
 	return (
 		<>
@@ -94,15 +115,35 @@ const HeaderComponent: FC = () => {
 					onClick={handleNavigation}
 				/>
 				<Divider />
-				<NavigationList
+
+				{ isLoading && <Loader/> }
+
+				{ userProfile && <>
+					<UserProfileItem
+						userProfile={userProfile}
+					/>
+					<ListItem key='logout' disablePadding>
+						<ListItemButton
+							component={NavLink}
+							to='/login'
+							onClick={logout}
+						>
+							<ListItemIcon>
+								<InboxIcon />
+							</ListItemIcon>
+							<ListItemText primary='Logout' />
+						</ListItemButton>
+					</ListItem>
+				</>}
+				{!userProfile && <NavigationList
 					items={loginRoutes}
 					currentPage={currentPage}
 					onClick={handleNavigation}
-				/>
+				/>}
 			</Drawer>
 		</>
 	);
 };
 
-/** Genre page component. */
+/** Header component. */
 export const Header = memo(HeaderComponent);

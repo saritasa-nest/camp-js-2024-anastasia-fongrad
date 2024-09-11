@@ -37,6 +37,7 @@
     "@angular/platform-browser": "18.0.5",
     "@angular/platform-browser-dynamic": "18.0.5",
     "@angular/router": "18.0.5",
+    "@hookform/resolvers": "^3.9.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "1.9.3",
@@ -46,11 +47,13 @@
     "query-string": "^9.1.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-hook-form": "^7.52.2",
     "react-redux": "8.0.5",
     "react-router-dom": "^6.11.2",
     "regenerator-runtime": "0.13.7",
     "rxjs": "7.8.1",
     "tslib": "^2.5.2",
+    "zod": "^3.23.8",
     "zone.js": "0.14.7"
   },
   "devDependencies": {

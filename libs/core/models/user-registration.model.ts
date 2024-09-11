@@ -12,4 +12,7 @@ export type UserRegistration = {
 
 	/** User's password. */
 	readonly password: string;
+
+	/** Password confirm. */
+	readonly passwordConfirm: string;
 };

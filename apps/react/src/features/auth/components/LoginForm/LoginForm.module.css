@@ -1,0 +1,17 @@
+.form {
+  max-width: 500px;
+}
+
+.form__control {
+  width: 100%;
+  margin: var(--space-2) 0;
+}
+
+.form__error {
+  color: var(--error-color);
+}
+
+.form__button {
+  margin: var(--space-2) 0;
+  height: 50px;
+}

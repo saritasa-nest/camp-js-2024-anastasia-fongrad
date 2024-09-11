@@ -40,5 +40,5 @@ const SortButtonComponent: FC<Props> = ({ sortDirection, sortItems, title }) => 
 	);
 };
 
-/** Genre filters component. */
+/** Sort button component. */
 export const SortButton = memo(SortButtonComponent);
