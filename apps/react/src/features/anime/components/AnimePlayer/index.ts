@@ -1,0 +1,1 @@
+export { AnimePlayer } from './AnimePlayer';

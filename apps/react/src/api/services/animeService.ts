@@ -9,7 +9,13 @@ import { AnimeFilteringParametersMapper } from '@js-camp/core/mappers/anime-filt
 import { ObjectUtils } from '@js-camp/core/utils/object-utils';
 import { AppUrlConfig } from '@js-camp/react/utils/appUrlConfig';
 
+import { AnimeDetailsDto } from '@js-camp/core/dtos/anime-details.dto';
+import { AnimeDetailsMapper } from '@js-camp/core/mappers/anime-details.mapper';
+import { AnimeDetails } from '@js-camp/core/models/anime-details.model';
+
 import { http } from '..';
+
+const baseAnimeUrl = 'anime/anime/';
 
 export namespace AnimeService {
 
@@ -33,5 +39,14 @@ export namespace AnimeService {
 	export async function fetchAnimeByUrl(url: string): Promise<Pagination<Anime>> {
 		const { data } = await http.get<PaginationDto<AnimeDto>>(url);
 		return PaginationMapper.fromDto(data, dto => AnimeMapper.fromDto(dto));
+	}
+
+	/**
+	 * Gets one anime by its id.
+	 * @param id Anime id.
+	 */
+	export async function fetchAnimeById(id: string): Promise<AnimeDetails> {
+		const { data } = await http.get<AnimeDetailsDto>(`${baseAnimeUrl}${id}/`);
+		return AnimeDetailsMapper.fromDto(data);
 	}
 }

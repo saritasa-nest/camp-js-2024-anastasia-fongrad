@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { fetchAnime, fetchAnimeNext } from './dispatchers';
+import { fetchAnime, fetchAnimeById, fetchAnimeNext } from './dispatchers';
 import { initialState } from './state';
 
 /** Slice of the Redux store for managing anime data. */
@@ -34,6 +34,25 @@ export const animeSlice = createSlice({
 			state.isLoading = false;
 		})
 		.addCase(fetchAnimeNext.rejected, (state, action) => {
+			if (action.error.message) {
+				state.error = action.error.message;
+			}
+			state.isLoading = false;
+		})
+		.addCase(fetchAnimeById.pending, state => {
+			state.isLoading = true;
+		})
+		.addCase(fetchAnimeById.fulfilled, (state, action) => {
+			state.animeDetails = {
+				...action.payload,
+				studios: [...action.payload.studios],
+				studiosData: [...action.payload.studiosData],
+				genres: [...action.payload.genres],
+				genresData: [...action.payload.genresData],
+			};
+			state.isLoading = false;
+		})
+		.addCase(fetchAnimeById.rejected, (state, action) => {
 			if (action.error.message) {
 				state.error = action.error.message;
 			}
